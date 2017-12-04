@@ -38,10 +38,42 @@ TYPES
     ULI  FalsetoTrueCount    DESC="How many times this WP has transitioned form False to True"
     ULI  ConsectiveTrueCount DESC="Number of consecutive times this WP has evaluated to True"
     ULI  CumulativeTrueCount DESC="Total number of times this WP has evaluated to True"
-    ULI  FtoTValue           DESC="WP value at comparison that caused the F to T transition"
+!    ULI  FtoTValue           DESC="WP value at comparison that caused the F to T transition"
+    UNION  FtoTValue	DESC="Value WP Data is compared against"
+       SLI   Signed32       DESC="compare 32 bit signed"
+       ULI   UnSigned32     DESC="compare 32 bit unsigned"
+       SFP   Float32        DESC="compare float", ORDER=(1,2,3,4)
+       UI    UnSigned16     DESC="compare 16 bit unsigned"
+       SI    Signed16       DESC="compare 16 bit signed"
+       UB    UnSigned8      DESC="compare 8 bit unsigned"
+       SB    Signed8        DESC="compare 8 bit unsigned"
+       UB    RawByte[4]     DESC="4 byte array"
+    END
+    UB	 FtoTDataType  DESC="False to True transition data type",  DISCRETE,
+                        DRANGE=(1,2,3,4,5,6,7,8,9,10,11,12,255),
+                        DLABEL=("Byte","UBYTE","WORD_BE","WORD_LE","UWORD_BE",
+                        "UWORD_LE","DWORD_BE","DWORD_LE","UDWORD_BE",
+                        "UDWORD_LE","FLOAT_BE","FLOAT_LE","empty entry")
+    UB   Padding_2[3]
     ULI  SecFtoTTimeStamp    DESC="Timestamp when the F to T transition was detected"
     ULI  SubSecFtoTTimeStamp DESC="Sub Timestamp when the F to T transition was detected"
-    ULI  TtoFValue           DESC="WP value at comparison that caused the T to F transition"
+!    ULI  TtoFValue           DESC="WP value at comparison that caused the T to F transition"
+    UNION  TtoFValue	DESC="Value WP Data is compared against"
+       SLI   Signed32       DESC="compare 32 bit signed"
+       ULI   UnSigned32     DESC="compare 32 bit unsigned"
+       SFP   Float32        DESC="compare float", ORDER=(1,2,3,4)
+       UI    UnSigned16     DESC="compare 16 bit unsigned"
+       SI    Signed16       DESC="compare 16 bit signed"
+       UB    UnSigned8      DESC="compare 8 bit unsigned"
+       SB    Signed8        DESC="compare 8 bit unsigned"
+       UB    RawByte[4]     DESC="4 byte array"
+    END
+    UB	 TtoFDataType   DESC="True to False transition data type",  DISCRETE,
+                        DRANGE=(1,2,3,4,5,6,7,8,9,10,11,12,255),
+                        DLABEL=("Byte","UBYTE","WORD_BE","WORD_LE","UWORD_BE",
+                        "UWORD_LE","DWORD_BE","DWORD_LE","UDWORD_BE",
+                        "UDWORD_LE","FLOAT_BE","FLOAT_LE","empty entry")
+    UB   Padding_3[3]
     ULI  SecTtoFTimeStamp    DESC="Timestamp when the T to F transition was detected"
     ULI  SubSecTtoFTimeStamp DESC="Sub Timestamp when the T to F transition was detected"
    END

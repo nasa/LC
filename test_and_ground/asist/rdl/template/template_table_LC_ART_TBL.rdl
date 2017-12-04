@@ -42,6 +42,7 @@ TYPES
      ULI ConsecutiveFailCount   DESC="Number of consecutive times this AP has evaluated to Fail"
      ULI CumulativeFailCount    DESC="Total number of times this AP has evaluated to Fail"
      ULI CumulativeRTSExecCount DESC="Total number of times an RTS request has been sent for this AP"
+     ULI CumulativeMsgsSent	DESC="Total number of event messages sent for this AP"
    END
 END_TYPES
 

@@ -1,8 +1,8 @@
 /*************************************************************************
 ** File:
-**   $Id: lc_def_adt.c 1.2 2015/03/04 16:09:53EST sstrege Exp  $
+**   $Id: lc_def_adt.c 1.3 2017/01/22 17:25:08EST sstrege Exp  $
 **
-**  Copyright © 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2014 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -35,37 +35,6 @@
 **   solution is to replace "-ansi" with "-std=c99" and leave the
 **   "-pedantic" flag in place
 ** 
-**   $Log: lc_def_adt.c  $
-**   Revision 1.2 2015/03/04 16:09:53EST sstrege 
-**   Added copyright information
-**   Revision 1.1 2012/07/31 16:53:41EDT nschweis 
-**   Initial revision
-**   Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/lcx/fsw/tables/project.pj
-**   Revision 1.7 2012/07/20 13:50:29EDT lwalling 
-**   Remove compiler warning for unused data structure
-**   Revision 1.6 2010/04/20 12:03:22PDT lwalling 
-**   Fix ART vs ADT and WRT vs WDT typo in LC table files
-**   Revision 1.5 2010/02/25 11:46:40EST lwalling 
-**   Modified sample table entries to reference LC_BASE_AP_EID
-**   Revision 1.4 2010/02/19 17:44:39EST lwalling 
-**   Change state events limits to individual limits for Passive AP, FailToPass and PassToFail
-**   Revision 1.3 2009/12/28 14:48:04EST lwalling 
-**   Add initializer for event limiter value
-**   Revision 1.2 2009/12/22 13:19:02EST lwalling 
-**   Update list of included header files, modify contents of table file header structure
-**   Revision 1.1 2009/12/18 14:10:49EST lwalling 
-**   Initial revision
-**   Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/lc/fsw/tables/project.pj
-**   Revision 1.4 2009/01/15 15:36:19EST dahardis 
-**   Unit test fixes
-**   Revision 1.3 2008/12/10 16:00:26EST dahardis 
-**   Changed the size of the template definition table from
-**   256 to 176 entries
-**   Revision 1.2 2008/12/03 13:59:45EST dahardis 
-**   Corrections from peer code review
-**   Revision 1.1 2008/10/29 14:19:16EDT dahardison 
-**   Initial revision
-**   Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/lc/fsw/src/project.pj
 ** 
 *************************************************************************/
 

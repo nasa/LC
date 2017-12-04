@@ -1,8 +1,8 @@
 /*************************************************************************
 ** File:
-**   $Id: lc_def_wdt.c 1.3 2015/03/04 16:09:49EST sstrege Exp  $
+**   $Id: lc_def_wdt.c 1.3 2017/01/22 17:25:02EST sstrege Exp  $
 **
-**  Copyright © 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2014 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -31,33 +31,6 @@
 **   solution is to replace "-ansi" with "-std=c99" and leave the
 **   "-pedantic" flag in place
 **
-**   $Log: lc_def_wdt.c  $
-**   Revision 1.3 2015/03/04 16:09:49EST sstrege 
-**   Added copyright information
-**   Revision 1.2 2012/08/06 17:59:42EDT lwalling 
-**   Add ResultAgeWhenStale to WP definition table
-**   Revision 1.1 2012/07/31 13:53:42PDT nschweis 
-**   Initial revision
-**   Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/lcx/fsw/tables/project.pj
-**   Revision 1.4 2012/07/20 13:50:19EDT lwalling 
-**   Remove compiler warning for unused data structure
-**   Revision 1.3 2010/04/20 12:03:23PDT lwalling 
-**   Fix ART vs ADT and WRT vs WDT typo in LC table files
-**   Revision 1.2 2009/12/22 13:18:56EST lwalling 
-**   Update list of included header files, modify contents of table file header structure
-**   Revision 1.1 2009/12/18 14:10:50EST lwalling 
-**   Initial revision
-**   Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/lc/fsw/tables/project.pj
-**   Revision 1.4 2009/01/15 15:36:18EST dahardis 
-**   Unit test fixes
-**   Revision 1.3 2008/12/10 16:00:29EST dahardis 
-**   Changed the size of the template definition table from
-**   256 to 176 entries
-**   Revision 1.2 2008/12/03 13:59:47EST dahardis 
-**   Corrections from peer code review
-**   Revision 1.1 2008/10/29 14:19:19EDT dahardison 
-**   Initial revision
-**   Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/lc/fsw/src/project.pj
 ** 
 *************************************************************************/
 

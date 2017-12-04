@@ -42,9 +42,14 @@ TYPES
     ULI  BitMask	DESC="Value to be masked with WP data prior to comparison"
     
     UNION  ComparisonValue  DESC="Value WP Data is compared against"
-       SLI   Signed32       DESC="compare signed"
-       ULI   UnSigned32     DESC="compare unsigned" 
+       SLI   Signed32       DESC="compare 32 bit signed"
+       ULI   UnSigned32     DESC="compare 32 bit unsigned" 
        SFP   Float32        DESC="compare float", ORDER=(1,2,3,4)
+       UI    UnSigned16     DESC="compare 16 bit unsigned"
+       SI    Signed16       DESC="compare 16 bit signed"
+       UB    UnSigned8      DESC="compare 8 bit unsigned"
+       SB    Signed8        DESC="compare 8 bit unsigned"
+       UB    RawByte[4]     DESC="4 byte array"
     END                                 
     ULI  StaleAge	    DESC="Number of LC Sample AP commands that must be processed for result to go Stale"
     ULI  CustFctArgument    DESC="Data passed to the custom function when the OperatorID is set to custom"
