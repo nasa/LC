@@ -30,6 +30,7 @@
 #include "lc_cmds.h"
 #include "lc_action.h"
 #include "lc_watch.h"
+#include "cfe_platform_cfg.h"
 #include "lc_platform_cfg.h"
 #include "lc_mission_cfg.h"     /* Leave these two last to make sure all   */
 #include "lc_verify.h"          /* LC configuration parameters are checked */

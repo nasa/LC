@@ -25,6 +25,7 @@
 #include "lc_events.h"
 #include "lc_custom.h"
 #include "lc_perfids.h"
+#include "cfe_platform_cfg.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
