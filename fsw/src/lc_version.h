@@ -30,7 +30,7 @@
 /** \{ */
 #define LC_MAJOR_VERSION          2
 #define LC_MINOR_VERSION          1
-#define LC_REVISION               0
+#define LC_REVISION               1
 /** \} */
 
 #endif /* _lc_version_ */
