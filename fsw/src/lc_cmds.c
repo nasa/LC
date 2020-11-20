@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_cmds.c 1.6 2017/05/07 23:59:05EDT mdeschu Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -95,7 +95,7 @@ int32 LC_AppPipe(CFE_SB_MsgPtr_t MessagePtr)
                     break;
 
                 default:
-                    CFE_EVS_SendEvent(LC_CC_ERR_EID, CFE_EVS_ERROR,
+                    CFE_EVS_SendEvent(LC_CC_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "Invalid command code: ID = 0x%04X, CC = %d",
                                       MessageID, CommandCode);
                     
@@ -129,7 +129,7 @@ void LC_SampleAPReq(CFE_SB_MsgPtr_t MessagePtr)
     LC_SampleAP_t *LC_SampleAP = (LC_SampleAP_t *) MessagePtr;
     uint16 ExpectedLength = sizeof(LC_SampleAP_t);
     uint16 WatchIndex;
-    boolean ValidSampleCmd = FALSE;    
+    bool    ValidSampleCmd = false   ;    
 
     /* 
     ** Verify message packet length 
@@ -151,7 +151,7 @@ void LC_SampleAPReq(CFE_SB_MsgPtr_t MessagePtr)
                 ** Allow special "sample all" heritage values
                 */
                 LC_SampleAPs(0, LC_MAX_ACTIONPOINTS - 1);
-                ValidSampleCmd = TRUE;
+                ValidSampleCmd = true   ;
             }
             else if ((LC_SampleAP->StartIndex <= LC_SampleAP->EndIndex) &&
                      (LC_SampleAP->EndIndex < LC_MAX_ACTIONPOINTS))
@@ -160,14 +160,14 @@ void LC_SampleAPReq(CFE_SB_MsgPtr_t MessagePtr)
                 ** Start is less or equal to end, and end is within the array
                 */
                 LC_SampleAPs(LC_SampleAP->StartIndex, LC_SampleAP->EndIndex);
-                ValidSampleCmd = TRUE;
+                ValidSampleCmd = true   ;
             }
             else
             {
                 /*
                 ** At least one actionpoint array index is out of range
                 */
-                CFE_EVS_SendEvent(LC_APSAMPLE_APNUM_ERR_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(LC_APSAMPLE_APNUM_ERR_EID, CFE_EVS_EventType_ERROR,
                    "Sample AP error: invalid AP number, start = %d, end = %d", 
                     LC_SampleAP->StartIndex, LC_SampleAP->EndIndex);
             }
@@ -250,12 +250,12 @@ int32 LC_HousekeepingReq(CFE_SB_MsgPtr_t MessagePtr)
                     ByteData = LC_HKWR_STALE << 6;
                     break;
                     
-                case LC_WATCH_FALSE:
-                    ByteData = LC_HKWR_FALSE << 6;
+                case LC_WATCH_FALSE   :
+                    ByteData = LC_HKWR_FALSE    << 6;
                     break;
                     
-                case LC_WATCH_TRUE:
-                    ByteData = LC_HKWR_TRUE  << 6;
+                case LC_WATCH_TRUE   :
+                    ByteData = LC_HKWR_TRUE     << 6;
                     break;
                     
                 /*
@@ -277,12 +277,12 @@ int32 LC_HousekeepingReq(CFE_SB_MsgPtr_t MessagePtr)
                     ByteData = (ByteData | (LC_HKWR_STALE << 4));
                     break;
                     
-                case LC_WATCH_FALSE:
-                    ByteData = (ByteData | (LC_HKWR_FALSE << 4));
+                case LC_WATCH_FALSE   :
+                    ByteData = (ByteData | (LC_HKWR_FALSE    << 4));
                     break;
                     
-                case LC_WATCH_TRUE:
-                    ByteData = (ByteData | (LC_HKWR_TRUE  << 4));
+                case LC_WATCH_TRUE   :
+                    ByteData = (ByteData | (LC_HKWR_TRUE     << 4));
                     break;
                     
                 case LC_WATCH_ERROR:
@@ -300,12 +300,12 @@ int32 LC_HousekeepingReq(CFE_SB_MsgPtr_t MessagePtr)
                     ByteData = (ByteData | (LC_HKWR_STALE << 2));
                     break;
                     
-                case LC_WATCH_FALSE:
-                    ByteData = (ByteData | (LC_HKWR_FALSE << 2));
+                case LC_WATCH_FALSE   :
+                    ByteData = (ByteData | (LC_HKWR_FALSE    << 2));
                     break;
                     
-                case LC_WATCH_TRUE:
-                    ByteData = (ByteData | (LC_HKWR_TRUE  << 2));
+                case LC_WATCH_TRUE   :
+                    ByteData = (ByteData | (LC_HKWR_TRUE     << 2));
                     break;
                     
                 case LC_WATCH_ERROR:
@@ -323,12 +323,12 @@ int32 LC_HousekeepingReq(CFE_SB_MsgPtr_t MessagePtr)
                     ByteData = (ByteData | LC_HKWR_STALE);
                     break;
                     
-                case LC_WATCH_FALSE:
-                    ByteData = (ByteData | LC_HKWR_FALSE);
+                case LC_WATCH_FALSE   :
+                    ByteData = (ByteData | LC_HKWR_FALSE   );
                     break;
                     
-                case LC_WATCH_TRUE:
-                    ByteData = (ByteData | LC_HKWR_TRUE);
+                case LC_WATCH_TRUE   :
+                    ByteData = (ByteData | LC_HKWR_TRUE   );
                     break;
                     
                 case LC_WATCH_ERROR:
@@ -504,7 +504,7 @@ int32 LC_HousekeepingReq(CFE_SB_MsgPtr_t MessagePtr)
         */
         if (LC_UpdateTaskCDS() != CFE_SUCCESS)
         {
-            LC_OperData.HaveActiveCDS = FALSE;
+            LC_OperData.HaveActiveCDS = false   ;
         }
     }
     
@@ -528,7 +528,7 @@ void LC_NoopCmd(CFE_SB_MsgPtr_t MessagePtr)
     {
        LC_AppData.CmdCount++;
        
-       CFE_EVS_SendEvent(LC_NOOP_INF_EID, CFE_EVS_INFORMATION,
+       CFE_EVS_SendEvent(LC_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION,
                         "No-op command: Version %d.%d.%d.%d",
                          LC_MAJOR_VERSION,
                          LC_MINOR_VERSION,
@@ -556,7 +556,7 @@ void LC_ResetCmd(CFE_SB_MsgPtr_t MessagePtr)
     {
         LC_ResetCounters();
         
-        CFE_EVS_SendEvent(LC_RESET_DBG_EID, CFE_EVS_DEBUG,
+        CFE_EVS_SendEvent(LC_RESET_DBG_EID, CFE_EVS_EventType_DEBUG,
                           "Reset counters command");
     }
     
@@ -608,13 +608,13 @@ void LC_SetLCStateCmd(CFE_SB_MsgPtr_t MessagePtr)
                 LC_AppData.CurrentLCState = CmdPtr -> NewLCState;
                 LC_AppData.CmdCount++;
                 
-                CFE_EVS_SendEvent(LC_LCSTATE_INF_EID, CFE_EVS_INFORMATION,
+                CFE_EVS_SendEvent(LC_LCSTATE_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Set LC state command: new state = %d", 
                                   CmdPtr -> NewLCState);
                 break;
                 
             default:
-                CFE_EVS_SendEvent(LC_LCSTATE_ERR_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(LC_LCSTATE_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "Set LC state error: invalid state = %d", 
                                   CmdPtr -> NewLCState);
                 
@@ -638,8 +638,8 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
     LC_SetAPState_t  *CmdPtr;
     uint32           TableIndex;
     uint8            CurrentAPState;
-    boolean          ValidState = TRUE;
-    boolean          CmdSuccess = FALSE;
+    bool             ValidState = true   ;
+    bool             CmdSuccess = false   ;
     
     /* 
     ** Verify message packet length 
@@ -660,8 +660,8 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
                 break;
                 
             default:
-                ValidState = FALSE;
-                CFE_EVS_SendEvent(LC_APSTATE_NEW_ERR_EID, CFE_EVS_ERROR,
+                ValidState = false   ;
+                CFE_EVS_SendEvent(LC_APSTATE_NEW_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "Set AP state error: AP = %d, Invalid new state = %d", 
                                   CmdPtr -> APNumber, CmdPtr -> NewAPState);
                 
@@ -672,7 +672,7 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
         /*
         ** Do the rest based on the actionpoint ID we were given
         */ 
-        if (ValidState == TRUE)
+        if (ValidState == true   )
         {
             if ((CmdPtr -> APNumber) == LC_ALL_ACTIONPOINTS)
             {
@@ -694,7 +694,7 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
                 /*
                 ** Set flag that we succeeded
                 */
-                CmdSuccess = TRUE;
+                CmdSuccess = true   ;
             }
             else
             {
@@ -711,7 +711,7 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
                         */
                         LC_OperData.ARTPtr[TableIndex].CurrentState = CmdPtr -> NewAPState;
 
-                        CmdSuccess = TRUE;
+                        CmdSuccess = true   ;
                     }
                     else
                     {
@@ -719,7 +719,7 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
                         ** Actionpoints that are not used or set permanently
                         ** off can only be changed by a table load 
                         */
-                        CFE_EVS_SendEvent(LC_APSTATE_CURR_ERR_EID, CFE_EVS_ERROR,
+                        CFE_EVS_SendEvent(LC_APSTATE_CURR_ERR_EID, CFE_EVS_EventType_ERROR,
                                           "Set AP state error: AP = %d, Invalid current AP state = %d", 
                                           CmdPtr -> APNumber, CurrentAPState);
                         
@@ -732,7 +732,7 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
                     **  Actionpoint number is out of range
                     **  (it's zero based, since it's a table index) 
                     */
-                    CFE_EVS_SendEvent(LC_APSTATE_APNUM_ERR_EID, CFE_EVS_ERROR,
+                    CFE_EVS_SendEvent(LC_APSTATE_APNUM_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "Set AP state error: Invalid AP number = %d", 
                                       CmdPtr -> APNumber);
                     
@@ -744,11 +744,11 @@ void LC_SetAPStateCmd(CFE_SB_MsgPtr_t MessagePtr)
             ** Update the command counter and send out event if command
             ** executed
             */
-            if (CmdSuccess == TRUE)
+            if (CmdSuccess == true   )
             {
                 LC_AppData.CmdCount++;
             
-                CFE_EVS_SendEvent(LC_APSTATE_INF_EID, CFE_EVS_INFORMATION,
+                CFE_EVS_SendEvent(LC_APSTATE_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Set AP state command: AP = %d, New state = %d", 
                                   CmdPtr -> APNumber, CmdPtr -> NewAPState);
             }
@@ -787,7 +787,7 @@ void LC_SetAPPermOffCmd(CFE_SB_MsgPtr_t MessagePtr)
             **  Invalid actionpoint number
             **  (This command can't be invoked for all actionpoints) 
             */
-            CFE_EVS_SendEvent(LC_APOFF_APNUM_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(LC_APOFF_APNUM_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Set AP perm off error: Invalid AP number = %d", 
                               CmdPtr -> APNumber);
             
@@ -805,7 +805,7 @@ void LC_SetAPPermOffCmd(CFE_SB_MsgPtr_t MessagePtr)
                 ** Actionpoints can only be turned permanently off if
                 ** they are currently disabled
                 */
-                CFE_EVS_SendEvent(LC_APOFF_CURR_ERR_EID, CFE_EVS_ERROR,
+                CFE_EVS_SendEvent(LC_APOFF_CURR_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "Set AP perm off error, AP NOT Disabled: AP = %d, Current state = %d", 
                                   CmdPtr -> APNumber, CurrentAPState);
                 
@@ -820,7 +820,7 @@ void LC_SetAPPermOffCmd(CFE_SB_MsgPtr_t MessagePtr)
 
                 LC_AppData.CmdCount++;
             
-                CFE_EVS_SendEvent(LC_APOFF_INF_EID, CFE_EVS_INFORMATION,
+                CFE_EVS_SendEvent(LC_APOFF_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Set AP permanently off command: AP = %d", 
                                   CmdPtr -> APNumber);
             }
@@ -842,7 +842,7 @@ void LC_ResetAPStatsCmd(CFE_SB_MsgPtr_t MessagePtr)
 {
     uint16             ExpectedLength = sizeof(LC_ResetAPStats_t);
     LC_ResetAPStats_t *CmdPtr = (LC_ResetAPStats_t *) MessagePtr;
-    boolean            CmdSuccess = FALSE;
+    bool               CmdSuccess = false   ;
     
     /* verify message packet length */
     if (LC_VerifyMsgLength(MessagePtr, ExpectedLength))
@@ -850,28 +850,28 @@ void LC_ResetAPStatsCmd(CFE_SB_MsgPtr_t MessagePtr)
         /* arg may be one or all AP's */
         if (CmdPtr->APNumber == LC_ALL_ACTIONPOINTS)
         {
-            LC_ResetResultsAP(0, LC_MAX_ACTIONPOINTS - 1, TRUE);
-            CmdSuccess = TRUE;
+            LC_ResetResultsAP(0, LC_MAX_ACTIONPOINTS - 1, true   );
+            CmdSuccess = true   ;
         }
         else if (CmdPtr->APNumber < LC_MAX_ACTIONPOINTS)
         {
-            LC_ResetResultsAP(CmdPtr->APNumber, CmdPtr->APNumber, TRUE);
-            CmdSuccess = TRUE;
+            LC_ResetResultsAP(CmdPtr->APNumber, CmdPtr->APNumber, true   );
+            CmdSuccess = true   ;
         }
         else
         {
             /* arg is out of range (zero based table index) */
             LC_AppData.CmdErrCount++;
 
-            CFE_EVS_SendEvent(LC_APSTATS_APNUM_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(LC_APSTATS_APNUM_ERR_EID, CFE_EVS_EventType_ERROR,
                "Reset AP stats error: invalid AP number = %d", CmdPtr->APNumber);
         }    
 
-        if (CmdSuccess == TRUE)
+        if (CmdSuccess == true   )
         {
             LC_AppData.CmdCount++;
         
-            CFE_EVS_SendEvent(LC_APSTATS_INF_EID, CFE_EVS_INFORMATION,
+            CFE_EVS_SendEvent(LC_APSTATS_INF_EID, CFE_EVS_EventType_INFORMATION,
                "Reset AP stats command: AP = %d", CmdPtr->APNumber);
         }
     }
@@ -885,7 +885,7 @@ void LC_ResetAPStatsCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* Reset selected AP statistics (utility function)                 */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, boolean ResetStatsCmd)
+void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool    ResetStatsCmd)
 {
     uint32 TableIndex;
 
@@ -922,7 +922,7 @@ void LC_ResetWPStatsCmd(CFE_SB_MsgPtr_t MessagePtr)
 {
     uint16             ExpectedLength = sizeof(LC_ResetWPStats_t);
     LC_ResetWPStats_t *CmdPtr = (LC_ResetWPStats_t *) MessagePtr;
-    boolean            CmdSuccess = FALSE;
+    bool               CmdSuccess = false   ;
     
     /* verify message packet length */
     if (LC_VerifyMsgLength(MessagePtr, ExpectedLength))
@@ -930,28 +930,28 @@ void LC_ResetWPStatsCmd(CFE_SB_MsgPtr_t MessagePtr)
         /* arg may be one or all WP's */
         if (CmdPtr->WPNumber == LC_ALL_WATCHPOINTS)
         {
-            LC_ResetResultsWP(0, LC_MAX_WATCHPOINTS - 1, TRUE);
-            CmdSuccess = TRUE;
+            LC_ResetResultsWP(0, LC_MAX_WATCHPOINTS - 1, true   );
+            CmdSuccess = true   ;
         }
         else if (CmdPtr->WPNumber < LC_MAX_WATCHPOINTS)
         {
-            LC_ResetResultsWP(CmdPtr->WPNumber, CmdPtr->WPNumber, TRUE);
-            CmdSuccess = TRUE;
+            LC_ResetResultsWP(CmdPtr->WPNumber, CmdPtr->WPNumber, true   );
+            CmdSuccess = true   ;
         }
         else
         {
             /* arg is out of range (zero based table index) */
             LC_AppData.CmdErrCount++;
 
-            CFE_EVS_SendEvent(LC_WPSTATS_WPNUM_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(LC_WPSTATS_WPNUM_ERR_EID, CFE_EVS_EventType_ERROR,
                "Reset WP stats error: invalid WP number = %d", CmdPtr->WPNumber);
         }    
         
-        if (CmdSuccess == TRUE)
+        if (CmdSuccess == true   )
         {
             LC_AppData.CmdCount++;
         
-            CFE_EVS_SendEvent(LC_WPSTATS_INF_EID, CFE_EVS_INFORMATION,
+            CFE_EVS_SendEvent(LC_WPSTATS_INF_EID, CFE_EVS_EventType_INFORMATION,
                "Reset WP stats command: WP = %d", CmdPtr->WPNumber);
         }
     }
@@ -965,7 +965,7 @@ void LC_ResetWPStatsCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* Reset selected WP statistics (utility function)                 */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, boolean ResetStatsCmd)
+void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool    ResetStatsCmd)
 {
     uint32 TableIndex;
 
@@ -1002,10 +1002,10 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, boolean ResetStatsCmd
 /* Verify message packet length                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-boolean LC_VerifyMsgLength(CFE_SB_MsgPtr_t msg, 
+bool    LC_VerifyMsgLength(CFE_SB_MsgPtr_t msg, 
                            uint16          ExpectedLength)
 {
-   boolean result = TRUE;
+   bool    result = true   ;
    uint16  CommandCode;  
    uint16  ActualLength;
    CFE_SB_MsgId_t MessageID;
@@ -1025,7 +1025,7 @@ boolean LC_VerifyMsgLength(CFE_SB_MsgPtr_t msg,
           ** For a bad HK request, just send the event. We only increment
           ** the error counter for ground commands and not internal messages.
           */
-          CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_ERROR,
+          CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
                   "Invalid HK request msg length: ID = 0x%04X, CC = %d, Len = %d, Expected = %d",
                   MessageID, CommandCode, ActualLength, ExpectedLength);
       }
@@ -1034,7 +1034,7 @@ boolean LC_VerifyMsgLength(CFE_SB_MsgPtr_t msg,
           /*
           ** Same thing as previous for a bad actionpoint sample request
           */
-          CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_ERROR,
+          CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
                   "Invalid AP sample msg length: ID = 0x%04X, CC = %d, Len = %d, Expected = %d",
                   MessageID, CommandCode, ActualLength, ExpectedLength);
       }
@@ -1043,13 +1043,13 @@ boolean LC_VerifyMsgLength(CFE_SB_MsgPtr_t msg,
           /*
           ** All other cases, increment error counter
           */
-          CFE_EVS_SendEvent(LC_LEN_ERR_EID, CFE_EVS_ERROR,
+          CFE_EVS_SendEvent(LC_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
                   "Invalid msg length: ID = 0x%04X, CC = %d, Len = %d, Expected = %d",
                   MessageID, CommandCode, ActualLength, ExpectedLength);
           LC_AppData.CmdErrCount++;          
       }
 
-      result = FALSE;
+      result = false   ;
    }
 
    return(result);
@@ -1093,7 +1093,7 @@ int32 LC_ManageTables(void)
         /*
         ** Clear watchpoint results for previous table
         */
-        LC_ResetResultsWP(0, LC_MAX_WATCHPOINTS - 1, FALSE);
+        LC_ResetResultsWP(0, LC_MAX_WATCHPOINTS - 1, false   );
 
         /*
         ** Create watchpoint hash tables -- also subscribes to watchpoint packets
@@ -1102,7 +1102,7 @@ int32 LC_ManageTables(void)
     }
     else if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID, CFE_EVS_ERROR, 
+        CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, 
                           "Error getting WDT address, RC=0x%08X", (unsigned int)Result);
         return(Result);
     }
@@ -1114,11 +1114,11 @@ int32 LC_ManageTables(void)
         /*
         ** Clear actionpoint results for previous table
         */
-        LC_ResetResultsAP(0, LC_MAX_ACTIONPOINTS - 1, FALSE);
+        LC_ResetResultsAP(0, LC_MAX_ACTIONPOINTS - 1, false   );
     }
     else if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_ERROR, 
+        CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, 
                           "Error getting ADT address, RC=0x%08X", (unsigned int)Result);
         return(Result);
     }
@@ -1145,7 +1145,7 @@ int32 LC_UpdateTaskCDS(void)
 
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_WRT_NO_SAVE_ERR_EID, CFE_EVS_ERROR, 
+        CFE_EVS_SendEvent(LC_WRT_NO_SAVE_ERR_EID, CFE_EVS_EventType_ERROR, 
                           "Unable to update watchpoint results in CDS, RC=0x%08X", (unsigned int)Result);
         return(Result);
     }
@@ -1157,7 +1157,7 @@ int32 LC_UpdateTaskCDS(void)
 
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_ART_NO_SAVE_ERR_EID, CFE_EVS_ERROR, 
+        CFE_EVS_SendEvent(LC_ART_NO_SAVE_ERR_EID, CFE_EVS_EventType_ERROR, 
                           "Unable to update actionpoint results in CDS, RC=0x%08X", (unsigned int)Result);
         return(Result);
     }
@@ -1174,7 +1174,7 @@ int32 LC_UpdateTaskCDS(void)
 
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_APP_NO_SAVE_START_ERR_EID, CFE_EVS_ERROR, 
+        CFE_EVS_SendEvent(LC_APP_NO_SAVE_START_ERR_EID, CFE_EVS_EventType_ERROR, 
                           "Unable to update application data in CDS, RC=0x%08X", (unsigned int)Result);
         return(Result);
     }

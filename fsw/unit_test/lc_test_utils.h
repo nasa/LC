@@ -2,7 +2,7 @@
  ** File:
  **   $Id: lc_test_utils.h 1.2 2017/01/22 17:24:39EST sstrege Exp  $
  **
- **  Copyright (c) 2007-2014 United States Government as represented by the 
+ **  Copyright (c) 2007-2020 United States Government as represented by the 
  **  Administrator of the National Aeronautics and Space Administration. 
  **  All Other Rights Reserved.  
  **

@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_tbldefs.h 1.3 2017/01/22 17:24:57EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **

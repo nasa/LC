@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_app.h 1.4 2017/01/22 17:24:19EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -166,7 +166,7 @@ typedef struct
     LC_MessageList_t     MessageLinks[LC_MAX_WATCHPOINTS]; /** \brief Linked list elements    */
     LC_WatchPtList_t     WatchPtLinks[LC_MAX_WATCHPOINTS]; /** \brief Linked list elements    */
 
-    boolean              HaveActiveCDS;      /**< \brief Critical Data Store in use flag      */
+    bool                 HaveActiveCDS;      /**< \brief Critical Data Store in use flag      */
 
 } LC_OperData_t;           
 

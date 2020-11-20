@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_platform_cfg.h 1.4 2017/03/07 17:35:09EST mdeschu Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -155,7 +155,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define LC_WDT_FILENAME                "/cf/apps/lc_def_wdt.tbl"
+#define LC_WDT_FILENAME                "/cf/lc_def_wdt.tbl"
 
 /** \lccfg Actionpoint Definition Table (ADT) filename
 **  
@@ -167,7 +167,7 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define LC_ADT_FILENAME                "/cf/apps/lc_def_adt.tbl"
+#define LC_ADT_FILENAME                "/cf/lc_def_adt.tbl"
 
 /** \lccfg Maximum reverse polish (RPN) equation size
 **  

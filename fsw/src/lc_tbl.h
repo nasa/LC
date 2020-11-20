@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_tbl.h 1.7 2017/06/30 12:59:53EDT mdeschu Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **

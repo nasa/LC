@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_custom.c 1.3 2017/01/22 17:24:49EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -47,24 +47,23 @@ void LC_ExecuteRTS(uint16 RTSId)
     ** constants (see lc_mission_cfg.h).
     */
     typedef struct {
-        uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
+        CFE_SB_CmdHdr_t  CmdHeader;
 
-        uint16         RTSId;               
+        uint16           RTSId;               
 
     } LC_RTSRequest_t;
     
     LC_RTSRequest_t RTSRequest;
     /**************************************************************/
     
-    CFE_SB_InitMsg((CFE_SB_Msg_t *) ((uint32) &RTSRequest),
-            LC_RTS_REQ_MID, sizeof(LC_RTSRequest_t), TRUE);
+    CFE_SB_InitMsg((CFE_SB_Msg_t *) &RTSRequest,
+            LC_RTS_REQ_MID, sizeof(LC_RTSRequest_t), true   );
 
-    CFE_SB_SetCmdCode((CFE_SB_Msg_t *) ((uint32) &RTSRequest), 
-                                               LC_RTS_REQ_CC);
+    CFE_SB_SetCmdCode((CFE_SB_Msg_t *) &RTSRequest, LC_RTS_REQ_CC);
         
     RTSRequest.RTSId = RTSId;
         
-    CFE_SB_SendMsg((CFE_SB_Msg_t *) ((uint32) &RTSRequest));
+    CFE_SB_SendMsg((CFE_SB_Msg_t *) &RTSRequest);
     
     return;
     
@@ -82,7 +81,7 @@ uint8 LC_CustomFunction(uint16          WatchIndex,
                         CFE_SB_MsgPtr_t MessagePtr,
                         uint32          WDTCustomFuncArg)
 {
-    uint8  EvalResult = LC_WATCH_FALSE;
+    uint8  EvalResult = LC_WATCH_FALSE   ;
     
     /*
     ** This function is the entry point for all watchpoints where
@@ -99,7 +98,7 @@ uint8 LC_CustomFunction(uint16          WatchIndex,
         case 0x0000:
         case 0x0001:
         default:
-            CFE_EVS_SendEvent(LC_CFCALL_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(LC_CFCALL_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Unexpected LC_CustomFunction call: WP = %d",
                               WatchIndex);
             break;

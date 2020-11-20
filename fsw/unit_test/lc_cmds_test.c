@@ -2,7 +2,7 @@
  ** File:
  **   $Id: lc_cmds_test.c 1.6 2017/05/07 23:59:04EDT mdeschu Exp  $
  **
- **  Copyright (c) 2007-2014 United States Government as represented by the 
+ **  Copyright (c) 2007-2020 United States Government as represented by the 
  **  Administrator of the National Aeronautics and Space Administration. 
  **  All Other Rights Reserved.  
  **

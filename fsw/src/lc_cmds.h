@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_cmds.h 1.4 2017/01/22 17:24:53EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -84,7 +84,7 @@ void LC_ResetCounters(void);
 **  \sa #LC_ResetAPStatsCmd
 **
 *************************************************************************/
-void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, boolean ResetCmd);
+void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool    ResetCmd);
 
 /************************************************************************/
 /** \brief Reset WP results
@@ -102,7 +102,7 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, boolean ResetCmd);
 **  \sa #LC_ResetWPStatsCmd
 **
 *************************************************************************/
-void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, boolean ResetCmd);
+void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool    ResetCmd);
 
 /************************************************************************/
 /** \brief Write to Critical Data Store (CDS)
@@ -309,9 +309,28 @@ void LC_ResetWPStatsCmd(CFE_SB_MsgPtr_t MessagePtr);
 **  \sa #LC_LEN_ERR_EID
 **
 *************************************************************************/
-boolean LC_VerifyMsgLength(CFE_SB_MsgPtr_t msg, 
+bool    LC_VerifyMsgLength(CFE_SB_MsgPtr_t msg, 
                            uint16          ExpectedLength);
 
+
+/************************************************************************/
+/** \brief Manage LC application tables
+**  
+**  \par Description
+**       Checks the status of the LC application tables and provides
+**       an opportunity to dump or reload tables.  
+**
+**  \par Assumptions, External Events, and Notes:
+**       None
+**       
+**  \returns
+**  \retstmt Returns CFE_SUCCESS on success
+**  \retstmt Return codes from #CFE_TBL_GetAddress     \endcode
+**  \endreturns
+**
+**  \sa #LC_WDT_GETADDR_ERR_EID, #LC_ADT_GETADDR_ERR_EID
+**
+*************************************************************************/
 int32 LC_ManageTables(void);
 
 #endif /* _lc_cmds_ */

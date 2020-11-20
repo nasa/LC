@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_watch.h 1.4 2017/01/22 17:24:25EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -291,7 +291,7 @@ uint8 LC_FloatCompare(uint16 WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-boolean LC_WPOffsetValid(uint16          WatchIndex, 
+bool    LC_WPOffsetValid(uint16          WatchIndex, 
                          CFE_SB_MsgPtr_t MessagePtr);
 
 /************************************************************************/
@@ -326,7 +326,7 @@ boolean LC_WPOffsetValid(uint16          WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-boolean LC_GetSizedWPData(uint16 WatchIndex,
+bool    LC_GetSizedWPData(uint16 WatchIndex,
                           uint8  *WPDataPtr,
                           uint32 *SizedDataPtr);
 
@@ -349,7 +349,7 @@ boolean LC_GetSizedWPData(uint16 WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-boolean LC_Uint32IsNAN(uint32 Data);
+bool    LC_Uint32IsNAN(uint32 Data);
 
 /************************************************************************/
 /** \brief Check uint32 for float infinite
@@ -370,7 +370,7 @@ boolean LC_Uint32IsNAN(uint32 Data);
 **  \endreturns
 **
 *************************************************************************/
-boolean LC_Uint32IsInfinite(uint32 Data);
+bool    LC_Uint32IsInfinite(uint32 Data);
 
 /************************************************************************/
 /** \brief Convert messageID into hash table index

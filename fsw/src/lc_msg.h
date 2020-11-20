@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_msg.h 1.3.1.1 2017/08/25 13:05:29EDT sstrege Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -43,8 +43,7 @@
 */
 typedef struct
 {
-    uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
-
+    CFE_SB_CmdHdr_t  CmdHeader;
 } LC_NoArgsCmd_t;
 
 /** 
@@ -52,10 +51,10 @@ typedef struct
 **  For command details see #LC_SET_LC_STATE_CC
 */
 typedef struct {
-    uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    CFE_SB_CmdHdr_t  CmdHeader;
 
-    uint16         NewLCState;              /**< \brief New LC application state    */
-    uint16         Padding;                 /**< \brief Structure padding           */
+    uint16           NewLCState;           /**< \brief New LC application state    */
+    uint16           Padding;              /**< \brief Structure padding           */
 
 } LC_SetLCState_t;
 
@@ -64,10 +63,10 @@ typedef struct {
 **  For command details see #LC_SET_AP_STATE_CC
 */
 typedef struct {
-    uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    CFE_SB_CmdHdr_t  CmdHeader;
 
-    uint16         APNumber;                /**< \brief Which actionpoint(s) to change */
-    uint16         NewAPState;              /**< \brief New actionpoint state          */
+    uint16           APNumber;             /**< \brief Which actionpoint(s) to change */
+    uint16           NewAPState;           /**< \brief New actionpoint state          */
 
 } LC_SetAPState_t;
 
@@ -76,10 +75,10 @@ typedef struct {
 **  For command details see #LC_SET_AP_PERMOFF_CC
 */
 typedef struct {
-    uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    CFE_SB_CmdHdr_t  CmdHeader;
 
-    uint16         APNumber;                /**< \brief Which actionpoint to change */
-    uint16         Padding;                 /**< \brief Structure padding           */
+    uint16           APNumber;             /**< \brief Which actionpoint to change */
+    uint16           Padding;              /**< \brief Structure padding           */
 
 } LC_SetAPPermOff_t;
 
@@ -88,10 +87,10 @@ typedef struct {
 **  For command details see #LC_RESET_AP_STATS_CC
 */
 typedef struct {
-    uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    CFE_SB_CmdHdr_t  CmdHeader;
 
-    uint16         APNumber;                /**< \brief Which actionpoint(s) to change */
-    uint16         Padding;                 /**< \brief Structure padding              */
+    uint16           APNumber;             /**< \brief Which actionpoint(s) to change */
+    uint16           Padding;              /**< \brief Structure padding              */
 
 } LC_ResetAPStats_t;
 
@@ -100,10 +99,10 @@ typedef struct {
 **  For command details see #LC_RESET_WP_STATS_CC
 */
 typedef struct {
-    uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    CFE_SB_CmdHdr_t  CmdHeader;
 
-    uint16         WPNumber;                /**< \brief Which watchpoint(s) to change */
-    uint16         Padding;                 /**< \brief Structure padding             */
+    uint16           WPNumber;             /**< \brief Which watchpoint(s) to change */
+    uint16           Padding;              /**< \brief Structure padding             */
 
 } LC_ResetWPStats_t;
 
@@ -112,13 +111,13 @@ typedef struct {
 **  See #LC_SAMPLE_AP_MID
 */
 typedef struct {
-    uint8          CmdHeader[CFE_SB_CMD_HDR_SIZE];
+    CFE_SB_CmdHdr_t  CmdHeader;
 
-    uint16         StartIndex;              /**< \brief Which actionpoint(s) to sample */
-    uint16         EndIndex;
+    uint16           StartIndex;           /**< \brief Which actionpoint(s) to sample */
+    uint16           EndIndex;
 
-    uint16         UpdateAge;               /**< \brief Update WP results age (T or F) */
-
+    uint16           UpdateAge;            /**< \brief Update WP results age (T or F) */
+    uint16           Padding;              /**< \brief Structure padding              */
 } LC_SampleAP_t;
 
 /** 
@@ -126,8 +125,8 @@ typedef struct {
 */
 typedef struct
 {
-    uint8          TlmHeader[CFE_SB_TLM_HDR_SIZE];  /**< \brief cFE SB Tlm Msg Hdr */
-    
+    CFE_SB_TlmHdr_t   TlmHeader;                    /**< \brief cFE SB Tlm Msg Hdr */
+
     uint8          CmdCount;                        /**< \lctlmmnemonic \LC_CMDPC
                                                          \brief LC Application Command Counter       */
     uint8          CmdErrCount;                     /**< \lctlmmnemonic \LC_CMDEC

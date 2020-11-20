@@ -2,7 +2,7 @@
 ** File:
 **   $Id: lc_verify.h 1.4 2017/03/07 17:35:09EST mdeschu Exp  $
 **
-**  Copyright (c) 2007-2014 United States Government as represented by the 
+**  Copyright (c) 2007-2020 United States Government as represented by the 
 **  Administrator of the National Aeronautics and Space Administration. 
 **  All Other Rights Reserved.  
 **
@@ -34,8 +34,8 @@
     #error LC_RTS_REQ_MID must be defined!
   #elif LC_RTS_REQ_MID < 1
     #error LC_RTS_REQ_MID must be greater than zero
-  #elif LC_RTS_REQ_MID > CFE_SB_HIGHEST_VALID_MSGID
-    #error LC_RTS_REQ_MID must not exceed CFE_SB_HIGHEST_VALID_MSGID
+  #elif LC_RTS_REQ_MID > CFE_PLATFORM_SB_HIGHEST_VALID_MSGID
+    #error LC_RTS_REQ_MID must not exceed CFE_PLATFORM_SB_HIGHEST_VALID_MSGID
   #endif 
 
   /*
@@ -153,8 +153,8 @@
     #error LC_MAX_ACTION_TEXT must be defined!
   #elif LC_MAX_ACTION_TEXT < 0
     #error LC_MAX_ACTION_TEXT must not be less than zero
-  #elif LC_MAX_ACTION_TEXT > CFE_EVS_MAX_MESSAGE_LENGTH
-    #error LC_MAX_ACTION_TEXT must not exceed CFE_EVS_MAX_MESSAGE_LENGTH
+  #elif LC_MAX_ACTION_TEXT > CFE_MISSION_EVS_MAX_MESSAGE_LENGTH
+    #error LC_MAX_ACTION_TEXT must not exceed CFE_MISSION_EVS_MAX_MESSAGE_LENGTH
   #endif
 
   /* Note: LC_AP_EVENT_TAIL_LEN is defined in lc_action.h */
@@ -162,12 +162,12 @@
     #error LC_AP_EVENT_TAIL_LEN must be defined!
   #elif LC_AP_EVENT_TAIL_LEN < 0
     #error LC_AP_EVENT_TAIL_LEN must not be less than zero
-  #elif LC_AP_EVENT_TAIL_LEN > CFE_EVS_MAX_MESSAGE_LENGTH
-    #error LC_AP_EVENT_TAIL_LEN must not exceed CFE_EVS_MAX_MESSAGE_LENGTH
+  #elif LC_AP_EVENT_TAIL_LEN > CFE_MISSION_EVS_MAX_MESSAGE_LENGTH
+    #error LC_AP_EVENT_TAIL_LEN must not exceed CFE_MISSION_EVS_MAX_MESSAGE_LENGTH
   #endif
 
-  #if (LC_MAX_ACTION_TEXT + LC_AP_EVENT_TAIL_LEN) > CFE_EVS_MAX_MESSAGE_LENGTH
-    #error The sum of LC_MAX_ACTION_TEXT + LC_AP_EVENT_TAIL_LEN must not exceed CFE_EVS_MAX_MESSAGE_LENGTH
+  #if (LC_MAX_ACTION_TEXT + LC_AP_EVENT_TAIL_LEN) > CFE_MISSION_EVS_MAX_MESSAGE_LENGTH
+    #error The sum of LC_MAX_ACTION_TEXT + LC_AP_EVENT_TAIL_LEN must not exceed CFE_MISSION_EVS_MAX_MESSAGE_LENGTH
   #endif
 
   /*
