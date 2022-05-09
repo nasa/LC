@@ -31,9 +31,9 @@
  * \{
  */
 
-#define LC_MAJOR_VERSION 2 /**< \brief Major version number */
-#define LC_MINOR_VERSION 2 /**< \brief Minor version number */
-#define LC_REVISION      1 /**< \brief Revision number */
+#define LC_MAJOR_VERSION 2  /**< \brief Major version number */
+#define LC_MINOR_VERSION 2  /**< \brief Minor version number */
+#define LC_REVISION      99 /**< \brief Revision number */
 
 /**\}*/
 
