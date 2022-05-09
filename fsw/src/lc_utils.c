@@ -231,7 +231,7 @@ int32 LC_UpdateTaskCDS(void)
 
 int32 LC_PerformMaintenance(void)
 {
-    int32 Result = CFE_SUCCESS;
+    int32 Result;
 
     /*
     ** Manage tables - allow cFE to perform dump, update, etc.
