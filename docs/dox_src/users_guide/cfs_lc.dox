@@ -2,7 +2,6 @@
     \mainpage CFS Limit Checker (LC) User's Guide    
 
        <UL>
-           <LI> \subpage cfslcrevhist
            <LI> \subpage cfslcintro
            <LI> \subpage cfslcovr
            <LI> \subpage cfslcopr
@@ -18,34 +17,6 @@
        </UL>
 **/
 
-/**
-  \page cfslcrevhist CFS Limit Checker User's Guide Revision History
-
-  \verbatim  
-  $Log: cfs_lc.dox  $
-  Revision 1.1.2.1 2017/08/07 14:38:03EDT sstrege 
-  
-  Revision 1.1 2015/07/26 15:40:18EDT rperera 
-  Initial revision
-  Member added to project /CFS-APPs-PROJECT/lcx/docs/dox_src/users_guide/project.pj
-  Revision 1.1 2012/07/31 16:53:28EDT nschweis 
-  Initial revision
-  Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/lcx/docs/dox_src/users_guide/project.pj
-  Revision 1.7 2011/07/27 14:15:15EDT wmoleski 
-  Updated the Operation section to add more detail about actionpoint evaluation and added 2 new FAQs about 
-  ActionPoints.
-  Revision 1.6 2010/03/08 08:28:12EST wmoleski 
-  Updated the telemetry mnemonic mapping file and the User's Guide file.
-  Revision 1.5 2009/04/18 14:50:43EDT dkobe 
-  Cleaned up comments for users guide generation
-  Revision 1.4 2009/04/18 13:49:37EDT dkobe 
-  Corrected image links
-  Revision 1.3 2009/04/18 13:30:21EDT dkobe 
-  Standardized some content
-  \endverbatim
-  
-  Next: \ref cfslcintro
-**/
 /**
 	\page cfslcintro CFS Limit Checker Introduction
 	
@@ -118,7 +89,6 @@
   </TABLE>
 
   Next: \ref cfslcovr <BR>
-  Prev: \ref cfslcrevhist
 **/
 
 /**
@@ -178,7 +148,7 @@
                tests.
   
     Watchpoints are evaluated whenever a message containing the telemetry point is received 
-    by LC. Watchpoints may evaluate to #LC_WATCH_TRUE, #LC_WATCH_FALSE, #LC_WATCH_NOT_MEASURED 
+    by LC. Watchpoints may evaluate to #LC_WATCH_TRUE, #LC_WATCH_FALSE, #LC_WATCH_STALE 
     or #LC_WATCH_ERROR. Watchpoints can not be individually disabled. The only ways to keep 
     Watchpoints from being evaluated are to squelch the telemetry packet on which they trigger, 
     load a WDT that undefines a Watchpoint or disable the entire LC task.  
@@ -187,7 +157,7 @@
     ID. This message contains a parameter indicating which actionpoint to evaluate. A single actionpoint can be specified by using the actionpoint ID (0 to #LC_MAX_ACTIONPOINTS). All actionpoints can be evaluated by specifying xFFFF as the parameter. There is no way to evaluate multiple actionpoints other than ALL within a single message. An Actionpoint defines a logical relationship between one or more Watchpoint results. 
     This logical relationship is defined in the form of a Reverse Polish Notation (RPN) 
     expression in the actionpoint definition specified in the ADT. The result of this RPN 
-    evaluation is either #LC_ACTION_PASS, #LC_ACTION_FAIL, #LC_ACTION_NOT_MEASURED or
+    evaluation is either #LC_ACTION_PASS, #LC_ACTION_FAIL, #LC_ACTION_STALE or
     #LC_ACTION_ERROR. In the Actionpoint definition, a maximum number of consecutive fails is 
     specified. If an Actionpoint fails the specified number of times consecutively, LC sends a 
     request to the Stored Command (SC) application to execute a RTS (Relative Time Sequence) of 
@@ -432,7 +402,7 @@
     <TABLE BORDER="0">
     <TR><TD WIDTH="15%"><B>WatchResult</B></TD><TD WIDTH="50%"> Result for the last evaluation of this watchpoint. Enumerated type that 
                   will be one of the following:</TD></TR>
-      <TR><TD></TD><TD> #LC_WATCH_TRUE, #LC_WATCH_FALSE, #LC_WATCH_NOT_MEASURED, #LC_WATCH_ERROR</TD></TR>
+      <TR><TD></TD><TD> #LC_WATCH_TRUE, #LC_WATCH_FALSE, #LC_WATCH_STALE, #LC_WATCH_ERROR</TD></TR>
     
     <TR><TD><B>EvaluationCount</B></TD><TD> How many times this watchpoint has been evaluated</TD></TR>
     
@@ -446,7 +416,7 @@
                                                 #LC_WATCH_TRUE</TD></TR>
     
     <TR><TD><B>LastFalseToTrue</B></TD><TD> Watchpoint value and timestamp at the last transition from 
-                                           #LC_WATCH_FALSE (or #LC_WATCH_NOT_MEASURED) to #LC_WATCH_TRUE</TD></TR>
+                                           #LC_WATCH_FALSE (or #LC_WATCH_STALE) to #LC_WATCH_TRUE</TD></TR>
 
     <TR><TD><B>LastTrueToFalse</B></TD><TD> Watchpoint value and timestamp at the last transition from 
                                             #LC_WATCH_TRUE to #LC_WATCH_FALSE</TD></TR>
@@ -469,7 +439,7 @@
     <TABLE BORDER="0">
     <TR><TD><B>ActionResult</B></TD><TD> Result for the last sample of this actionpoint. Enumerated type that 
                    will be one of the following:</TD></TR>
-      <TR><TD></TD><TD> #LC_ACTION_PASS, #LC_ACTION_FAIL, #LC_ACTION_NOT_MEASURED, 
+      <TR><TD></TD><TD> #LC_ACTION_PASS, #LC_ACTION_FAIL, #LC_ACTION_STALE, 
                         #LC_ACTION_ERROR</TD></TR>
     
     <TR><TD><B>CurrentState</B></TD><TD> Current state of this actionpoint. Enumerated type that 
@@ -508,10 +478,12 @@
      
     When either the WDT or ADT are updated, the corresponding results table (WRT or ART) is
     reset to initialization values. For each entry in the WRT, WatchResult is set to 
-    #LC_WATCH_NOT_MEASURED and all other values are zeroed. For each entry in the ART, 
-    ActionResult is set to #LC_ACTION_NOT_MEASURED, the CurrentState is set to the 
+    #LC_WATCH_STALE and all other values are zeroed. For each entry in the ART, 
+    ActionResult is set to #LC_ACTION_STALE, the CurrentState is set to the 
     value of the actionpoint's DefaultState specified in the ADT, and all other values are 
-    zeroed.
+    zeroed.  When preparing to update the WDT or WDT, the LC state should be set
+    to inactive prior to the update and then set to active after the update is
+    completed.
     
     These are also the values used (for the entries specified in the command) when the 
     #LC_RESET_AP_STATS_CC or #LC_RESET_WP_STATS_CC ground command is received.
@@ -644,9 +616,9 @@
     </I>
 
     <B> (Q)
-       When would a watchpoint evalute to #LC_WATCH_NOT_MEASURED?
+       When would a watchpoint evalute to #LC_WATCH_STALE?
     </B> <BR> <BR> <I>
-       #LC_WATCH_NOT_MEASURED is an initialization value for the Watchpoint
+       #LC_WATCH_STALE is an initialization value for the Watchpoint
        Results Table. If a watchpoint has this WatchResult then the watchpoint
        is unused (the DataType in the WDT is set to #LC_WATCH_NOT_USED) or a
        message that contains the watchpoint has not yet been recieved by LC and 
@@ -736,9 +708,9 @@
     </I>
 
     <B> (Q)
-       When would a actionpoint evalute to #LC_ACTION_NOT_MEASURED?
+       When would a actionpoint evalute to #LC_ACTION_STALE?
     </B> <BR> <BR> <I>
-       #LC_ACTION_NOT_MEASURED is an initialization value for the Actionpoint
+       #LC_ACTION_STALE is an initialization value for the Actionpoint
        Results Table. If an actionpoint has this ActionResult then one of
        three possible conditions are true: 
        
@@ -749,7 +721,7 @@
           yet been recieved by LC so the AP has not yet been evaluated.
           
        3) One or more of the watchpoints that this AP depends on (as defined by
-          the RPN expression) has a current WatchResult of #LC_WATCH_NOT_MEASURED
+          the RPN expression) has a current WatchResult of #LC_WATCH_STALE
           so the AP can't be evaluated.
     </I>
 
@@ -873,8 +845,8 @@
     </B> <BR> <BR> <I>
        When either the WDT or ADT are updated, the corresponding results table (WRT or ART) is
        reset to initialization values. For each entry in the WRT, WatchResult is set to 
-       #LC_WATCH_NOT_MEASURED and all other values are zeroed. For each entry in the ART, 
-       ActionResult is set to #LC_ACTION_NOT_MEASURED, the CurrentState is set to the 
+       #LC_WATCH_STALE and all other values are zeroed. For each entry in the ART, 
+       ActionResult is set to #LC_ACTION_STALE, the CurrentState is set to the 
        value of the actionpoint's DefaultState specified in the ADT, and all other values are 
        zeroed.
     

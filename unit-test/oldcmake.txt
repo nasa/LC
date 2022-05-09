@@ -1,0 +1,167 @@
+##################################################################
+#
+# Unit Test build recipe
+#
+# This CMake file contains the recipe for building cFS app unit tests.
+# It is invoked from the parent directory when unit tests are enabled.
+#
+# Alan S. Gibson, GSFC-587
+#
+# By convention this cmake file as written requires:
+#
+# 1. For each source file in an app there must be a 
+#    corresponding <src_filename>_test.c file in the 
+#    ${PROJECT_SOURCE_DIR}/unit-test directory 
+#    (the same directory that this cmake file should exist in)
+#
+# 2. For each source file in an app there must be a
+#    corresponding <src_filename>_stub.c file in the 
+#    ${PROJECT_SOURCE_DIR}/unit-test/stubs directory 
+#
+# Optionally you may have:
+#
+# 1. ${PROJECT_SOURCE_DIR}/unit-test/utilities directory that 
+#    contains any test specific utility files
+# 
+# 2. ${PROJECT_SOURCE_DIR}/unit-test/inc directory that
+#    contains any test specific header files
+#
+##################################################################
+
+## /brief build_shared_libs builds each names_list item in given directory
+## 
+## /desc  This function will build a shared library file for each given
+##        filename in the directory.  This is to reduce building each
+##        time a test file is built.
+## /param [String] directory  the directory holding the library files
+## /param [Array of String] names_list  the list of source files in directory
+function(build_shared_libs directory names_list)
+  set(local_list)
+  set(shared_lib_files)
+  aux_source_directory(${directory} shared_lib_files)
+  # Build files as shared libs and put thier names into local_list
+  foreach(SOURCE_FILE ${shared_lib_files})
+      get_filename_component(SOURCE_NAME "${SOURCE_FILE}" NAME_WE)
+      add_library("${SOURCE_NAME}_shared_lib" STATIC "${SOURCE_FILE}")
+      list(APPEND local_list "${SOURCE_NAME}_shared_lib")
+  endforeach()
+  
+  # set passed in list value to equal local list
+  set(${names_list} ${local_list} PARENT_SCOPE)
+endfunction(build_shared_libs)
+
+# Use the UT assert public API, and allow direct
+# inclusion of source files that are normally private
+# ${osal_MISSION_DIR}/ut_assert/inc is location of ut_assert headers
+include_directories(${osal_MISSION_DIR}/ut_assert/inc)
+# ${CMAKE_CURRENT_SOURCE_DIR}/inc is location of app test headers
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
+# ${CMAKE_CURRENT_SOURCE_DIR}/utilities is location of app test utilities
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/utilities)
+# ${CMAKE_CURRENT_SOURCE_DIR}/stubs is location of app source stubs
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/stubs)
+# ${PROJECT_SOURCE_DIR}/fsw/src is location of app source files
+include_directories(${PROJECT_SOURCE_DIR}/fsw/src)
+
+message(STATUS "project source dir: ${PROJECT_SOURCE_DIR}")
+
+# Get all the .c files from stub subdirectory in source_stub_shared_lib_names
+# NOTE: THIS IS CURRENTLY USING SOURCE FILES INSTEAD OF STUB FILES!
+# change ${PROJECT_SOURCE_DIR}/fsw/src back to ${CMAKE_CURRENT_SOURCE_DIR}/stubs
+# when stubs are to be used
+#set(source_stub_dir "${CMAKE_CURRENT_SOURCE_DIR}/stubs")
+#set(source_stub_shared_lib_names)
+#build_shared_libs(${source_stub_dir} source_stub_shared_lib_names)
+
+# Get the files in the application's unit-test/utilities directory
+include_directories(${PROJECT_SOURCE_DIR}/unit-test/utilities)
+set(app_ut_utility_dir ${PROJECT_SOURCE_DIR}/unit-test/utilities)
+set(app_ut_utility_shared_lib_names)
+build_shared_libs(${app_ut_utility_dir} app_ut_utility_shared_lib_names)
+
+include_directories(${ut_utils_lib_MISSION_DIR})
+
+
+# Generate a dedicated "testrunner" executable for each test file 
+# Accomplish this by cycling through all the app's source files, there must be
+# a *_tests file for each
+set(source_files_under_test)
+aux_source_directory("${PROJECT_SOURCE_DIR}/fsw/src" source_files_under_test)
+foreach(SRCFILE ${source_files_under_test})
+    message(STATUS "SRCFILE: ${SRCFILE}")
+
+    # Obtain a copy of the source shared libraries so it may be altered later
+ #   set(app_stubs "${source_stub_shared_lib_names}")
+ #   message(STATUS "app_stubs : ${app_stubs}")
+
+    # Get the base sourcefile name as a module name without path or the  
+    # extension, this will be used as the base name of the unit test file.
+    get_filename_component(MODULE_NAME "${SRCFILE}" NAME_WE)
+    message(STATUS "module name: ${MODULE_NAME}")
+
+    # Use the module name to make the tests' name by adding _tests to the end
+    set(TESTS_NAME "${MODULE_NAME}_tests")
+    
+    # Make the test sourcefile name with unit test path and extension
+    set(TESTS_SOURCE_FILE "${PROJECT_SOURCE_DIR}/unit-test/${TESTS_NAME}.c")
+    message(STATUS "tests source file: ${TESTS_SOURCE_FILE}")
+
+    # Make the test object file name
+    set(TESTS_SOURCE_OBJECT "ut_${TESTS_NAME}_object")
+    
+    # Remove module's lib from the list of app_stubs files
+    # TODO: Does not make sense, but this does not appear to be required? why?
+    # the code from the src should bang into this...? something to do with 
+    # using #include on the .c to include the source in testrunner?
+#    list(REMOVE_ITEM app_stubs "${MODULE_NAME}_stubs_shared_lib")
+#    message(STATUS "reduced app_stubs : ${app_stubs}")
+
+    # NOTE: If an app makes use of static methods, the source .c being tested is 
+    #       should be '#include <src_filename>.c' in the ${TESTS_NAME}, thus it 
+    #       does not need to be built here and can be commented out. The test file
+    #       brings in the .c source code so it can access those methods. Otherwise
+    #       the add_library and target_compile options must be run.
+    
+    # Compiles the source file under test as an OBJECT.
+    add_library(${TESTS_SOURCE_OBJECT} STATIC
+        ${SRCFILE}
+    )
+
+    # # Apply the UT_COVERAGE_COMPILE_FLAGS to the source code under test
+    # # as they will enable coverage analysis on platforms that support it
+    target_compile_options(${TESTS_SOURCE_OBJECT} PRIVATE 
+      ${UT_COVERAGE_COMPILE_FLAGS})
+        
+    # Compile a test runner application, which contains the
+    # actual unit test code (test cases) and the unit under test
+    add_executable(${TESTS_NAME}-testrunner
+        ${TESTS_SOURCE_FILE}
+    )
+    
+    # NOTE: Since the source .c is '#include'ed the testrunner we need to put 
+    # the lcov flags onto the testrunner to get coverage for the .c.  This also
+    # adds the testrunner to lcov, but this is not concerning
+    target_compile_options(${TESTS_NAME}-testrunner PRIVATE 
+      ${UT_COVERAGE_COMPILE_FLAGS})
+    
+    # This also needs to be linked with UT_COVERAGE_LINK_FLAGS (for coverage)
+    # This is also linked with any other stub libraries needed,
+    # as well as the app's ut utilities
+    # as well as the application source files (which will be replaced by stubs)
+    # as well as the cFE core stubs
+    # as well as the UT assert framework
+    target_link_libraries(${TESTS_NAME}-testrunner
+        ${WRAPS}
+        ${UT_COVERAGE_LINK_FLAGS}
+        ${app_ut_utility_shared_lib_names}
+#        ${app_stubs}
+        ${TESTS_SOURCE_OBJECT}
+        ut_utils_lib
+        ut_cfe-core_stubs
+        ut_assert
+    )
+    
+    # Add it to the set of tests to run as part of "make test"
+    add_test(${TESTS_NAME} ${TESTS_NAME}-testrunner)
+    
+endforeach()

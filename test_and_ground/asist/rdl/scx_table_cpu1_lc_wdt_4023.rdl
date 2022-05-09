@@ -1,0 +1,71 @@
+!==============================================================================
+!
+!                Originator: B. Medina
+!                Responsible SC:  
+!                Responsible CSE: 
+!                Rev:  Last Change: Jun 27 2017
+
+!
+!                    Telemetry Packet #4023  (dec)
+!                 =================================
+!
+!       Packet Application ID: 4023 (Hex '0FB7')
+!       Packet Title:  SCX CPU1 LC WDT 
+!       Packet Length:  ?? Bytes (Including ?? Bytes Of Header)
+!	Collect             Frequency:         SEC
+!  
+!       REFERENCES:
+!
+!       NOTES:
+!
+!       HISTORY: 
+!  	2008/11/15  B. Medina  initial release
+!       2012/01/04  W. Moleski Removed VARYING from Packet definition
+!       2012/08/08  W. Moleski Added StaleAge to WDTEntry record
+!	2017/06/27	: Created from template 'template_table_LC_WDT_TBL.rdl'
+!	with parameters spacecraft='SCX' and processor='CPU1'.
+!==============================================================================
+!
+#include "lc_msgdefs.h"
+#include "lc_tbldefs.h"
+#include "lc_platform_cfg.h"
+TYPES
+   RECORD SCX_CPU1_LC_WDTEntry  DESC="SCX CPU1 LC WP Definition Table Entry"
+     UB  DataType	DESC="WP Data Type", DISCRETE,
+			DRANGE=(1,2,3,4,5,6,7,8,9,10,11,12,255),
+                        DLABEL=("Byte","UBYTE","WORD_BE","WORD_LE","UWORD_BE",
+			"UWORD_LE","DWORD_BE","DWORD_LE","UDWORD_BE",
+			"UDWORD_LE","FLOAT_BE","FLOAT_LE","empty entry")
+     UB   OperatorID	DESC="Comparison Type", DISCRETE,
+			DRANGE=(1,2,3,4,5,6,7,255),
+                        DLABEL=("<","<=","!=","==",">=",">","Custom Function",
+			"empty entry")
+    UI   MessageID	DESC="Message ID for the message containing the WP"
+    ULI  WPOffset       DESC="Byte offset from the beginning of the message (including any headers) to the WP"
+    ULI  BitMask	DESC="Value to be masked with WP data prior to comparison"
+    
+    UNION  ComparisonValue  DESC="Value WP Data is compared against"
+       SLI   Signed32       DESC="compare 32 bit signed"
+       ULI   UnSigned32     DESC="compare 32 bit unsigned" 
+       SFP   Float32        DESC="compare float", ORDER=(1,2,3,4)
+       UI    UnSigned16     DESC="compare 16 bit unsigned"
+       SI    Signed16       DESC="compare 16 bit signed"
+       UB    UnSigned8      DESC="compare 8 bit unsigned"
+       SB    Signed8        DESC="compare 8 bit unsigned"
+       UB    RawByte[4]     DESC="4 byte array"
+    END                                 
+    ULI  StaleAge	    DESC="Number of LC Sample AP commands that must be processed for result to go Stale"
+    ULI  CustFctArgument    DESC="Data passed to the custom function when the OperatorID is set to custom"
+   END
+END_TYPES
+
+! LC WP Definition Table
+PACKET P0FB7 APID=4023, DESC="SCX CPU1 LC WP Definition Table"
+!
+#include "cfe_file_header.rdl"
+#include "cfe_tbl_header.rdl" 
+!
+SCX_CPU1_LC_WDTEntry SCX_CPU1_LC_WDT[0 .. LC_MAX_WATCHPOINTS-1]  DESC="SCX CPU1 LC WP Definition Table"
+!
+END
+

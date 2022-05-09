@@ -292,6 +292,8 @@ for i = 0 to ut_req_array_size DO
   ut_requirement[i] = "U"
 enddo
 
+global lc_wrt_value_check_result
+
 ;**********************************************************************
 ; Set the local values
 ;**********************************************************************
@@ -555,8 +557,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
      ($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
      ($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
      ($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-     ($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;     ($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+     ($SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32 <> 0) or ;;
+     ($SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32 <> 0) then
     break
   endif
 enddo
@@ -568,8 +570,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True    = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count      = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value        = ", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value        = ", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value        = ", $SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32
+  write " T to F Value        = ", $SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32
   ut_setrequirements LC_9001, "F"
 else
   write "<*> Passed (9001) - Watchpoint Results Table initialized properly."
@@ -829,8 +831,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   else
@@ -839,8 +841,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   endif
@@ -854,8 +856,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
      write " False to True Count     = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
      write " Consecutive True        = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
      write " Cum True Count          = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-     write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue
-     write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue
+     write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32
+     write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32
      ut_setrequirements LC_2003, "F"
      ut_setrequirements LC_20031, "F"
      ut_setrequirements LC_20032, "F"
@@ -1105,8 +1107,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   else
@@ -1115,8 +1117,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   endif
@@ -1130,8 +1132,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count     = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True        = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count          = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32
+  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32
   ut_setrequirements LC_2003, "F"
   ut_setrequirements LC_20031, "F"
   ut_setrequirements LC_20032, "F"
@@ -1379,8 +1381,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32 <> 0) then
       break
     endif
   else
@@ -1389,8 +1391,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
         ($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32 <> 0) then
       break
     endif
   endif
@@ -1404,8 +1406,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count     = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True        = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count          = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32
+  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32
   ut_setrequirements LC_2003, "F"
   ut_setrequirements LC_20031, "F"
   ut_setrequirements LC_20032, "F"
@@ -1627,8 +1629,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   else
@@ -1637,8 +1639,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   endif
@@ -1652,8 +1654,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count     = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True        = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count          = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32
+  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32
   ut_setrequirements LC_2003, "F"
   ut_setrequirements LC_20031, "F"
   ut_setrequirements LC_20032, "F"
@@ -1872,8 +1874,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   else
@@ -1882,8 +1884,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   endif
@@ -1897,8 +1899,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count     = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True        = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count          = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32
+  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32
   ut_setrequirements LC_2003, "F"
   ut_setrequirements LC_20031, "F"
   ut_setrequirements LC_20032, "F"
@@ -2213,8 +2215,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   else
@@ -2223,8 +2225,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
 	($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
 	($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-	($SC_$CPU_LC_WRT[index].FtoTValue <> 0) then
-;;	($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+	($SC_$CPU_LC_WRT[index].FtoTValue.Unsigned32 <> 0) or ;;
+	($SC_$CPU_LC_WRT[index].TtoFValue.Unsigned32 <> 0) then
       break
     endif
   endif
@@ -2238,8 +2240,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count     = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True        = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count          = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value            = ", $SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32
+  write " T to F Value            = ", $SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32
   ut_setrequirements LC_2003, "F"
   ut_setrequirements LC_20031, "F"
   ut_setrequirements LC_20032, "F"

@@ -2,22 +2,22 @@
 ** File:
 **   $Id: lc_custom.h 1.3 2017/01/22 17:24:48EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2020 United States Government as represented by the 
-**  Administrator of the National Aeronautics and Space Administration. 
-**  All Other Rights Reserved.  
+**  Copyright (c) 2007-2020 United States Government as represented by the
+**  Administrator of the National Aeronautics and Space Administration.
+**  All Other Rights Reserved.
 **
 **  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be 
-**  used, distributed and modified only pursuant to the terms of that 
+**  This software is governed by the NASA Open Source Agreement and may be
+**  used, distributed and modified only pursuant to the terms of that
 **  agreement.
 **
-** Purpose: 
+** Purpose:
 **   Specification for the CFS Limit Checker (LC) mission specific
 **   custom function template
 **
 ** Notes:
 **
-** 
+**
 **************************************************************************/
 #ifndef _lc_custom_
 #define _lc_custom_
@@ -33,7 +33,7 @@
 
 /************************************************************************/
 /** \brief Execute RTS
-**  
+**
 **  \par Description
 **       Support function for actionpoint processing that is called
 **       to send an RTS request when an actionpoint evaluation
@@ -41,7 +41,7 @@
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]   RTSId        ID of the RTS to request
 **
 *************************************************************************/
@@ -49,11 +49,11 @@ void LC_ExecuteRTS(uint16 RTSId);
 
 /************************************************************************/
 /** \brief Mission specific custom function
-**  
+**
 **  \par Description
 **       This is the mission specific custom function entry point.
 **       It gets called whenever the OperatorID in a watchpoint
-**       definition table entry is set to #LC_OPER_CUSTOM and 
+**       definition table entry is set to #LC_OPER_CUSTOM and
 **       must return one of the defined watchpoint evaluation
 **       result types
 **
@@ -72,7 +72,7 @@ void LC_ExecuteRTS(uint16 RTSId);
 **                                 fixing that LC might have done
 **                                 according to the watchpoint definition
 **
-**  \param [in] MessagePtr         A #CFE_SB_MsgPtr_t pointer that
+**  \param [in] BufPtr         A #CFE_SB_Buffer_t* pointer that
 **                                 references the software bus message that
 **                                 contained the watchpoint data. If the
 **                                 custom function needs the raw watchpoint
@@ -93,11 +93,9 @@ void LC_ExecuteRTS(uint16 RTSId);
 **  \sa #LC_WDTEntry_t
 **
 *************************************************************************/
-uint8 LC_CustomFunction(uint16          WatchIndex,
-                        uint32          ProcessedWPData,
-                        CFE_SB_MsgPtr_t MessagePtr,
-                        uint32          WDTCustomFuncArg);
- 
+uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_Buffer_t *BufPtr,
+                        uint32 WDTCustomFuncArg);
+
 #endif /* _lc_custom_ */
 
 /************************/

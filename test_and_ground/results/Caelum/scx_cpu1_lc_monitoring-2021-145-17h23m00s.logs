@@ -1,0 +1,1504 @@
+21-145-17:23:00.638 00     SPR-I:OPRO         ****************** FSW Configuration ******************
+21-145-17:23:00.638 00     SPR-I:OPRO                 Checksum:    61379
+21-145-17:23:00.638 00     SPR-I:OPRO                 cFE Version: 6.7.99.0
+21-145-17:23:00.638 00     SPR-I:OPRO                 OS Version:  5.0.0.255
+21-145-17:23:00.638 00     SPR-I:OPRO          
+21-145-17:23:00.639 00     SPR-I:OPRO                 Connection Status
+21-145-17:23:00.639 00     SPR-I:OPRO                 -----------------
+21-145-17:23:00.639 00     SPR-I:OPRO                 CFDP: DOWN
+21-145-17:23:00.639 00     SPR-I:OPRO                 UDP:  UP 
+21-145-17:23:00.640 00     SPR-I:OPRO                 SWTS:  UNK
+21-145-17:23:00.641 00     SPR-I:OPRO         
+21-145-17:23:00.641 00     SPR-I:OPRO                 CMD / TLM Path
+21-145-17:23:00.642 00     SPR-I:OPRO                 --------------
+21-145-17:23:00.642 00     SPR-I:OPRO                 UDP
+21-145-17:23:00.642 00     SPR-I:OPRO                 
+21-145-17:23:00.642 00     SPR-I:OPRO         
+21-145-17:23:00.642 00     SPR-I:OPRO                 ASIST / GDS Configuration
+21-145-17:23:00.642 00     SPR-I:OPRO                 -------------------------
+21-145-17:23:00.642 00     SPR-I:OPRO                 Workstation: GS582CFSLAB4
+21-145-17:23:00.642 00     SPR-I:OPRO                 Account: cfs_test
+21-145-17:23:00.642 00     SPR-I:OPRO                 Version: 21.0.7
+21-145-17:23:00.642 00     SPR-I:OPRO                 Tlm DB:  Version: 1.980  Date: 05-19-21  Time: 01:45:30 PM.
+21-145-17:23:00.642 00     SPR-I:OPRO                 Cmd DB:  Version: 1.51  Date: 05-21-21  Time: 08:24:49 AM.EDT
+21-145-17:23:00.643 00     SPR-I:OPRO         
+21-145-17:23:00.643 00     SPR-I:OPRO                 Telemetry Info
+21-145-17:23:00.643 00     SPR-I:OPRO                 --------------
+21-145-17:23:00.643 00     SPR-I:OPRO                 Pkt Loss Count: N/A
+21-145-17:23:00.643 00     SPR-I:OPRO         ****************  End FSW Configuration ***************
+21-145-17:23:00.643 00     SPR-I:OPRO         Starting Procedure.... scx_cpu1_lc_monitoring
+21-145-17:23:00.777 00     SPR-I:OPRI     --> start scx_cpu1_lc_monitoring
+21-145-17:23:00.777 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_monitoring.i
+21-145-17:23:00.788 00     SPR-I:STS          Procedure SCX_CPU1_LC_MONITORING started
+21-145-17:23:01.179 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:23:01.179 00     SPR-I:OPRO         ;  Step 1.0:  Initialize the CPU for this test. 
+21-145-17:23:01.179 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:23:01.179 00     SPR-I:OPRO         ;  Step 1.1:  Command a Power-On Reset. 
+21-145-17:23:01.179 00     SPR-I:OPRO         ;********************************************************************
+21-145-17:23:01.180 00     CMH-I:CMD             Command SFDU received:<1806C000000302220002> from gs582cfslab4:SPR
+21-145-17:23:01.181 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-145-17:23:11.190 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/clear_spacecraft_status.i
+21-145-17:23:11.191 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS started
+21-145-17:23:11.198 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS completed
+21-145-17:23:11.222 00     SPR-I:STTE         Wait mode - waiting 60 seconds ...
+21-145-17:24:11.286 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:24:17.247 00     CMH-I:STS          Connected to FEDS:FEDS for commanding (internal ID 0). 
+21-145-17:24:21.296 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:24:21.361 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/send_that_to_command.i
+21-145-17:24:21.362 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND started
+21-145-17:24:21.366 00     SPR-I:OPRO         Sending: /SCX_CPU1_TO_OUTPUT_ENA gs582cfslab4
+21-145-17:24:21.369 00     CMH-I:CMD             Command SFDU received:<1880C0000011069A3139322E3136382E312E313031000000> from gs582cfslab4:SPR
+21-145-17:24:21.421 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND completed
+21-145-17:24:21.421 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:24:22.579 00    TLMH-I:STS          58-012-14:03:48.950 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101
+21-145-17:24:26.427 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:24:26.428 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/fill_in_spacecraft_status.i
+21-145-17:24:26.430 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS started
+21-145-17:24:26.437 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS completed
+21-145-17:24:26.438 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:24:31.442 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:31.442 00     SPR-I:OPRO         ;  Step 1.2: Creating the WDT and ADT used for testing and upload it
+21-145-17:24:31.442 00     SPR-I:OPRO         ;********************************************************************
+21-145-17:24:31.443 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_wdt1.i
+21-145-17:24:31.448 00     SPR-I:STS          Procedure SCX_CPU1_LC_WDT1 started
+21-145-17:24:31.484 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:31.484 00     SPR-I:OPRO         ;  define local variables 
+21-145-17:24:31.484 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:31.485 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:31.485 00     SPR-I:OPRO         ;  Step 1.0:  Define Watch Point Definition Table 1. 
+21-145-17:24:31.485 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:31.570 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/create_tbl_file_from_cvt.i
+21-145-17:24:31.570 00     SPR-I:STS          Procedure CREATE_TBL_FILE_FROM_CVT started
+21-145-17:24:31.572 00     SPR-I:OPRO         **********  lc_def_wdt1.tbl  **********
+21-145-17:24:31.572 00     SPR-I:OPRO         
+21-145-17:24:31.572 00     SPR-I:OPRO                Content Type: cFE1
+21-145-17:24:31.572 00     SPR-I:OPRO                    Sub Type: 8
+21-145-17:24:31.572 00     SPR-I:OPRO                      Length: 12
+21-145-17:24:31.572 00     SPR-I:OPRO               Spacecraft Id: SCX
+21-145-17:24:31.572 00     SPR-I:OPRO                Processor Id: CPU3
+21-145-17:24:31.572 00     SPR-I:OPRO              Application Id: 4023
+21-145-17:24:31.572 00     SPR-I:OPRO            Create Time Secs: 1621963471
+21-145-17:24:31.572 00     SPR-I:OPRO         Create Time Subsecs: 0
+21-145-17:24:31.572 00     SPR-I:OPRO            File Description: WDTTable1
+21-145-17:24:31.572 00     SPR-I:OPRO         
+21-145-17:24:31.572 00     SPR-I:OPRO         **********  LC.LC_WDT  **********
+21-145-17:24:31.572 00     SPR-I:OPRO         
+21-145-17:24:31.572 00     SPR-I:OPRO              Start Mnemonic: SCX_CPU1_LC_WDT[0]
+21-145-17:24:31.573 00     SPR-I:OPRO                 Byte Offset: 0
+21-145-17:24:31.573 00     SPR-I:OPRO                End Mnemonic: SCX_CPU1_LC_WDT[175]
+21-145-17:24:31.573 00     SPR-I:OPRO             Number of Bytes: 4224
+21-145-17:24:31.573 00     SPR-I:OPRO         
+21-145-17:24:31.578 00     SPR-I:STS          Loading file /s/opr/accounts/global/prc/partial_cvt_to_file_beta.i
+21-145-17:24:31.578 00     SPR-I:STS          Procedure PARTIAL_CVT_TO_FILE_BETA started
+21-145-17:24:31.578 00     SPR-I:OPRO         The unix command is cd /s/opr/accounts/cfs_test/image;cvt2file  -s 116 -e 4339 P0FB7 lc.lc_wdt
+21-145-17:24:31.582 00     SPR-I:STS          Procedure PARTIAL_CVT_TO_FILE_BETA completed
+21-145-17:24:31.582 00     SPR-I:OPRO         cd /s/opr/accounts/cfs_test/image;cat lc_def_wdt1.tbl.tmp lc.lc_wdt > lc_def_wdt1.tbl
+21-145-17:24:31.585 00     SPR-I:OPRO         cd /s/opr/accounts/cfs_test/image;rm lc.lc_wdt lc_def_wdt1.tbl.tmp
+21-145-17:24:31.588 00     SPR-I:STS          Procedure CREATE_TBL_FILE_FROM_CVT completed
+21-145-17:24:31.589 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:31.589 00     SPR-I:OPRO         ;  End procedure SCX_CPU1_lc_wdt1                                     
+21-145-17:24:31.589 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:31.589 00     SPR-I:STS          Procedure SCX_CPU1_LC_WDT1 completed
+21-145-17:24:31.597 00     SPR-I:OPRO         ==> Default LC Watchpoint Table filename = 'lc_def_wdt.tbl'
+21-145-17:24:31.597 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/load_table.i
+21-145-17:24:31.597 00     SPR-I:STS          Procedure LOAD_TABLE started
+21-145-17:24:31.599 00     SPR-I:OPRO         Table Filename: lc_def_wdt1.tbl
+21-145-17:24:31.600 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/table_ftp.pl 192.168.1.8 lc_def_wdt1.tbl RAM:0 3
+21-145-17:24:31.600 00     SPR-I:OPRO         
+21-145-17:24:31.726 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:24:31.726 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:24:36.731 00     SPR-I:OPRO         
+21-145-17:24:36.734 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_LOAD LFILENAME="/ram/lc_def_wdt1.tbl"
+21-145-17:24:36.736 00     CMH-I:CMD             Command SFDU received:<1804C000004102742F72616D2F6C635F6465665F776474312E74626C0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:24:36.751 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:24:37.580 00    TLMH-I:STS          58-012-14:04:04.001 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/lc_def_wdt1.tbl' into 'LC.LC_WDT' working buffer
+21-145-17:24:37.752 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:24:37.754 00     SPR-I:STS          Procedure LOAD_TABLE completed
+21-145-17:24:37.754 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:24:42.760 00     CMH-I:CMD             Command SFDU received:<1804C000002B043A00004C432E4C435F57445400000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:24:42.773 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:24:45.580 00    TLMH-I:STS          58-012-14:04:12.004 INFO CPU=CPU1 APPNAME=LC EVENT ID=56 WDT verify results: good = 30, bad = 0, unused = 146
+21-145-17:24:45.581 00    TLMH-I:STS          58-012-14:04:12.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 LC validation successful for Inactive 'LC.LC_WDT'
+21-145-17:24:47.780 00     CMH-I:CMD             Command SFDU received:<1804C000002905394C432E4C435F57445400000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:24:47.793 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:24:49.583 00    TLMH-I:STS          58-012-14:04:16.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 LC Successfully Updated 'LC.LC_WDT'
+21-145-17:24:52.798 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_adt1b.i
+21-145-17:24:52.806 00     SPR-I:STS          Procedure SCX_CPU1_LC_ADT1B started
+21-145-17:24:52.849 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:52.849 00     SPR-I:OPRO         ;  define local variables 
+21-145-17:24:52.849 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:52.850 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:52.850 00     SPR-I:OPRO         ;  Step 1.0:  Define Action Point Definition Table 1. 
+21-145-17:24:52.850 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:53.346 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/create_tbl_file_from_cvt.i
+21-145-17:24:53.347 00     SPR-I:STS          Procedure CREATE_TBL_FILE_FROM_CVT started
+21-145-17:24:53.348 00     SPR-I:OPRO         **********  lc_def_adt1b.tbl  **********
+21-145-17:24:53.348 00     SPR-I:OPRO         
+21-145-17:24:53.348 00     SPR-I:OPRO                Content Type: cFE1
+21-145-17:24:53.349 00     SPR-I:OPRO                    Sub Type: 8
+21-145-17:24:53.349 00     SPR-I:OPRO                      Length: 12
+21-145-17:24:53.349 00     SPR-I:OPRO               Spacecraft Id: SCX
+21-145-17:24:53.349 00     SPR-I:OPRO                Processor Id: CPU3
+21-145-17:24:53.349 00     SPR-I:OPRO              Application Id: 4022
+21-145-17:24:53.349 00     SPR-I:OPRO            Create Time Secs: 1621963493
+21-145-17:24:53.349 00     SPR-I:OPRO         Create Time Subsecs: 0
+21-145-17:24:53.349 00     SPR-I:OPRO            File Description: ADTTable1b
+21-145-17:24:53.349 00     SPR-I:OPRO         
+21-145-17:24:53.349 00     SPR-I:OPRO         **********  LC.LC_ADT  **********
+21-145-17:24:53.349 00     SPR-I:OPRO         
+21-145-17:24:53.349 00     SPR-I:OPRO              Start Mnemonic: SCX_CPU1_LC_ADT[0]
+21-145-17:24:53.349 00     SPR-I:OPRO                 Byte Offset: 0
+21-145-17:24:53.349 00     SPR-I:OPRO                End Mnemonic: SCX_CPU1_LC_ADT[175]
+21-145-17:24:53.349 00     SPR-I:OPRO             Number of Bytes: 14784
+21-145-17:24:53.349 00     SPR-I:OPRO         
+21-145-17:24:53.353 00     SPR-I:STS          Loading file /s/opr/accounts/global/prc/partial_cvt_to_file_beta.i
+21-145-17:24:53.354 00     SPR-I:STS          Procedure PARTIAL_CVT_TO_FILE_BETA started
+21-145-17:24:53.354 00     SPR-I:OPRO         The unix command is cd /s/opr/accounts/cfs_test/image;cvt2file  -s 116 -e 14899 P0FB6 lc.lc_adt
+21-145-17:24:53.358 00     SPR-I:STS          Procedure PARTIAL_CVT_TO_FILE_BETA completed
+21-145-17:24:53.358 00     SPR-I:OPRO         cd /s/opr/accounts/cfs_test/image;cat lc_def_adt1b.tbl.tmp lc.lc_adt > lc_def_adt1b.tbl
+21-145-17:24:53.361 00     SPR-I:OPRO         cd /s/opr/accounts/cfs_test/image;rm lc.lc_adt lc_def_adt1b.tbl.tmp
+21-145-17:24:53.364 00     SPR-I:STS          Procedure CREATE_TBL_FILE_FROM_CVT completed
+21-145-17:24:53.364 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:53.364 00     SPR-I:OPRO         ;  End procedure SCX_CPU1_lc_adt1                                     
+21-145-17:24:53.364 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:24:53.364 00     SPR-I:STS          Procedure SCX_CPU1_LC_ADT1B completed
+21-145-17:24:53.373 00     SPR-I:OPRO         ==> Default LC Actionpoint Table filename = 'lc_def_adt.tbl'
+21-145-17:24:53.373 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/load_table.i
+21-145-17:24:53.373 00     SPR-I:STS          Procedure LOAD_TABLE started
+21-145-17:24:53.374 00     SPR-I:OPRO         Table Filename: lc_def_adt1b.tbl
+21-145-17:24:53.375 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/table_ftp.pl 192.168.1.8 lc_def_adt1b.tbl RAM:0 3
+21-145-17:24:53.375 00     SPR-I:OPRO         
+21-145-17:24:53.503 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:24:53.504 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:24:58.508 00     SPR-I:OPRO         
+21-145-17:24:58.511 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_LOAD LFILENAME="/ram/lc_def_adt1b.tbl"
+21-145-17:24:58.513 00     CMH-I:CMD             Command SFDU received:<1804C000004102002F72616D2F6C635F6465665F61647431622E74626C00000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:24:58.529 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:24:59.074 00    TLMH-I:STS          58-012-14:04:25.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/lc_def_adt1b.tbl' into 'LC.LC_ADT' working buffer
+21-145-17:25:02.533 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:25:02.534 00     SPR-I:STS          Procedure LOAD_TABLE completed
+21-145-17:25:02.536 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:25:07.542 00     CMH-I:CMD             Command SFDU received:<1804C000002B042C00004C432E4C435F41445400000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:25:07.555 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:25:09.579 00    TLMH-I:STS          58-012-14:04:36.004 INFO CPU=CPU1 APPNAME=LC EVENT ID=66 ADT verify results: good = 12, bad = 0, unused = 164
+21-145-17:25:09.580 00    TLMH-I:STS          58-012-14:04:36.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 LC validation successful for Inactive 'LC.LC_ADT'
+21-145-17:25:12.562 00     CMH-I:CMD             Command SFDU received:<1804C0000029052F4C432E4C435F41445400000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:25:12.575 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:25:13.572 00    TLMH-I:STS          58-012-14:04:40.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 LC Successfully Updated 'LC.LC_ADT'
+21-145-17:25:17.657 00     DPD-I:STS          Page SCX_CPU1_LC_HK added (cid:1).
+21-145-17:25:17.743 00     DPD-I:STS          Page SCX_CPU1_TST_LC_HK added (cid:1).
+21-145-17:25:17.847 00     DPD-I:STS          Page SCX_CPU1_LC_ART added (cid:1).
+21-145-17:25:17.948 00     DPD-I:STS          Page SCX_CPU1_LC_WRT added (cid:1).
+21-145-17:25:17.980 00     SPR-I:OPRO         ; Skipping Steps 1.3 and 1.4 since the apps are contained in the startup script
+21-145-17:25:17.995 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:25:17.995 00     SPR-I:OPRO         ;  Step 1.5: Verify that the LC Housekeeping telemetry items are 
+21-145-17:25:17.995 00     SPR-I:OPRO         ;  initialized to zero (0). 
+21-145-17:25:17.995 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:25:18.003 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:25:26.008 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:25:26.010 00     SPR-I:OPRO         <*> Passed (8000) - Housekeeping packet is being generated.
+21-145-17:25:26.311 00     SPR-I:OPRO         <*> Passed (9000;9005;9006) - Housekeeping telemetry initialized properly.
+21-145-17:25:26.313 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:25:26.314 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:25:26.320 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_WRT" DFILENAME="/ram/cpu1_dumpwrt"
+21-145-17:25:26.320 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F575254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D707772740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:25:26.331 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:25:33.576 00    TLMH-I:STS          58-012-14:05:00.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'LC.LC_WRT' to '/ram/cpu1_dumpwrt'
+21-145-17:25:41.340 00     SPR-I:OPRO         
+21-145-17:25:41.340 00     SPR-I:OPRO            The TBLNAME is: LC.LC_WRT
+21-145-17:25:41.340 00     SPR-I:OPRO               The APID is: P0FB9
+21-145-17:25:41.340 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:25:41.341 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:25:41.341 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpwrt cpu1_dumpwrt binary 192.168.1.8
+21-145-17:25:41.460 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:25:41.460 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:25:56.470 00     SPR-I:OPRO         
+21-145-17:25:56.479 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4025].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpwrt`"
+21-145-17:25:56.479 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:26:01.483 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:26:01.483 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:26:08.398 00     SPR-I:OPRO         <*> Passed (9001) - Watchpoint Results Table initialized properly.
+21-145-17:26:08.399 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:26:08.400 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:26:08.405 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:26:08.405 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:26:08.416 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:26:13.572 00    TLMH-I:STS          58-012-14:05:40.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'LC.LC_ART' to '/ram/cpu1_dumpart'
+21-145-17:26:23.426 00     SPR-I:OPRO         
+21-145-17:26:23.426 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:26:23.426 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:26:23.426 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:26:23.426 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:26:23.427 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:26:23.561 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:26:23.562 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:26:38.569 00     SPR-I:OPRO         
+21-145-17:26:38.581 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:26:38.581 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:26:43.584 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:26:43.584 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:26:50.896 00     SPR-I:OPRO         <*> Passed (9002) - Actionpoint Results Table initialized properly.
+21-145-17:26:50.897 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:26:50.897 00     SPR-I:OPRO         ;  Step 1.6: Setup Data Packet message ids 
+21-145-17:26:51.201 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:26:51.202 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:26:51.202 00     SPR-I:OPRO         ;  Step 1.7: Enable DEBUG Event Messages 
+21-145-17:26:51.202 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:26:51.203 00     CMH-I:CMD             Command SFDU received:<1801C0000017053A4C430000000000000000000000000000000000000100> from gs582cfslab4:SPR
+21-145-17:26:51.216 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:26:54.219 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:26:54.220 00     SPR-I:OPRO         <*> Passed - Enable Debug events command sent properly.
+21-145-17:26:54.220 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:26:54.220 00     SPR-I:OPRO         ;  Step 2.0:  Test LC Passive, All Ap Active, no thresholds are reached
+21-145-17:26:54.220 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:26:54.220 00     SPR-I:OPRO         ;  Step 2.1:  Send a Set LC Application State to Passive Command
+21-145-17:26:54.220 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:26:54.224 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:26:54.224 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 28
+21-145-17:26:54.225 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:26:54.237 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETLCSTATE NewLCState=State
+21-145-17:26:54.238 00     CMH-I:CMD             Command SFDU received:<18A4C0000005028600020000> from gs582cfslab4:SPR
+21-145-17:26:54.254 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:26:54.254 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:26:55.076 00    TLMH-I:STS          58-012-14:06:21.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=28 Set LC state command: new state = 2
+21-145-17:26:58.258 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:26:58.261 00     SPR-I:OPRO         <*> Passed (1003;4001) - Set LC Application State to Passive command properly sent.
+21-145-17:26:58.264 00     SPR-I:OPRO         <*> Passed (1003;4001) - Event message 28 received
+21-145-17:26:58.280 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:27:03.283 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:03.283 00     SPR-I:OPRO         ;  Step 2.2:  Send a Set All APs to Active Command
+21-145-17:27:03.283 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:03.285 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:27:03.285 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 33
+21-145-17:27:03.285 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:27:03.291 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=0xFFFF NewAPState=State
+21-145-17:27:03.292 00     CMH-I:CMD             Command SFDU received:<18A4C00000050384FFFF0001> from gs582cfslab4:SPR
+21-145-17:27:03.296 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:27:03.296 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:27:04.071 00    TLMH-I:STS          58-012-14:06:30.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 65535, New state = 1
+21-145-17:27:06.300 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:27:06.304 00     SPR-I:OPRO         <*> Passed (1003;4004) - Event message 33 received
+21-145-17:27:06.307 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:27:06.308 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:27:06.314 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:27:06.314 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:27:06.325 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:27:13.575 00    TLMH-I:STS          58-012-14:06:40.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:27:21.335 00     SPR-I:OPRO         
+21-145-17:27:21.335 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:27:21.335 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:27:21.336 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:27:21.336 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:27:21.338 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:27:21.467 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:27:21.467 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:27:21.894 00     DPD-I:STS          Deleting page SCX_CPU1_TST_LC_HK
+21-145-17:27:36.477 00     SPR-I:OPRO         
+21-145-17:27:36.486 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:27:36.487 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:27:41.490 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:27:41.491 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:27:47.106 00     SPR-I:OPRO         <*> Passed (1003;4004) - Set All APs to Active command properly sent.
+21-145-17:27:47.108 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:27:52.111 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:52.112 00     SPR-I:OPRO         ;  Step 2.3 Send packets for all WP defined in WDT
+21-145-17:27:52.112 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:52.112 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_sendmonpackets.i
+21-145-17:27:52.117 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS started
+21-145-17:27:52.321 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:52.321 00     SPR-I:OPRO         ;  Step 2.3.1: Setting up Message IDs to use 
+21-145-17:27:52.321 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:52.323 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:52.323 00     SPR-I:OPRO         ;  Step 2.3.2: Sending Packets 
+21-145-17:27:52.323 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:27:52.337 00     CMH-I:CMD             Command SFDU received:<192FC000002905A4000009870004000021FF24F100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:27:52.348 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:27:53.075 00    TLMH-I:STS          58-012-14:07:19.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:27:54.360 00     CMH-I:CMD             Command SFDU received:<192FC0000029054500000988000800000543FF50FFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:27:54.371 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:27:55.078 00    TLMH-I:STS          58-012-14:07:21.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:27:56.376 00     CMH-I:CMD             Command SFDU received:<192FC000002905E80000098900100000FFFFFFFFFFFFFF1345FFF4FFFFFFFFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:27:56.387 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:27:57.073 00    TLMH-I:STS          58-012-14:07:23.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:27:58.393 00     CMH-I:CMD             Command SFDU received:<192FC0000029053D0000098A00040000FF25450000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:27:58.404 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:27:59.077 00    TLMH-I:STS          58-012-14:07:25.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:00.410 00     CMH-I:CMD             Command SFDU received:<192FC000002905510000098B00080000FFFFFFFFFF54AAFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:00.421 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:01.075 00    TLMH-I:STS          58-012-14:07:27.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:02.426 00     CMH-I:CMD             Command SFDU received:<192FC000002905BB0000098C00100000FFFFFFFFFFC5FFFFFFFFFFFFFFFF300100000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:02.436 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:03.076 00    TLMH-I:STS          58-012-14:07:29.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:04.440 00     CMH-I:CMD             Command SFDU received:<192FC0000029054A0000098D002000000012546FFFFFFFFFFFFFFFC123FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:28:04.451 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:05.073 00    TLMH-I:STS          58-012-14:07:31.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:06.458 00     CMH-I:CMD             Command SFDU received:<192FC000002905620000098E00100000FFFFFFFFFFFFFF00134523FFFFFFAC0900000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:06.459 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:07.075 00    TLMH-I:STS          58-012-14:07:33.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:08.465 00     CMH-I:CMD             Command SFDU received:<192FC000002905DE0000098F0008000000000546FACCFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:08.475 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:09.077 00    TLMH-I:STS          58-012-14:07:35.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:10.484 00     CMH-I:CMD             Command SFDU received:<192FC000002905C80000099000080000FF7706FF4315ABF0000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:10.495 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:11.079 00    TLMH-I:STS          58-012-14:07:37.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:12.502 00     CMH-I:CMD             Command SFDU received:<192FC0000029050100000991000400003F9DDCC600000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:12.513 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:13.074 00    TLMH-I:STS          58-012-14:07:39.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:14.520 00     CMH-I:CMD             Command SFDU received:<192FC000002905550000099200080000FFFFFFFF9999A043000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:14.531 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:15.079 00    TLMH-I:STS          58-012-14:07:41.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:16.537 00     CMH-I:CMD             Command SFDU received:<192FC0000029053A0000099300100000FFFFFFFFFFFFFFFFFFFFADF98342FFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:16.548 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:17.073 00    TLMH-I:STS          58-012-14:07:43.500 ERROR CPU=CPU1 APPNAME=LC EVENT ID=67 Unexpected LC_CustomFunction call: WP = 12
+21-145-17:28:17.074 00    TLMH-I:STS          58-012-14:07:43.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:18.551 00     CMH-I:CMD             Command SFDU received:<192FC000002905E20000099400200000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4062F1A9FFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:28:18.562 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:19.077 00    TLMH-I:STS          58-012-14:07:45.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:20.569 00     CMH-I:CMD             Command SFDU received:<192FC0000029058A00000995000400002611111100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:20.580 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:21.077 00    TLMH-I:STS          58-012-14:07:47.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:22.587 00     CMH-I:CMD             Command SFDU received:<192FC0000029057D0000099600080000FFFFFFFF12AABBCC000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:22.597 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:23.072 00    TLMH-I:STS          58-012-14:07:49.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:24.605 00     CMH-I:CMD             Command SFDU received:<192FC00000290535000009970004000075FFFFFF00000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:24.616 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:25.078 00    TLMH-I:STS          58-012-14:07:51.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:26.623 00     CMH-I:CMD             Command SFDU received:<192FC000002905020000099800080000ABCD12CAFFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:26.625 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:27.574 00    TLMH-I:STS          58-012-14:07:54.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:28.631 00     CMH-I:CMD             Command SFDU received:<192FC000002905AD0000099900080000FFFFFFFFFFFF1000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:28.642 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:29.577 00    TLMH-I:STS          58-012-14:07:56.004 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:30.650 00     CMH-I:CMD             Command SFDU received:<192FC000002905F10000099A00040000FFFF135000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:30.661 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:28:31.572 00    TLMH-I:STS          58-012-14:07:58.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:28:32.663 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS completed
+21-145-17:28:32.664 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:28:32.664 00     SPR-I:OPRO         ;  Step 2.4 Send Sample Request for all 12 APs.  Nothing should
+21-145-17:28:32.664 00     SPR-I:OPRO         ;  happen since LC is passive (and all WP evaluate to False anyway)
+21-145-17:28:32.664 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:28:32.665 00     CMH-I:CMD             Command SFDU received:<192FC0000009060D0000000B00000000> from gs582cfslab4:SPR
+21-145-17:28:32.679 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:28:32.679 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:28:33.569 00    TLMH-I:STS          58-012-14:08:00.004 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=8 Sent Sample Command to LC
+21-145-17:28:34.681 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:28:34.682 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-145-17:28:44.688 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:28:44.688 00     SPR-I:OPRO         ;  Step 2.5 Check housekeeping counters
+21-145-17:28:44.688 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:28:45.686 00     SPR-I:OPRO         <*> Passed (8000) - Housekeeping telemetry updated properly.
+21-145-17:28:45.687 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:28:45.687 00     SPR-I:OPRO         ;  Step 2.6 Dump WRT and check counters
+21-145-17:28:45.688 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:28:45.688 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:28:45.689 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:28:45.694 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_WRT" DFILENAME="/ram/cpu1_dumpwrt"
+21-145-17:28:45.694 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F575254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D707772740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:28:45.696 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:28:53.569 00    TLMH-I:STS          58-012-14:08:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpwrt' with Table 'LC.LC_WRT'
+21-145-17:29:00.706 00     SPR-I:OPRO         
+21-145-17:29:00.706 00     SPR-I:OPRO            The TBLNAME is: LC.LC_WRT
+21-145-17:29:00.706 00     SPR-I:OPRO               The APID is: P0FB9
+21-145-17:29:00.706 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:29:00.706 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:29:00.706 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpwrt cpu1_dumpwrt binary 192.168.1.8
+21-145-17:29:00.841 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:29:00.841 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:29:15.852 00     SPR-I:OPRO         
+21-145-17:29:15.890 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4025].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpwrt`"
+21-145-17:29:15.891 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:29:20.895 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:29:20.896 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:29:25.901 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.901 00     SPR-I:OPRO          TtoF Type = Byte
+21-145-17:29:25.904 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.904 00     SPR-I:OPRO          TtoF Type = UBYTE
+21-145-17:29:25.908 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.908 00     SPR-I:OPRO          TtoF Type = WORD_BE
+21-145-17:29:25.913 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.913 00     SPR-I:OPRO          TtoF Type = WORD_LE
+21-145-17:29:25.918 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.919 00     SPR-I:OPRO          TtoF Type = UWORD_BE
+21-145-17:29:25.925 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.926 00     SPR-I:OPRO          TtoF Type = UWORD_LE
+21-145-17:29:25.930 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.931 00     SPR-I:OPRO          TtoF Type = DWORD_BE
+21-145-17:29:25.936 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.936 00     SPR-I:OPRO          TtoF Type = DWORD_LE
+21-145-17:29:25.939 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.939 00     SPR-I:OPRO          TtoF Type = UDWORD_BE
+21-145-17:29:25.941 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.941 00     SPR-I:OPRO          TtoF Type = UDWORD_LE
+21-145-17:29:25.943 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.943 00     SPR-I:OPRO          TtoF Type = FLOAT_BE
+21-145-17:29:25.945 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.945 00     SPR-I:OPRO          TtoF Type = FLOAT_LE
+21-145-17:29:25.947 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.947 00     SPR-I:OPRO          TtoF Type = FLOAT_LE
+21-145-17:29:25.948 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.949 00     SPR-I:OPRO          TtoF Type = FLOAT_BE
+21-145-17:29:25.950 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.950 00     SPR-I:OPRO          TtoF Type = UDWORD_LE
+21-145-17:29:25.952 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.954 00     SPR-I:OPRO          TtoF Type = UDWORD_BE
+21-145-17:29:25.955 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.956 00     SPR-I:OPRO          TtoF Type = DWORD_LE
+21-145-17:29:25.957 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.957 00     SPR-I:OPRO          TtoF Type = DWORD_BE
+21-145-17:29:25.958 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.958 00     SPR-I:OPRO          TtoF Type = UWORD_LE
+21-145-17:29:25.959 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.959 00     SPR-I:OPRO          TtoF Type = UWORD_BE
+21-145-17:29:25.960 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.960 00     SPR-I:OPRO          TtoF Type = WORD_LE
+21-145-17:29:25.961 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.961 00     SPR-I:OPRO          TtoF Type = WORD_BE
+21-145-17:29:25.962 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.963 00     SPR-I:OPRO          TtoF Type = UBYTE
+21-145-17:29:25.963 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:25.963 00     SPR-I:OPRO          TtoF Type = Byte
+21-145-17:29:26.317 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:26.317 00     SPR-I:OPRO          TtoF Type = Byte
+21-145-17:29:26.318 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:26.318 00     SPR-I:OPRO          TtoF Type = UBYTE
+21-145-17:29:26.319 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:26.320 00     SPR-I:OPRO          TtoF Type = WORD_BE
+21-145-17:29:26.321 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:26.321 00     SPR-I:OPRO          TtoF Type = WORD_LE
+21-145-17:29:26.323 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:26.324 00     SPR-I:OPRO          TtoF Type = UWORD_BE
+21-145-17:29:26.324 00     SPR-I:OPRO          FtoT Type = Byte
+21-145-17:29:26.325 00     SPR-I:OPRO          TtoF Type = UWORD_LE
+21-145-17:29:29.689 00     SPR-I:OPRO         <*> Passed (2003;2003.1;2003.2;2004;3001;3001.1;3004;3006) -  WRT shows WPs evaluated properly.
+21-145-17:29:29.692 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:29:29.692 00     SPR-I:OPRO         ;  Step 2.7 Dump ART and check counters
+21-145-17:29:29.692 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:29:29.692 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:29:29.693 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:29:29.721 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:29:29.722 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:29:29.733 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:29:37.571 00    TLMH-I:STS          58-012-14:09:04.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:29:44.742 00     SPR-I:OPRO         
+21-145-17:29:44.742 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:29:44.742 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:29:44.742 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:29:44.742 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:29:44.743 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:29:44.887 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:29:44.887 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:29:59.898 00     SPR-I:OPRO         
+21-145-17:29:59.938 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:29:59.938 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:30:04.943 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:30:04.945 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:30:13.350 00     SPR-I:OPRO         <*> Passed (3001;3001.1;3003;3004;3006) -  ART shows APs evaluated properly.
+21-145-17:30:13.355 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:30:13.355 00     SPR-I:OPRO         ;  Step 3.0:  Test LC Disabled, All Ap Active, no thresholds are reached
+21-145-17:30:13.355 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:30:13.355 00     SPR-I:OPRO         ;  Step 3.1:  Send a Set LC Application State to Disabled Command
+21-145-17:30:13.387 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:30:13.389 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:30:13.389 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 28
+21-145-17:30:13.389 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:30:13.395 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETLCSTATE NewLCState=State
+21-145-17:30:13.826 00     CMH-I:CMD             Command SFDU received:<18A4C0000005028700030000> from gs582cfslab4:SPR
+21-145-17:30:13.832 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:30:13.832 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:30:14.567 00    TLMH-I:STS          58-012-14:09:41.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=28 Set LC state command: new state = 3
+21-145-17:30:17.836 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:30:17.840 00     SPR-I:OPRO         <*> Passed (1003;4002) - Set LC Application State to Disabled command properly sent.
+21-145-17:30:17.848 00     SPR-I:OPRO         <*> Passed (1003;4002) - Event message 28 received
+21-145-17:30:17.890 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:30:22.894 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:30:22.894 00     SPR-I:OPRO         ;  Step 3.2:  Send a Set All APs to Active Command
+21-145-17:30:22.894 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:30:22.901 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:30:22.901 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 33
+21-145-17:30:22.902 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:30:22.909 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=0xFFFF NewAPState=State
+21-145-17:30:22.910 00     CMH-I:CMD             Command SFDU received:<18A4C00000050384FFFF0001> from gs582cfslab4:SPR
+21-145-17:30:22.914 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:30:22.914 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:30:23.567 00    TLMH-I:STS          58-012-14:09:50.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 65535, New state = 1
+21-145-17:30:25.917 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:30:25.922 00     SPR-I:OPRO         <*> Passed (1003;4004) - Event message 33 received
+21-145-17:30:25.924 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:30:25.925 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:30:25.930 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:30:25.931 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:30:25.942 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:30:33.574 00    TLMH-I:STS          58-012-14:10:00.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:30:40.954 00     SPR-I:OPRO         
+21-145-17:30:40.954 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:30:40.954 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:30:40.954 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:30:40.954 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:30:40.957 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:30:41.125 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:30:41.126 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:30:56.136 00     SPR-I:OPRO         
+21-145-17:30:56.180 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:30:56.181 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:31:01.185 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:31:01.186 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:31:06.967 00     SPR-I:OPRO         <*> Passed (1003;4004) - Set All APs to Active command properly sent.
+21-145-17:31:06.969 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:31:11.972 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:11.973 00     SPR-I:OPRO         ;  Step 3.3 Send packets for all WP defined in WDT
+21-145-17:31:11.973 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:11.973 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_sendmonpackets.i
+21-145-17:31:11.979 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS started
+21-145-17:31:12.241 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:12.241 00     SPR-I:OPRO         ;  Step 3.3.1: Setting up Message IDs to use 
+21-145-17:31:12.241 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:12.243 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:12.243 00     SPR-I:OPRO         ;  Step 3.3.2: Sending Packets 
+21-145-17:31:12.243 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:12.249 00     CMH-I:CMD             Command SFDU received:<192FC000002905A4000009870004000021FF24F100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:12.260 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:13.070 00    TLMH-I:STS          58-012-14:10:39.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:14.273 00     CMH-I:CMD             Command SFDU received:<192FC0000029054500000988000800000543FF50FFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:14.284 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:15.075 00    TLMH-I:STS          58-012-14:10:41.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:16.294 00     CMH-I:CMD             Command SFDU received:<192FC000002905E80000098900100000FFFFFFFFFFFFFF1345FFF4FFFFFFFFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:16.305 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:17.069 00    TLMH-I:STS          58-012-14:10:43.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:18.311 00     CMH-I:CMD             Command SFDU received:<192FC0000029053D0000098A00040000FF25450000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:18.312 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:19.071 00    TLMH-I:STS          58-012-14:10:45.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:20.335 00     CMH-I:CMD             Command SFDU received:<192FC000002905510000098B00080000FFFFFFFFFF54AAFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:20.348 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:21.075 00    TLMH-I:STS          58-012-14:10:47.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:22.360 00     CMH-I:CMD             Command SFDU received:<192FC000002905BB0000098C00100000FFFFFFFFFFC5FFFFFFFFFFFFFFFF300100000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:22.371 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:23.074 00    TLMH-I:STS          58-012-14:10:49.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:24.378 00     CMH-I:CMD             Command SFDU received:<192FC0000029054A0000098D002000000012546FFFFFFFFFFFFFFFC123FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:31:24.389 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:25.069 00    TLMH-I:STS          58-012-14:10:51.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:26.409 00     CMH-I:CMD             Command SFDU received:<192FC000002905620000098E00100000FFFFFFFFFFFFFF00134523FFFFFFAC0900000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:26.422 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:27.072 00    TLMH-I:STS          58-012-14:10:53.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:28.434 00     CMH-I:CMD             Command SFDU received:<192FC000002905DE0000098F0008000000000546FACCFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:28.445 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:29.069 00    TLMH-I:STS          58-012-14:10:55.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:30.457 00     CMH-I:CMD             Command SFDU received:<192FC000002905C80000099000080000FF7706FF4315ABF0000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:30.468 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:31.071 00    TLMH-I:STS          58-012-14:10:57.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:32.481 00     CMH-I:CMD             Command SFDU received:<192FC0000029050100000991000400003F9DDCC600000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:32.483 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:33.078 00    TLMH-I:STS          58-012-14:10:59.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:34.495 00     CMH-I:CMD             Command SFDU received:<192FC000002905550000099200080000FFFFFFFF9999A043000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:34.506 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:35.069 00    TLMH-I:STS          58-012-14:11:01.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:36.513 00     CMH-I:CMD             Command SFDU received:<192FC0000029053A0000099300100000FFFFFFFFFFFFFFFFFFFFADF98342FFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:36.524 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:37.073 00    TLMH-I:STS          58-012-14:11:03.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:38.527 00     CMH-I:CMD             Command SFDU received:<192FC000002905E20000099400200000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4062F1A9FFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:31:38.539 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:39.067 00    TLMH-I:STS          58-012-14:11:05.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:40.549 00     CMH-I:CMD             Command SFDU received:<192FC0000029058A00000995000400002611111100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:40.560 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:41.073 00    TLMH-I:STS          58-012-14:11:07.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:42.567 00     CMH-I:CMD             Command SFDU received:<192FC0000029057D0000099600080000FFFFFFFF12AABBCC000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:42.578 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:43.072 00    TLMH-I:STS          58-012-14:11:09.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:44.585 00     CMH-I:CMD             Command SFDU received:<192FC00000290535000009970004000075FFFFFF00000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:44.596 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:45.070 00    TLMH-I:STS          58-012-14:11:11.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:46.605 00     CMH-I:CMD             Command SFDU received:<192FC000002905020000099800080000ABCD12CAFFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:46.616 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:47.074 00    TLMH-I:STS          58-012-14:11:13.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:48.622 00     CMH-I:CMD             Command SFDU received:<192FC000002905AD0000099900080000FFFFFFFFFFFF1000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:48.623 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:49.069 00    TLMH-I:STS          58-012-14:11:15.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:50.647 00     CMH-I:CMD             Command SFDU received:<192FC000002905F10000099A00040000FFFF135000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:50.661 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:31:51.573 00    TLMH-I:STS          58-012-14:11:18.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:31:52.663 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS completed
+21-145-17:31:52.664 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:52.664 00     SPR-I:OPRO         ;  Step 3.4 Send Sample Request for all 12 APs.  Nothing should
+21-145-17:31:52.664 00     SPR-I:OPRO         ;  happen since LC is Disabled (and all WP evaluate to False anyway)
+21-145-17:31:52.664 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:52.664 00     CMH-I:CMD             Command SFDU received:<192FC0000009060D0000000B00000000> from gs582cfslab4:SPR
+21-145-17:31:52.678 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:31:52.678 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:31:53.568 00    TLMH-I:STS          58-012-14:11:20.004 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=8 Sent Sample Command to LC
+21-145-17:31:54.680 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:31:54.680 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:54.680 00     SPR-I:OPRO         ;  Step 3.5 Check housekeeping counters
+21-145-17:31:54.680 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:55.981 00     SPR-I:OPRO         <*> Passed (8000) - Housekeeping telemetry updated properly.
+21-145-17:31:55.982 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:55.982 00     SPR-I:OPRO         ;  Step 3.6 Dump WRT and check counters, nothing should change
+21-145-17:31:55.982 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:31:55.983 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:31:55.984 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:31:55.990 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_WRT" DFILENAME="/ram/cpu1_dumpwrt"
+21-145-17:31:55.991 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F575254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D707772740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:31:56.002 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:32:01.574 00    TLMH-I:STS          58-012-14:11:28.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpwrt' with Table 'LC.LC_WRT'
+21-145-17:32:11.012 00     SPR-I:OPRO         
+21-145-17:32:11.013 00     SPR-I:OPRO            The TBLNAME is: LC.LC_WRT
+21-145-17:32:11.013 00     SPR-I:OPRO               The APID is: P0FB9
+21-145-17:32:11.013 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:32:11.013 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:32:11.017 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpwrt cpu1_dumpwrt binary 192.168.1.8
+21-145-17:32:11.157 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:32:11.157 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:32:26.168 00     SPR-I:OPRO         
+21-145-17:32:26.206 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4025].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpwrt`"
+21-145-17:32:26.207 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:32:31.211 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:32:31.213 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:32:39.708 00     SPR-I:OPRO         <*> Passed (2003;2003.1;2003.2;2004;3001;3001.1;3004;3006) -  WRT shows WPs evaluated properly.
+21-145-17:32:39.711 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:32:39.711 00     SPR-I:OPRO         ;  Step 3.7 Dump ART and check counters, nothing should change
+21-145-17:32:39.711 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:32:39.711 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:32:39.713 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:32:39.744 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:32:39.744 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:32:39.755 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:32:45.576 00    TLMH-I:STS          58-012-14:12:12.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:32:54.765 00     SPR-I:OPRO         
+21-145-17:32:54.765 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:32:54.765 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:32:54.765 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:32:54.765 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:32:54.766 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:32:54.899 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:32:54.899 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:33:09.908 00     SPR-I:OPRO         
+21-145-17:33:09.940 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:33:09.940 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:33:14.944 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:33:14.945 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:33:23.244 00     SPR-I:OPRO         <*> Passed (3001;3001.1;3002;3004;3006) -  ART shows APs evaluated properly.
+21-145-17:33:23.691 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:33:23.691 00     SPR-I:OPRO         ;  Step 4.0:  Test LC Active, All AP Disabled, no thresholds are reached
+21-145-17:33:23.691 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:33:23.691 00     SPR-I:OPRO         ;  Step 4.1:  Send a Set LC Application State to Active Command
+21-145-17:33:23.725 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:33:23.726 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:33:23.727 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 28
+21-145-17:33:23.727 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:33:23.732 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETLCSTATE NewLCState=State
+21-145-17:33:23.732 00     CMH-I:CMD             Command SFDU received:<18A4C0000005028500010000> from gs582cfslab4:SPR
+21-145-17:33:23.736 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:33:23.737 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:33:24.569 00    TLMH-I:STS          58-012-14:12:51.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=28 Set LC state command: new state = 1
+21-145-17:33:25.738 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:33:25.739 00     SPR-I:OPRO         <*> Passed (1003;4000) - Set LC Application State to Active command properly sent.
+21-145-17:33:25.741 00     SPR-I:OPRO         <*> Passed (1003;4000) - Event message 28 received
+21-145-17:33:25.758 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:33:30.761 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:33:30.761 00     SPR-I:OPRO         ;  Step 4.2:  Send a Set All APs to Disabled Command
+21-145-17:33:30.762 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:33:30.763 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:33:30.763 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 33
+21-145-17:33:30.763 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:33:30.767 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=0xFFFF NewAPState=State
+21-145-17:33:30.767 00     CMH-I:CMD             Command SFDU received:<18A4C00000050386FFFF0003> from gs582cfslab4:SPR
+21-145-17:33:30.782 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:33:30.782 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:33:31.574 00    TLMH-I:STS          58-012-14:12:58.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 65535, New state = 3
+21-145-17:33:33.784 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:33:33.785 00     SPR-I:OPRO         <*> Passed (1003;4008) - Event message 33 received
+21-145-17:33:33.787 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:33:33.787 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:33:33.792 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:33:33.793 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:33:33.804 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:33:41.573 00    TLMH-I:STS          58-012-14:13:08.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:33:48.814 00     SPR-I:OPRO         
+21-145-17:33:48.814 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:33:48.814 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:33:48.814 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:33:48.814 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:33:48.815 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:33:48.941 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:33:48.941 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:34:03.951 00     SPR-I:OPRO         
+21-145-17:34:03.962 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:34:03.962 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:34:08.966 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:34:08.968 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:34:14.585 00     SPR-I:OPRO         <*> Passed (1003;4008) - Set All APs to Disabled command properly sent.
+21-145-17:34:14.587 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:34:19.591 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:34:19.591 00     SPR-I:OPRO         ;  Step 4.3 Send packets for all WP defined in WDT
+21-145-17:34:19.591 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:34:19.592 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_sendmonpackets.i
+21-145-17:34:19.596 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS started
+21-145-17:34:19.836 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:34:19.836 00     SPR-I:OPRO         ;  Step 4.3.1: Setting up Message IDs to use 
+21-145-17:34:19.836 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:34:19.837 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:34:19.837 00     SPR-I:OPRO         ;  Step 4.3.2: Sending Packets 
+21-145-17:34:19.837 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:34:19.843 00     CMH-I:CMD             Command SFDU received:<192FC000002905A4000009870004000021FF24F100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:19.854 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:20.573 00    TLMH-I:STS          58-012-14:13:47.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:21.860 00     CMH-I:CMD             Command SFDU received:<192FC0000029054500000988000800000543FF50FFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:21.871 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:22.571 00    TLMH-I:STS          58-012-14:13:49.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:23.876 00     CMH-I:CMD             Command SFDU received:<192FC000002905E80000098900100000FFFFFFFFFFFFFF1345FFF4FFFFFFFFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:23.887 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:24.573 00    TLMH-I:STS          58-012-14:13:51.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:25.893 00     CMH-I:CMD             Command SFDU received:<192FC0000029053D0000098A00040000FF25450000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:25.904 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:26.569 00    TLMH-I:STS          58-012-14:13:53.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:27.911 00     CMH-I:CMD             Command SFDU received:<192FC000002905510000098B00080000FFFFFFFFFF54AAFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:27.923 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:28.573 00    TLMH-I:STS          58-012-14:13:55.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:29.928 00     CMH-I:CMD             Command SFDU received:<192FC000002905BB0000098C00100000FFFFFFFFFFC5FFFFFFFFFFFFFFFF300100000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:29.939 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:30.567 00    TLMH-I:STS          58-012-14:13:57.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:31.943 00     CMH-I:CMD             Command SFDU received:<192FC0000029054A0000098D002000000012546FFFFFFFFFFFFFFFC123FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:34:31.954 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:32.572 00    TLMH-I:STS          58-012-14:13:59.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:33.962 00     CMH-I:CMD             Command SFDU received:<192FC000002905620000098E00100000FFFFFFFFFFFFFF00134523FFFFFFAC0900000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:33.973 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:34.566 00    TLMH-I:STS          58-012-14:14:01.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:35.993 00     CMH-I:CMD             Command SFDU received:<192FC000002905DE0000098F0008000000000546FACCFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:36.007 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:36.568 00    TLMH-I:STS          58-012-14:14:03.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:38.017 00     CMH-I:CMD             Command SFDU received:<192FC000002905C80000099000080000FF7706FF4315ABF0000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:38.028 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:38.572 00    TLMH-I:STS          58-012-14:14:05.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:40.039 00     CMH-I:CMD             Command SFDU received:<192FC0000029050100000991000400003F9DDCC600000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:40.050 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:40.566 00    TLMH-I:STS          58-012-14:14:07.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:42.075 00     CMH-I:CMD             Command SFDU received:<192FC000002905550000099200080000FFFFFFFF9999A043000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:42.088 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:42.570 00    TLMH-I:STS          58-012-14:14:09.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:44.111 00     CMH-I:CMD             Command SFDU received:<192FC0000029053A0000099300100000FFFFFFFFFFFFFFFFFFFFADF98342FFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:44.116 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:44.573 00    TLMH-I:STS          58-012-14:14:11.001 ERROR CPU=CPU1 APPNAME=LC EVENT ID=67 Unexpected LC_CustomFunction call: WP = 12
+21-145-17:34:44.574 00    TLMH-I:STS          58-012-14:14:11.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:46.126 00     CMH-I:CMD             Command SFDU received:<192FC000002905E20000099400200000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4062F1A9FFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:34:46.139 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:46.572 00    TLMH-I:STS          58-012-14:14:13.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:48.146 00     CMH-I:CMD             Command SFDU received:<192FC0000029058A00000995000400002611111100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:48.157 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:49.069 00    TLMH-I:STS          58-012-14:14:15.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:50.185 00     CMH-I:CMD             Command SFDU received:<192FC0000029057D0000099600080000FFFFFFFF12AABBCC000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:50.198 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:51.072 00    TLMH-I:STS          58-012-14:14:17.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:52.224 00     CMH-I:CMD             Command SFDU received:<192FC00000290535000009970004000075FFFFFF00000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:52.227 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:53.067 00    TLMH-I:STS          58-012-14:14:19.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:54.238 00     CMH-I:CMD             Command SFDU received:<192FC000002905020000099800080000ABCD12CAFFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:54.249 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:55.068 00    TLMH-I:STS          58-012-14:14:21.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:56.274 00     CMH-I:CMD             Command SFDU received:<192FC000002905AD0000099900080000FFFFFFFFFFFF1000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:56.287 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:57.068 00    TLMH-I:STS          58-012-14:14:23.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:34:58.318 00     CMH-I:CMD             Command SFDU received:<192FC000002905F10000099A00040000FFFF135000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:34:58.321 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:34:59.071 00    TLMH-I:STS          58-012-14:14:25.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:35:00.323 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS completed
+21-145-17:35:00.324 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:00.324 00     SPR-I:OPRO         ;  Step 4.4 Send Sample Request for all 12 APs.  Nothing should
+21-145-17:35:00.325 00     SPR-I:OPRO         ;  happen since LC is passive (and all WP evaluate to False anyway)
+21-145-17:35:00.325 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:00.327 00     CMH-I:CMD             Command SFDU received:<192FC0000009060D0000000B00000000> from gs582cfslab4:SPR
+21-145-17:35:00.351 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:35:00.352 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:35:01.065 00    TLMH-I:STS          58-012-14:14:27.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=8 Sent Sample Command to LC
+21-145-17:35:03.355 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:35:03.357 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:03.357 00     SPR-I:OPRO         ;  Step 4.5 Check housekeeping counters
+21-145-17:35:03.357 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:04.635 00     SPR-I:OPRO         <*> Passed (8000) - Housekeeping telemetry updated properly.
+21-145-17:35:04.636 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:04.636 00     SPR-I:OPRO         ;  Step 4.6 Dump WRT and check counters, message monitored should be 2
+21-145-17:35:04.636 00     SPR-I:OPRO         ;  for each entry. 
+21-145-17:35:04.636 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:04.636 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:35:04.637 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:35:04.642 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_WRT" DFILENAME="/ram/cpu1_dumpwrt"
+21-145-17:35:04.643 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F575254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D707772740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:35:04.645 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:35:09.568 00    TLMH-I:STS          58-012-14:14:36.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpwrt' with Table 'LC.LC_WRT'
+21-145-17:35:19.654 00     SPR-I:OPRO         
+21-145-17:35:19.655 00     SPR-I:OPRO            The TBLNAME is: LC.LC_WRT
+21-145-17:35:19.655 00     SPR-I:OPRO               The APID is: P0FB9
+21-145-17:35:19.655 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:35:19.655 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:35:19.658 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpwrt cpu1_dumpwrt binary 192.168.1.8
+21-145-17:35:19.785 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:35:19.785 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:35:34.795 00     SPR-I:OPRO         
+21-145-17:35:34.805 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4025].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpwrt`"
+21-145-17:35:34.805 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:35:39.809 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:35:39.810 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:35:48.248 00     SPR-I:OPRO         <*> Passed (2003;2003.1;2003.2;2004;3001;3001.1;3004;3006) -  WRT shows WPs evaluated properly.
+21-145-17:35:48.251 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:48.251 00     SPR-I:OPRO         ;  Step 4.7 Dump ART and check counters, state should be disabled
+21-145-17:35:48.251 00     SPR-I:OPRO         ;   other counters should remain the same as before 
+21-145-17:35:48.251 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:35:48.252 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:35:48.281 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:35:48.666 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:35:48.667 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:35:48.678 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:35:53.573 00    TLMH-I:STS          58-012-14:15:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:36:03.686 00     SPR-I:OPRO         
+21-145-17:36:03.686 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:36:03.687 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:36:03.687 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:36:03.687 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:36:03.687 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:36:03.814 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:36:03.814 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:36:18.824 00     SPR-I:OPRO         
+21-145-17:36:18.834 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:36:18.835 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:36:23.838 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:36:23.839 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:36:32.352 00     SPR-I:OPRO         <*> Passed (3001;3001.1;3002;3003;3004;3006) -  ART shows APs evaluated properly.
+21-145-17:36:32.358 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:36:32.358 00     SPR-I:OPRO         ;  Step 5.0:  Test LC Active, All AP Active, no thresholds are reached
+21-145-17:36:32.394 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:36:32.394 00     SPR-I:OPRO         ;  Step 5.1:  Send a Set All APs to Active Command
+21-145-17:36:32.394 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:36:32.396 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:36:32.397 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 33
+21-145-17:36:32.397 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:36:32.402 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=0xFFFF NewAPState=State
+21-145-17:36:32.403 00     CMH-I:CMD             Command SFDU received:<18A4C00000050384FFFF0001> from gs582cfslab4:SPR
+21-145-17:36:32.805 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:36:32.805 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:36:33.073 00    TLMH-I:STS          58-012-14:15:59.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 65535, New state = 1
+21-145-17:36:33.806 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:36:33.809 00     SPR-I:OPRO         <*> Passed (1003;4004) - Event message 33 received
+21-145-17:36:33.812 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:36:33.813 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:36:33.818 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:36:33.818 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:36:33.819 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:36:41.574 00    TLMH-I:STS          58-012-14:16:08.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:36:48.830 00     SPR-I:OPRO         
+21-145-17:36:48.830 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:36:48.830 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:36:48.831 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:36:48.831 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:36:48.834 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:36:48.977 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:36:48.977 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:37:03.986 00     SPR-I:OPRO         
+21-145-17:37:03.997 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:37:03.997 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:37:09.001 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:37:09.001 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:37:14.700 00     SPR-I:OPRO         <*> Passed (1003;4004) - Set All APs to Active command properly sent.
+21-145-17:37:14.702 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:37:19.705 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:37:19.706 00     SPR-I:OPRO         ;  Step 5.3 Send packets for all WP defined in WDT
+21-145-17:37:19.706 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:37:19.706 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_sendmonpackets.i
+21-145-17:37:19.710 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS started
+21-145-17:37:19.951 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:37:19.952 00     SPR-I:OPRO         ;  Step 5.3.1: Setting up Message IDs to use 
+21-145-17:37:19.952 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:37:19.952 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:37:19.953 00     SPR-I:OPRO         ;  Step 5.3.2: Sending Packets 
+21-145-17:37:19.953 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:37:19.958 00     CMH-I:CMD             Command SFDU received:<192FC000002905A4000009870004000021FF24F100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:19.970 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:20.569 00    TLMH-I:STS          58-012-14:16:47.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:21.976 00     CMH-I:CMD             Command SFDU received:<192FC0000029054500000988000800000543FF50FFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:21.977 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:22.565 00    TLMH-I:STS          58-012-14:16:49.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:23.983 00     CMH-I:CMD             Command SFDU received:<192FC000002905E80000098900100000FFFFFFFFFFFFFF1345FFF4FFFFFFFFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:23.994 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:24.569 00    TLMH-I:STS          58-012-14:16:51.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:26.000 00     CMH-I:CMD             Command SFDU received:<192FC0000029053D0000098A00040000FF25450000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:26.011 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:26.568 00    TLMH-I:STS          58-012-14:16:53.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:28.018 00     CMH-I:CMD             Command SFDU received:<192FC000002905510000098B00080000FFFFFFFFFF54AAFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:28.029 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:28.573 00    TLMH-I:STS          58-012-14:16:55.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:30.034 00     CMH-I:CMD             Command SFDU received:<192FC000002905BB0000098C00100000FFFFFFFFFFC5FFFFFFFFFFFFFFFF300100000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:30.045 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:30.568 00    TLMH-I:STS          58-012-14:16:57.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:32.048 00     CMH-I:CMD             Command SFDU received:<192FC0000029054A0000098D002000000012546FFFFFFFFFFFFFFFC123FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:37:32.059 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:32.572 00    TLMH-I:STS          58-012-14:16:59.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:34.066 00     CMH-I:CMD             Command SFDU received:<192FC000002905620000098E00100000FFFFFFFFFFFFFF00134523FFFFFFAC0900000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:34.077 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:34.566 00    TLMH-I:STS          58-012-14:17:01.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:36.100 00     CMH-I:CMD             Command SFDU received:<192FC000002905DE0000098F0008000000000546FACCFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:36.113 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:36.569 00    TLMH-I:STS          58-012-14:17:03.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:38.136 00     CMH-I:CMD             Command SFDU received:<192FC000002905C80000099000080000FF7706FF4315ABF0000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:38.149 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:39.068 00    TLMH-I:STS          58-012-14:17:05.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:40.172 00     CMH-I:CMD             Command SFDU received:<192FC0000029050100000991000400003F9DDCC600000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:40.186 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:41.071 00    TLMH-I:STS          58-012-14:17:07.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:42.208 00     CMH-I:CMD             Command SFDU received:<192FC000002905550000099200080000FFFFFFFF9999A043000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:42.221 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:43.067 00    TLMH-I:STS          58-012-14:17:09.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:44.231 00     CMH-I:CMD             Command SFDU received:<192FC0000029053A0000099300100000FFFFFFFFFFFFFFFFFFFFADF98342FFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:44.242 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:45.069 00    TLMH-I:STS          58-012-14:17:11.500 ERROR CPU=CPU1 APPNAME=LC EVENT ID=67 Unexpected LC_CustomFunction call: WP = 12
+21-145-17:37:45.069 00    TLMH-I:STS          58-012-14:17:11.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:46.249 00     CMH-I:CMD             Command SFDU received:<192FC000002905E20000099400200000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4062F1A9FFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:37:46.260 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:47.064 00    TLMH-I:STS          58-012-14:17:13.484 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:48.287 00     CMH-I:CMD             Command SFDU received:<192FC0000029058A00000995000400002611111100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:48.300 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:49.065 00    TLMH-I:STS          58-012-14:17:15.484 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:50.325 00     CMH-I:CMD             Command SFDU received:<192FC0000029057D0000099600080000FFFFFFFF12AABBCC000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:50.338 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:51.068 00    TLMH-I:STS          58-012-14:17:17.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:52.368 00     CMH-I:CMD             Command SFDU received:<192FC00000290535000009970004000075FFFFFF00000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:52.371 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:53.068 00    TLMH-I:STS          58-012-14:17:19.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:54.396 00     CMH-I:CMD             Command SFDU received:<192FC000002905020000099800080000ABCD12CAFFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:54.409 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:55.071 00    TLMH-I:STS          58-012-14:17:21.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:56.435 00     CMH-I:CMD             Command SFDU received:<192FC000002905AD0000099900080000FFFFFFFFFFFF1000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:56.449 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:57.066 00    TLMH-I:STS          58-012-14:17:23.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:37:58.471 00     CMH-I:CMD             Command SFDU received:<192FC000002905F10000099A00040000FFFF135000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:37:58.482 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:37:59.062 00    TLMH-I:STS          58-012-14:17:25.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:38:00.484 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS completed
+21-145-17:38:00.485 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:00.485 00     SPR-I:OPRO         ;  Step 5.4 Send Sample Request for all 12 APs.  Nothing should
+21-145-17:38:00.486 00     SPR-I:OPRO         ;  happen since LC is passive (and all WP evaluate to False anyway)
+21-145-17:38:00.486 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:00.488 00     CMH-I:CMD             Command SFDU received:<192FC0000009060D0000000B00000000> from gs582cfslab4:SPR
+21-145-17:38:00.503 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:38:00.503 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:38:01.064 00    TLMH-I:STS          58-012-14:17:27.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=8 Sent Sample Command to LC
+21-145-17:38:03.506 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:38:03.508 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:03.508 00     SPR-I:OPRO         ;  Step 5.5 Check housekeeping counters
+21-145-17:38:03.508 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:04.761 00     SPR-I:OPRO         <*> Passed (8000) - Housekeeping telemetry updated properly.
+21-145-17:38:04.762 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:04.762 00     SPR-I:OPRO         ;  Step 5.6 Dump WRT and check counters, message monitored should be 3 
+21-145-17:38:04.762 00     SPR-I:OPRO         ;  for all entries. 
+21-145-17:38:04.762 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:04.763 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:38:04.764 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:38:04.773 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_WRT" DFILENAME="/ram/cpu1_dumpwrt"
+21-145-17:38:04.773 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F575254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D707772740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:38:04.785 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:38:09.574 00    TLMH-I:STS          58-012-14:17:36.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpwrt' with Table 'LC.LC_WRT'
+21-145-17:38:19.793 00     SPR-I:OPRO         
+21-145-17:38:19.793 00     SPR-I:OPRO            The TBLNAME is: LC.LC_WRT
+21-145-17:38:19.793 00     SPR-I:OPRO               The APID is: P0FB9
+21-145-17:38:19.793 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:38:19.793 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:38:19.794 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpwrt cpu1_dumpwrt binary 192.168.1.8
+21-145-17:38:19.918 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:38:19.918 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:38:34.928 00     SPR-I:OPRO         
+21-145-17:38:34.937 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4025].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpwrt`"
+21-145-17:38:34.937 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:38:39.940 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:38:39.941 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:38:48.481 00     SPR-I:OPRO         <*> Passed (2003;2003.1;2003.2;2004) -  WRT shows WPs evaluated properly.
+21-145-17:38:48.486 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:48.486 00     SPR-I:OPRO         ;  Step 5.7 Dump ART and check counters
+21-145-17:38:48.486 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:38:48.486 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:38:48.487 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:38:48.515 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:38:48.516 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:38:48.527 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:38:53.572 00    TLMH-I:STS          58-012-14:18:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:39:03.535 00     SPR-I:OPRO         
+21-145-17:39:03.536 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:39:03.536 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:39:03.536 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:39:03.536 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:39:03.540 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:39:03.679 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:39:03.679 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:39:18.690 00     SPR-I:OPRO         
+21-145-17:39:18.727 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:39:18.730 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:39:23.734 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:39:23.736 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:39:32.109 00     SPR-I:OPRO         <*> Passed (3001;3001.1;3002;3004;3006) -  ART shows APs evaluated properly.
+21-145-17:39:32.114 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:39:32.114 00     SPR-I:OPRO         ;  Step 6.0:  Test LC Active, All AP Passive, no thresholds are reached
+21-145-17:39:32.114 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:39:32.114 00     SPR-I:OPRO         ;  Step 6.1:  Send a Set All APs to Passive Command
+21-145-17:39:32.144 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:39:32.146 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:39:32.146 00     SPR-I:OPRO         ; Setup event 1 with LC INFO 33
+21-145-17:39:32.146 00     SPR-I:OPRO         ;***********************************************************************
+21-145-17:39:32.152 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=0xFFFF NewAPState=State
+21-145-17:39:32.573 00     CMH-I:CMD             Command SFDU received:<18A4C00000050387FFFF0002> from gs582cfslab4:SPR
+21-145-17:39:32.588 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:39:32.588 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:39:33.068 00    TLMH-I:STS          58-012-14:18:59.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 65535, New state = 2
+21-145-17:39:33.589 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:39:33.592 00     SPR-I:OPRO         <*> Passed (1003;4006) - Event message 33 received
+21-145-17:39:33.596 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:39:33.597 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:39:33.601 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:39:33.602 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:39:33.613 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:39:41.572 00    TLMH-I:STS          58-012-14:19:08.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:39:48.622 00     SPR-I:OPRO         
+21-145-17:39:48.622 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:39:48.622 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:39:48.623 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:39:48.623 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:39:48.626 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:39:48.773 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:39:48.773 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:40:03.784 00     SPR-I:OPRO         
+21-145-17:40:03.801 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:40:03.801 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:40:08.806 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:40:08.808 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:40:14.587 00     SPR-I:OPRO         <*> Passed (1003;4006) - Set All APs to Passive command properly sent.
+21-145-17:40:14.590 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:40:19.593 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:40:19.593 00     SPR-I:OPRO         ;  Step 6.2 Send packets for all WP defined in WDT
+21-145-17:40:19.593 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:40:19.594 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_sendmonpackets.i
+21-145-17:40:19.599 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS started
+21-145-17:40:19.827 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:40:19.828 00     SPR-I:OPRO         ;  Step 6.2.1: Setting up Message IDs to use 
+21-145-17:40:19.828 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:40:19.830 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:40:19.830 00     SPR-I:OPRO         ;  Step 6.2.2: Sending Packets 
+21-145-17:40:19.830 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:40:19.844 00     CMH-I:CMD             Command SFDU received:<192FC000002905A4000009870004000021FF24F100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:19.855 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:20.563 00    TLMH-I:STS          58-012-14:19:47.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:21.860 00     CMH-I:CMD             Command SFDU received:<192FC0000029054500000988000800000543FF50FFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:21.871 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:22.570 00    TLMH-I:STS          58-012-14:19:49.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:23.876 00     CMH-I:CMD             Command SFDU received:<192FC000002905E80000098900100000FFFFFFFFFFFFFF1345FFF4FFFFFFFFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:23.877 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:24.566 00    TLMH-I:STS          58-012-14:19:51.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:25.883 00     CMH-I:CMD             Command SFDU received:<192FC0000029053D0000098A00040000FF25450000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:25.884 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:26.569 00    TLMH-I:STS          58-012-14:19:53.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:27.890 00     CMH-I:CMD             Command SFDU received:<192FC000002905510000098B00080000FFFFFFFFFF54AAFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:27.901 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:28.566 00    TLMH-I:STS          58-012-14:19:55.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:29.906 00     CMH-I:CMD             Command SFDU received:<192FC000002905BB0000098C00100000FFFFFFFFFFC5FFFFFFFFFFFFFFFF300100000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:29.917 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:30.568 00    TLMH-I:STS          58-012-14:19:57.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:31.920 00     CMH-I:CMD             Command SFDU received:<192FC0000029054A0000098D002000000012546FFFFFFFFFFFFFFFC123FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:40:31.931 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:32.571 00    TLMH-I:STS          58-012-14:19:59.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:33.937 00     CMH-I:CMD             Command SFDU received:<192FC000002905620000098E00100000FFFFFFFFFFFFFF00134523FFFFFFAC0900000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:33.948 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:34.565 00    TLMH-I:STS          58-012-14:20:01.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:35.953 00     CMH-I:CMD             Command SFDU received:<192FC000002905DE0000098F0008000000000546FACCFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:35.964 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:36.568 00    TLMH-I:STS          58-012-14:20:03.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:37.974 00     CMH-I:CMD             Command SFDU received:<192FC000002905C80000099000080000FF7706FF4315ABF0000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:37.985 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:38.562 00    TLMH-I:STS          58-012-14:20:05.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:39.993 00     CMH-I:CMD             Command SFDU received:<192FC0000029050100000991000400003F9DDCC600000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:39.994 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:40.567 00    TLMH-I:STS          58-012-14:20:07.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:42.000 00     CMH-I:CMD             Command SFDU received:<192FC000002905550000099200080000FFFFFFFF9999A043000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:42.011 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:42.572 00    TLMH-I:STS          58-012-14:20:09.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:44.017 00     CMH-I:CMD             Command SFDU received:<192FC0000029053A0000099300100000FFFFFFFFFFFFFFFFFFFFADF98342FFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:44.027 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:44.565 00    TLMH-I:STS          58-012-14:20:11.001 ERROR CPU=CPU1 APPNAME=LC EVENT ID=67 Unexpected LC_CustomFunction call: WP = 12
+21-145-17:40:44.566 00    TLMH-I:STS          58-012-14:20:11.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:46.031 00     CMH-I:CMD             Command SFDU received:<192FC000002905E20000099400200000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4062F1A9FFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:40:46.042 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:46.562 00    TLMH-I:STS          58-012-14:20:13.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:48.049 00     CMH-I:CMD             Command SFDU received:<192FC0000029058A00000995000400002611111100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:48.050 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:48.564 00    TLMH-I:STS          58-012-14:20:15.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:50.056 00     CMH-I:CMD             Command SFDU received:<192FC0000029057D0000099600080000FFFFFFFF12AABBCC000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:50.067 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:50.570 00    TLMH-I:STS          58-012-14:20:17.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:52.074 00     CMH-I:CMD             Command SFDU received:<192FC00000290535000009970004000075FFFFFF00000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:52.085 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:52.564 00    TLMH-I:STS          58-012-14:20:19.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:54.092 00     CMH-I:CMD             Command SFDU received:<192FC000002905020000099800080000ABCD12CAFFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:54.103 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:54.567 00    TLMH-I:STS          58-012-14:20:21.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:56.110 00     CMH-I:CMD             Command SFDU received:<192FC000002905AD0000099900080000FFFFFFFFFFFF1000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:56.121 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:56.565 00    TLMH-I:STS          58-012-14:20:23.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:40:58.128 00     CMH-I:CMD             Command SFDU received:<192FC000002905F10000099A00040000FFFF135000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:40:58.139 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:40:58.565 00    TLMH-I:STS          58-012-14:20:25.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:41:00.140 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS completed
+21-145-17:41:00.141 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:00.141 00     SPR-I:OPRO         ;  Step 6.3 Send Sample Request for all 12 APs.  Nothing should
+21-145-17:41:00.141 00     SPR-I:OPRO         ;  happen since LC is passive (and all WP evaluate to False anyway)
+21-145-17:41:00.141 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:00.142 00     CMH-I:CMD             Command SFDU received:<192FC0000009060D0000000B00000000> from gs582cfslab4:SPR
+21-145-17:41:00.155 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:41:00.156 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:41:00.568 00    TLMH-I:STS          58-012-14:20:27.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=8 Sent Sample Command to LC
+21-145-17:41:03.158 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:41:03.158 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:03.158 00     SPR-I:OPRO         ;  Step 6.4 Check housekeeping counters
+21-145-17:41:03.158 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:04.393 00     SPR-I:OPRO         <*> Passed (8000) - Housekeeping telemetry updated properly.
+21-145-17:41:04.394 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:04.394 00     SPR-I:OPRO         ;  Step 6.5 Dump WRT and check counters, message monitored should be 4 
+21-145-17:41:04.394 00     SPR-I:OPRO         ;  for all
+21-145-17:41:04.394 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:04.394 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:41:04.395 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:41:04.401 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_WRT" DFILENAME="/ram/cpu1_dumpwrt"
+21-145-17:41:04.402 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F575254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D707772740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:41:04.413 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:41:09.564 00    TLMH-I:STS          58-012-14:20:36.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpwrt' with Table 'LC.LC_WRT'
+21-145-17:41:19.422 00     SPR-I:OPRO         
+21-145-17:41:19.422 00     SPR-I:OPRO            The TBLNAME is: LC.LC_WRT
+21-145-17:41:19.423 00     SPR-I:OPRO               The APID is: P0FB9
+21-145-17:41:19.423 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:41:19.423 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:41:19.426 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpwrt cpu1_dumpwrt binary 192.168.1.8
+21-145-17:41:19.566 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:41:19.566 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:41:34.577 00     SPR-I:OPRO         
+21-145-17:41:34.619 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4025].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpwrt`"
+21-145-17:41:34.619 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:41:39.623 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:41:39.625 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:41:47.901 00     SPR-I:OPRO         <*> Passed (2003;2003.1;2003.2;2004) -  WRT shows WPs evaluated properly.
+21-145-17:41:47.905 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:47.905 00     SPR-I:OPRO         ;  Step 6.6 Dump ART and check counters, state is passive
+21-145-17:41:47.905 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:41:47.905 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:41:47.906 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:41:47.942 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:41:47.943 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:41:48.392 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:41:53.563 00    TLMH-I:STS          58-012-14:21:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:42:03.402 00     SPR-I:OPRO         
+21-145-17:42:03.402 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:42:03.402 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:42:03.402 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:42:03.403 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:42:03.405 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:42:03.583 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:42:03.583 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:42:18.594 00     SPR-I:OPRO         
+21-145-17:42:18.602 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:42:18.602 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:42:23.606 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:42:23.608 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:42:31.999 00     SPR-I:OPRO         <*> Passed (3001;3001.1;3002;3004;3006) -  ART shows APs evaluated properly.
+21-145-17:42:32.008 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:42:32.008 00     SPR-I:OPRO         ;  Step 7.0: Test LC Active, APs a mix of states, no thresholds reached
+21-145-17:42:32.008 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:42:32.008 00     SPR-I:OPRO         ;  Step 7.1:  Send commands to set APs to mix of states
+21-145-17:42:32.042 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:42:32.046 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=0 NewAPState=State
+21-145-17:42:32.507 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038400000001> from gs582cfslab4:SPR
+21-145-17:42:32.532 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:32.532 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:33.068 00    TLMH-I:STS          58-012-14:21:59.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 0, New state = 1
+21-145-17:42:34.534 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:42:34.552 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=4 NewAPState=State
+21-145-17:42:34.554 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038000040001> from gs582cfslab4:SPR
+21-145-17:42:34.570 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:34.570 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:35.062 00    TLMH-I:STS          58-012-14:22:01.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 4, New state = 1
+21-145-17:42:37.573 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:42:37.600 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=5 NewAPState=State
+21-145-17:42:37.602 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038100050001> from gs582cfslab4:SPR
+21-145-17:42:37.620 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:37.620 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:38.067 00    TLMH-I:STS          58-012-14:22:04.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 5, New state = 1
+21-145-17:42:41.624 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:42:41.636 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=1 NewAPState=State
+21-145-17:42:41.636 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038600010002> from gs582cfslab4:SPR
+21-145-17:42:41.651 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:41.651 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:42.064 00    TLMH-I:STS          58-012-14:22:08.500 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 1, New state = 2
+21-145-17:42:45.656 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:42:45.665 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=8 NewAPState=State
+21-145-17:42:45.666 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038F00080002> from gs582cfslab4:SPR
+21-145-17:42:45.680 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:45.681 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:46.568 00    TLMH-I:STS          58-012-14:22:13.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 8, New state = 2
+21-145-17:42:49.685 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:42:49.696 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=9 NewAPState=State
+21-145-17:42:49.697 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038E00090002> from gs582cfslab4:SPR
+21-145-17:42:49.715 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:49.716 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:50.563 00    TLMH-I:STS          58-012-14:22:17.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 9, New state = 2
+21-145-17:42:53.720 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:42:53.730 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=2 NewAPState=State
+21-145-17:42:53.730 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038400020003> from gs582cfslab4:SPR
+21-145-17:42:53.745 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:53.745 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:54.564 00    TLMH-I:STS          58-012-14:22:21.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 2, New state = 3
+21-145-17:42:57.749 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:42:57.771 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=6 NewAPState=State
+21-145-17:42:57.773 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038000060003> from gs582cfslab4:SPR
+21-145-17:42:57.794 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:42:57.794 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:42:58.569 00    TLMH-I:STS          58-012-14:22:25.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 6, New state = 3
+21-145-17:43:01.798 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:43:01.807 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=7 NewAPState=State
+21-145-17:43:01.808 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038100070003> from gs582cfslab4:SPR
+21-145-17:43:01.824 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:43:01.825 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:43:02.564 00    TLMH-I:STS          58-012-14:22:29.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 7, New state = 3
+21-145-17:43:05.829 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:43:05.839 00     SPR-I:OPRO         Sending command:  SCX_CPU1_LC_SETAPSTATE APNumber=3 NewAPState=State
+21-145-17:43:05.840 00     CMH-I:CMD             Command SFDU received:<18A4C0000005038500030003> from gs582cfslab4:SPR
+21-145-17:43:05.845 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-145-17:43:05.846 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:43:06.568 00    TLMH-I:STS          58-012-14:22:33.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=33 Set AP state command: AP = 3, New state = 3
+21-145-17:43:09.851 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:43:09.857 00     CMH-I:CMD             Command SFDU received:<18A4C0000005048100030000> from gs582cfslab4:SPR
+21-145-17:43:09.868 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:43:09.869 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:43:09.874 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:43:09.875 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:43:09.918 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:43:10.560 00    TLMH-I:STS          58-012-14:22:37.001 INFO CPU=CPU1 APPNAME=LC EVENT ID=36 Set AP permanently off command: AP = 3
+21-145-17:43:17.568 00    TLMH-I:STS          58-012-14:22:44.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:43:24.929 00     SPR-I:OPRO         
+21-145-17:43:24.929 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:43:24.929 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:43:24.930 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:43:24.930 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:43:24.933 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:43:25.065 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:43:25.065 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:43:40.074 00     SPR-I:OPRO         
+21-145-17:43:40.085 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:43:40.085 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:43:45.088 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:43:45.089 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:43:51.055 00     SPR-I:OPRO         <*> Passed (1003;4003;4005;4007;4009) - APs set to mix of states correctly.
+21-145-17:43:51.061 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:43:56.064 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:43:56.064 00     SPR-I:OPRO         ;  Step 7.2 Send packets for all WP defined in WDT
+21-145-17:43:56.064 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:43:56.065 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_lc_sendmonpackets.i
+21-145-17:43:56.066 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS started
+21-145-17:43:56.267 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:43:56.267 00     SPR-I:OPRO         ;  Step 7.2.1: Setting up Message IDs to use 
+21-145-17:43:56.267 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:43:56.269 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:43:56.269 00     SPR-I:OPRO         ;  Step 7.2.2: Sending Packets 
+21-145-17:43:56.269 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:43:56.282 00     CMH-I:CMD             Command SFDU received:<192FC000002905A4000009870004000021FF24F100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:43:56.283 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:43:57.059 00    TLMH-I:STS          58-012-14:23:23.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:43:58.288 00     CMH-I:CMD             Command SFDU received:<192FC0000029054500000988000800000543FF50FFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:43:58.299 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:43:59.061 00    TLMH-I:STS          58-012-14:23:25.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:00.305 00     CMH-I:CMD             Command SFDU received:<192FC000002905E80000098900100000FFFFFFFFFFFFFF1345FFF4FFFFFFFFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:00.316 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:01.066 00    TLMH-I:STS          58-012-14:23:27.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:02.322 00     CMH-I:CMD             Command SFDU received:<192FC0000029053D0000098A00040000FF25450000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:02.323 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:03.058 00    TLMH-I:STS          58-012-14:23:29.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:04.329 00     CMH-I:CMD             Command SFDU received:<192FC000002905510000098B00080000FFFFFFFFFF54AAFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:04.340 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:05.061 00    TLMH-I:STS          58-012-14:23:31.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:06.348 00     CMH-I:CMD             Command SFDU received:<192FC000002905BB0000098C00100000FFFFFFFFFFC5FFFFFFFFFFFFFFFF300100000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:06.359 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:07.066 00    TLMH-I:STS          58-012-14:23:33.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:08.367 00     CMH-I:CMD             Command SFDU received:<192FC0000029054A0000098D002000000012546FFFFFFFFFFFFFFFC123FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:44:08.381 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:09.063 00    TLMH-I:STS          58-012-14:23:35.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:10.398 00     CMH-I:CMD             Command SFDU received:<192FC000002905620000098E00100000FFFFFFFFFFFFFF00134523FFFFFFAC0900000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:10.412 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:11.059 00    TLMH-I:STS          58-012-14:23:37.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:12.435 00     CMH-I:CMD             Command SFDU received:<192FC000002905DE0000098F0008000000000546FACCFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:12.449 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:13.064 00    TLMH-I:STS          58-012-14:23:39.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:14.473 00     CMH-I:CMD             Command SFDU received:<192FC000002905C80000099000080000FF7706FF4315ABF0000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:14.487 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:15.066 00    TLMH-I:STS          58-012-14:23:41.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:16.498 00     CMH-I:CMD             Command SFDU received:<192FC0000029050100000991000400003F9DDCC600000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:16.508 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:17.066 00    TLMH-I:STS          58-012-14:23:43.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:18.520 00     CMH-I:CMD             Command SFDU received:<192FC000002905550000099200080000FFFFFFFF9999A043000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:18.522 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:19.068 00    TLMH-I:STS          58-012-14:23:45.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:20.545 00     CMH-I:CMD             Command SFDU received:<192FC0000029053A0000099300100000FFFFFFFFFFFFFFFFFFFFADF98342FFFF00000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:20.559 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:21.061 00    TLMH-I:STS          58-012-14:23:47.500 ERROR CPU=CPU1 APPNAME=LC EVENT ID=67 Unexpected LC_CustomFunction call: WP = 12
+21-145-17:44:21.061 00    TLMH-I:STS          58-012-14:23:47.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:22.570 00     CMH-I:CMD             Command SFDU received:<192FC000002905E20000099400200000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF4062F1A9FFFFFFFFFFFF> from gs582cfslab4:SPR
+21-145-17:44:22.584 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:23.059 00    TLMH-I:STS          58-012-14:23:49.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:24.612 00     CMH-I:CMD             Command SFDU received:<192FC0000029058A00000995000400002611111100000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:24.624 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:25.062 00    TLMH-I:STS          58-012-14:23:51.500 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:26.652 00     CMH-I:CMD             Command SFDU received:<192FC0000029057D0000099600080000FFFFFFFF12AABBCC000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:26.656 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:27.563 00    TLMH-I:STS          58-012-14:23:54.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:28.667 00     CMH-I:CMD             Command SFDU received:<192FC00000290535000009970004000075FFFFFF00000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:28.678 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:29.566 00    TLMH-I:STS          58-012-14:23:56.004 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:30.702 00     CMH-I:CMD             Command SFDU received:<192FC000002905020000099800080000ABCD12CAFFFFFFFF000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:30.715 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:31.561 00    TLMH-I:STS          58-012-14:23:58.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:32.741 00     CMH-I:CMD             Command SFDU received:<192FC000002905AD0000099900080000FFFFFFFFFFFF1000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:32.754 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:33.566 00    TLMH-I:STS          58-012-14:24:00.004 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:34.782 00     CMH-I:CMD             Command SFDU received:<192FC000002905F10000099A00040000FFFF135000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:34.788 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-145-17:44:35.563 00    TLMH-I:STS          58-012-14:24:02.001 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=7 TST_LC: Send Packet Command
+21-145-17:44:36.789 00     SPR-I:STS          Procedure SCX_CPU1_LC_SENDMONPACKETS completed
+21-145-17:44:36.792 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:44:36.792 00     SPR-I:OPRO         ;  Step 7.3 Send Sample Request for all 12 APs.  Nothing should
+21-145-17:44:36.792 00     SPR-I:OPRO         ;  happen since LC is passive (and all WP evaluate to False anyway)
+21-145-17:44:36.792 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:44:36.794 00     CMH-I:CMD             Command SFDU received:<192FC0000009060D0000000B00000000> from gs582cfslab4:SPR
+21-145-17:44:36.808 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-145-17:44:37.566 00    TLMH-I:STS          58-012-14:24:04.004 INFO CPU=CPU1 APPNAME=TST_LC EVENT ID=8 Sent Sample Command to LC
+21-145-17:44:46.814 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:44:46.814 00     SPR-I:OPRO         ;  Step 7.4 Check housekeeping counters
+21-145-17:44:46.814 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:44:47.413 00     SPR-I:OPRO         <*> Passed (8000) - Housekeeping telemetry updated properly.
+21-145-17:44:47.414 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:44:47.414 00     SPR-I:OPRO         ;  Step 7.5 Dump WRT and check counters, message monitored should be 5 for all
+21-145-17:44:47.414 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:44:47.414 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:44:47.415 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:44:47.421 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_WRT" DFILENAME="/ram/cpu1_dumpwrt"
+21-145-17:44:47.422 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F575254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D707772740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:44:47.433 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:44:53.567 00    TLMH-I:STS          58-012-14:24:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpwrt' with Table 'LC.LC_WRT'
+21-145-17:45:02.443 00     SPR-I:OPRO         
+21-145-17:45:02.443 00     SPR-I:OPRO            The TBLNAME is: LC.LC_WRT
+21-145-17:45:02.443 00     SPR-I:OPRO               The APID is: P0FB9
+21-145-17:45:02.443 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:45:02.444 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:45:02.446 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpwrt cpu1_dumpwrt binary 192.168.1.8
+21-145-17:45:02.617 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:45:02.617 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:45:16.637 00     SPR-I:OPRI     --> page SCX_CPU1_LC_HK_WP_RESULTS
+21-145-17:45:16.736 00     DPD-I:STS          Page SCX_CPU1_LC_HK_WP_RESULTS added (cid:1).
+21-145-17:45:17.740 00     SPR-I:OPRO         
+21-145-17:45:17.779 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4025].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpwrt`"
+21-145-17:45:17.779 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:45:22.346 00     DPD-I:STS          Deleting page SCX_CPU1_LC_HK_WP_RESULTS
+21-145-17:45:22.783 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:45:22.783 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:45:23.794 00     SPR-I:OPRI     --> page SCX_CPU1_LC_HK_AP_RESULTS
+21-145-17:45:23.851 00     DPD-I:STS          Page SCX_CPU1_LC_HK_AP_RESULTS added (cid:1).
+21-145-17:45:30.919 00     DPD-I:STS          Deleting page SCX_CPU1_LC_HK_AP_RESULTS
+21-145-17:45:30.950 00     SPR-I:OPRO         <*> Passed (2003;2003.2;2003.3;2004;3001;3001.1;3004;3006) -  WRT shows WPs evaluated properly.
+21-145-17:45:30.955 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:45:30.955 00     SPR-I:OPRO         ;  Step 7.6 Dump ART and check counters, states are mixed
+21-145-17:45:30.955 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:45:30.955 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/get_tbl_to_cvt.i
+21-145-17:45:30.956 00     SPR-I:STS          Procedure GET_TBL_TO_CVT started
+21-145-17:45:30.988 00     SPR-I:OPRO         Sending Command: /SCX_CPU1_TBL_DUMP ACTIVE DTABLENAME="LC.LC_ART" DFILENAME="/ram/cpu1_dumpart"
+21-145-17:45:30.989 00     CMH-I:CMD             Command SFDU received:<1804C000006B036100014C432E4C435F415254000000000000000000000000000000000000000000000000000000000000002F72616D2F637075315F64756D706172740000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000> from gs582cfslab4:SPR
+21-145-17:45:31.545 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:45:37.564 00    TLMH-I:STS          58-012-14:25:04.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_dumpart' with Table 'LC.LC_ART'
+21-145-17:45:46.552 00     SPR-I:OPRO         
+21-145-17:45:46.553 00     SPR-I:OPRO            The TBLNAME is: LC.LC_ART
+21-145-17:45:46.553 00     SPR-I:OPRO               The APID is: P0FB8
+21-145-17:45:46.553 00     SPR-I:OPRO                The CPU is: CPU3
+21-145-17:45:46.553 00     SPR-I:OPRO         The IP Address is: 192.168.1.8
+21-145-17:45:46.554 00     SPR-I:OPRO         The perl command is: perl /s/opr/accounts/global/tools/ftp.pl RAM:0 cpu1_dumpart cpu1_dumpart binary 192.168.1.8
+21-145-17:45:46.691 00     SPR-I:OPRO         Return code from ftp_file.pl: 0
+21-145-17:45:46.691 00     SPR-I:STTE         Wait mode - waiting 15 seconds ...
+21-145-17:46:01.699 00     SPR-I:OPRO         
+21-145-17:46:01.709 00     SPR-I:OPRO         The unix command is cvt -ws file_list[4024].file_write_time "`date +%y-%j-%T -r /s/opr/accounts/cfs_test/image/cpu1_dumpart`"
+21-145-17:46:01.709 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:46:06.714 00     SPR-I:STS          Procedure GET_TBL_TO_CVT completed
+21-145-17:46:06.714 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:46:13.578 00     SPR-I:OPRO         <*> Passed (3001;3001.1;3002;3003;3004;3005;3006) -  ART shows APs evaluated properly.
+21-145-17:46:13.613 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:46:13.613 00     SPR-I:OPRO         ;  Step 8.0:  Clean-up
+21-145-17:46:13.613 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:46:13.614 00     CMH-I:CMD             Command SFDU received:<1806C000000302220002> from gs582cfslab4:SPR
+21-145-17:46:13.625 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-145-17:46:14.743 00     DPD-I:STS          Deleting page SCX_CPU1_LC_WRT
+21-145-17:46:16.981 00     DPD-I:STS          Deleting page SCX_CPU1_LC_ART
+21-145-17:46:19.907 00     DPD-I:STS          Deleting page SCX_CPU1_LC_HK
+21-145-17:46:23.632 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/clear_spacecraft_status.i
+21-145-17:46:23.633 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS started
+21-145-17:46:23.642 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS completed
+21-145-17:46:23.676 00     SPR-I:STTE         Wait mode - waiting 60 seconds ...
+21-145-17:47:23.739 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:47:29.703 00     CMH-I:STS          Connected to FEDS:FEDS for commanding (internal ID 0). 
+21-145-17:47:33.750 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:47:33.806 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/send_that_to_command.i
+21-145-17:47:33.807 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND started
+21-145-17:47:33.811 00     SPR-I:OPRO         Sending: /SCX_CPU1_TO_OUTPUT_ENA gs582cfslab4
+21-145-17:47:33.812 00     CMH-I:CMD             Command SFDU received:<1880C0000011069A3139322E3136382E312E313031000000> from gs582cfslab4:SPR
+21-145-17:47:33.864 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND completed
+21-145-17:47:33.865 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-145-17:47:35.189 00    TLMH-I:STS          58-012-14:03:49.450 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101
+21-145-17:47:37.869 00     SPR-I:STTE         WAIT UNTIL completed
+21-145-17:47:37.870 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/fill_in_spacecraft_status.i
+21-145-17:47:37.872 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS started
+21-145-17:47:37.876 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS completed
+21-145-17:47:37.877 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-145-17:47:42.881 00     SPR-I:OPRO         **** Requirements Status Reporting
+21-145-17:47:42.881 00     SPR-I:OPRO         --------------------------
+21-145-17:47:42.882 00     SPR-I:OPRO            Requirement(s) Report
+21-145-17:47:42.882 00     SPR-I:OPRO         --------------------------
+21-145-17:47:42.883 00     SPR-I:OPRO         FSW Requirement: LC_1003                          P/F: P
+21-145-17:47:42.888 00     SPR-I:OPRO         FSW Requirement: LC_2003                          P/F: P
+21-145-17:47:42.889 00     SPR-I:OPRO         FSW Requirement: LC_2003.1                        P/F: P
+21-145-17:47:42.890 00     SPR-I:OPRO         FSW Requirement: LC_2003.2                        P/F: P
+21-145-17:47:42.891 00     SPR-I:OPRO         FSW Requirement: LC_2004                          P/F: P
+21-145-17:47:42.915 00     SPR-I:OPRO         FSW Requirement: LC_3001                          P/F: P
+21-145-17:47:42.916 00     SPR-I:OPRO         FSW Requirement: LC_3001.1                        P/F: P
+21-145-17:47:42.919 00     SPR-I:OPRO         FSW Requirement: LC_3002                          P/F: P
+21-145-17:47:42.936 00     SPR-I:OPRO         FSW Requirement: LC_3003                          P/F: P
+21-145-17:47:42.937 00     SPR-I:OPRO         FSW Requirement: LC_3004                          P/F: P
+21-145-17:47:42.938 00     SPR-I:OPRO         FSW Requirement: LC_3005                          P/F: P
+21-145-17:47:42.953 00     SPR-I:OPRO         FSW Requirement: LC_3006                          P/F: P
+21-145-17:47:42.954 00     SPR-I:OPRO         FSW Requirement: LC_4000                          P/F: P
+21-145-17:47:42.955 00     SPR-I:OPRO         FSW Requirement: LC_4001                          P/F: P
+21-145-17:47:42.972 00     SPR-I:OPRO         FSW Requirement: LC_4002                          P/F: P
+21-145-17:47:42.973 00     SPR-I:OPRO         FSW Requirement: LC_4003                          P/F: P
+21-145-17:47:42.974 00     SPR-I:OPRO         FSW Requirement: LC_4004                          P/F: P
+21-145-17:47:42.990 00     SPR-I:OPRO         FSW Requirement: LC_4005                          P/F: P
+21-145-17:47:42.991 00     SPR-I:OPRO         FSW Requirement: LC_4006                          P/F: P
+21-145-17:47:42.992 00     SPR-I:OPRO         FSW Requirement: LC_4007                          P/F: P
+21-145-17:47:43.007 00     SPR-I:OPRO         FSW Requirement: LC_4008                          P/F: P
+21-145-17:47:43.008 00     SPR-I:OPRO         FSW Requirement: LC_4009                          P/F: P
+21-145-17:47:43.009 00     SPR-I:OPRO         FSW Requirement: LC_8000                          P/F: P
+21-145-17:47:43.025 00     SPR-I:OPRO         FSW Requirement: LC_9000                          P/F: P
+21-145-17:47:43.026 00     SPR-I:OPRO         FSW Requirement: LC_9001                          P/F: P
+21-145-17:47:43.027 00     SPR-I:OPRO         FSW Requirement: LC_9002                          P/F: P
+21-145-17:47:43.044 00     SPR-I:OPRO         FSW Requirement: LC_9005                          P/F: P
+21-145-17:47:43.045 00     SPR-I:OPRO         FSW Requirement: LC_9006                          P/F: P
+21-145-17:47:43.060 00     SPR-I:STS          Variable "UT_REQUIREMENT" deleted
+21-145-17:47:43.061 00     SPR-I:STS          Variable "UT_REQ_ARRAY_SIZE" deleted
+21-145-17:47:43.061 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:47:43.061 00     SPR-I:OPRO         ;  End procedure SCX_CPU1_lc_monitoring                              
+21-145-17:47:43.061 00     SPR-I:OPRO         ;*********************************************************************
+21-145-17:47:43.061 00     SPR-I:STS          Procedure SCX_CPU1_LC_MONITORING completed
+21-145-17:47:43.067 00     SPR-I:OPRO         *** Telemetry Info ***
+21-145-17:47:43.067 00     SPR-I:OPRO         
+21-145-17:47:43.067 00     SPR-I:OPRO         Pkt Loss Count: N/A
+21-145-17:47:43.067 00     SPR-I:OPRO         
+21-145-17:47:43.067 00     SPR-I:OPRO         ******************
+21-145-17:47:43.067 00     SPR-I:OPRO         
+21-145-17:47:43.067 00     SPR-I:OPRO         Elapsed time:  1482.42 seconds
+21-145-17:47:43.067 00     SPR-I:OPRO         Elapsed time:  24.7071 minutes
+21-145-17:47:43.068 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-145-17:47:53.078 00     SPR-I:OPRO         Creating filtered log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_lc_monitoring-2021-145-17h23m00s.logf
+21-145-17:47:53.078 00     SPR-I:OPRO         Creating filtered output log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_lc_monitoring-2021-145-17h23m00s.logp
+21-145-17:47:53.078 00     SPR-I:OPRO         Creating filtered output log (without SFDUs) at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_lc_monitoring-2021-145-17h23m00s.logs
+21-145-17:47:53.079 00     SPR-I:OPRO         Creating filtered event log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_lc_monitoring-2021-145-17h23m00s.loge
+21-145-17:47:53.079 00     SPR-I:OPRO         Creating filtered requirements log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_lc_monitoring-2021-145-17h23m00s.logr
+21-145-17:47:53.200 00     SPR-I:OPRI     --> newlog scx_cpu1_lc_monitoring-2021-145-17h23m00s.log

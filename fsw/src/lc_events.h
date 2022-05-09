@@ -2,28 +2,31 @@
 ** File:
 **   $Id: lc_events.h 1.3 2017/01/22 17:24:47EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2020 United States Government as represented by the 
-**  Administrator of the National Aeronautics and Space Administration. 
-**  All Other Rights Reserved.  
+**  Copyright (c) 2007-2020 United States Government as represented by the
+**  Administrator of the National Aeronautics and Space Administration.
+**  All Other Rights Reserved.
 **
 **  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be 
-**  used, distributed and modified only pursuant to the terms of that 
+**  This software is governed by the NASA Open Source Agreement and may be
+**  used, distributed and modified only pursuant to the terms of that
 **  agreement.
 **
-** Purpose: 
+** Purpose:
 **   Specification for the CFS Limit Checker (LC) event identifers.
 **
 ** Notes:
 **
-** 
+**
 *************************************************************************/
 #ifndef _lc_events_
 #define _lc_events_
 
+/** \brief Reserved EID */
+#define LC_RESERVED_EID 0
+
 /** \brief <tt> 'Task terminating, err = 0x\%08X' </tt>
 **  \event <tt> 'Task terminating, err = 0x\%08X' </tt>
-**  
+**
 **  \par Type: CRITICAL
 **
 **  \par Cause:
@@ -34,11 +37,11 @@
 **  The \c err field contains the return status from the
 **  cFE call that caused the task to terminate
 */
-#define LC_TASK_EXIT_EID                         1    
+#define LC_TASK_EXIT_EID 1
 
 /** \brief <tt> 'LC Initialized. Version \%d.\%d.\%d.\%d' </tt>
 **  \event <tt> 'LC Initialized. Version \%d.\%d.\%d.\%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -51,11 +54,11 @@
 **  The third \c %d field contains the Application's Revision Number
 **  The fourth \c %d field contains the Application's Mission Revision Number
 */
-#define LC_INIT_INF_EID                          2    
+#define LC_INIT_INF_EID 2
 
 /** \brief <tt> 'Error Creating LC Pipe, RC=0x\%08X' </tt>
 **  \event <tt> 'Error Creating LC Pipe, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -67,29 +70,29 @@
 **  The \c RC field contains the return status from the
 **  #CFE_SB_CreatePipe call that generated the error
 */
-#define LC_CR_PIPE_ERR_EID                       3
+#define LC_CR_PIPE_ERR_EID 3
 
-/** \brief <tt> 'Error Subscribing to HK Request, MID=0x\%04X, RC=0x\%08X' </tt>
-**  \event <tt> 'Error Subscribing to HK Request, MID=0x\%04X, RC=0x\%08X' </tt>
-**  
+/** \brief <tt> 'Error Subscribing to HK Request, MID=0x\%08X, RC=0x\%08X' </tt>
+**  \event <tt> 'Error Subscribing to HK Request, MID=0x\%08X, RC=0x\%08X' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when the CFS Limit Checker
-**  is unable to subscribe to its Housekeeping Request message 
+**  is unable to subscribe to its Housekeeping Request message
 **  via the #CFE_SB_Subscribe API
 **
-**  The \c MID field contains the Message ID that LC was 
-**  attempting to subscribe to. The \c RC field contains the 
-**  return status from the #CFE_SB_Subscribe call that generated 
+**  The \c MID field contains the Message ID that LC was
+**  attempting to subscribe to. The \c RC field contains the
+**  return status from the #CFE_SB_Subscribe call that generated
 **  the error
 */
-#define LC_SUB_HK_REQ_ERR_EID                    4
+#define LC_SUB_HK_REQ_ERR_EID 4
 
-/** \brief <tt> 'Error Subscribing to GND CMD, MID=0x\%04X, RC=0x\%08X' </tt>
-**  \event <tt> 'Error Subscribing to GND CMD, MID=0x\%04X, RC=0x\%08X' </tt>
-**  
+/** \brief <tt> 'Error Subscribing to GND CMD, MID=0x\%08X, RC=0x\%08X' </tt>
+**  \event <tt> 'Error Subscribing to GND CMD, MID=0x\%08X, RC=0x\%08X' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -98,16 +101,16 @@
 **  is unable to subscribe to its ground commands via the
 **  #CFE_SB_Subscribe API
 **
-**  The \c MID field contains the Message ID that LC was 
-**  attempting to subscribe to. The \c RC field contains the 
-**  return status from the #CFE_SB_Subscribe call that generated 
+**  The \c MID field contains the Message ID that LC was
+**  attempting to subscribe to. The \c RC field contains the
+**  return status from the #CFE_SB_Subscribe call that generated
 **  the error
 */
-#define LC_SUB_GND_CMD_ERR_EID                   5
+#define LC_SUB_GND_CMD_ERR_EID 5
 
-/** \brief <tt> 'Error Subscribing to Sample CMD, MID=0x\%04X, RC=0x\%08X' </tt>
-**  \event <tt> 'Error Subscribing to Sample CMD, MID=0x\%04X, RC=0x\%08X' </tt>
-**  
+/** \brief <tt> 'Error Subscribing to Sample CMD, MID=0x\%08X, RC=0x\%08X' </tt>
+**  \event <tt> 'Error Subscribing to Sample CMD, MID=0x\%08X, RC=0x\%08X' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -116,16 +119,16 @@
 **  is unable to subscribe to its actionpoint sample command via the
 **  #CFE_SB_Subscribe API
 **
-**  The \c MID field contains the Message ID that LC was 
-**  attempting to subscribe to. The \c RC field contains the 
-**  return status from the #CFE_SB_Subscribe call that generated 
+**  The \c MID field contains the Message ID that LC was
+**  attempting to subscribe to. The \c RC field contains the
+**  return status from the #CFE_SB_Subscribe call that generated
 **  the error
 */
-#define LC_SUB_SAMPLE_CMD_ERR_EID                6
+#define LC_SUB_SAMPLE_CMD_ERR_EID 6
 
 /** \brief <tt> 'Error registering WDT, RC=0x\%08X' </tt>
 **  \event <tt> 'Error registering WDT, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -136,11 +139,11 @@
 **  The \c RC field is the return code from the #CFE_TBL_Register
 **  function call that generated the error.
 */
-#define LC_WDT_REGISTER_ERR_EID                  7
+#define LC_WDT_REGISTER_ERR_EID 7
 
 /** \brief <tt> 'Error re-registering WDT, RC=0x\%08X' </tt>
 **  \event <tt> 'Error re-registering WDT, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -155,11 +158,11 @@
 **  The \c RC field is the return code from the #CFE_TBL_Register
 **  function call that generated the error.
 */
-#define LC_WDT_REREGISTER_ERR_EID                8
+#define LC_WDT_REREGISTER_ERR_EID 8
 
 /** \brief <tt> 'Error registering ADT, RC=0x\%08X' </tt>
 **  \event <tt> 'Error registering ADT, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -170,41 +173,41 @@
 **  The \c RC field is the return code from the #CFE_TBL_Register
 **  function call that generated the error.
 */
-#define LC_ADT_REGISTER_ERR_EID                  9
+#define LC_ADT_REGISTER_ERR_EID 9
 
 /** \brief <tt> 'Error registering WRT, RC=0x\%08X' </tt>
 **  \event <tt> 'Error registering WRT, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued when the watchpoint results 
+**  This event message is issued when the watchpoint results
 **  table (WRT) could not be registered.
 **
 **  The \c RC field is the return code from the #CFE_TBL_Register
 **  function call that generated the error.
 */
-#define LC_WRT_REGISTER_ERR_EID                  10
+#define LC_WRT_REGISTER_ERR_EID 10
 
 /** \brief <tt> 'Error registering ART, RC=0x\%08X' </tt>
 **  \event <tt> 'Error registering ART, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued when the actionpoint results 
+**  This event message is issued when the actionpoint results
 **  table (ART) could not be registered.
 **
 **  The \c RC field is the return code from the #CFE_TBL_Register
 **  function call that generated the error.
 */
-#define LC_ART_REGISTER_ERR_EID                  11
+#define LC_ART_REGISTER_ERR_EID 11
 
 /** \brief <tt> 'Error registering WRT CDS Area, RC=0x\%08X' </tt>
 **  \event <tt> 'Error registering WRT CDS Area, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -215,11 +218,11 @@
 **  The \c RC field is the return code from the #CFE_ES_RegisterCDS
 **  function call that generated the error.
 */
-#define LC_WRT_CDS_REGISTER_ERR_EID              12
+#define LC_WRT_CDS_REGISTER_ERR_EID 12
 
 /** \brief <tt> 'Error registering ART CDS Area, RC=0x\%08X' </tt>
 **  \event <tt> 'Error registering ART CDS Area, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -230,11 +233,11 @@
 **  The \c RC field is the return code from the #CFE_ES_RegisterCDS
 **  function call that generated the error.
 */
-#define LC_ART_CDS_REGISTER_ERR_EID              13
+#define LC_ART_CDS_REGISTER_ERR_EID 13
 
 /** \brief <tt> 'Error registering application data CDS Area, RC=0x\%08X' </tt>
 **  \event <tt> 'Error registering application data CDS Area, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -245,11 +248,11 @@
 **  The \c RC field is the return code from the #CFE_ES_RegisterCDS
 **  function call that generated the error.
 */
-#define LC_APP_CDS_REGISTER_ERR_EID              14
+#define LC_APP_CDS_REGISTER_ERR_EID 14
 
 /** \brief <tt> 'Error (RC=0x\%08X) Loading WDT with '\%s'' </tt>
 **  \event <tt> 'Error (RC=0x\%08X) Loading WDT with '\%s'' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -258,15 +261,15 @@
 **  loading the watchpoint definition table (WDT) from the default
 **  file image
 **
-**  The \c RC field is the return code from the #CFE_TBL_Load 
+**  The \c RC field is the return code from the #CFE_TBL_Load
 **  call that generated the error, the \c with field is the name
 **  of the load file
 */
-#define LC_WDT_LOAD_ERR_EID                      15
+#define LC_WDT_LOAD_ERR_EID 15
 
 /** \brief <tt> 'Error (RC=0x\%08X) Loading ADT with '\%s'' </tt>
 **  \event <tt> 'Error (RC=0x\%08X) Loading ADT with '\%s'' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -275,15 +278,15 @@
 **  loading the actionpoint definition table (ADT) from the default
 **  file image
 **
-**  The \c RC field is the return code from the #CFE_TBL_Load 
+**  The \c RC field is the return code from the #CFE_TBL_Load
 **  call that generated the error, the \c with field is the name
 **  of the load file
 */
-#define LC_ADT_LOAD_ERR_EID                      16
+#define LC_ADT_LOAD_ERR_EID 16
 
 /** \brief <tt> 'Error getting WRT address, RC=0x\%08X' </tt>
 **  \event <tt> 'Error getting WRT address, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -294,11 +297,11 @@
 **  The \c RC field is the return code from the #CFE_TBL_GetAddress
 **  function call that generated the error.
 */
-#define LC_WRT_GETADDR_ERR_EID                   17
+#define LC_WRT_GETADDR_ERR_EID 17
 
 /** \brief <tt> 'Error getting ART address, RC=0x\%08X' </tt>
 **  \event <tt> 'Error getting ART address, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -309,11 +312,11 @@
 **  The \c RC field is the return code from the #CFE_TBL_GetAddress
 **  function call that generated the error.
 */
-#define LC_ART_GETADDR_ERR_EID                   18
+#define LC_ART_GETADDR_ERR_EID 18
 
 /** \brief <tt> 'Error getting WDT address, RC=0x\%08X' </tt>
 **  \event <tt> 'Error getting WDT address, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -324,11 +327,11 @@
 **  The \c RC field is the return code from the #CFE_TBL_GetAddress
 **  function call that generated the error.
 */
-#define LC_WDT_GETADDR_ERR_EID                   19
+#define LC_WDT_GETADDR_ERR_EID 19
 
 /** \brief <tt> 'Error getting ADT address, RC=0x\%08X' </tt>
 **  \event <tt> 'Error getting ADT address, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -339,11 +342,11 @@
 **  The \c RC field is the return code from the #CFE_TBL_GetAddress
 **  function call that generated the error.
 */
-#define LC_ADT_GETADDR_ERR_EID                   20
+#define LC_ADT_GETADDR_ERR_EID 20
 
 /** \brief <tt> 'Previous state restored from Critical Data Store' </tt>
 **  \event <tt> 'Previous state restored from Critical Data Store' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -355,17 +358,17 @@
 **  areas managed directly by LC. Actionpoint definition table data
 **  and watchpoint definition table data were restored from the CDS
 **  area managed by cFE Table Services.
-** 
+**
 **  Note that an attempt to use CDS is only made when the appropriate
 **  parameter is enabled in the LC platform configuration header file.
 **
 **  \sa #LC_SAVE_TO_CDS, #LC_CDS_UPDATED_INF_EID, #LC_CDS_DISABLED_INF_EID
 */
-#define LC_CDS_RESTORED_INF_EID                  21
+#define LC_CDS_RESTORED_INF_EID 21
 
 /** \brief <tt> 'Default state loaded and written to CDS, activity mask = 0x\%08X' </tt>
 **  \event <tt> 'Default state loaded and written to CDS, activity mask = 0x\%08X' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -383,23 +386,23 @@
 **  reset type (warm vs cold) or to a failure to restore the entire
 **  set of data described above. If data from any CDS area cannot be
 **  restored, then all data is set to defaults and written to CDS.
-**  
+**
 **
 **  Refer to the \c ActivityMask bit field for specific information
 **  about which CDS areas were created and successfully restored if
 **  there are any questions about why the previous values were not
 **  restored.
-** 
+**
 **  Note that an attempt to use CDS is only made when the appropriate
 **  parameter is enabled in the LC platform configuration header file.
 **
 **  \sa #LC_SAVE_TO_CDS, #LC_CDS_RESTORED_INF_EID, #LC_CDS_DISABLED_INF_EID
 */
-#define LC_CDS_UPDATED_INF_EID                   22
+#define LC_CDS_UPDATED_INF_EID 22
 
 /** \brief <tt> 'LC use of Critical Data Store disabled, activity mask = 0x\%08X' </tt>
 **  \event <tt> 'LC use of Critical Data Store disabled, activity mask = 0x\%08X' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -417,32 +420,32 @@
 **
 **  Refer to the \c ActivityMask bit field for specific information
 **  about which CDS areas were created successfully.
-** 
+**
 **  Note that an attempt to use CDS is only made when the appropriate
 **  parameter is enabled in the LC platform configuration header file.
 **
 **  \sa #LC_SAVE_TO_CDS, #LC_CDS_RESTORED_INF_EID, #LC_CDS_UPDATED_INF_EID
 */
-#define LC_CDS_DISABLED_INF_EID                  23
+#define LC_CDS_DISABLED_INF_EID 23
 
 /** \brief <tt> 'Invalid command code: ID = 0x\%04X, CC = \%d' </tt>
 **  \event <tt> 'Invalid command code: ID = 0x\%04X, CC = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when a software bus message is received
-**  with an invalid command code.    
+**  with an invalid command code.
 **
 **  The \c ID field contains the message ID, the \c CC field contains
 **  the command code that generated the error.
 */
-#define LC_CC_ERR_EID                            24
+#define LC_CC_ERR_EID 24
 
 /** \brief <tt> 'Sample AP error: invalid AP number, start = \%d, end = \%d' </tt>
 **  \event <tt> 'Sample AP error: invalid AP number, start = \%d, end = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -450,14 +453,14 @@
 **  This event message is issued when the #LC_SAMPLE_AP_MID message
 **  has been received with an invalid actionpoint start or end number specified
 **
-**  The \c invalid \c AP \c number fields are the numbers specified in 
+**  The \c invalid \c AP \c number fields are the numbers specified in
 **  the command message that triggered the error
 */
-#define LC_APSAMPLE_APNUM_ERR_EID                25
+#define LC_APSAMPLE_APNUM_ERR_EID 25
 
 /** \brief <tt> 'No-op command: Version \%d.\%d.\%d.\%d' </tt>
 **  \event <tt> 'No-op command: Version \%d.\%d.\%d.\%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -469,23 +472,23 @@
 **  The third \c %d field contains the Application's Revision Number
 **  The fourth \c %d field contains the Application's Mission Revision Number
 */
-#define LC_NOOP_INF_EID                          26
+#define LC_NOOP_INF_EID 26
 
 /** \brief <tt> 'Reset counters command' </tt>
 **  \event <tt> 'Reset counters command' </tt>
-**  
+**
 **  \par Type: DEBUG
 **
 **  \par Cause:
 **
 **  This event message is issued when a reset counters command has
-**  been received.    
+**  been received.
 */
-#define LC_RESET_DBG_EID                         27
+#define LC_RESET_DBG_EID 27
 
 /** \brief <tt> 'Set LC state command: new state = \%d' </tt>
 **  \event <tt> 'Set LC state command: new state = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -494,13 +497,13 @@
 **  has been successfully executed
 **
 **  The \c new \c state field is the state specified in the command
-**  message that the LC operating state has been set to. 
+**  message that the LC operating state has been set to.
 */
-#define LC_LCSTATE_INF_EID                       28
+#define LC_LCSTATE_INF_EID 28
 
 /** \brief <tt> 'Set LC state error: invalid state = \%d' </tt>
 **  \event <tt> 'Set LC state error: invalid state = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -511,11 +514,11 @@
 **  The \c invalid \c state field is the state specified in the command
 **  message that triggered the error
 */
-#define LC_LCSTATE_ERR_EID                       29
+#define LC_LCSTATE_ERR_EID 29
 
 /** \brief <tt> 'Set AP state error: AP = \%d, Invalid new state = \%d' </tt>
 **  \event <tt> 'Set AP state error: AP = \%d, Invalid new state = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -523,15 +526,15 @@
 **  This event message is issued when the #LC_SET_AP_STATE_CC command
 **  has been received with an invalid state argument specified
 **
-**  The \c AP field is the specified actionpoint number and the 
-**  \c Invalid \c new \c state field is the state specified in 
+**  The \c AP field is the specified actionpoint number and the
+**  \c Invalid \c new \c state field is the state specified in
 **  the command message that triggered the error
 */
-#define LC_APSTATE_NEW_ERR_EID                   30
+#define LC_APSTATE_NEW_ERR_EID 30
 
 /** \brief <tt> 'Set AP state error: AP = \%d, Invalid current AP state = \%d' </tt>
 **  \event <tt> 'Set AP state error: AP = \%d, Invalid current AP state = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -541,15 +544,15 @@
 **  #LC_ACTION_NOT_USED or #LC_APSTATE_PERMOFF which can only be changed
 **  with a table load.
 **
-**  The \c AP field is the specified actionpoint number and the 
-**  \c Invalid \c current \c AP \c state field is the current state 
+**  The \c AP field is the specified actionpoint number and the
+**  \c Invalid \c current \c AP \c state field is the current state
 **  that was determined invalid.
 */
-#define LC_APSTATE_CURR_ERR_EID                  31
+#define LC_APSTATE_CURR_ERR_EID 31
 
 /** \brief <tt> 'Set AP state error: Invalid AP number = \%d' </tt>
 **  \event <tt> 'Set AP state error: Invalid AP number = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -557,14 +560,14 @@
 **  This event message is issued when the #LC_SET_AP_STATE_CC command
 **  has been received with an invalid actionpoint number specified
 **
-**  The \c Invalid \c AP \c number field is the number specified in 
+**  The \c Invalid \c AP \c number field is the number specified in
 **  the command message that triggered the error
 */
-#define LC_APSTATE_APNUM_ERR_EID                 32
+#define LC_APSTATE_APNUM_ERR_EID 32
 
 /** \brief <tt> 'Set AP state command: AP = \%d, New state = \%d' </tt>
 **  \event <tt> 'Set AP state command: AP = \%d, New state = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -572,15 +575,15 @@
 **  This event message is issued when the #LC_SET_AP_STATE_CC command
 **  has been successfully executed
 **
-**  The \c AP field is the actionpoint number, the \c New \c state field 
-**  is the state specified in the command message that the actionpoint 
-**  state has been set to. 
+**  The \c AP field is the actionpoint number, the \c New \c state field
+**  is the state specified in the command message that the actionpoint
+**  state has been set to.
 */
-#define LC_APSTATE_INF_EID                       33
+#define LC_APSTATE_INF_EID 33
 
 /** \brief <tt> 'Set AP perm off error: Invalid AP number = \%d' </tt>
 **  \event <tt> 'Set AP perm off error: Invalid AP number = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -588,14 +591,14 @@
 **  This event message is issued when the #LC_SET_AP_PERMOFF_CC command
 **  has been received with an invalid actionpoint number specified
 **
-**  The \c Invalid \c AP \c number field is the number specified in 
+**  The \c Invalid \c AP \c number field is the number specified in
 **  the command message that triggered the error
 */
-#define LC_APOFF_APNUM_ERR_EID                   34
+#define LC_APOFF_APNUM_ERR_EID 34
 
 /** \brief <tt> 'Set AP perm off error, AP NOT Disabled: AP = \%d, Current state = \%d' </tt>
 **  \event <tt> 'Set AP perm off error, AP NOT Disabled: AP = \%d, Current state = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -604,15 +607,15 @@
 **  has been received and the current actionpoint state is not
 **  #LC_APSTATE_DISABLED
 **
-**  The \c AP field is the specified actionpoint number and the 
-**  The \c Current \c state field is the current state of the 
+**  The \c AP field is the specified actionpoint number and the
+**  The \c Current \c state field is the current state of the
 **  actionpoint
 */
-#define LC_APOFF_CURR_ERR_EID                    35
+#define LC_APOFF_CURR_ERR_EID 35
 
 /** \brief <tt> 'Set AP permanently off command: AP = \%d' </tt>
 **  \event <tt> 'Set AP permanently off command: AP = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -623,11 +626,11 @@
 **  The \c AP field is the actionpoint number that has been set
 **  to permanently off
 */
-#define LC_APOFF_INF_EID                         36
+#define LC_APOFF_INF_EID 36
 
 /** \brief <tt> 'Reset AP stats error: invalid AP number = \%d' </tt>
 **  \event <tt> 'Reset AP stats error: invalid AP number = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -635,14 +638,14 @@
 **  This event message is issued when the #LC_RESET_AP_STATS_CC command
 **  has been received with an invalid actionpoint number specified
 **
-**  The \c invalid \c AP \c number field is the number specified in 
+**  The \c invalid \c AP \c number field is the number specified in
 **  the command message that triggered the error
 */
-#define LC_APSTATS_APNUM_ERR_EID                 37
+#define LC_APSTATS_APNUM_ERR_EID 37
 
 /** \brief <tt> 'Reset AP stats command: AP = \%d' </tt>
 **  \event <tt> 'Reset AP stats command: AP = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -653,11 +656,11 @@
 **  The \c AP field is the actionpoint number whose stats have been
 **  cleared
 */
-#define LC_APSTATS_INF_EID                       38
+#define LC_APSTATS_INF_EID 38
 
 /** \brief <tt> 'Reset WP stats error: invalid WP number = \%d' </tt>
 **  \event <tt> 'Reset WP stats error: invalid WP number = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -665,14 +668,14 @@
 **  This event message is issued when the #LC_RESET_WP_STATS_CC command
 **  has been received with an invalid watchpoint number specified
 **
-**  The \c invalid \c WP \c number field is the number specified in 
+**  The \c invalid \c WP \c number field is the number specified in
 **  the command message that triggered the error
 */
-#define LC_WPSTATS_WPNUM_ERR_EID                 39
+#define LC_WPSTATS_WPNUM_ERR_EID 39
 
 /** \brief <tt> 'Reset WP stats command: WP = \%d' </tt>
 **  \event <tt> 'Reset WP stats command: WP = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -683,62 +686,62 @@
 **  The \c WP field is the watchpoint number whose stats have been
 **  cleared
 */
-#define LC_WPSTATS_INF_EID                       40
+#define LC_WPSTATS_INF_EID 40
 
-/** \brief <tt> 'Invalid HK request msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
-**  \event <tt> 'Invalid HK request msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
-**  
+/** \brief <tt> 'Invalid HK request msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+**  \event <tt> 'Invalid HK request msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when a housekeeping request is received
-**  with a message length that doesn't match the expected value.   
+**  with a message length that doesn't match the expected value.
 **
-**  The \c ID field contains the message ID, the \c CC field contains the 
+**  The \c ID field contains the message ID, the \c CC field contains the
 **  command code, the \c Len field is the actual length returned by the
-**  #CFE_SB_GetTotalMsgLength call, and the \c Expected field is the expected
+**  #CFE_MSG_GetSize call, and the \c Expected field is the expected
 **  length for the message.
 */
-#define LC_HKREQ_LEN_ERR_EID                     41
+#define LC_HKREQ_LEN_ERR_EID 41
 
-/** \brief <tt> 'Invalid AP sample msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
-**  \event <tt> 'Invalid AP sample msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
-**  
+/** \brief <tt> 'Invalid AP sample msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+**  \event <tt> 'Invalid AP sample msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when a actionpoint sample request is received
-**  with a message length that doesn't match the expected value.   
+**  with a message length that doesn't match the expected value.
 **
-**  The \c ID field contains the message ID, the \c CC field contains the 
+**  The \c ID field contains the message ID, the \c CC field contains the
 **  command code, the \c Len field is the actual length returned by the
-**  #CFE_SB_GetTotalMsgLength call, and the \c Expected field is the expected
+**  #CFE_MSG_GetSize call, and the \c Expected field is the expected
 **  length for the message.
 */
-#define LC_APSAMPLE_LEN_ERR_EID                  42
+#define LC_APSAMPLE_LEN_ERR_EID 42
 
-/** \brief <tt> 'Invalid msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
-**  \event <tt> 'Invalid msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
-**  
+/** \brief <tt> 'Invalid msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+**  \event <tt> 'Invalid msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when a ground command message is received
-**  with a message length that doesn't match the expected value.   
+**  with a message length that doesn't match the expected value.
 **
-**  The \c ID field contains the message ID, the \c CC field contains the 
+**  The \c ID field contains the message ID, the \c CC field contains the
 **  command code, the \c Len field is the actual length returned by the
-**  #CFE_SB_GetTotalMsgLength call, and the \c Expected field is the expected
+**  #CFE_MSG_GetSize call, and the \c Expected field is the expected
 **  length for a message with that command code.
 */
-#define LC_LEN_ERR_EID                           43
+#define LC_LEN_ERR_EID 43
 
-/** \brief <tt> 'Error unsubscribing watchpoint: MID=0x\%04X, RC=0x\%08X' </tt>
-**  \event <tt> 'Error unsubscribing watchpoint: MID=0x\%04X, RC=0x\%08X' </tt>
-**  
+/** \brief <tt> 'Error unsubscribing watchpoint: MID=0x\%08X, RC=0x\%08X' </tt>
+**  \event <tt> 'Error unsubscribing watchpoint: MID=0x\%08X, RC=0x\%08X' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -749,11 +752,11 @@
 **  The \c MID field is the message ID, the \c RC field is the return
 **  code from the #CFE_SB_Unsubscribe call that generated the error.
 */
-#define LC_UNSUB_WP_ERR_EID                      44
+#define LC_UNSUB_WP_ERR_EID 44
 
-/** \brief <tt> 'Error subscribing watchpoint: MID=0x\%04X, RC=0x\%08X' </tt>
-**  \event <tt> 'Error subscribing watchpoint: MID=0x\%04X, RC=0x\%08X' </tt>
-**  
+/** \brief <tt> 'Error subscribing watchpoint: MID=0x\%08X, RC=0x\%08X' </tt>
+**  \event <tt> 'Error subscribing watchpoint: MID=0x\%08X, RC=0x\%08X' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -764,43 +767,43 @@
 **  The \c MID field is the message ID, the \c RC field is the return
 **  code from the #CFE_SB_Subscribe call that generated the error.
 */
-#define LC_SUB_WP_ERR_EID                        45
+#define LC_SUB_WP_ERR_EID 45
 
 /** \brief <tt> 'WRT data NOT saved to CDS on exit, RC=0x\%08X' </tt>
 **  \event <tt> 'WRT data NOT saved to CDS on exit, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when the watchpoint results
 **  table (WRT) data could not be saved to the CDS on application
-**  exit.    
+**  exit.
 **
 **  The \c RC field is the return code from the #CFE_ES_CopyToCDS
 **  call that generated the error.
 */
-#define LC_WRT_NO_SAVE_ERR_EID                   46
+#define LC_WRT_NO_SAVE_ERR_EID 46
 
 /** \brief <tt> 'ART data NOT saved to CDS on exit, RC=0x\%08X' </tt>
 **  \event <tt> 'ART data NOT saved to CDS on exit, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when the actionpoint results
 **  table (ART) data could not be saved to the CDS on application
-**  exit.    
+**  exit.
 **
 **  The \c RC field is the return code from the #CFE_ES_CopyToCDS
 **  call that generated the error.
 */
-#define LC_ART_NO_SAVE_ERR_EID                   47
+#define LC_ART_NO_SAVE_ERR_EID 47
 
 /** \brief <tt> 'Application data NOT saved to CDS on startup, RC=0x\%08X' </tt>
 **  \event <tt> 'Application data NOT saved to CDS on startup, RC=0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -811,11 +814,11 @@
 **  The \c RC field is the return code from the #CFE_ES_CopyToCDS
 **  call that generated the error.
 */
-#define LC_APP_NO_SAVE_START_ERR_EID             48
+#define LC_APP_NO_SAVE_START_ERR_EID 48
 
-/** \brief <tt> 'Msg with unreferenced message ID rcvd: ID = 0x\%04X' </tt>
-**  \event <tt> 'Msg with unreferenced message ID rcvd: ID = 0x\%04X' </tt>
-**  
+/** \brief <tt> 'Msg with unreferenced message ID rcvd: ID = 0x\%08X' </tt>
+**  \event <tt> 'Msg with unreferenced message ID rcvd: ID = 0x\%08X' </tt>
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -826,11 +829,11 @@
 **
 **  The \c ID field is the message ID
 */
-#define LC_MID_INF_EID                           49
+#define LC_MID_INF_EID 49
 
 /** \brief <tt> 'WP has undefined data type: WP = \%d, DataType = \%d' </tt>
 **  \event <tt> 'WP has undefined data type: WP = \%d, DataType = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -841,11 +844,11 @@
 **  The \c WP field is the watchpoint number, the \c DataType field is
 **  the data type value that triggered the error
 */
-#define LC_WP_DATATYPE_ERR_EID                   50
+#define LC_WP_DATATYPE_ERR_EID 50
 
 /** \brief <tt> 'WP has invalid operator ID: WP = \%d, OperID = \%d' </tt>
 **  \event <tt> 'WP has invalid operator ID: WP = \%d, OperID = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -856,11 +859,11 @@
 **  The \c WP field is the watchpoint number, the \c OperID field is
 **  the operator ID value that triggered the error
 */
-#define LC_WP_OPERID_ERR_EID                     51
+#define LC_WP_OPERID_ERR_EID 51
 
 /** \brief <tt> 'WP data value is a float NAN: WP = \%d, Value = 0x\%08X' </tt>
 **  \event <tt> 'WP data value is a float NAN: WP = \%d, Value = 0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -870,40 +873,40 @@
 **  NAN (not-a-number) value
 **
 **  The \c WP field is the watchpoint number, the \c Value field is
-**  the watchpoint value that triggered the error displayed as a 32 
+**  the watchpoint value that triggered the error displayed as a 32
 **  bit hexidecimal number.
 */
-#define LC_WP_NAN_ERR_EID                        52
+#define LC_WP_NAN_ERR_EID 52
 
-/** \brief <tt> 'WP offset error: MID = \%d, WP = \%d, Offset = \%d, DataSize = \%d, MsgLen = \%d' </tt>
-**  \event <tt> 'WP offset error: MID = \%d, WP = \%d, Offset = \%d, DataSize = \%d, MsgLen = \%d' </tt>
-**  
+/** \brief <tt> 'WP offset error: MID = 0x\%08X, WP = \%d, Offset = \%d, DataSize = \%d, MsgLen = \%d' </tt>
+**  \event <tt> 'WP offset error: MID = 0x\%08X, WP = \%d, Offset = \%d, DataSize = \%d, MsgLen = \%d' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when a watchpoint offset value extends past
-**  the end of the message as reported by the #CFE_SB_GetTotalMsgLength
+**  the end of the message as reported by the #CFE_MSG_GetSize
 **  function
 **
-**  The \c MID field is the message ID, the \c WP field is the watchpoint 
-**  number, the \c Offset field is the watchpoint offset, the \c DataSize 
-**  field is the size of the watchpoint data in bytes, the \c MsgLen field 
+**  The \c MID field is the message ID, the \c WP field is the watchpoint
+**  number, the \c Offset field is the watchpoint offset, the \c DataSize
+**  field is the size of the watchpoint data in bytes, the \c MsgLen field
 **  is the reported message length from #CFE_SB_GetTotalMsgLength.
 */
-#define LC_WP_OFFSET_ERR_EID                     53
+#define LC_WP_OFFSET_ERR_EID 53
 
 /** \brief <tt> 'WDT verify float err: WP = \%d, Err = \%d, ComparisonValue = 0x\%08X' </tt>
 **  \event <tt> 'WDT verify float err: WP = \%d, Err = \%d, ComparisonValue = 0x\%08X' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued on the first error when a table validation 
+**  This event message is issued on the first error when a table validation
 **  fails for a watchpoint definition table (WDT) load and the error is
 **  a failed floating point check. This error is caused when the data type
-**  for a wachpoint definition is floating point and the comparison value 
+**  for a wachpoint definition is floating point and the comparison value
 **  equates to a floating point NAN (not-a-number) or infinite value.
 **
 **  The \c WP field is the watchpoint number, the \c Err field
@@ -911,60 +914,60 @@
 **  the data that triggered the error displayed as a 32 bit hexadecimal
 **  number
 */
-#define LC_WDTVAL_FPERR_EID                      54
+#define LC_WDTVAL_FPERR_EID 54
 
-/** \brief <tt> 'WDT verify err: WP = \%d, Err = \%d, DType = \%d, Oper = \%d, MID = \%d' </tt>
-**  \event <tt> 'WDT verify err: WP = \%d, Err = \%d, DType = \%d, Oper = \%d, MID = \%d' </tt>
-**  
+/** \brief <tt> 'WDT verify err: WP = \%d, Err = \%d, DType = \%d, Oper = \%d, MID = 0x\%08X' </tt>
+**  \event <tt> 'WDT verify err: WP = \%d, Err = \%d, DType = \%d, Oper = \%d, MID = 0x\%08X' </tt>
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued on the first error when a table validation 
+**  This event message is issued on the first error when a table validation
 **  fails for a watchpoint definition table (WDT) load and the error is
-**  NOT a failed floating point check. 
+**  NOT a failed floating point check.
 **
 **  The \c WP field is the watchpoint number and the other fields are
 **  from that watchpoint's definition table entry that failed validation
 */
-#define LC_WDTVAL_ERR_EID                        55
+#define LC_WDTVAL_ERR_EID 55
 
 /** \brief <tt> 'WDT verify results: good = \%d, bad = \%d, unused = \%d' </tt>
 **  \event <tt> 'WDT verify results: good = \%d, bad = \%d, unused = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
 **
-**  This event message is issued when a table validation has been 
-**  completed for a watchpoint definition table (WDT) load 
+**  This event message is issued when a table validation has been
+**  completed for a watchpoint definition table (WDT) load
 **
 **  The \c good field is number of entries that passed, the \c bad field
-**  is number of entries that failed, the \c unused field is the 
-**  number of entries that weren't checked because they were 
+**  is number of entries that failed, the \c unused field is the
+**  number of entries that weren't checked because they were
 **  marked unused.
 */
-#define LC_WDTVAL_INF_EID                        56
+#define LC_WDTVAL_INF_EID 56
 
 /** \brief <tt> 'Sample AP error, invalid current AP state: AP = \%d, State = \%d' </tt>
 **  \event <tt> 'Sample AP error, invalid current AP state: AP = \%d, State = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
 **  This event message is issued when the #LC_SAMPLE_AP_MID message
-**  has been received and the current state for the specified 
+**  has been received and the current state for the specified
 **  actionpoint state is either #LC_ACTION_NOT_USED or #LC_APSTATE_PERMOFF.
 **
 **  The \c AP field is the actionpoint number, the \c state field is the
 **  current state of the actionpoint
 */
-#define LC_APSAMPLE_CURR_ERR_EID                 57
+#define LC_APSAMPLE_CURR_ERR_EID 57
 
 /** \brief <tt> 'AP state change from PASS to FAIL: AP = \%d' </tt>
 **  \event <tt> 'AP state change from PASS to FAIL: AP = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -974,11 +977,11 @@
 **
 **  The \c AP field is the actionpoint number that transitioned.
 */
-#define LC_AP_PASSTOFAIL_INF_EID                 58
+#define LC_AP_PASSTOFAIL_INF_EID 58
 
 /** \brief <tt> 'AP failed while LC App passive: AP = \%d, FailCount = \%d, RTS = \%d' </tt>
 **  \event <tt> 'AP failed while LC App passive: AP = \%d, FailCount = \%d, RTS = \%d' </tt>
-**  
+**
 **  \par Type: DEBUG
 **
 **  \par Cause:
@@ -987,14 +990,14 @@
 **  the LC task operating state is #LC_STATE_PASSIVE
 **
 **  The \c AP field is the actionpoint number, the \c FailCount field is how
-**  many times this actionpoint has failed, the \c RTS field is the RTS 
+**  many times this actionpoint has failed, the \c RTS field is the RTS
 **  that wasn't initiated because LC was passive.
 */
-#define LC_PASSIVE_FAIL_DBG_EID                  59
+#define LC_PASSIVE_FAIL_DBG_EID 59
 
 /** \brief <tt> 'AP failed while passive: AP = \%d, FailCount = \%d, RTS = \%d' </tt>
 **  \event <tt> 'AP failed while passive: AP = \%d, FailCount = \%d, RTS = \%d' </tt>
-**  
+**
 **  \par Type: DEBUG
 **
 **  \par Cause:
@@ -1003,14 +1006,14 @@
 **  the actionpoint state is #LC_APSTATE_PASSIVE
 **
 **  The \c AP field is the actionpoint number, the \c FailCount field is how
-**  many times this actionpoint has failed, the \c RTS field is the RTS 
+**  many times this actionpoint has failed, the \c RTS field is the RTS
 **  that wasn't initiated because the actionpoint was passive.
 */
-#define LC_AP_PASSIVE_FAIL_INF_EID               60
+#define LC_AP_PASSIVE_FAIL_INF_EID 60
 
 /** \brief <tt> 'AP state change from FAIL to PASS: AP = \%d' </tt>
 **  \event <tt> 'AP state change from FAIL to PASS: AP = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -1020,11 +1023,11 @@
 **
 **  The \c AP field is the actionpoint number that transitioned.
 */
-#define LC_AP_FAILTOPASS_INF_EID                 61
+#define LC_AP_FAILTOPASS_INF_EID 61
 
 /** \brief <tt> 'AP evaluated to error: AP = \%d, Result = \%d' </tt>
 **  \event <tt> 'AP evaluated to error: AP = \%d, Result = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
@@ -1035,11 +1038,11 @@
 **  The \c AP field is the actionpoint number, the \c Result field
 **  is the evaluation value that triggered the error
 */
-#define LC_ACTION_ERROR_ERR_EID                  62
+#define LC_ACTION_ERROR_ERR_EID 62
 
 /** \brief <tt> 'AP has illegal RPN expression: AP = \%d, LastOperand = \%d, StackPtr = \%d' </tt>
 **  \event <tt> 'AP has illegal RPN expression: AP = \%d, LastOperand = \%d, StackPtr = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -1051,61 +1054,61 @@
 **  is the operand when the error occured, the \c StackPtr field
 **  is the value of the equation stack pointer when the error occured.
 */
-#define LC_INVALID_RPN_ERR_EID                   63
+#define LC_INVALID_RPN_ERR_EID 63
 
 /** \brief <tt> 'ADT verify RPN err: AP = \%d, Index = \%d, StackDepth = \%d' </tt>
 **  \event <tt> 'ADT verify RPN err: AP = \%d, Index = \%d, StackDepth = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued on the first error when a table validation 
+**  This event message is issued on the first error when a table validation
 **  fails for a actionpoint definition table (ADT) load and the error is
-**  a failed RPN equation check. 
+**  a failed RPN equation check.
 **
-**  The \c AP field is the watchpoint number, the \c Index field is the 
-**  index into the equation where the error occurred, and the \c StackDepth 
+**  The \c AP field is the watchpoint number, the \c Index field is the
+**  index into the equation where the error occurred, and the \c StackDepth
 **  field contains the RPN stack index when the error occurred.
 */
-#define LC_ADTVAL_RPNERR_EID                     64
+#define LC_ADTVAL_RPNERR_EID 64
 
 /** \brief <tt> 'ADT verify err: AP = \%d, Err = \%d, State = \%d, RTS = \%d, FailCnt = \%d, EvtType = \%d' </tt>
 **  \event <tt> 'ADT verify err: AP = \%d, Err = \%d, State = \%d, RTS = \%d, FailCnt = \%d, EvtType = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
 **
-**  This event message is issued on the first error when a table validation 
+**  This event message is issued on the first error when a table validation
 **  fails for an actioinpoint definition table (ADT) load and the error is
-**  NOT a failed RPN equation check. 
+**  NOT a failed RPN equation check.
 **
 **  The \c AP field is the actionpoint number and the other fields are
 **  from that actionpoint's definition table entry that failed validation
 */
-#define LC_ADTVAL_ERR_EID                        65
+#define LC_ADTVAL_ERR_EID 65
 
 /** \brief <tt> 'ADT verify results: good = \%d, bad = \%d, unused = \%d' </tt>
 **  \event <tt> 'ADT verify results: good = \%d, bad = \%d, unused = \%d' </tt>
-**  
+**
 **  \par Type: INFORMATION
 **
 **  \par Cause:
 **
-**  This event message is issued when a table validation has been 
-**  completed for an actionpoint definition table (ADT) load 
+**  This event message is issued when a table validation has been
+**  completed for an actionpoint definition table (ADT) load
 **
 **  The \c good field is number of entries that passed, the \c bad field
-**  is number of entries that failed, the \c unused field is the 
-**  number of entries that weren't checked because they were 
+**  is number of entries that failed, the \c unused field is the
+**  number of entries that weren't checked because they were
 **  marked unused.
 */
-#define LC_ADTVAL_INF_EID                        66
+#define LC_ADTVAL_INF_EID 66
 
 /** \brief <tt> 'Unexpected LC_CustomFunction call: WP = \%d' </tt>
 **  \event <tt> 'Unexpected LC_CustomFunction call: WP = \%d' </tt>
-**  
+**
 **  \par Type: ERROR
 **
 **  \par Cause:
@@ -1117,10 +1120,40 @@
 **  The \c WP field is the watchpoint number that generated the
 **  call
 */
-#define LC_CFCALL_ERR_EID                        67
+#define LC_CFCALL_ERR_EID 67
+
+/** \brief <tt> 'Error registering WDT as critical table, retrying with default options, RC=0x\%08X' </tt>
+**  \event <tt> 'Error registering WDT as critical table, retrying with default options, RC=0x\%08X' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when the watchpoint definition
+**  table (WDT) could not be registered as a critical table.
+**
+**  The \c RC field is the return code from the #CFE_TBL_Register
+**  function call that generated the error.
+*/
+#define LC_WDT_REGISTER_CRIT_ERR_EID 68
+
+/** \brief <tt> 'Error registering ADT as critical table, retrying with default options, RC=0x\%08X' </tt>
+**  \event <tt> 'Error registering ADT as critical table, retrying with default options, RC=0x\%08X' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  This event message is issued when the actionpoint definition
+**  table (ADT) could not be registered as a critical table.
+**
+**  The \c RC field is the return code from the #CFE_TBL_Register
+**  function call that generated the error.
+*/
+#define LC_ADT_REGISTER_CRIT_ERR_EID 69
 
 /** \brief <tt> 'Base event ID for events defined in the Actionpoint Definition Table' </tt>
-**  
+**
 **  \par Type: User defined in Actionpoint Definition Table
 **
 **  \par Cause:
@@ -1141,7 +1174,7 @@
 **  event ID is 1025 then it is immediately apparent that the event is
 **  the user defined event for actionpoint table index 25.
 */
-#define LC_BASE_AP_EID                           1000
+#define LC_BASE_AP_EID 1000
 
 #endif /* _lc_events_ */
 

@@ -293,6 +293,8 @@ for i = 0 to ut_req_array_size DO
   ut_requirement[i] = "U"
 enddo
 
+global lc_wrt_value_check_result
+
 ;**********************************************************************
 ; Set the local values
 ;**********************************************************************
@@ -548,8 +550,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
      ($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
      ($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
      ($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-     ($SC_$CPU_LC_WRT[index].FtoTValue <> 0) or ;;
-     ($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+     ($SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32 <> 0) or ;;
+     ($SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32 <> 0) then
     break
   endif
 enddo
@@ -562,8 +564,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count =", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True    =", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count      =", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value        =", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value        =", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value        =", $SC_$CPU_LC_WRT[index].FtoTValue.UnSigned32
+  write " T to F Value        =", $SC_$CPU_LC_WRT[index].TtoFValue.UnSigned32
   ut_setrequirements LC_9001, "F"
 else
   write "<*> Passed (9001) - Watchpoint Results Table initialized properly."
@@ -2459,10 +2461,8 @@ for rdlindex = 0 to LC_MAX_WATCHPOINTS-1 do
      ($sc_$cpu_LC_WRT[rdlindex].FalsetoTrueCount  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].ConsectiveTrueCount  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].CumulativeTrueCount  = 0) or ;;
-     ($sc_$cpu_LC_WRT[rdlindex].FtoTValue  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SecFtoTTimeStamp  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SubSecFtoTTimeStamp  = 0) or ;;
-     ($sc_$cpu_LC_WRT[rdlindex].TtoFValue  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SecTtoFTimeStamp  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SubSecTtoFTimeStamp  = 0) then
     write ";*********************************************************************"
@@ -2502,10 +2502,8 @@ if (CmdStatus = CMDSUCCESS) then
 	 ($sc_$cpu_LC_WRT[rdlindex].FalsetoTrueCount  <> 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].ConsectiveTrueCount  <> 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].CumulativeTrueCount  <> 0) and ;;
-	 ($sc_$cpu_LC_WRT[rdlindex].FtoTValue  <> 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SecFtoTTimeStamp  <> 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SubSecFtoTTimeStamp  <> 0) and ;;
-	 ($sc_$cpu_LC_WRT[rdlindex].TtoFValue  <> 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SecTtoFTimeStamp  <> 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SubSecTtoFTimeStamp  <> 0) then 
         write "<!> Failed (1003;2004;4012) - Reset WP Statistics did not clear index (",rdlindex, ") as expected."
@@ -2520,10 +2518,8 @@ if (CmdStatus = CMDSUCCESS) then
 	 ($sc_$cpu_LC_WRT[rdlindex].FalsetoTrueCount  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].ConsectiveTrueCount  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].CumulativeTrueCount  = 0) and ;;
-	 ($sc_$cpu_LC_WRT[rdlindex].FtoTValue  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SecFtoTTimeStamp  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SubSecFtoTTimeStamp  = 0) and ;;
-	 ($sc_$cpu_LC_WRT[rdlindex].TtoFValue  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SecTtoFTimeStamp  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SubSecTtoFTimeStamp  = 0) then 
         write "<!> Failed (1003;2004;4012) - WP Statistics cleared for an index (",rdlindex, ") that was not commanded to clear"
@@ -2531,10 +2527,8 @@ if (CmdStatus = CMDSUCCESS) then
         write "False to True Count     = ", $sc_$cpu_LC_WRT[rdlindex].FalsetoTrueCount
         write "Consecutive True Count  = ", $sc_$cpu_LC_WRT[rdlindex].ConsectiveTrueCount 
         write "Cumulative True Count   = ", $sc_$cpu_LC_WRT[rdlindex].CumulativeTrueCount
-        write "False to True Value     = ", $sc_$cpu_LC_WRT[rdlindex].FtoTValue
         write "Time Stamp (seconds)    = ", $sc_$cpu_LC_WRT[rdlindex].SecFtoTTimeStamp
         write "Time Stamp (subseconds) = ", $sc_$cpu_LC_WRT[rdlindex].SubSecFtoTTimeStamp
-        write "True to False Value     = ", $sc_$cpu_LC_WRT[rdlindex].TtoFValue
         write "Time Stamp (seconds)    = ", $sc_$cpu_LC_WRT[rdlindex].SecTtoFTimeStamp 
         write "Time Stamp (subseconds) = ", $sc_$cpu_LC_WRT[rdlindex].SubSecTtoFTimeStamp
         ut_setrequirements LC_1003, "F"
@@ -2744,10 +2738,8 @@ for rdlindex = 0 to LC_MAX_WATCHPOINTS-1 do
      ($sc_$cpu_LC_WRT[rdlindex].FalsetoTrueCount  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].ConsectiveTrueCount  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].CumulativeTrueCount  = 0) or ;;
-     ($sc_$cpu_LC_WRT[rdlindex].FtoTValue  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SecFtoTTimeStamp  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SubSecFtoTTimeStamp  = 0) or ;;
-     ($sc_$cpu_LC_WRT[rdlindex].TtoFValue  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SecTtoFTimeStamp  = 0) or ;;
      ($sc_$cpu_LC_WRT[rdlindex].SubSecTtoFTimeStamp  = 0) then
     write ";*********************************************************************"
@@ -2784,10 +2776,8 @@ if (CmdStatus = CMDSUCCESS) then
 	 ($sc_$cpu_LC_WRT[rdlindex].FalsetoTrueCount  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].ConsectiveTrueCount  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].CumulativeTrueCount  = 0) and ;;
-	 ($sc_$cpu_LC_WRT[rdlindex].FtoTValue  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SecFtoTTimeStamp  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SubSecFtoTTimeStamp  = 0) and ;;
-	 ($sc_$cpu_LC_WRT[rdlindex].TtoFValue  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SecTtoFTimeStamp  = 0) and ;;
 	 ($sc_$cpu_LC_WRT[rdlindex].SubSecTtoFTimeStamp  = 0) then 
 	write "<*> Passed (1003;2004;4013) Reset All WP Statistics command properly sent."
@@ -2801,10 +2791,8 @@ if (CmdStatus = CMDSUCCESS) then
 	write "False to True Count     = ", $sc_$cpu_LC_WRT[rdlindex].FalsetoTrueCount
 	write "Consecutive True Count  = ", $sc_$cpu_LC_WRT[rdlindex].ConsectiveTrueCount 
 	write "Cumulative True Count   = ", $sc_$cpu_LC_WRT[rdlindex].CumulativeTrueCount
-	write "False to True Value     = ", $sc_$cpu_LC_WRT[rdlindex].FtoTValue
 	write "Time Stamp (seconds)    = ", $sc_$cpu_LC_WRT[rdlindex].SecFtoTTimeStamp
 	write "Time Stamp (subseconds) = ", $sc_$cpu_LC_WRT[rdlindex].SubSecFtoTTimeStamp
-	write "True to False Value     = ", $sc_$cpu_LC_WRT[rdlindex].TtoFValue
 	write "Time Stamp (seconds)    = ", $sc_$cpu_LC_WRT[rdlindex].SecTtoFTimeStamp 
 	write "Time Stamp (subseconds) = ", $sc_$cpu_LC_WRT[rdlindex].SubSecTtoFTimeStamp
 	ut_setrequirements LC_1003, "F"

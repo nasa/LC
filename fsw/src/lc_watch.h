@@ -2,22 +2,22 @@
 ** File:
 **   $Id: lc_watch.h 1.4 2017/01/22 17:24:25EST sstrege Exp  $
 **
-**  Copyright (c) 2007-2020 United States Government as represented by the 
-**  Administrator of the National Aeronautics and Space Administration. 
-**  All Other Rights Reserved.  
+**  Copyright (c) 2007-2020 United States Government as represented by the
+**  Administrator of the National Aeronautics and Space Administration.
+**  All Other Rights Reserved.
 **
 **  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be 
-**  used, distributed and modified only pursuant to the terms of that 
+**  This software is governed by the NASA Open Source Agreement and may be
+**  used, distributed and modified only pursuant to the terms of that
 **  agreement.
 **
-** Purpose: 
+** Purpose:
 **   Specification for the CFS Limit Checker (LC) routines that
 **   handle watchpoint processing
 **
 ** Notes:
 **
-** 
+**
 **************************************************************************/
 #ifndef _lc_watch_
 #define _lc_watch_
@@ -29,11 +29,25 @@
 #include "lc_app.h"
 
 /*************************************************************************
+** Constants
+*************************************************************************/
+/* Values used when converting watchpoint values to correctly sized data */
+#define LC_16BIT_BE_VAL 0x0001
+#define LC_16BIT_LE_VAL 0x0100
+#define LC_32BIT_BE_VAL 0x00010203
+#define LC_32BIT_LE_VAL 0x03020100
+
+/* Values representing the fields of the single-precision IEEE-754
+   floating point format */
+#define LC_IEEE_EXPONENT_MASK 0x7F800000
+#define LC_IEEE_FRACTION_MASK 0x007FFFFF
+
+/*************************************************************************
 ** Exported Functions
 *************************************************************************/
 /************************************************************************/
 /** \brief Check message for watchpoints
-**  
+**
 **  \par Description
 **       Processes a single software bus command pipe message that
 **       doesn't match any LC predefined command or message ids,
@@ -43,31 +57,30 @@
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
-**  \param [in]   MessageID    A #CFE_SB_MsgId_t that holds the
-**                             message ID 
 **
-**  \param [in]   MessagePtr   A #CFE_SB_MsgPtr_t pointer that
-**                             references the software bus message 
+**  \param [in]   MessageID    A #CFE_SB_MsgId_t that holds the
+**                             message ID
+**
+**  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
+**                             references the software bus message
 **
 **  \sa #LC_ProcessWP
 **
 *************************************************************************/
-void LC_CheckMsgForWPs(CFE_SB_MsgId_t  MessageID, 
-                       CFE_SB_MsgPtr_t MessagePtr);
+void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr);
 
 /************************************************************************/
 /** \brief Validate watchpoint definition table (WDT)
-**  
+**
 **  \par Description
-**       This function is called by table services when a validation of 
+**       This function is called by table services when a validation of
 **       the watchpoint definition table is required
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]   *TableData     Pointer to the table data to validate
-**  
+**
 **  \returns
 **  \retcode #CFE_SUCCESS            \retdesc \copydoc CFE_SUCCESS            \endcode
 **  \retcode #LC_WDTVAL_ERR_DATATYPE \retdesc \copydoc LC_WDTVAL_ERR_DATATYPE \endcode
@@ -84,7 +97,7 @@ int32 LC_ValidateWDT(void *TableData);
 
 /************************************************************************/
 /** \brief Create watchpoint hash table
-**  
+**
 **  \par Description
 **       Creates a hash table to optimize the process of getting direct
 **       access to all the watchpoint table entries that reference a
@@ -100,18 +113,18 @@ void LC_CreateHashTable(void);
 
 /************************************************************************/
 /** \brief Process a single watchpoint
-**  
+**
 **  \par Description
 **       Support function for watchpoint processing that will
 **       evaluate a single watchpoint
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]   WatchIndex  The watchpoint number to evaluate (zero
 **                            based watchpoint definition table index)
 **
-**  \param [in]   MessagePtr  A #CFE_SB_MsgPtr_t pointer that
+**  \param [in]   BufPtr  A #CFE_SB_Buffer_t* pointer that
 **                            references the software bus message that
 **                            contains the watchpoint data
 **
@@ -120,13 +133,11 @@ void LC_CreateHashTable(void);
 **                            if a state transition is detected
 **
 *************************************************************************/
-void LC_ProcessWP(uint16             WatchIndex, 
-                  CFE_SB_MsgPtr_t    MessagePtr,
-                  CFE_TIME_SysTime_t Timestamp);
+void LC_ProcessWP(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr, CFE_TIME_SysTime_t Timestamp);
 
 /************************************************************************/
 /** \brief Operator comparison
-**  
+**
 **  \par Description
 **       Support function for watchpoint processing that will perform
 **       the watchpoint data comparison based upon the operator and
@@ -134,7 +145,7 @@ void LC_ProcessWP(uint16             WatchIndex,
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in] WatchIndex         The watchpoint number to compare (zero
 **                                 based watchpoint definition table index)
 **
@@ -153,12 +164,11 @@ void LC_ProcessWP(uint16             WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-uint8 LC_OperatorCompare(uint16 WatchIndex,
-                         uint32 ProcessedWPData);
+uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData);
 
 /************************************************************************/
 /** \brief Signed comparison
-**  
+**
 **  \par Description
 **       Support function for watchpoint processing that will perform
 **       a signed watchpoint data comparison based upon the operator
@@ -166,7 +176,7 @@ uint8 LC_OperatorCompare(uint16 WatchIndex,
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in] WatchIndex    The watchpoint number to compare (zero
 **                            based watchpoint definition table index)
 **
@@ -177,7 +187,7 @@ uint8 LC_OperatorCompare(uint16 WatchIndex,
 **                            fixing that LC might have done
 **                            according to the watchpoint definition
 **
-**  \param [in] CompareValue  The comparison value specified in the 
+**  \param [in] CompareValue  The comparison value specified in the
 **                            watchpoint definition table (sign
 **                            extended, if needed, in an int32)
 **
@@ -188,13 +198,11 @@ uint8 LC_OperatorCompare(uint16 WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-uint8 LC_SignedCompare(uint16 WatchIndex,
-                       int32  WPValue, 
-                       int32  CompareValue);
-  
+uint8 LC_SignedCompare(uint16 WatchIndex, int32 WPValue, int32 CompareValue);
+
 /************************************************************************/
 /** \brief Unsigned comparison
-**  
+**
 **  \par Description
 **       Support function for watchpoint processing that will perform
 **       an unsigned watchpoint data comparison based upon the operator
@@ -202,7 +210,7 @@ uint8 LC_SignedCompare(uint16 WatchIndex,
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in] WatchIndex    The watchpoint number to compare (zero
 **                            based watchpoint definition table index)
 **
@@ -213,7 +221,7 @@ uint8 LC_SignedCompare(uint16 WatchIndex,
 **                            fixing that LC might have done
 **                            according to the watchpoint definition
 **
-**  \param [in] CompareValue  The comparison value specified in the 
+**  \param [in] CompareValue  The comparison value specified in the
 **                            watchpoint definition table (zero
 **                            extended, if needed, in an uint32)
 **
@@ -224,13 +232,11 @@ uint8 LC_SignedCompare(uint16 WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-uint8 LC_UnsignedCompare(uint16 WatchIndex,
-                         uint32 WPValue, 
-                         uint32 CompareValue);
-  
+uint8 LC_UnsignedCompare(uint16 WatchIndex, uint32 WPValue, uint32 CompareValue);
+
 /************************************************************************/
 /** \brief Float comparison
-**  
+**
 **  \par Description
 **       Support function for watchpoint processing that will perform
 **       an floating point watchpoint data comparison based upon the operator
@@ -238,7 +244,7 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex,
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in] WatchIndex        The watchpoint number to compare (zero
 **                                based watchpoint definition table index)
 **
@@ -250,7 +256,7 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex,
 **                                that LC might have done according
 **                                to the watchpoint definition
 **
-**  \param [in] CompareMultiType  The comparison value specified in the 
+**  \param [in] CompareMultiType  The comparison value specified in the
 **                                watchpoint definition table. Stored
 **                                in a muti-type union so it can easily
 **                                be accessed as a uint32 for validity
@@ -263,13 +269,11 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-uint8 LC_FloatCompare(uint16 WatchIndex,
-                      LC_MultiType_t WPMultiType, 
-                      LC_MultiType_t CompareMultiType);
+uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiType_t *CompareMultiType);
 
 /************************************************************************/
 /** \brief Watchpoint offset valid
-**  
+**
 **  \par Description
 **       Support function for watchpoint processing that will check if
 **       the watchpoint offset specified in the definition table would
@@ -277,11 +281,11 @@ uint8 LC_FloatCompare(uint16 WatchIndex,
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]   WatchIndex  The watchpoint number to check (zero
 **                            based watchpoint definition table index)
 **
-**  \param [in]   MessagePtr  A #CFE_SB_MsgPtr_t pointer that
+**  \param [in]   BufPtr  A #CFE_SB_Buffer_t* pointer that
 **                            references the software bus message that
 **                            contains the watchpoint data
 **
@@ -291,27 +295,26 @@ uint8 LC_FloatCompare(uint16 WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-bool    LC_WPOffsetValid(uint16          WatchIndex, 
-                         CFE_SB_MsgPtr_t MessagePtr);
+bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr);
 
 /************************************************************************/
 /** \brief Get sized data
-**  
+**
 **  \par Description
 **       Support function for watchpoint processing that will extract
 **       the watchpoint data from a software bus message based upon the
-**       data type specified in the watchpoint definition table and 
+**       data type specified in the watchpoint definition table and
 **       store it in a uint32. If there are any endian differences between
 **       LC and the watchpoint data, this is where it will get fixed up.
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]  WatchIndex     The watchpoint number to extract (zero
 **                              based watchpoint definition table index)
 **
-**  \param [in]  WPDataPtr      A pointer to the first byte of the 
-**                              watchpoint data as it exists in the 
+**  \param [in]  WPDataPtr      A pointer to the first byte of the
+**                              watchpoint data as it exists in the
 **                              software bus message it was received in
 **
 **  \param [in]  SizedDataPtr   A pointer to where the extracted watchpoint
@@ -326,13 +329,11 @@ bool    LC_WPOffsetValid(uint16          WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-bool    LC_GetSizedWPData(uint16 WatchIndex,
-                          uint8  *WPDataPtr,
-                          uint32 *SizedDataPtr);
+bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedDataPtr);
 
 /************************************************************************/
 /** \brief Check uint32 for float NAN
-**  
+**
 **  \par Description
 **       Utility function for watchpoint processing that will test if
 **       a uint32 value would result in a NAN (not-a-number) value if
@@ -340,7 +341,7 @@ bool    LC_GetSizedWPData(uint16 WatchIndex,
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]  Data     The uint32 value to check
 **
 **  \returns
@@ -349,11 +350,11 @@ bool    LC_GetSizedWPData(uint16 WatchIndex,
 **  \endreturns
 **
 *************************************************************************/
-bool    LC_Uint32IsNAN(uint32 Data);
+bool LC_Uint32IsNAN(uint32 Data);
 
 /************************************************************************/
 /** \brief Check uint32 for float infinite
-**  
+**
 **  \par Description
 **       Utility function for watchpoint processing that will test if
 **       a uint32 value would result in an infinite value if
@@ -361,7 +362,7 @@ bool    LC_Uint32IsNAN(uint32 Data);
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]  Data     The uint32 value to check
 **
 **  \returns
@@ -370,28 +371,28 @@ bool    LC_Uint32IsNAN(uint32 Data);
 **  \endreturns
 **
 *************************************************************************/
-bool    LC_Uint32IsInfinite(uint32 Data);
+bool LC_Uint32IsInfinite(uint32 Data);
 
 /************************************************************************/
 /** \brief Convert messageID into hash table index
-**  
+**
 **  \par Description
 **       Utility function for watchpoint processing that converts a
 **       messageID into an index into the watchpoint hash table.
-**       
+**
 **       The following code supports use of the watchpoint hash table:
 **
 **       1) #LC_GetHashTableIndex - convert messageID to hash table index
 **       2) #LC_CreateHashTable   - after load Watchpoint Definition Table
 **       3) #LC_AddWatchpoint     - add one watchpoint to hash table
 **       4) #LC_CheckMsgForWPs    - process all WP's that reference messageID
-**       
+**
 **       The following data structures support the hash table:
 **
 **       1) Hash table (256 entries)
 **       2) Array of links for messageID linked lists (LC_MAX_WATCHPOINTS)
 **       3) Array of links for watchpoint linked lists (LC_MAX_WATCHPOINTS)
-**       
+**
 **       Rather than search the entire Watchpoint Definition Table to find
 **       the watchpoints that reference a particular messageID, LC does
 **       the following:
@@ -404,7 +405,7 @@ bool    LC_Uint32IsInfinite(uint32 Data);
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]  MessageID   SoftwareBus packet message ID
 **
 **  \returns
@@ -416,7 +417,7 @@ uint32 LC_GetHashTableIndex(CFE_SB_MsgId_t MessageID);
 
 /************************************************************************/
 /** \brief Add one watchpoint linked list entry during creation of hash table
-**  
+**
 **  \par Description
 **       Utility function that adds another link to the watchpoint linked list
 **       for the specified messageID. The function will also add a messageID
@@ -424,20 +425,20 @@ uint32 LC_GetHashTableIndex(CFE_SB_MsgId_t MessageID);
 **       to that messageID. The function will also subscribe to the messageID
 **       if this is the first reference to that messageID. The function will
 **       return a pointer to the watchpoint linked list entry just added.
-**       
+**
 **       The following code supports use of the watchpoint hash table:
 **
 **       1) #LC_GetHashTableIndex - convert messageID to hash table index
 **       2) #LC_CreateHashTable   - after load Watchpoint Definition Table
 **       3) #LC_AddWatchpoint     - add one watchpoint to hash table
 **       4) #LC_CheckMsgForWPs    - process all WP's that reference messageID
-**       
+**
 **       The following data structures support the hash table:
 **
 **       1) Hash table (256 entries)
 **       2) Array of links for messageID linked lists (LC_MAX_WATCHPOINTS)
 **       3) Array of links for watchpoint linked lists (LC_MAX_WATCHPOINTS)
-**       
+**
 **       Rather than search the entire Watchpoint Definition Table to find
 **       the watchpoints that reference a particular messageID, LC does
 **       the following:
@@ -450,7 +451,7 @@ uint32 LC_GetHashTableIndex(CFE_SB_MsgId_t MessageID);
 **
 **  \par Assumptions, External Events, and Notes:
 **       None
-**       
+**
 **  \param [in]  MessageID   SoftwareBus packet message ID
 **
 **  \returns
@@ -458,8 +459,8 @@ uint32 LC_GetHashTableIndex(CFE_SB_MsgId_t MessageID);
 **  \endreturns
 **
 *************************************************************************/
-LC_WatchPtList_t  *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID);
- 
+LC_WatchPtList_t *LC_AddWatchpoint(const CFE_SB_MsgId_t MessageID);
+
 #endif /* _lc_watch_ */
 
 /************************/

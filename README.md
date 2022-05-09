@@ -4,9 +4,9 @@ core Flight System (cFS) Limit Checker (LC)
 Open Source Release Readme
 ==========================
 
-LC Release 2.1.2
+LC Release Candidate 2.2.0
 
-Date: 10/7/2020
+Date: 9/2/2021
 
 Introduction
 -------------
@@ -20,8 +20,10 @@ Introduction
 
   The LC application is written in C and depends on the cFS Operating System
   Abstraction Layer (OSAL) and cFE components.  There is additional LC application
-  specific configuration information contained in the application user's guide
-  available in https://github.com/nasa/LC/tree/master/docs/users_guide
+  specific configuration information contained in the application user's guide.
+
+  Developer's guide information can be generated using Doxygen:
+  doxygen lc_doxygen_config.txt
 
   This software is licensed under the NASA Open Source Agreement.
   http://ti.arc.nasa.gov/opensource/nosa
@@ -30,17 +32,13 @@ Introduction
 Software Included
 ------------------
 
-  Limit Checker application (LC) 2.1.2
+  Limit Checker application (LC) 2.2.0
 
 
 Software Required
 ------------------
 
- Operating System Abstraction Layer 5.0 or higher can be
- obtained at https://github.com/nasa/osal
-
- core Flight Executive 6.8.0 or higher can be obtained at
- https://github.com/nasa/cfe
+ cFS Caelum
 
  Note: An integrated bundle including the cFE, OSAL, and PSP can
  be obtained at https://github.com/nasa/cfs

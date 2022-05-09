@@ -2,24 +2,26 @@
 ** File:
 **   $Id: lc_platform_cfg.h 1.4 2017/03/07 17:35:09EST mdeschu Exp  $
 **
-**  Copyright (c) 2007-2020 United States Government as represented by the 
-**  Administrator of the National Aeronautics and Space Administration. 
-**  All Other Rights Reserved.  
+**  Copyright (c) 2007-2020 United States Government as represented by the
+**  Administrator of the National Aeronautics and Space Administration.
+**  All Other Rights Reserved.
 **
 **  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be 
-**  used, distributed and modified only pursuant to the terms of that 
+**  This software is governed by the NASA Open Source Agreement and may be
+**  used, distributed and modified only pursuant to the terms of that
 **  agreement.
 **
-** Purpose: 
+** Purpose:
 **   CFS Limit Checker (LC) Application Platform Configuration Header File
 **
 ** Notes:
 **
-** 
+**
 *************************************************************************/
 #ifndef _lc_platform_cfg_
 #define _lc_platform_cfg_
+
+#include "lc_msgdefs.h"
 
 /** \lccfg Application Name
 **
@@ -35,11 +37,10 @@
 **       no limits on the definition.  Refer to CFE Executive Services
 **       for specific information on limits related to application names.
 */
-#define LC_APP_NAME                    "LC"
-
+#define LC_APP_NAME "LC"
 
 /** \lccfg Command Pipe Depth
-**  
+**
 **  \par Description:
 **       Maximum number of messages that will be allowed in the
 **       LC command pipe at one time. Used during initialization
@@ -49,17 +50,17 @@
 **       This parameter can't be larger than an unsigned 16 bit
 **       integer (65535).
 */
-#define LC_PIPE_DEPTH                  12
+#define LC_PIPE_DEPTH 12
 
 /** \lccfg Maximum number of watchpoints
-**  
+**
 **  \par Description:
 **       Maximum number of watchpoints that can be defined in the
 **       Watchpoint Definition Table (WDT)
 **
 **  \par Limits:
 **       This parameter can't be larger than 65520 (0xFFF0) because
-**       higher values are reserved for use as Reverse Polish 
+**       higher values are reserved for use as Reverse Polish
 **       operators. It must be a multiple of 4 to avoid
 **       indexing past the end of the array as LC indexes
 **       ahead to build the packed status bytes.
@@ -71,12 +72,12 @@
 **
 **       The total size of this table should not exceed the
 **       cFE size limit for a single buffered table set by the
-**       #CFE_TBL_MAX_SNGL_TABLE_SIZE parameter
+**       #CFE_PLATFORM_TBL_MAX_SNGL_TABLE_SIZE parameter
 */
-#define LC_MAX_WATCHPOINTS             176
+#define LC_MAX_WATCHPOINTS 176
 
 /** \lccfg Maximum number of actionpoints
-**  
+**
 **  \par Description:
 **       Maximum number of actionpoints that can be defined in the
 **       Actionpoint Definition Table (ADT)
@@ -94,12 +95,12 @@
 **
 **       The total size of this table should not exceed the
 **       cFE size limit for a single buffered table set by the
-**       #CFE_TBL_MAX_SNGL_TABLE_SIZE parameter
+**       #CFE_PLATFORM_TBL_MAX_SNGL_TABLE_SIZE parameter
 */
-#define LC_MAX_ACTIONPOINTS            176
+#define LC_MAX_ACTIONPOINTS 176
 
 /** \lccfg LC state after power-on reset
-**  
+**
 **  \par Description:
 **       What operating state LC should initialize to after a power-on
 **       reset.
@@ -110,16 +111,16 @@
 **       #LC_STATE_PASSIVE
 **       #LC_STATE_DISABLED
 */
-#define LC_STATE_POWER_ON_RESET        LC_STATE_DISABLED
+#define LC_STATE_POWER_ON_RESET LC_STATE_DISABLED
 
 /** \lccfg Save data to CDS compiler switch
-**  
+**
 **  \par Description:
-**       Compile switch that tells LC that we should save data 
-**       over a processor or application reset by using the 
+**       Compile switch that tells LC that we should save data
+**       over a processor or application reset by using the
 **       Critical Data Store (CDS).
-**       Comment out or \#undef to force LC to do a default (power-on) 
-**       initialization sequence on all restarts (this is the 
+**       Comment out or \#undef to force LC to do a default (power-on)
+**       initialization sequence on all restarts (this is the
 **       default case).
 **
 **  \par Limits:
@@ -128,13 +129,18 @@
 /* #define LC_SAVE_TO_CDS */
 
 /** \lccfg LC state when CDS is restored
-**  
+**
 **  \par Description:
 **       What operating state LC should initialize to after successfully
-**       restoring information from the CDS after a processor or 
+**       restoring information from the CDS after a processor or
 **       application reset. This is only used when #LC_SAVE_TO_CDS
-**       is set to TRUE, and provides a way to override any state LC
+**       is set to true, and provides a way to override any state LC
 **       may have been operating in prior to the reset occurring.
+**
+**       If this is set to LC_STATE_FROM_CDS and #LC_SAVE_TO_CDS is set
+**       to true, then the LC state will be preserved across resets and
+**       restored.  If this is not set to LC_STATE_FROM_CDS, the state
+**       saved in the CDS is overwritten by the state assigned here.
 **
 **  \par Limits:
 **       This parameter must be one of the following:
@@ -143,10 +149,10 @@
 **       #LC_STATE_DISABLED
 **       #LC_STATE_FROM_CDS
 */
-#define LC_STATE_WHEN_CDS_RESTORED     LC_STATE_FROM_CDS
+#define LC_STATE_WHEN_CDS_RESTORED LC_STATE_FROM_CDS
 
 /** \lccfg Watchpoint Definition Table (WDT) filename
-**  
+**
 **  \par Description:
 **       Default file to load the watchpoint definition table from
 **       during a power-on reset sequence
@@ -155,10 +161,10 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define LC_WDT_FILENAME                "/cf/lc_def_wdt.tbl"
+#define LC_WDT_FILENAME "/cf/lc_def_wdt.tbl"
 
 /** \lccfg Actionpoint Definition Table (ADT) filename
-**  
+**
 **  \par Description:
 **       Default file to load the actionpoint definition table from
 **       during a power-on reset sequence
@@ -167,55 +173,55 @@
 **       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
 **       target platform in question
 */
-#define LC_ADT_FILENAME                "/cf/lc_def_adt.tbl"
+#define LC_ADT_FILENAME "/cf/lc_def_adt.tbl"
 
 /** \lccfg Maximum reverse polish (RPN) equation size
-**  
+**
 **  \par Description:
-**       Maximum combined number of operators and operands that may 
-**       exist in an actionpoint definition's reverse polish equation 
+**       Maximum combined number of operators and operands that may
+**       exist in an actionpoint definition's reverse polish equation
 **
 **  \par Limits:
-**       The LC app does not place a limit on this parameter.
-**       However, raising this value will increase the size of the 
+**       The LC app limits this parameter to 32.
+**       Increasing this value will increase the size of the
 **       Actionpoint Definition Table (ADT)
 */
-#define LC_MAX_RPN_EQU_SIZE            20
+#define LC_MAX_RPN_EQU_SIZE 20
 
 /** \lccfg Maximum actionpoint event text string size
-**  
+**
 **  \par Description:
-**       Maximum length of the event message string that can specified 
-**       in an actionpoint definition (including NUL terminator) 
+**       Maximum length of the event message string that can specified
+**       in an actionpoint definition (including NUL terminator)
 **
 **  \par Limits:
-**       LC appends the trailer text #LC_AP_EVENT_TAIL_STR to this 
-**       string when reporting actionpoint failures. The size of this 
+**       LC appends the trailer text #LC_AP_EVENT_TAIL_STR to this
+**       string when reporting actionpoint failures. The size of this
 **       string is #LC_AP_EVENT_TAIL_LEN
-** 
+**
 **       The total value of LC_MAX_ACTION_TEXT + #LC_AP_EVENT_TAIL_LEN
-**       should be less than #CFE_EVS_MAX_MESSAGE_LENGTH to avoid
+**       should be less than #CFE_MISSION_EVS_MAX_MESSAGE_LENGTH to avoid
 **       event message truncation
 **
-**       Raising this value will also increase the size of the 
+**       Raising this value will also increase the size of the
 **       Actionpoint Definition Table (ADT)
 */
-#define LC_MAX_ACTION_TEXT             32
+#define LC_MAX_ACTION_TEXT 32
 
 /** \lccfg Maximum valid ADT RTS ID
-**  
+**
 **  \par Description:
-**       The maximum RTS ID that LC will allow during table 
+**       The maximum RTS ID that LC will allow during table
 **       validation in a Actionpoint Definition Table (ADT) entry
 **
 **  \par Limits:
 **       This parameter can't be larger than an unsigned 16 bit
 **       integer (65535).
 */
-#define LC_MAX_VALID_ADT_RTSID         0xFFF0
+#define LC_MAX_VALID_ADT_RTSID 0xFFF0
 
 /** \lccfg Floating Point Compare Tolerance
-**  
+**
 **  \par Description:
 **       Difference between 2 floats that will still compare as
          equal. The default value of (1.0e-25) was taken from
@@ -224,10 +230,10 @@
 **  \par Limits:
 **       The LC app does not place a limit on this parameter.
 */
-#define LC_FLOAT_TOLERANCE             (1.0e-25)
+#define LC_FLOAT_TOLERANCE (1.0e-25)
 
-/** \mmcfg Mission specific version number for LC application
-**  
+/** \lccfg Mission specific version number for LC application
+**
 **  \par Description:
 **       An application version number consists of four parts:
 **       major version number, minor version number, revision
@@ -239,7 +245,7 @@
 **       Must be defined as a numeric value that is greater than
 **       or equal to zero.
 */
-#define LC_MISSION_REV            0
+#define LC_MISSION_REV 0
 
 #endif /*_lc_platform_cfg_*/
 

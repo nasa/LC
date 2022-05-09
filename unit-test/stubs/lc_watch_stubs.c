@@ -1,0 +1,275 @@
+/*************************************************************************
+** File:
+**   $Id: lc_watch.h 1.4 2017/01/22 17:24:25EST sstrege Exp  $
+**
+**  Copyright (c) 2007-2020 United States Government as represented by the
+**  Administrator of the National Aeronautics and Space Administration.
+**  All Other Rights Reserved.
+**
+**  This software was created at NASA's Goddard Space Flight Center.
+**  This software is governed by the NASA Open Source Agreement and may be
+**  used, distributed and modified only pursuant to the terms of that
+**  agreement.
+**
+** Purpose:
+**   Specification for the CFS Limit Checker (LC) routines that
+**   handle watchpoint processing
+**
+** Notes:
+**
+**
+**************************************************************************/
+#ifndef _lc_watch_
+#define _lc_watch_
+
+/**
+ * @file
+ *
+ * Auto-Generated stub implementations for functions defined in lc_watch header
+ */
+
+#include "lc_watch.h"
+#include "lc_app.h"
+#include "lc_msg.h"
+#include "lc_msgdefs.h"
+#include "lc_msgids.h"
+#include "lc_events.h"
+#include "lc_version.h"
+#include "lc_test_utils.h"
+
+/* UT includes */
+#include "uttest.h"
+#include "utassert.h"
+#include "utstubs.h"
+
+#include <sys/fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+
+#include "utgenstub.h"
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_AddWatchpoint()
+ * ----------------------------------------------------
+ */
+LC_WatchPtList_t *LC_AddWatchpoint(const CFE_SB_MsgId_t MessageID)
+{
+    UT_GenStub_SetupReturnBuffer(LC_AddWatchpoint, LC_WatchPtList_t *);
+
+    UT_GenStub_AddParam(LC_AddWatchpoint, const CFE_SB_MsgId_t, MessageID);
+
+    UT_GenStub_Execute(LC_AddWatchpoint, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_AddWatchpoint, LC_WatchPtList_t *);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_CheckMsgForWPs()
+ * ----------------------------------------------------
+ */
+void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
+{
+    UT_GenStub_AddParam(LC_CheckMsgForWPs, CFE_SB_MsgId_t, MessageID);
+    UT_GenStub_AddParam(LC_CheckMsgForWPs, const CFE_SB_Buffer_t *, BufPtr);
+
+    UT_GenStub_Execute(LC_CheckMsgForWPs, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_CreateHashTable()
+ * ----------------------------------------------------
+ */
+void LC_CreateHashTable(void)
+{
+
+    UT_GenStub_Execute(LC_CreateHashTable, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_FloatCompare()
+ * ----------------------------------------------------
+ */
+uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t WPMultiType, LC_MultiType_t CompareMultiType)
+{
+    UT_GenStub_SetupReturnBuffer(LC_FloatCompare, uint8);
+
+    UT_GenStub_AddParam(LC_FloatCompare, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_FloatCompare, LC_MultiType_t, WPMultiType);
+    UT_GenStub_AddParam(LC_FloatCompare, LC_MultiType_t, CompareMultiType);
+
+    UT_GenStub_Execute(LC_FloatCompare, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_FloatCompare, uint8);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_GetHashTableIndex()
+ * ----------------------------------------------------
+ */
+uint32 LC_GetHashTableIndex(CFE_SB_MsgId_t MessageID)
+{
+    UT_GenStub_SetupReturnBuffer(LC_GetHashTableIndex, uint32);
+
+    UT_GenStub_AddParam(LC_GetHashTableIndex, CFE_SB_MsgId_t, MessageID);
+
+    UT_GenStub_Execute(LC_GetHashTableIndex, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_GetHashTableIndex, uint32);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_GetSizedWPData()
+ * ----------------------------------------------------
+ */
+bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedDataPtr)
+{
+    UT_GenStub_SetupReturnBuffer(LC_GetSizedWPData, bool);
+
+    UT_GenStub_AddParam(LC_GetSizedWPData, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_GetSizedWPData, const uint8 *, WPDataPtr);
+    UT_GenStub_AddParam(LC_GetSizedWPData, uint32 *, SizedDataPtr);
+
+    UT_GenStub_Execute(LC_GetSizedWPData, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_GetSizedWPData, bool);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_OperatorCompare()
+ * ----------------------------------------------------
+ */
+uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
+{
+    UT_GenStub_SetupReturnBuffer(LC_OperatorCompare, uint8);
+
+    UT_GenStub_AddParam(LC_OperatorCompare, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_OperatorCompare, uint32, ProcessedWPData);
+
+    UT_GenStub_Execute(LC_OperatorCompare, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_OperatorCompare, uint8);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_ProcessWP()
+ * ----------------------------------------------------
+ */
+void LC_ProcessWP(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr, CFE_TIME_SysTime_t Timestamp)
+{
+    UT_GenStub_AddParam(LC_ProcessWP, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_ProcessWP, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_AddParam(LC_ProcessWP, CFE_TIME_SysTime_t, Timestamp);
+
+    UT_GenStub_Execute(LC_ProcessWP, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_SignedCompare()
+ * ----------------------------------------------------
+ */
+uint8 LC_SignedCompare(uint16 WatchIndex, int32 WPValue, int32 CompareValue)
+{
+    UT_GenStub_SetupReturnBuffer(LC_SignedCompare, uint8);
+
+    UT_GenStub_AddParam(LC_SignedCompare, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_SignedCompare, int32, WPValue);
+    UT_GenStub_AddParam(LC_SignedCompare, int32, CompareValue);
+
+    UT_GenStub_Execute(LC_SignedCompare, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_SignedCompare, uint8);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_Uint32IsInfinite()
+ * ----------------------------------------------------
+ */
+bool LC_Uint32IsInfinite(uint32 Data)
+{
+    UT_GenStub_SetupReturnBuffer(LC_Uint32IsInfinite, bool);
+
+    UT_GenStub_AddParam(LC_Uint32IsInfinite, uint32, Data);
+
+    UT_GenStub_Execute(LC_Uint32IsInfinite, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_Uint32IsInfinite, bool);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_Uint32IsNAN()
+ * ----------------------------------------------------
+ */
+bool LC_Uint32IsNAN(uint32 Data)
+{
+    UT_GenStub_SetupReturnBuffer(LC_Uint32IsNAN, bool);
+
+    UT_GenStub_AddParam(LC_Uint32IsNAN, uint32, Data);
+
+    UT_GenStub_Execute(LC_Uint32IsNAN, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_Uint32IsNAN, bool);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_UnsignedCompare()
+ * ----------------------------------------------------
+ */
+uint8 LC_UnsignedCompare(uint16 WatchIndex, uint32 WPValue, uint32 CompareValue)
+{
+    UT_GenStub_SetupReturnBuffer(LC_UnsignedCompare, uint8);
+
+    UT_GenStub_AddParam(LC_UnsignedCompare, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_UnsignedCompare, uint32, WPValue);
+    UT_GenStub_AddParam(LC_UnsignedCompare, uint32, CompareValue);
+
+    UT_GenStub_Execute(LC_UnsignedCompare, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_UnsignedCompare, uint8);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_ValidateWDT()
+ * ----------------------------------------------------
+ */
+int32 LC_ValidateWDT(void *TableData)
+{
+    UT_GenStub_SetupReturnBuffer(LC_ValidateWDT, int32);
+
+    UT_GenStub_AddParam(LC_ValidateWDT, void *, TableData);
+
+    UT_GenStub_Execute(LC_ValidateWDT, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_ValidateWDT, int32);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_WPOffsetValid()
+ * ----------------------------------------------------
+ */
+bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
+{
+    UT_GenStub_SetupReturnBuffer(LC_WPOffsetValid, bool);
+
+    UT_GenStub_AddParam(LC_WPOffsetValid, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_WPOffsetValid, const CFE_SB_Buffer_t *, BufPtr);
+
+    UT_GenStub_Execute(LC_WPOffsetValid, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_WPOffsetValid, bool);
+}
+
+#endif

@@ -473,8 +473,8 @@ for index = 0 to LC_MAX_WATCHPOINTS-1 do
      ($SC_$CPU_LC_WRT[index].FalsetoTrueCount <> 0) or ;;
      ($SC_$CPU_LC_WRT[index].ConsectiveTrueCount <> 0) or ;;
      ($SC_$CPU_LC_WRT[index].CumulativeTrueCount <> 0) or ;;
-     ($SC_$CPU_LC_WRT[index].FtoTValue <> 0) or ;;
-     ($SC_$CPU_LC_WRT[index].TtoFValue <> 0) then
+     ($SC_$CPU_LC_WRT[index].FtoTValue.unsigned32 <> 0) or ;;
+     ($SC_$CPU_LC_WRT[index].TtoFValue.unsigned32 <> 0) then
        break
   endif
 enddo
@@ -486,8 +486,8 @@ if (index < LC_MAX_WATCHPOINTS-1) then
   write " False to True Count = ", $SC_$CPU_LC_WRT[index].FalsetoTrueCount
   write " Consecutive True    = ", $SC_$CPU_LC_WRT[index].ConsectiveTrueCount
   write " Cum True Count      = ", $SC_$CPU_LC_WRT[index].CumulativeTrueCount
-  write " F to T Value        = ", $SC_$CPU_LC_WRT[index].FtoTValue
-  write " T to F Value        = ", $SC_$CPU_LC_WRT[index].TtoFValue
+  write " F to T Value        = ", $SC_$CPU_LC_WRT[index].FtoTValue.unsigned32
+  write " T to F Value        = ", $SC_$CPU_LC_WRT[index].TtoFValue.unsigned32
   ut_setrequirements LC_9001, "F"
 else
   write "<*> Passed (9001) - Watchpoint Results Table initialized properly."
@@ -663,8 +663,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[0].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[0].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[0].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[0].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[0].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[0].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[0].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[0].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[0].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -686,8 +686,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[4].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[4].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[4].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[4].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[4].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[4].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[4].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[4].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[4].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -709,8 +709,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[8].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[8].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[8].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[8].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[8].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[8].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[8].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[8].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[8].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -732,8 +732,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[12].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[12].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[12].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[12].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[12].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[12].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[12].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[12].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[12].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -755,8 +755,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[22].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[22].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[22].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[22].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[22].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[22].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[22].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[22].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[22].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -778,8 +778,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[23].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[23].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[23].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[23].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[23].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[23].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[23].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[23].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[23].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -801,8 +801,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[30].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[30].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[30].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[30].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[30].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[30].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[30].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[30].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[30].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -874,8 +874,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[0].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[0].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[0].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[0].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[0].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[0].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[0].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[0].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[0].CountdownToStale
 
 write " "
@@ -885,8 +885,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[4].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[4].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[4].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[4].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[4].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[4].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[4].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[4].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[4].CountdownToStale
 write " "
 write "  Watch Point 8:"
@@ -895,8 +895,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[8].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[8].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[8].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[8].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[8].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[8].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[8].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[8].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[8].CountdownToStale
 write " "
 write "  Watch Point 12:"
@@ -905,8 +905,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[12].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[12].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[12].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[12].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[12].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[12].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[12].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[12].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[12].CountdownToStale
 write " "
 write "  Watch Point 22:"
@@ -915,8 +915,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[22].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[22].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[22].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[22].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[22].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[22].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[22].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[22].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[22].CountdownToStale
 write " "
 write "  Watch Point 23:"
@@ -925,8 +925,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[23].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[23].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[23].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[23].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[23].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[23].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[23].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[23].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[23].CountdownToStale
 
 ;; Check the Watchpoints to determine if the Statistics are correct
@@ -979,8 +979,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[0].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[0].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[0].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[0].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[0].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[0].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[0].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[0].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[0].CountdownToStale
 write " "
 write "  Watch Point 4:"
@@ -989,8 +989,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[4].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[4].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[4].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[4].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[4].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[4].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[4].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[4].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[4].CountdownToStale
 write " "
 write "  Watch Point 8:"
@@ -999,8 +999,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[8].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[8].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[8].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[8].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[8].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[8].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[8].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[8].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[8].CountdownToStale
 write " "
 write "  Watch Point 12:"
@@ -1009,8 +1009,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[12].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[12].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[12].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[12].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[12].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[12].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[12].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[12].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[12].CountdownToStale
 write " "
 write "  Watch Point 22:"
@@ -1019,8 +1019,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[22].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[22].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[22].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[22].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[22].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[22].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[22].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[22].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[22].CountdownToStale
 write " "
 write "  Watch Point 23:"
@@ -1029,8 +1029,8 @@ write "  Evaluation Count    = ", $SC_$CPU_LC_WRT[23].EvaluationCount
 write "  False to True Count = ", $SC_$CPU_LC_WRT[23].FalsetoTrueCount
 write "  Consecutive True    = ", $SC_$CPU_LC_WRT[23].ConsectiveTrueCount
 write "  Cum True Count      = ", $SC_$CPU_LC_WRT[23].CumulativeTrueCount
-write "  F to T Value        = ", $SC_$CPU_LC_WRT[23].FtoTValue
-write "  T to F Value        = ", $SC_$CPU_LC_WRT[23].TtoFValue
+write "  F to T Value        = ", $SC_$CPU_LC_WRT[23].FtoTValue.unsigned32
+write "  T to F Value        = ", $SC_$CPU_LC_WRT[23].TtoFValue.unsigned32
 write "  Stale Counter       = ", $SC_$CPU_LC_WRT[23].CountdownToStale
 
 step3:
