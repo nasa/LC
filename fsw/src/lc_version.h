@@ -1,40 +1,40 @@
 /************************************************************************
-** File:
-**   $Id: lc_version.h 1.3.1.3 2017/08/29 16:50:51EDT sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   Contains version tags for the Core Flight System (CFS)
-**   Limit Checker (LC) Application.
-**
-** Notes:
-**
-**
-*************************************************************************/
-#ifndef _lc_version_
-#define _lc_version_
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
 
-/************************************************************************
-** Macro Definitions
-*************************************************************************/
 /**
-** \name LC Version Identifiers */
-/** \{ */
-#define LC_MAJOR_VERSION 2
-#define LC_MINOR_VERSION 2
-#define LC_REVISION      0
-/** \} */
+ * @file
+ *   Contains version tags for the Core Flight System (CFS)
+ *   Limit Checker (LC) Application.
+ */
+#ifndef LC_VERSION_H
+#define LC_VERSION_H
 
-#endif /* _lc_version_ */
+/**
+ * \defgroup cfslcversion CFS Limit Checker Version
+ * \ref cfsversions
+ * \{
+ */
 
-/************************/
-/*  End of File Comment */
-/************************/
+#define LC_MAJOR_VERSION 2  /**< \brief Major version number */
+#define LC_MINOR_VERSION 2  /**< \brief Minor version number */
+#define LC_REVISION      99 /**< \brief Revision number */
+
+/**\}*/
+
+#endif

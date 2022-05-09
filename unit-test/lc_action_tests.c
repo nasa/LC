@@ -1,26 +1,26 @@
-/*************************************************************************
-** File:
-**   $Id: lc_app_test.c 1.5 2017/01/22 17:24:33EST sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**   This software was created at NASA's Goddard Space Flight Center.
-**   This software is governed by the NASA Open Source Agreement and may be
-**   used, distributed and modified only pursuant to the terms of that
-**   agreement.
-**
-** Purpose:
-**   This file contains unit test cases for the functions contained in the file lc_app.c
-**
-** References:
-**   Flight Software Branch C Coding Standard Version 1.2
-**   CFS Development Standards Document
-**
-** Notes:
-**
-*************************************************************************/
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   This file contains unit test cases for the functions contained in the file lc_app.c
+ */
 
 /*
  * Includes
@@ -42,7 +42,6 @@
 #include "utassert.h"
 #include "utstubs.h"
 
-#include <sys/fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -73,9 +72,6 @@ void LC_SampleAPs_Test_SingleActionPointError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.ARTPtr[StartIndex].CurrentState = LC_ACTION_NOT_USED;
 
     /* Execute the function being tested */
@@ -83,12 +79,12 @@ void LC_SampleAPs_Test_SingleActionPointError(void)
 
     /* Verify results */
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSAMPLE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_CURR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SampleAPs_Test_SingleActionPointError */
 
@@ -115,9 +111,6 @@ void LC_SampleAPs_Test_SingleActionPointPermOff(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
@@ -125,12 +118,12 @@ void LC_SampleAPs_Test_SingleActionPointPermOff(void)
 
     /* Verify results */
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSAMPLE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_CURR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SampleAPs_Test_SingleActionPointError */
 
@@ -141,9 +134,6 @@ void LC_SampleSingleAP_Test_StateChangePassToFail(void)
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "AP state change from PASS to FAIL: AP = %%d");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
 
     LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_PASS;
@@ -187,9 +177,6 @@ void LC_SampleSingleAP_Test_StateChangePassToFailMaxChange(void)
 {
     uint16 APNumber = 0;
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
-
     LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_PASS;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
@@ -231,9 +218,6 @@ void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
 {
     uint16 APNumber = 0;
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_FAIL;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
@@ -266,8 +250,8 @@ void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
     UtAssert_True(LC_AppData.RTSExecCount == 1, "LC_AppData.RTSExecCount == 1");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_OperData.ADTPtr[APNumber].EventID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, LC_OperData.ADTPtr[APNumber].EventType);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_OperData.ADTPtr[APNumber].EventID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, LC_OperData.ADTPtr[APNumber].EventType);
 
 } /* end LC_SampleSingleAP_Test_ActiveRequestRTS */
 
@@ -279,9 +263,6 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP failed while LC App passive: AP = %%d, FailCount = %%d, RTS = %%d");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     LC_OperData.ARTPtr[APNumber].CurrentState      = LC_APSTATE_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult      = LC_ACTION_FAIL;
@@ -310,12 +291,12 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
     UtAssert_True(LC_AppData.PassiveRTSExecCount == 1, "LC_AppData.PassiveRTSExecCount == 1");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_PASSIVE_FAIL_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_PASSIVE_FAIL_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SampleSingleAP_Test_APFailWhileLCStatePassive */
 
@@ -327,9 +308,6 @@ void LC_SampleSingleAP_Test_APFailWhilePassive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP failed while passive: AP = %%d, FailCount = %%d, RTS = %%d");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     LC_AppData.CurrentLCState                            = LC_STATE_ACTIVE;
     LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_PASSIVE;
@@ -364,12 +342,12 @@ void LC_SampleSingleAP_Test_APFailWhilePassive(void)
                   "LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent == 1");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_AP_PASSIVE_FAIL_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_AP_PASSIVE_FAIL_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SampleSingleAP_Test_APFailWhilePassive */
 
@@ -421,9 +399,6 @@ void LC_SampleSingleAP_Test_StateChangeFailToPass(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "AP state change from FAIL to PASS: AP = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxFailPassEvents       = 1;
@@ -450,12 +425,12 @@ void LC_SampleSingleAP_Test_StateChangeFailToPass(void)
                   "LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount == 0");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_AP_FAILTOPASS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_AP_FAILTOPASS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SampleSingleAP_Test_StateChangeFailToPass */
 
@@ -528,9 +503,6 @@ void LC_SampleSingleAP_Test_ActionError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "AP evaluated to error: AP = %%d, Result = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.ARTPtr[APNumber].CurrentState      = LC_APSTATE_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult      = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxFailPassEvents = 1;
@@ -549,12 +521,12 @@ void LC_SampleSingleAP_Test_ActionError(void)
                   "LC_OperData.ARTPtr[APNumber].ActionResult == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_ACTION_ERROR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ACTION_ERROR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SampleSingleAP_Test_ActionError */
 
@@ -1099,9 +1071,6 @@ void LC_EvaluateRPN_Test_EqualIllegalRPN(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.ADTPtr[APNumber].RPNEquation[0] = 0;
     LC_OperData.ADTPtr[APNumber].RPNEquation[1] = 1;
     LC_OperData.ADTPtr[APNumber].RPNEquation[2] = LC_RPN_EQUAL;
@@ -1116,12 +1085,12 @@ void LC_EvaluateRPN_Test_EqualIllegalRPN(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_INVALID_RPN_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_EvaluateRPN_Test_EqualIllegalRPN */
 
@@ -1155,9 +1124,6 @@ void LC_EvaluateRPN_Test_DefaultIllegalRPN(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.ADTPtr[APNumber].RPNEquation[0] = LC_MAX_WATCHPOINTS;
 
     /* Execute the function being tested */
@@ -1167,12 +1133,12 @@ void LC_EvaluateRPN_Test_DefaultIllegalRPN(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_INVALID_RPN_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_EvaluateRPN_Test_DefaultIllegalRPN */
 
@@ -1187,13 +1153,13 @@ void LC_EvaluateRPN_Test_EndOfBufferWhenNotDone(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    for (i = 0; i <= LC_MAX_RPN_EQU_SIZE; i++)
+    for (i = 0; i < (sizeof(LC_OperData.ADTPtr[0].RPNEquation) / sizeof(LC_OperData.ADTPtr[0].RPNEquation[0])); i++)
     {
         LC_OperData.ADTPtr[APNumber].RPNEquation[i] = 0;
-        LC_OperData.WRTPtr[i].WatchResult           = 77;
+    }
+    for (i = 0; i < (sizeof(WRTable) / sizeof(WRTable[0])); i++)
+    {
+        LC_OperData.WRTPtr[i].WatchResult = 77;
     }
 
     /* Execute the function being tested */
@@ -1203,12 +1169,12 @@ void LC_EvaluateRPN_Test_EndOfBufferWhenNotDone(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_INVALID_RPN_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_EvaluateRPN_Test_EndOfBufferWhenNotDone */
 
@@ -1222,9 +1188,6 @@ void LC_ValidateADT_Test_ActionNotUsed(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ADTPtr[TableIndex].DefaultState = LC_ACTION_NOT_USED;
@@ -1237,12 +1200,12 @@ void LC_ValidateADT_Test_ActionNotUsed(void)
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_ADTVAL_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADTVAL_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ValidateADT_Test_ActionNotUsed */
 
@@ -1257,9 +1220,6 @@ void LC_ValidateADT_Test_InvalidDefaultState(void)
              "ADT verify err: AP = %%d, Err = %%d, State = %%d, RTS = %%d, FailCnt = %%d, EvtType = %%d");
     snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1304,9 +1264,6 @@ void LC_ValidateADT_Test_BadRtsID(void)
     snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
@@ -1350,9 +1307,6 @@ void LC_ValidateADT_Test_BadFailCount(void)
     snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
@@ -1394,9 +1348,6 @@ void LC_ValidateADT_Test_InvalidEventType(void)
              "ADT verify err: AP = %%d, Err = %%d, State = %%d, RTS = %%d, FailCnt = %%d, EvtType = %%d");
     snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1441,9 +1392,6 @@ void LC_ValidateADT_Test_ValidateRpnAdtValError(void)
     snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
@@ -1486,9 +1434,6 @@ void LC_ValidateADT_Test_ValidateRpnAdtValNoError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
@@ -1508,12 +1453,12 @@ void LC_ValidateADT_Test_ValidateRpnAdtValNoError(void)
     UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_ADTVAL_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADTVAL_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ValidateADT_Test_ValidateRpnAdtValNoError */
 
@@ -1526,9 +1471,6 @@ void LC_ValidateADT_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1559,12 +1501,12 @@ void LC_ValidateADT_Test_Nominal(void)
     UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_ADTVAL_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADTVAL_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_ValidateRPN_Test_RpnAnd(void)
@@ -1696,10 +1638,9 @@ void LC_ValidateRPN_Test_MaxRPNSize(void)
 
     int32 IndexValue, StackDepthValue;
 
-    for(int i = 0; i < LC_MAX_RPN_EQU_SIZE; i++)
+    for (int i = 0; i < LC_MAX_RPN_EQU_SIZE; i++)
     {
         LC_OperData.ADTPtr[0].RPNEquation[i] = LC_MAX_WATCHPOINTS - 1;
-
     }
 
     /* Execute the function being tested */
@@ -1708,14 +1649,11 @@ void LC_ValidateRPN_Test_MaxRPNSize(void)
     /* Verify results */
     UtAssert_True(Result == LC_ADTVAL_ERR_RPN, "Result == LC_ADTVAL_ERR_RPN");
     UtAssert_True(IndexValue == LC_MAX_RPN_EQU_SIZE, "IndexValue == LC_MAX_RPN_EQU_SIZE");
-    UtAssert_True(StackDepthValue == LC_MAX_RPN_EQU_SIZE, 
-                  "StackDepthValue == LC_MAX_RPN_EQU_SIZE");
+    UtAssert_True(StackDepthValue == LC_MAX_RPN_EQU_SIZE, "StackDepthValue == LC_MAX_RPN_EQU_SIZE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 
 } /* end LC_ValidateRPN_Test_StackDepthZero2 */
-
-
 
 void LC_ValidateRPN_Test_InvalidBufferItem(void)
 {
@@ -1836,8 +1774,7 @@ void UtTest_Setup(void)
                "LC_ValidateRPN_Test_StackDepthZero");
     UtTest_Add(LC_ValidateRPN_Test_StackDepthZero2, LC_Test_Setup, LC_Test_TearDown,
                "LC_ValidateRPN_Test_StackDepthZero2");
-    UtTest_Add(LC_ValidateRPN_Test_MaxRPNSize, LC_Test_Setup, LC_Test_TearDown,
-               "LC_ValidateRPN_Test_MaxRPNSize");
+    UtTest_Add(LC_ValidateRPN_Test_MaxRPNSize, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateRPN_Test_MaxRPNSize");
 
     UtTest_Add(LC_ValidateRPN_Test_InvalidBufferItem, LC_Test_Setup, LC_Test_TearDown,
                "LC_ValidateRPN_Test_InvalidBufferItem");

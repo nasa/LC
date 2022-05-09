@@ -1,53 +1,47 @@
-/*************************************************************************
-** File:
-**   $Id: lc_msgids.h 1.3 2017/01/22 17:24:20EST sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   CFS Limit Checker (LC) Application Message IDs
-**
-** Notes:
-**
-**
-*************************************************************************/
-#ifndef _lc_msgids_
-#define _lc_msgids_
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
 
-/*************************************************************************
-** Macro Definitions
-*************************************************************************/
 /**
-** \name LC Command Message IDs */
-/** \{ */
+ * @file
+ *   CFS Limit Checker (LC) Application Message IDs
+ */
+#ifndef LC_MSGIDS_H
+#define LC_MSGIDS_H
+
+/**
+ * \defgroup cfslccmdmid CFS Limit Checker Command Message IDs
+ * \{
+ */
+
 #define LC_CMD_MID       0x18A4 /**< \brief Msg ID for cmds to LC                */
 #define LC_SEND_HK_MID   0x18A5 /**< \brief Msg ID to request LC housekeeping    */
 #define LC_SAMPLE_AP_MID 0x18A6 /**< \brief Msg ID to request actionpoint sample */
-/** \} */
-/*
-#define LC_SPARE1            0x18A7
-#define LC_SPARE2            0x18A8
-*/
+
+/**\}*/
 
 /**
-** \name LC Telemetry Message IDs */
-/** \{ */
+ * \defgroup cfslctlmmid CFS Limit Checker Telemetry Message IDs
+ * \{
+ */
+
 #define LC_HK_TLM_MID 0x08A7 /**< \brief LC Housekeeping Telemetry */
-/** \} */
-/*
-#define LC_TLM_SPARE1        0x08A8
-#define LC_TLM_SPARE2        0x08A9
-*/
 
-#endif /*_lc_msgids_*/
+/**\}*/
 
-/************************/
-/*  End of File Comment */
-/************************/
+#endif

@@ -1,36 +1,39 @@
-/*************************************************************************
-** File:
-**   $Id: lc_verify.h 1.4 2017/03/07 17:35:09EST mdeschu Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   Contains CFS Limit Checker (LC) macros that run preprocessor checks
-**   on mission and platform configurable parameters
-**
-** Notes:
-**
-**
-*************************************************************************/
-#ifndef _lc_verify_
-#define _lc_verify_
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   Contains CFS Limit Checker (LC) macros that run preprocessor checks
+ *   on mission and platform configurable parameters
+ */
+#ifndef LC_VERIFY_H
+#define LC_VERIFY_H
 
 #include <stdint.h>
 
 /*************************************************************************
-** Macro Definitions - defined in lc_mission_cfg.h
-*************************************************************************/
+ * Macro Definitions - defined in lc_mission_cfg.h
+ *************************************************************************/
 
 /*
-** RTS request message ID
-*/
+ * RTS request message ID
+ */
 #ifndef LC_RTS_REQ_MID
 #error LC_RTS_REQ_MID must be defined!
 #elif LC_RTS_REQ_MID < 1
@@ -40,8 +43,8 @@
 #endif
 
 /*
-** RTS request command code
-*/
+ * RTS request command code
+ */
 #ifndef LC_RTS_REQ_CC
 #error LC_RTS_REQ_CC must be defined!
 #elif LC_RTS_REQ_CC < 0
@@ -51,19 +54,19 @@
 #endif
 
 /*************************************************************************
-** Macro Definitions - defined in lc_platform_cfg.h
-*************************************************************************/
+ * Macro Definitions - defined in lc_platform_cfg.h
+ *************************************************************************/
 
 /*
-** Application name
-*/
+ * Application name
+ */
 #ifndef LC_APP_NAME
 #error LC_APP_NAME must be defined!
 #endif
 
 /*
-** Command pipe depth
-*/
+ * Command pipe depth
+ */
 #ifndef LC_PIPE_DEPTH
 #error LC_PIPE_DEPTH must be defined!
 #elif LC_PIPE_DEPTH < 1
@@ -73,8 +76,8 @@
 #endif
 
 /*
-** Maximum number of watchpoints
-*/
+ * Maximum number of watchpoints
+ */
 #ifndef LC_MAX_WATCHPOINTS
 #error LC_MAX_WATCHPOINTS must be defined!
 #elif LC_MAX_WATCHPOINTS < 1
@@ -86,8 +89,8 @@
 #endif
 
 /*
-** Maximum number of actionpoints
-*/
+ * Maximum number of actionpoints
+ */
 #ifndef LC_MAX_ACTIONPOINTS
 #error LC_MAX_ACTIONPOINTS must be defined!
 #elif LC_MAX_ACTIONPOINTS < 1
@@ -99,8 +102,8 @@
 #endif
 
 /*
-** LC state after power-on reset
-*/
+ * LC state after power-on reset
+ */
 #ifndef LC_STATE_POWER_ON_RESET
 #error LC_STATE_POWER_ON_RESET must be defined!
 #elif (LC_STATE_POWER_ON_RESET != LC_STATE_ACTIVE) && (LC_STATE_POWER_ON_RESET != LC_STATE_PASSIVE) && \
@@ -109,8 +112,8 @@
 #endif
 
 /*
-** LC state when CDS is restored
-*/
+ * LC state when CDS is restored
+ */
 #ifndef LC_STATE_WHEN_CDS_RESTORED
 #error LC_STATE_WHEN_CDS_RESTORED must be defined!
 #elif (LC_STATE_WHEN_CDS_RESTORED != LC_STATE_ACTIVE) && (LC_STATE_WHEN_CDS_RESTORED != LC_STATE_PASSIVE) && \
@@ -119,22 +122,22 @@
 #endif
 
 /*
-** Default watchpoint definition table filename
-*/
+ * Default watchpoint definition table filename
+ */
 #ifndef LC_WDT_FILENAME
 #error LC_WDT_FILENAME must be defined!
 #endif
 
 /*
-** Default actionpoint definition table filename
-*/
+ * Default actionpoint definition table filename
+ */
 #ifndef LC_ADT_FILENAME
 #error LC_ADT_FILENAME must be defined!
 #endif
 
 /*
-** RPN equation buffer size (in 16 bit words)
-*/
+ * RPN equation buffer size (in 16 bit words)
+ */
 #ifndef LC_MAX_RPN_EQU_SIZE
 #error LC_MAX_RPN_EQU_SIZE must be defined!
 #elif LC_MAX_RPN_EQU_SIZE < 2
@@ -144,8 +147,8 @@
 #endif
 
 /*
-** Maximum actionpoint event text string size
-*/
+ * Maximum actionpoint event text string size
+ */
 #ifndef LC_MAX_ACTION_TEXT
 #error LC_MAX_ACTION_TEXT must be defined!
 #elif LC_MAX_ACTION_TEXT < 0
@@ -168,8 +171,8 @@
 #endif
 
 /*
-** Maximum valid actionpoint definition table RTS ID
-*/
+ * Maximum valid actionpoint definition table RTS ID
+ */
 #ifndef LC_MAX_VALID_ADT_RTSID
 #error LC_MAX_VALID_ADT_RTSID must be defined!
 #elif LC_MAX_VALID_ADT_RTSID < 0
@@ -178,8 +181,4 @@
 #error LC_MAX_VALID_ADT_RTSID must not exceed UINT16_MAX
 #endif
 
-#endif /*_lc_verify_*/
-
-/************************/
-/*  End of File Comment */
-/************************/
+#endif

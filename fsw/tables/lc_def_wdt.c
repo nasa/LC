@@ -1,38 +1,32 @@
-/*************************************************************************
-** File:
-**   $Id: lc_def_wdt.c 1.3 2017/01/22 17:25:02EST sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   Limit Checker (LC) default watchpoint definition table (WDT)
-**
-** Notes:
-**   This file provides a default WDT table that simply sets all
-**   watchpoint entries to "not used". It has been formatted to make
-**   it easy for mission developers to edit as needed (see the
-**   examples section below).
-**
-**   Compiler Note
-**   -------------
-**   This file may generate the following warning when compiling
-**   with gcc if you are using the flags "-ansi -pedantic":
-**
-**   "warning: ISO C90 forbids specifying subobject to initialize"
-**
-**   Removing "-pedantic" should eliminate the warning. An alternate
-**   solution is to replace "-ansi" with "-std=c99" and leave the
-**   "-pedantic" flag in place
-**
-**
-*************************************************************************/
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   Limit Checker (LC) default watchpoint definition table (WDT)
+ *
+ * @note
+ *   This file provides a default WDT table that simply sets all
+ *   watchpoint entries to "not used". It has been formatted to make
+ *   it easy for mission developers to edit as needed (see the
+ *   examples section below).
+ */
 
 /*************************************************************************
 ** Includes
@@ -108,7 +102,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -120,7 +114,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -132,7 +126,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -144,7 +138,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -156,7 +150,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -168,7 +162,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -180,7 +174,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -192,7 +186,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -204,7 +198,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -216,7 +210,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -228,7 +222,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -240,7 +234,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -252,7 +246,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -264,7 +258,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -276,7 +270,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -288,7 +282,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -300,7 +294,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -312,7 +306,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -324,7 +318,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -336,7 +330,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -348,7 +342,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -360,7 +354,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -372,7 +366,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -384,7 +378,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -396,7 +390,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -408,7 +402,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -420,7 +414,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -432,7 +426,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -444,7 +438,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -456,7 +450,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -468,7 +462,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -480,7 +474,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -492,7 +486,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -504,7 +498,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -516,7 +510,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -528,7 +522,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -540,7 +534,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -552,7 +546,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -564,7 +558,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -576,7 +570,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -588,7 +582,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -600,7 +594,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -612,7 +606,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -624,7 +618,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -636,7 +630,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -648,7 +642,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -660,7 +654,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -672,7 +666,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -684,7 +678,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -696,7 +690,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -708,7 +702,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -720,7 +714,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -732,7 +726,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -744,7 +738,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -756,7 +750,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -768,7 +762,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -780,7 +774,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -792,7 +786,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -804,7 +798,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -816,7 +810,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -828,7 +822,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -840,7 +834,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -852,7 +846,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -864,7 +858,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -876,7 +870,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -888,7 +882,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -900,7 +894,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -912,7 +906,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -924,7 +918,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -936,7 +930,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -948,7 +942,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -960,7 +954,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -972,7 +966,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -984,7 +978,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -996,7 +990,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1008,7 +1002,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1020,7 +1014,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1032,7 +1026,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1044,7 +1038,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1056,7 +1050,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1068,7 +1062,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1080,7 +1074,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1092,7 +1086,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1104,7 +1098,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1116,7 +1110,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1128,7 +1122,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1140,7 +1134,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1152,7 +1146,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1164,7 +1158,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1176,7 +1170,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1188,7 +1182,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1200,7 +1194,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1212,7 +1206,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1224,7 +1218,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1236,7 +1230,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1248,7 +1242,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1260,7 +1254,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1272,7 +1266,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1284,7 +1278,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1296,7 +1290,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1308,7 +1302,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1320,7 +1314,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1332,7 +1326,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1344,7 +1338,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1356,7 +1350,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1368,7 +1362,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1380,7 +1374,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1392,7 +1386,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1404,7 +1398,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1416,7 +1410,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1428,7 +1422,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1440,7 +1434,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1452,7 +1446,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1464,7 +1458,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1476,7 +1470,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1488,7 +1482,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1500,7 +1494,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1512,7 +1506,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1524,7 +1518,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1536,7 +1530,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1548,7 +1542,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1560,7 +1554,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1572,7 +1566,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1584,7 +1578,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1596,7 +1590,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1608,7 +1602,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1620,7 +1614,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1632,7 +1626,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1644,7 +1638,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1656,7 +1650,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1668,7 +1662,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1680,7 +1674,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1692,7 +1686,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1704,7 +1698,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1716,7 +1710,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1728,7 +1722,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1740,7 +1734,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1752,7 +1746,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1764,7 +1758,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1776,7 +1770,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1788,7 +1782,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1800,7 +1794,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1812,7 +1806,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1824,7 +1818,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1836,7 +1830,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1848,7 +1842,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1860,7 +1854,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1872,7 +1866,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1884,7 +1878,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1896,7 +1890,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1908,7 +1902,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1920,7 +1914,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1932,7 +1926,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1944,7 +1938,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1956,7 +1950,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1968,7 +1962,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1980,7 +1974,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -1992,7 +1986,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2004,7 +1998,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2016,7 +2010,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2028,7 +2022,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2040,7 +2034,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2052,7 +2046,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2064,7 +2058,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2076,7 +2070,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2088,7 +2082,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2100,7 +2094,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2112,7 +2106,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2124,7 +2118,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2136,7 +2130,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2148,7 +2142,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2160,7 +2154,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2172,7 +2166,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2184,7 +2178,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2196,7 +2190,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,
@@ -2208,7 +2202,7 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
     {
         .DataType                   = LC_WATCH_NOT_USED,
         .OperatorID                 = LC_NO_OPER,
-        .MessageID                  = 0,
+        .MessageID                  = CFE_SB_MSGID_RESERVED,
         .WatchpointOffset           = 0,
         .BitMask                    = LC_NO_BITMASK,
         .CustomFuncArgument         = 0,

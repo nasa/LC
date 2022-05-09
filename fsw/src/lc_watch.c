@@ -1,21 +1,26 @@
-/*************************************************************************
-** File:
-**   $Id: lc_watch.c 1.7 2017/05/08 00:19:28EDT mdeschu Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   Functions used for CFS Limit Checker watchpoint processing
-**
-**
-*************************************************************************/
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   Functions used for CFS Limit Checker watchpoint processing
+ */
 
 /*************************************************************************
 ** Includes
@@ -54,7 +59,7 @@ uint32 LC_GetHashTableIndex(CFE_SB_MsgId_t MessageID)
     ** of the hash function, no single hash table entry will have more
     ** than 8 elements in its linked list.
     */
-    return ((uint32)(MessageID & LC_HASH_TABLE_MASK));
+    return ((uint32)(CFE_SB_MsgIdToValue(MessageID) & LC_HASH_TABLE_MASK));
 
 } /* End of LC_GetHashTableIndex() */
 
@@ -81,7 +86,8 @@ void LC_CreateHashTable(void)
         if ((Result = CFE_SB_Unsubscribe(MessageID, LC_OperData.CmdPipe)) != CFE_SUCCESS)
         {
             CFE_EVS_SendEvent(LC_UNSUB_WP_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Error unsubscribing watchpoint: MID=0x%08X, RC=0x%08X", MessageID, (unsigned int)Result);
+                              "Error unsubscribing watchpoint: MID=0x%08lX, RC=0x%08X",
+                              (unsigned long)CFE_SB_MsgIdToValue(MessageID), (unsigned int)Result);
         }
     }
 
@@ -93,7 +99,7 @@ void LC_CreateHashTable(void)
     LC_OperData.MessageIDsCount = 0;
     LC_OperData.WatchpointCount = 0;
 
-    LastMessageID = 0xFFFF;
+    LastMessageID = CFE_SB_INVALID_MSG_ID;
     WatchPtLink   = (LC_WatchPtList_t *)NULL;
 
     /* Process each entry in the Watchpoint Definition Table */
@@ -105,7 +111,7 @@ void LC_CreateHashTable(void)
             MessageID = LC_OperData.WDTPtr[WatchPtTblIndex].MessageID;
 
             /* Use optimized code path if same MessageID as last watchpoint */
-            if ((LastMessageID == MessageID) && (WatchPtLink != (LC_WatchPtList_t *)NULL))
+            if (CFE_SB_MsgId_Equal(LastMessageID, MessageID) && (WatchPtLink != (LC_WatchPtList_t *)NULL))
             {
                 /* WatchPtLink points to last link in list for this Message ID */
                 WatchPtLink->Next = &LC_OperData.WatchPtLinks[LC_OperData.WatchpointCount++];
@@ -171,7 +177,7 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
         MessageLink = LC_OperData.HashTable[HashTableIndex];
 
         /* Find the link for this MessageID */
-        while (MessageLink->MessageID != MessageID)
+        while (!CFE_SB_MsgId_Equal(MessageLink->MessageID, MessageID))
         {
             if (MessageLink->Next == (LC_MessageList_t *)NULL)
             {
@@ -200,7 +206,8 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
         {
             /* Signal the error, but continue */
             CFE_EVS_SendEvent(LC_SUB_WP_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Error subscribing watchpoint: MID=0x%08X, RC=0x%08X", MessageID, (unsigned int)Result);
+                              "Error subscribing watchpoint: MID=0x%08lX, RC=0x%08X",
+                              (unsigned long)CFE_SB_MsgIdToValue(MessageID), (unsigned int)Result);
         }
     }
 
@@ -269,7 +276,7 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
         while (MessageList != (LC_MessageList_t *)NULL)
         {
             /* Compare this linked list entry for matching MessageID */
-            if (MessageList->MessageID == MessageID)
+            if (CFE_SB_MsgId_Equal(MessageList->MessageID, MessageID))
             {
                 /* Stop the search - we found it */
                 break;
@@ -312,7 +319,8 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
         {
             /* MessageID with no defined watchpoints */
             CFE_EVS_SendEvent(LC_MID_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Msg with unreferenced message ID rcvd: ID = 0x%08X", MessageID);
+                              "Msg with unreferenced message ID rcvd: ID = 0x%08lX",
+                              (unsigned long)CFE_SB_MsgIdToValue(MessageID));
         }
     }
 
@@ -743,7 +751,7 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
     uint32         Offset;
     uint32         NumOfDataBytes = 0;
     bool           OffsetValid    = true;
-    CFE_SB_MsgId_t MessageID      = 0;
+    CFE_SB_MsgId_t MessageID      = CFE_SB_INVALID_MSG_ID;
 
     /*
     ** Check the message length against the watchpoint
@@ -804,8 +812,9 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
         CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
 
         CFE_EVS_SendEvent(LC_WP_OFFSET_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "WP offset error: MID = 0x%08X, WP = %d, Offset = %d, DataSize = %d, MsgLen = %d", MessageID,
-                          WatchIndex, (int)Offset, (int)NumOfDataBytes, (int)MsgLength);
+                          "WP offset error: MID = 0x%08lX, WP = %d, Offset = %d, DataSize = %d, MsgLen = %d",
+                          (unsigned long)CFE_SB_MsgIdToValue(MessageID), WatchIndex, (int)Offset, (int)NumOfDataBytes,
+                          (int)MsgLength);
 
         LC_OperData.WRTPtr[WatchIndex].WatchResult      = LC_WATCH_ERROR;
         LC_OperData.WRTPtr[WatchIndex].CountdownToStale = 0;
@@ -989,11 +998,10 @@ int32 LC_ValidateWDT(void *TableData)
             BadCount++;
             EntryResult = LC_WDTVAL_ERR_OPER;
         }
-        else if (MessageID > CFE_PLATFORM_SB_HIGHEST_VALID_MSGID)
+        else if (!CFE_SB_IsValidMsgId(MessageID))
         {
             /*
-            ** Bad message ID (limit set by configuration parameter,
-            ** see cfe_platform_cfg.h)
+            ** Bad message ID
             */
             BadCount++;
             EntryResult = LC_WDTVAL_ERR_MID;
@@ -1044,8 +1052,9 @@ int32 LC_ValidateWDT(void *TableData)
             else
             {
                 CFE_EVS_SendEvent(LC_WDTVAL_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "WDT verify err: WP = %d, Err = %d, DType = %d, Oper = %d, MID = 0x%08X",
-                                  (int)TableIndex, (int)EntryResult, DataType, OperatorID, MessageID);
+                                  "WDT verify err: WP = %d, Err = %d, DType = %d, Oper = %d, MID = 0x%08lX",
+                                  (int)TableIndex, (int)EntryResult, DataType, OperatorID,
+                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID));
             }
 
             TableResult = EntryResult;

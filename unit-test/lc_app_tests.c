@@ -1,32 +1,31 @@
-/*************************************************************************
-** File:
-**   $Id: lc_app_test.c 1.5 2017/01/22 17:24:33EST sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**   This software was created at NASA's Goddard Space Flight Center.
-**   This software is governed by the NASA Open Source Agreement and may be
-**   used, distributed and modified only pursuant to the terms of that
-**   agreement.
-**
-** Purpose:
-**   This file contains unit test cases for the functions contained in the file lc_app.c
-**
-** References:
-**   Flight Software Branch C Coding Standard Version 1.2
-**   CFS Development Standards Document
-**
-** Notes:
-**
-*************************************************************************/
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   This file contains unit test cases for the functions contained in the file lc_app.c
+ */
 
 /*
  * Includes
  */
 
-#include "lc_app_test.h"
 #include "lc_app.h"
 #include "lc_msg.h"
 #include "lc_msgdefs.h"
@@ -42,7 +41,6 @@
 #include "utassert.h"
 #include "utstubs.h"
 
-#include <sys/fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -149,7 +147,7 @@ void LC_AppMain_Test_NominalCDSSave(void)
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_AppPipe)), 1);
 
- //   UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 1); //TODO
+    //   UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 1); //TODO
 }
 
 void LC_AppMain_Test_NominalCDSNoSave(void)
@@ -184,9 +182,6 @@ void LC_AppMain_Test_AppInitFail(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Task terminating, err = 0x%%08X");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
-
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), -1);
 
     LC_AppMain();
@@ -209,9 +204,6 @@ void LC_AppMain_Test_SbError(void)
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Task terminating, err = 0x%%08X");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[3];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, context_CFE_EVS_SendEvent);
 
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, false);
@@ -275,7 +267,7 @@ void LC_AppInit_Test_Nominal(void)
 
     UtAssert_INT32_EQ(Result, CFE_SUCCESS);
 
-    UtAssert_INT32_EQ(LC_OperData.CmdPipe, 0);
+    UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.CmdPipe));
     /* Note: not testing LC_OperData.WDTPtr == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.ADTPtr == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.WRTPtr == 0, because it is modified by a subfunction */
@@ -284,9 +276,9 @@ void LC_AppInit_Test_Nominal(void)
     /* Note: not testing LC_OperData.ADTHandle == 0, because it is modified by a subfunction */
     UtAssert_INT32_EQ(LC_OperData.WRTHandle, 0);
     /* Note: not testing LC_OperData.ARTHandle == 0, because it is modified by a subfunction */
-    UtAssert_INT32_EQ(LC_OperData.WRTDataCDSHandle, 0);
-    UtAssert_INT32_EQ(LC_OperData.ARTDataCDSHandle, 0);
-    UtAssert_INT32_EQ(LC_OperData.AppDataCDSHandle, 0);
+    UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.WRTDataCDSHandle));
+    UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.ARTDataCDSHandle));
+    UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.AppDataCDSHandle));
     /* Note: not testing LC_OperData.WatchpointCount == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.MessageIDsCount == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.HkPacket == 0, because it is modified by a subfunction */
@@ -567,9 +559,6 @@ void LC_TableInit_Test_GetWDTAddressError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting WDT address, RC=0x%%08X");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.HaveActiveCDS = true;
 
     /* Setup LC_CreateTaskCDS to succeed */
@@ -598,11 +587,11 @@ void LC_TableInit_Test_GetWDTAddressError(void)
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_WDT_GETADDR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDT_GETADDR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_TableInit_Test_GetWDTAddressUpdated(void)
@@ -644,9 +633,6 @@ void LC_TableInit_Test_GetADTAddressError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting ADT address, RC=0x%%08X");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.HaveActiveCDS = true;
 
     /* Setup LC_CreateTaskCDS to succeed */
@@ -675,11 +661,11 @@ void LC_TableInit_Test_GetADTAddressError(void)
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_ADT_GETADDR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADT_GETADDR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_TableInit_Test_GetADTAddressUpdated(void)
@@ -933,9 +919,6 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering WDT as critical table, retrying with default options, RC=0x%%08X");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = true;
 
@@ -957,12 +940,12 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_WDT_REGISTER_CRIT_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDT_REGISTER_CRIT_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered */
 
@@ -974,9 +957,6 @@ void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering ADT as critical table, retrying with default options, RC=0x%%08X");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = true;
@@ -999,12 +979,12 @@ void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_ADT_REGISTER_CRIT_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADT_REGISTER_CRIT_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered */
 
@@ -1376,20 +1356,17 @@ void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error registering WRT CDS Area, RC=0x%%08X");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     Result = LC_CreateTaskCDS();
 
     UtAssert_True(Result == -1, "Result == -1");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_WRT_CDS_REGISTER_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WRT_CDS_REGISTER_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
@@ -1403,20 +1380,17 @@ void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error registering ART CDS Area, RC=0x%%08X");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     Result = LC_CreateTaskCDS();
 
     UtAssert_True(Result == -1, "Result == -1");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_ART_CDS_REGISTER_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ART_CDS_REGISTER_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
@@ -1431,20 +1405,17 @@ void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering application data CDS Area, RC=0x%%08X");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     Result = LC_CreateTaskCDS();
 
     UtAssert_True(Result == -1, "Result == -1");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APP_CDS_REGISTER_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APP_CDS_REGISTER_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_CreateTaskCDS_Test_RestoreSuccess(void)

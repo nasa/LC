@@ -1,63 +1,71 @@
 /************************************************************************
-** File:
-**   $Id: lc_app.h 1.4 2017/01/22 17:24:19EST sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   Unit specification for the Core Flight System (CFS)
-**   Limit Checker (LC) Application.
-**
-** Notes:
-**
-**
-*************************************************************************/
-#ifndef _lc_app_
-#define _lc_app_
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   Unit specification for the Core Flight System (CFS)
+ *   Limit Checker (LC) Application.
+ */
+#ifndef LC_APP_H
+#define LC_APP_H
 
 /************************************************************************
-** Includes
-*************************************************************************/
+ * Includes
+ ************************************************************************/
 #include "cfe.h"
 #include "lc_msg.h"
 #include "lc_tbl.h"
 
 /************************************************************************
-** Macro Definitions
-*************************************************************************/
+ * Macro Definitions
+ ************************************************************************/
+
 /**
-** \name LC Table Name Strings */
-/** \{ */
+ * \name LC Table Name Strings
+ * \{
+ */
 #define LC_WDT_TABLENAME "LC_WDT"
 #define LC_ADT_TABLENAME "LC_ADT"
 #define LC_WRT_TABLENAME "LC_WRT"
 #define LC_ART_TABLENAME "LC_ART"
-/** \} */
+/**\}*/
 
 /**
-** \name LC CDS Buffer Strings */
-/** \{ */
+ * \name LC CDS Buffer Strings
+ * \{
+ */
 #define LC_WRT_CDSNAME     "LC_CDS_WRT"
 #define LC_ART_CDSNAME     "LC_CDS_ART"
 #define LC_APPDATA_CDSNAME "LC_CDS_AppData"
-/** \} */
+/**\}*/
 
 /**
-** \name LC Command Pipe Parameters */
-/** \{ */
+ * \name LC Command Pipe Parameters
+ * \{
+ */
 #define LC_PIPE_NAME "LC_CMD_PIPE"
-/** \} */
+/**\}*/
 
 /**
-** \name Table and CDS Initialization Results */
-/** \{ */
+ * \name Table and CDS Initialization Results
+ * \{
+ */
 #define LC_CDS_ENABLED  0x00000001
 #define LC_CDS_CREATED  0x00000002
 #define LC_CDS_RESTORED 0x00000004
@@ -86,22 +94,26 @@
 #define LC_ADT_CRITICAL_TBL 0x00200000
 #define LC_ADT_TBL_RESTORED 0x00400000
 #define LC_ADT_NOT_CRITICAL 0x00800000
-/** \} */
+/**\}*/
 
 /**
-** \brief Wakeup for LC
-**
-** \par Description
-**      Wakes up LC every 1 second for routine maintenance whether a
-**      message was received or not.
-*/
+ * \brief Wakeup for LC
+ *
+ * \par Description
+ *      Wakes up LC every 1 second for routine maintenance whether a
+ *      message was received or not.
+ */
 #define LC_SB_TIMEOUT 1000
 
-/**  \name Hash table definitions - presumes MessageID as hash function input */
-#define LC_HASH_TABLE_ENTRIES 256
-#define LC_HASH_TABLE_MASK    0x00FF
+/**
+ * \name Hash table definitions - presumes MessageID as hash function input
+ * \{
+ */
+#define LC_HASH_TABLE_ENTRIES 256    /**< \brief Hash table number of entries */
+#define LC_HASH_TABLE_MASK    0x00FF /**< \brief Hash table mask */
+/**\}*/
 
-/**  \brief Linked list of Watchpoints that reference the same MessageID */
+/** \brief Linked list of Watchpoints that reference the same MessageID */
 typedef struct LC_WListTag
 {
     struct LC_WListTag *Next; /**< \brief Next linked list element */
@@ -111,7 +123,7 @@ typedef struct LC_WListTag
 
 } LC_WatchPtList_t;
 
-/**  \brief Linked list of MessageID's with same hash function result */
+/** \brief Linked list of MessageID's with same hash function result */
 typedef struct LC_MListTag
 {
     struct LC_MListTag *Next; /**< \brief Next linked list element */
@@ -124,15 +136,14 @@ typedef struct LC_MListTag
 } LC_MessageList_t;
 
 /************************************************************************
-** Type Definitions
-*************************************************************************/
-/*
-** The following data is never saved to the CDS
-** even when the app is configured to use it
-*/
+ * Type Definitions
+ ************************************************************************/
+
 /**
-**  \brief LC Operational Data Structure
-*/
+ *  \brief LC Operational Data Structure
+ *
+ *  The operational data is not saved to the CDS
+ */
 typedef struct
 {
     CFE_SB_PipeId_t CmdPipe; /**< \brief Command pipe ID                      */
@@ -164,29 +175,26 @@ typedef struct
 
     uint32 TableResults; /**< \brief Table and CDS initialization results */
 
-    LC_MessageList_t *HashTable[LC_HASH_TABLE_ENTRIES]; /** \brief Each entry in the hash
+    LC_MessageList_t *HashTable[LC_HASH_TABLE_ENTRIES]; /**< \brief Each entry in the hash
                                                                    table is a linked list
                                                                    of all the MessageID's
                                                                    that the hash function
                                                                    converts to each index  */
 
-    LC_MessageList_t MessageLinks[LC_MAX_WATCHPOINTS]; /** \brief Linked list elements    */
-    LC_WatchPtList_t WatchPtLinks[LC_MAX_WATCHPOINTS]; /** \brief Linked list elements    */
+    LC_MessageList_t MessageLinks[LC_MAX_WATCHPOINTS]; /**< \brief Message linked list elements */
+    LC_WatchPtList_t WatchPtLinks[LC_MAX_WATCHPOINTS]; /**< \brief WatchPoint linked list elements */
 
     bool HaveActiveCDS; /**< \brief Critical Data Store in use flag      */
-
 } LC_OperData_t;
 
-/*
-** The following structure holds data that is saved and restored
-** from the CDS when the app is configured to use it
-*/
 /**
-**  \brief LC Application Data Structure
-*/
+ *  \brief LC Application Data Structure
+ *
+ *  The application data is saved and restored from the CDS
+ *  when the app is configured to use it
+ */
 typedef struct
 {
-
     uint16 CmdCount;    /**< \brief Command Counter                        */
     uint16 CmdErrCount; /**< \brief Command Error Counter                  */
 
@@ -199,205 +207,167 @@ typedef struct
                                             of the actionpoint that failed is set to
                                             #LC_APSTATE_PASSIVE                    */
 
-    uint16 CDSSavedOnExit; /**< \brief Variable that tells us if we exited
-                                       clean or not                           */
-
-    uint8 CurrentLCState; /**< \brief Current LC application operating state */
-
+    uint16 CDSSavedOnExit; /**< \brief Variable that tells us if we exited clean or not */
+    uint8  CurrentLCState; /**< \brief Current LC application operating state */
 } LC_AppData_t;
 
 /************************************************************************
-** Exported Data
-*************************************************************************/
-extern LC_OperData_t LC_OperData;
-extern LC_AppData_t  LC_AppData;
+ * Exported Data
+ ************************************************************************/
+
+extern LC_OperData_t LC_OperData; /**< \brief Operational data */
+extern LC_AppData_t  LC_AppData;  /**< \brief Application data */
 
 /************************************************************************
-** Exported Functions
-*************************************************************************/
-/************************************************************************/
-/** \brief CFS Limit Checker (LC) application entry point
-**
-**  \par Description
-**       Limit Checker application entry point and main process loop.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-*************************************************************************/
+ * Exported Functions
+ ************************************************************************/
+
+/**
+ * \brief CFS Limit Checker (LC) application entry point
+ *
+ *  \par Description
+ *       Limit Checker application entry point and main process loop.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ */
 void LC_AppMain(void);
 
-/************************************************************************/
-/** \brief Initialize the CFS Limit Checker (LC) application
-**
-**  \par Description
-**       Limit Checker application initialization routine. This
-**       function performs all the required startup steps to
-**       initialize (or restore from CDS) LC data structures and get
-**       the application registered with the cFE services so it can
-**       begin to receive command messages.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #LC_EvsInit      \endcode
-**  \retstmt Return codes from #LC_SbInit       \endcode
-**  \retstmt Return codes from #LC_InitFromCDS  \endcode
-**  \retstmt Return codes from #LC_InitNoCDS    \endcode
-**  \endreturns
-**
-*************************************************************************/
+/**
+ * \brief Initialize the CFS Limit Checker (LC) application
+ *
+ *  \par Description
+ *       Limit Checker application initialization routine. This
+ *       function performs all the required startup steps to
+ *       initialize (or restore from CDS) LC data structures and get
+ *       the application registered with the cFE services so it can
+ *       begin to receive command messages.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ */
 int32 LC_AppInit(void);
 
-/************************************************************************/
-/** \brief Initialize Event Services
-**
-**  \par Description
-**       This function performs the steps required to setup
-**       cFE Events Services for use by the LC application
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_EVS_Register  \endcode
-**  \endreturns
-**
-*************************************************************************/
+/**
+ * \brief Initialize Event Services
+ *
+ *  \par Description
+ *       This function performs the steps required to setup
+ *       cFE Events Services for use by the LC application
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ */
 int32 LC_EvsInit(void);
 
-/************************************************************************/
-/** \brief Initialize Software Bus
-**
-**  \par Description
-**       This function performs the steps required to setup the
-**       cFE software bus for use by the LC application
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_SB_CreatePipe  \endcode
-**  \retstmt Return codes from #CFE_SB_Subscribe  \endcode
-**  \endreturns
-**
-*************************************************************************/
+/**
+ * \brief Initialize Software Bus
+ *
+ *  \par Description
+ *       This function performs the steps required to setup the
+ *       cFE software bus for use by the LC application
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ */
 int32 LC_SbInit(void);
 
-/************************************************************************/
-/** \brief Initialize Table Services (includes CDS)
-**
-**  \par Description
-**       This function creates the tables used by the LC application and
-**       establishes the initial table values based on the configuration
-**       setting that enables the use of Critical Data Store (CDS) and
-**       the availability of stored data to restore.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #LC_CreateResultTables  \endcode
-**  \retstmt Return codes from #LC_CreateDefinitionTables  \endcode
-**  \retstmt Return codes from #LC_LoadDefaultTables  \endcode
-**  \retstmt Return codes from #CFE_TBL_GetAddress  \endcode
-**  \endreturns
-**
-**  \sa #LC_SAVE_TO_CDS
-**
-*************************************************************************/
+/**
+ * \brief Initialize Table Services (includes CDS)
+ *
+ *  \par Description
+ *       This function creates the tables used by the LC application and
+ *       establishes the initial table values based on the configuration
+ *       setting that enables the use of Critical Data Store (CDS) and
+ *       the availability of stored data to restore.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ *
+ *  \sa LC_SAVE_TO_CDS
+ */
 int32 LC_TableInit(void);
 
-/************************************************************************/
-/** \brief Create Watchpoint and Actionpoint Result Tables
-**
-**  \par Description
-**       This function creates the dump only result tables used by the LC
-**       application.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_TBL_Register  \endcode
-**  \retstmt Return codes from #CFE_TBL_GetAddress  \endcode
-**  \endreturns
-**
-**  \sa #LC_TableInit
-**
-*************************************************************************/
+/**
+ * \brief Create Watchpoint and Actionpoint Result Tables
+ *
+ *  \par Description
+ *       This function creates the dump only result tables used by the LC
+ *       application.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ *
+ *  \sa #LC_TableInit
+ */
 int32 LC_CreateResultTables(void);
 
-/************************************************************************/
-/** \brief Create Watchpoint and Actionpoint Definition Tables
-**
-**  \par Description
-**       This function creates the loadable definition tables used by the
-**       LC application.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_TBL_Register  \endcode
-**  \endreturns
-**
-**  \sa #LC_TableInit
-**
-*************************************************************************/
+/**
+ * \brief Create Watchpoint and Actionpoint Definition Tables
+ *
+ *  \par Description
+ *       This function creates the loadable definition tables used by the
+ *       LC application.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ *
+ *  \sa #LC_TableInit
+ */
 int32 LC_CreateDefinitionTables(void);
 
-/************************************************************************/
-/** \brief Create Result Table and Application Data CDS Areas
-**
-**  \par Description
-**       This function creates the loadable definition tables used by the
-**       LC application.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_ES_RegisterCDS  \endcode
-**  \endreturns
-**
-**  \sa #LC_TableInit
-**
-*************************************************************************/
+/**
+ * \brief Create Result Table and Application Data CDS Areas
+ *
+ *  \par Description
+ *       This function creates the loadable definition tables used by the
+ *       LC application.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ *
+ *  \sa #LC_TableInit
+ */
 int32 LC_CreateTaskCDS(void);
 
-/************************************************************************/
-/** \brief Load Default Table Values
-**
-**  \par Description
-**       This function loads the definition tables from table files named
-**       in the LC platform configuration header file.  The function also
-**       initializes the contents of the dump only results tables and
-**       initializes the global application data structure.
-**
-**  \par Assumptions, External Events, and Notes:
-**       None
-**
-**  \returns
-**  \retcode #CFE_SUCCESS  \retdesc \copydoc CFE_SUCCESS \endcode
-**  \retstmt Return codes from #CFE_TBL_Load  \endcode
-**  \endreturns
-**
-**  \sa #LC_TableInit
-**
-*************************************************************************/
+/**
+ * \brief Load Default Table Values
+ *
+ *  \par Description
+ *       This function loads the definition tables from table files named
+ *       in the LC platform configuration header file.  The function also
+ *       initializes the contents of the dump only results tables and
+ *       initializes the global application data structure.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \return Execution status, see \ref CFEReturnCodes
+ *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
+ *
+ *  \sa #LC_TableInit
+ */
 int32 LC_LoadDefaultTables(void);
 
-#endif /* _lc_app_ */
-
-/************************/
-/*  End of File Comment */
-/************************/
+#endif

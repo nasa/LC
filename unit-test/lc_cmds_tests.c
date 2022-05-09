@@ -1,26 +1,26 @@
-/*************************************************************************
-** File:
-**   $Id: lc_app_test.c 1.5 2017/01/22 17:24:33EST sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**   This software was created at NASA's Goddard Space Flight Center.
-**   This software is governed by the NASA Open Source Agreement and may be
-**   used, distributed and modified only pursuant to the terms of that
-**   agreement.
-**
-** Purpose:
-**   This file contains unit test cases for the functions contained in the file lc_app.c
-**
-** References:
-**   Flight Software Branch C Coding Standard Version 1.2
-**   CFS Development Standards Document
-**
-** Notes:
-**
-*************************************************************************/
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   This file contains unit test cases for the functions contained in the file lc_app.c
+ */
 
 /*
  * Includes
@@ -42,7 +42,6 @@
 #include "utassert.h"
 #include "utstubs.h"
 
-#include <sys/fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -51,17 +50,14 @@ uint8 call_count_CFE_EVS_SendEvent;
 void LC_AppPipe_Test_SampleAPRequest(void)
 {
     int32          Result;
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    memset(&CmdPacket, 0, sizeof(CmdPacket));
-
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -71,11 +67,9 @@ void LC_AppPipe_Test_SampleAPRequest(void)
 void LC_AppPipe_Test_HousekeepingRequest(void)
 {
     int32          Result;
-    LC_NoArgsCmd_t CmdPacket;
-
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
@@ -84,7 +78,7 @@ void LC_AppPipe_Test_HousekeepingRequest(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -101,7 +95,6 @@ void LC_AppPipe_Test_HousekeepingRequest(void)
 void LC_AppPipe_Test_Noop(void)
 {
     int32             Result;
-    LC_NoArgsCmd_t    CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
     int32             strCmpResult;
@@ -109,10 +102,7 @@ void LC_AppPipe_Test_Noop(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "No-op command: Version %%d.%%d.%%d.%%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = LC_NOOP_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -120,7 +110,7 @@ void LC_AppPipe_Test_Noop(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -129,19 +119,18 @@ void LC_AppPipe_Test_Noop(void)
      * has been reached */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_NOOP_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_NOOP_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_AppPipe_Test_Noop */
 
 void LC_AppPipe_Test_Reset(void)
 {
     int32             Result;
-    LC_NoArgsCmd_t    CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
     int32             strCmpResult;
@@ -149,10 +138,7 @@ void LC_AppPipe_Test_Reset(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset counters command");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = LC_RESET_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -160,7 +146,7 @@ void LC_AppPipe_Test_Reset(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -169,23 +155,22 @@ void LC_AppPipe_Test_Reset(void)
      * has been reached */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_RESET_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_RESET_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_AppPipe_Test_Reset */
 
 void LC_AppPipe_Test_SetLCState(void)
 {
     int32             Result;
-    LC_SetLCState_t   CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = LC_SET_LC_STATE_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -193,7 +178,7 @@ void LC_AppPipe_Test_SetLCState(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -208,11 +193,10 @@ void LC_AppPipe_Test_SetLCState(void)
 void LC_AppPipe_Test_SetAPState(void)
 {
     int32             Result;
-    LC_SetAPState_t   CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = LC_SET_AP_STATE_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -220,7 +204,7 @@ void LC_AppPipe_Test_SetAPState(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -235,11 +219,10 @@ void LC_AppPipe_Test_SetAPState(void)
 void LC_AppPipe_Test_SetAPPermoff(void)
 {
     int32             Result;
-    LC_SetAPPermOff_t CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = LC_SET_AP_PERMOFF_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -247,7 +230,7 @@ void LC_AppPipe_Test_SetAPPermoff(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -262,11 +245,10 @@ void LC_AppPipe_Test_SetAPPermoff(void)
 void LC_AppPipe_Test_ResetAPStats(void)
 {
     int32             Result;
-    LC_ResetAPStats_t CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = LC_RESET_AP_STATS_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -274,7 +256,7 @@ void LC_AppPipe_Test_ResetAPStats(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -288,11 +270,10 @@ void LC_AppPipe_Test_ResetAPStats(void)
 void LC_AppPipe_Test_ResetWPStats(void)
 {
     int32             Result;
-    LC_SetAPPermOff_t CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = LC_RESET_WP_STATS_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -300,7 +281,7 @@ void LC_AppPipe_Test_ResetWPStats(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -314,52 +295,47 @@ void LC_AppPipe_Test_ResetWPStats(void)
 void LC_AppPipe_Test_InvalidCommandCode(void)
 {
     int32             Result;
-    LC_SetAPPermOff_t CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     FcnCode   = 99;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Invalid command code: ID = 0x%%08X, CC = %%d");
-
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Invalid command code: ID = 0x%%08lX, CC = %%d");
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_CC_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CC_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_AppPipe_Test_InvalidCommandCode */
 
 void LC_AppPipe_Test_MonitorPacket(void)
 {
-    int32             Result;
-    LC_SetAPPermOff_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    int32          Result;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = 99;
+    TestMsgId = LC_UT_MID_1;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     /* Execute the function being tested */
-    Result = LC_AppPipe((CFE_SB_Buffer_t *)(&CmdPacket));
+    Result = LC_AppPipe(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -374,43 +350,39 @@ void LC_AppPipe_Test_MonitorPacket(void)
 
 void LC_SampleAPReq_Test_BadLength(void)
 {
-    LC_SampleAP_t  CmdPacket;
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
-
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 }
 
 void LC_SampleAPReq_Test_StateDisabled(void)
 {
-    LC_SampleAP_t  CmdPacket;
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState = LC_STATE_DISABLED;
 
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
-
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 }
 
 void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
 {
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_AppData.CurrentLCState = 99;
-    CmdPacket.StartIndex = CmdPacket.EndIndex = LC_ALL_ACTIONPOINTS;
-    CmdPacket.UpdateAge                       = 1;
-    LC_OperData.WRTPtr[0].CountdownToStale    = 1;
+    LC_AppData.CurrentLCState              = 99;
+    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_OperData.WRTPtr[0].WatchResult == LC_WATCH_STALE,
@@ -423,21 +395,21 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
 
 void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
 {
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_AppData.CurrentLCState = 99;
-    CmdPacket.StartIndex = CmdPacket.EndIndex = LC_ALL_ACTIONPOINTS;
-    CmdPacket.UpdateAge                       = 1;
-    LC_OperData.WRTPtr[0].CountdownToStale    = 2;
+    LC_AppData.CurrentLCState              = 99;
+    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    LC_OperData.WRTPtr[0].CountdownToStale = 2;
 
     /* Execute the function being tested */
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -447,21 +419,21 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
 
 void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
 {
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_AppData.CurrentLCState = 99;
-    CmdPacket.StartIndex = CmdPacket.EndIndex = LC_MAX_ACTIONPOINTS - 1;
-    CmdPacket.UpdateAge                       = 1;
-    LC_OperData.WRTPtr[0].CountdownToStale    = 1;
+    LC_AppData.CurrentLCState              = 99;
+    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_MAX_ACTIONPOINTS - 1;
+    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_MAX_ACTIONPOINTS - 1;
+    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_OperData.WRTPtr[0].WatchResult == LC_WATCH_STALE,
@@ -474,17 +446,16 @@ void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
 
 void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
 {
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_AppData.CurrentLCState = 99;
-    CmdPacket.StartIndex      = 2;
-    CmdPacket.EndIndex        = 1;
+    LC_AppData.CurrentLCState        = 99;
+    UT_CmdBuf.SampleAPCmd.StartIndex = 2;
+    UT_CmdBuf.SampleAPCmd.EndIndex   = 1;
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -492,30 +463,26 @@ void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     /* Execute the function being tested */
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSAMPLE_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SampleAPReq_Test_ArrayIndexOutOfRange */
 
 void LC_SampleAPReq_Test_BadSampleAllArgs(void)
 {
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -526,38 +493,30 @@ void LC_SampleAPReq_Test_BadSampleAllArgs(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-
-    LC_AppData.CurrentLCState = 99;
-    CmdPacket.StartIndex = LC_ALL_ACTIONPOINTS;
-    CmdPacket.EndIndex = 1;
-    CmdPacket.UpdateAge                       = 1;
-    LC_OperData.WRTPtr[0].CountdownToStale    = 1;
+    LC_AppData.CurrentLCState              = 99;
+    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.EndIndex         = 1;
+    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSAMPLE_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
-
-
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
-
 
 void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
 {
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -568,48 +527,42 @@ void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-
-    LC_AppData.CurrentLCState = 99;
-    CmdPacket.StartIndex = 1;
-    CmdPacket.EndIndex = LC_MAX_ACTIONPOINTS;
-    CmdPacket.UpdateAge                       = 1;
-    LC_OperData.WRTPtr[0].CountdownToStale    = 1;
+    LC_AppData.CurrentLCState              = 99;
+    UT_CmdBuf.SampleAPCmd.StartIndex       = 1;
+    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_MAX_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSAMPLE_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
-
-
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
 {
-    LC_SampleAP_t  CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SAMPLE_AP_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_AppData.CurrentLCState = 99;
-    CmdPacket.StartIndex = CmdPacket.EndIndex = LC_ALL_ACTIONPOINTS;
-    CmdPacket.UpdateAge                       = 0;
-    LC_OperData.WRTPtr[0].CountdownToStale    = 1;
+    LC_AppData.CurrentLCState              = 99;
+    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SampleAPCmd.UpdateAge        = 0;
+    LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -623,10 +576,9 @@ void LC_HousekeepingReq_Test_WatchStale(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -640,7 +592,7 @@ void LC_HousekeepingReq_Test_WatchStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -676,10 +628,9 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -693,7 +644,7 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -729,10 +680,9 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -746,7 +696,7 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -778,15 +728,14 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
 
 void LC_HousekeepingReq_Test_WatchError(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
+    int32  Result;
+    uint16 TableIndex;
+    uint16 HKIndex;
+    uint8  ExpectedByteData;
 
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -800,7 +749,7 @@ void LC_HousekeepingReq_Test_WatchError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -836,10 +785,9 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -853,7 +801,7 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -889,10 +837,9 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -907,7 +854,7 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -943,10 +890,9 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -961,7 +907,7 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1000,10 +946,9 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -1018,7 +963,7 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1054,10 +999,9 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -1072,7 +1016,7 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1108,10 +1052,9 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -1126,7 +1069,7 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1162,10 +1105,9 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
     uint16         TableIndex;
     uint16         HKIndex;
     uint8          ExpectedByteData;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -1180,7 +1122,7 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1213,10 +1155,9 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
 void LC_HousekeepingReq_Test_ManageTablesError(void)
 {
     int32          Result;
-    LC_NoArgsCmd_t CmdPacket;
     CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_SEND_HK_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_PerformMaintenance), -1);
@@ -1226,7 +1167,7 @@ void LC_HousekeepingReq_Test_ManageTablesError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), -1);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq((CFE_MSG_CommandHeader_t *)(&CmdPacket));
+    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
@@ -1238,25 +1179,20 @@ void LC_HousekeepingReq_Test_ManageTablesError(void)
 
 void LC_NoopCmd_Test_BadLength(void)
 {
-    LC_NoArgsCmd_t  CmdPacket;
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_NoopCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_NoopCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
 void LC_ResetCmd_Test_BadLength(void)
 {
-    LC_NoArgsCmd_t  CmdPacket;
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_ResetCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
 }
 
 void LC_ResetCounters_Test(void)
@@ -1287,21 +1223,18 @@ void LC_ResetCounters_Test(void)
 
 void LC_SetLCStateCmd_Test_BadLength(void)
 {
-    LC_SetLCState_t  CmdPacket;
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_SetLCStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
 void LC_SetLCStateCmd_Test_Active(void)
 {
-    LC_SetLCState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1310,13 +1243,10 @@ void LC_SetLCStateCmd_Test_Active(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewLCState = LC_STATE_ACTIVE;
+    UT_CmdBuf.SetLCStateCmd.NewLCState = LC_STATE_ACTIVE;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_ACTIVE, "LC_AppData.CurrentLCState == LC_STATE_ACTIVE");
@@ -1324,21 +1254,20 @@ void LC_SetLCStateCmd_Test_Active(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_LCSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LCSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetLCStateCmd_Test_Active */
 
 void LC_SetLCStateCmd_Test_Passive(void)
 {
-    LC_SetLCState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1347,13 +1276,10 @@ void LC_SetLCStateCmd_Test_Passive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewLCState = LC_STATE_PASSIVE;
+    UT_CmdBuf.SetLCStateCmd.NewLCState = LC_STATE_PASSIVE;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_PASSIVE, "LC_AppData.CurrentLCState == LC_STATE_PASSIVE");
@@ -1361,20 +1287,19 @@ void LC_SetLCStateCmd_Test_Passive(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_LCSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LCSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 } /* end LC_SetLCStateCmd_Test_Passive */
 
 void LC_SetLCStateCmd_Test_Disabled(void)
 {
-    LC_SetLCState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1383,13 +1308,10 @@ void LC_SetLCStateCmd_Test_Disabled(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewLCState = LC_STATE_DISABLED;
+    UT_CmdBuf.SetLCStateCmd.NewLCState = LC_STATE_DISABLED;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_DISABLED, "LC_AppData.CurrentLCState == LC_STATE_DISABLED");
@@ -1397,21 +1319,20 @@ void LC_SetLCStateCmd_Test_Disabled(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_LCSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LCSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetLCStateCmd_Test_Disabled */
 
 void LC_SetLCStateCmd_Test_Default(void)
 {
-    LC_SetLCState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1420,45 +1341,39 @@ void LC_SetLCStateCmd_Test_Default(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state error: invalid state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewLCState = 99;
+    UT_CmdBuf.SetLCStateCmd.NewLCState = 99;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_LCSTATE_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LCSTATE_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetLCStateCmd_Test_Default */
 
 void LC_SetAPStateCmd_Test_BadLength(void)
 {
-    LC_SetAPState_t  CmdPacket;
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
 void LC_SetAPStateCmd_Test_Default(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1468,36 +1383,32 @@ void LC_SetAPStateCmd_Test_Default(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid new state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.APNumber   = 1;
-    CmdPacket.NewAPState = 99;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = 1;
+    UT_CmdBuf.SetAPStateCmd.NewAPState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_NEW_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_NEW_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_Default */
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    uint16          TableIndex;
-    CFE_SB_MsgId_t  TestMsgId;
+    uint16         TableIndex;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1507,11 +1418,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewAPState = LC_APSTATE_ACTIVE;
-    CmdPacket.APNumber   = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1519,7 +1427,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
     }
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -1540,21 +1448,20 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 } /* end LC_SetAPStateCmd_Test_SetAllActionPointsActive */
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 {
-    LC_SetAPState_t CmdPacket;
-    uint16          TableIndex;
-    CFE_SB_MsgId_t  TestMsgId;
+    uint16         TableIndex;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1564,11 +1471,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewAPState = LC_APSTATE_ACTIVE;
-    CmdPacket.APNumber   = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1577,7 +1481,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     LC_OperData.ARTPtr[0].CurrentState = LC_ACTION_NOT_USED;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -1598,21 +1502,20 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 } /* end LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed */
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
 {
-    LC_SetAPState_t CmdPacket;
-    uint16          TableIndex;
-    CFE_SB_MsgId_t  TestMsgId;
+    uint16         TableIndex;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1622,11 +1525,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewAPState = LC_APSTATE_ACTIVE;
-    CmdPacket.APNumber   = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1635,7 +1535,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
     LC_OperData.ARTPtr[0].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -1656,22 +1556,20 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 } /* end LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff */
-
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    uint16          TableIndex;
-    CFE_SB_MsgId_t  TestMsgId;
+    uint16         TableIndex;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1681,11 +1579,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewAPState = LC_APSTATE_PASSIVE;
-    CmdPacket.APNumber   = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1693,7 +1588,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
     }
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -1714,22 +1609,21 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_SetAllActionPointsPassive */
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
 {
-    LC_SetAPState_t CmdPacket;
-    uint16          TableIndex;
-    CFE_SB_MsgId_t  TestMsgId;
+    uint16         TableIndex;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1739,11 +1633,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.NewAPState = LC_APSTATE_DISABLED;
-    CmdPacket.APNumber   = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1751,7 +1642,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
     }
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -1772,21 +1663,20 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_SetAllActionPointsDisabled */
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1796,38 +1686,34 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    CmdPacket.NewAPState = LC_APSTATE_ACTIVE;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS - 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_ACTIVE,
+                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_ACTIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointActive */
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1837,39 +1723,34 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = 0;
 
-    CmdPacket.NewAPState = LC_APSTATE_ACTIVE;
-    CmdPacket.APNumber   = 0;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_ACTION_NOT_USED;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_ACTION_NOT_USED;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_ACTION_NOT_USED,
-                  "LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_ACTION_NOT_USED");
+    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_ACTION_NOT_USED,
+                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_ACTION_NOT_USED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_CURR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointActive */
 
-
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1879,38 +1760,34 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    CmdPacket.NewAPState = LC_APSTATE_PASSIVE;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS - 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_PASSIVE,
+                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_PASSIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive */
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1920,38 +1797,34 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    CmdPacket.NewAPState = LC_APSTATE_DISABLED;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS - 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_APSTATE_DISABLED,
-                  "LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == LC_APSTATE_DISABLED");
+    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_DISABLED,
+                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_DISABLED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled */
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -1961,37 +1834,33 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    CmdPacket.NewAPState = LC_APSTATE_ACTIVE;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS - 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_CURR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive */
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2001,37 +1870,33 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    CmdPacket.NewAPState = LC_APSTATE_PASSIVE;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS - 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_CURR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive */
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2041,16 +1906,13 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    CmdPacket.NewAPState = LC_APSTATE_DISABLED;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS - 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -2058,21 +1920,20 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_CURR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled */
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2081,37 +1942,33 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS;
 
-    CmdPacket.NewAPState = LC_APSTATE_ACTIVE;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_InvalidAPNumberActive */
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2120,36 +1977,32 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS;
 
-    CmdPacket.NewAPState = LC_APSTATE_PASSIVE;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_InvalidAPNumberPassive */
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 {
-    LC_SetAPState_t CmdPacket;
-    CFE_SB_MsgId_t  TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2158,47 +2011,40 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
+    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS;
 
-    CmdPacket.NewAPState = LC_APSTATE_DISABLED;
-    CmdPacket.APNumber   = LC_MAX_ACTIONPOINTS;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATE_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPStateCmd_Test_InvalidAPNumberDisabled */
 
 void LC_SetAPPermOffCmd_Test_BadLength(void)
 {
-    LC_SetAPPermOff_t  CmdPacket;
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_SetAPPermOffCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
-
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 {
-    LC_SetAPPermOff_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2207,33 +2053,29 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP perm off error: Invalid AP number = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.APNumber = LC_MAX_ACTIONPOINTS;
+    UT_CmdBuf.SetAPPermOffCmd.APNumber = LC_MAX_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APOFF_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APOFF_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints */
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 {
-    LC_SetAPPermOff_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2242,33 +2084,29 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP perm off error: Invalid AP number = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.APNumber = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.SetAPPermOffCmd.APNumber = LC_ALL_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APOFF_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APOFF_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints */
 
 void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 {
-    LC_SetAPPermOff_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2278,35 +2116,31 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP perm off error, AP NOT Disabled: AP = %%d, Current state = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPPermOffCmd.APNumber = 1;
 
-    CmdPacket.APNumber = 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APOFF_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APOFF_CURR_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPPermOffCmd_Test_APNotDisabled */
 
 void LC_SetAPPermOffCmd_Test_Nominal(void)
 {
-    LC_SetAPPermOff_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2315,48 +2149,42 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP permanently off command: AP = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+    UT_CmdBuf.SetAPPermOffCmd.APNumber = 1;
 
-    CmdPacket.APNumber = 1;
-
-    LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState = LC_APSTATE_DISABLED;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState = LC_APSTATE_DISABLED;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == 4,
-                  "LC_OperData.ARTPtr[CmdPacket.APNumber].CurrentState == 4");
+    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState == 4,
+                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState == 4");
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APOFF_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APOFF_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_SetAPPermOffCmd_Test_Nominal */
 
 void LC_ResetAPStatsCmd_Test_BadLength(void)
 {
-    LC_ResetAPStats_t  CmdPacket;
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_ResetAPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
 void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 {
-    LC_ResetAPStats_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2365,33 +2193,29 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset AP stats command: AP = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.APNumber = LC_ALL_ACTIONPOINTS;
+    UT_CmdBuf.ResetAPStatsCmd.APNumber = LC_ALL_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetAPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ResetAPStatsCmd_Test_AllActionPoints */
 
 void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 {
-    LC_ResetAPStats_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2400,33 +2224,29 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset AP stats command: AP = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.APNumber = LC_MAX_ACTIONPOINTS - 1;
+    UT_CmdBuf.ResetAPStatsCmd.APNumber = LC_MAX_ACTIONPOINTS - 1;
 
     /* Execute the function being tested */
-    LC_ResetAPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ResetAPStatsCmd_Test_SingleActionPoint */
 
 void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 {
-    LC_ResetAPStats_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2435,24 +2255,21 @@ void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset AP stats error: invalid AP number = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.APNumber = LC_MAX_ACTIONPOINTS;
+    UT_CmdBuf.ResetAPStatsCmd.APNumber = LC_MAX_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetAPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_APSTATS_APNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATS_APNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ResetAPStatsCmd_Test_InvalidAPNumber */
 
@@ -2560,21 +2377,18 @@ void LC_ResetResultsAP_Test(void)
 
 void LC_ResetWPStatsCmd_Test_BadLength(void)
 {
-    LC_ResetWPStats_t  CmdPacket;
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_ResetWPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
 void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 {
-    LC_ResetWPStats_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2583,33 +2397,29 @@ void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset WP stats command: WP = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.WPNumber = LC_ALL_WATCHPOINTS;
+    UT_CmdBuf.ResetWPStatsCmd.WPNumber = LC_ALL_WATCHPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetWPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_WPSTATS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WPSTATS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ResetWPStatsCmd_Test_AllWatchPoints */
 
 void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 {
-    LC_ResetWPStats_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2618,32 +2428,28 @@ void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset WP stats command: WP = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.WPNumber = LC_MAX_WATCHPOINTS - 1;
+    UT_CmdBuf.ResetWPStatsCmd.WPNumber = LC_MAX_WATCHPOINTS - 1;
 
     /* Execute the function being tested */
-    LC_ResetWPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_WPSTATS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WPSTATS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ResetWPStatsCmd_Test_SingleWatchPoint */
 
 void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
 {
-    LC_ResetWPStats_t CmdPacket;
-    CFE_SB_MsgId_t    TestMsgId;
+    CFE_SB_MsgId_t TestMsgId;
 
-    TestMsgId = LC_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
@@ -2652,24 +2458,21 @@ void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset WP stats error: invalid WP number = %%d");
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CmdPacket.WPNumber = LC_MAX_WATCHPOINTS;
+    UT_CmdBuf.ResetWPStatsCmd.WPNumber = LC_MAX_WATCHPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetWPStatsCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, LC_WPSTATS_WPNUM_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WPSTATS_WPNUM_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_ResetWPStatsCmd_Test_InvalidWPNumber */
 
@@ -2828,9 +2631,12 @@ void UtTest_Setup(void)
     UtTest_Add(LC_SampleAPReq_Test_ArrayIndexOutOfRange, LC_Test_Setup, LC_Test_TearDown,
                "LC_SampleAPReq_Test_ArrayIndexOutOfRange");
     UtTest_Add(LC_SampleAPReq_Test_StateDisabled, LC_Test_Setup, LC_Test_TearDown, "LC_SampleAPReq_Test_StateDisabled");
-    UtTest_Add(LC_SampleAPReq_Test_ArrayEndIndexTooHigh, LC_Test_Setup, LC_Test_TearDown, "LC_SampleAPReq_Test_ArrayEndIndexTooHigh");
-    UtTest_Add(LC_SampleAPReq_Test_SampleAllUpdateAgeZero, LC_Test_Setup, LC_Test_TearDown, "LC_SampleAPReq_Test_SampleAllUpdateAgeZero");
-    UtTest_Add(LC_SampleAPReq_Test_BadSampleAllArgs, LC_Test_Setup, LC_Test_TearDown, "LC_SampleAPReq_Test_BadSampleAllArgs");
+    UtTest_Add(LC_SampleAPReq_Test_ArrayEndIndexTooHigh, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SampleAPReq_Test_ArrayEndIndexTooHigh");
+    UtTest_Add(LC_SampleAPReq_Test_SampleAllUpdateAgeZero, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SampleAPReq_Test_SampleAllUpdateAgeZero");
+    UtTest_Add(LC_SampleAPReq_Test_BadSampleAllArgs, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SampleAPReq_Test_BadSampleAllArgs");
 
     UtTest_Add(LC_HousekeepingReq_Test_WatchStale, LC_Test_Setup, LC_Test_TearDown,
                "LC_HousekeepingReq_Test_WatchStale");
@@ -2877,8 +2683,8 @@ void UtTest_Setup(void)
                "LC_SetAPStateCmd_Test_SetAllActionPointsDisabled");
     UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointActive, LC_Test_Setup, LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_UpdateSingleActionPointActive");
-    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed, LC_Test_Setup, 
-               LC_Test_TearDown, "LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed");
+    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed");
 
     UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive, LC_Test_Setup, LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive");
@@ -2905,8 +2711,10 @@ void UtTest_Setup(void)
                "LC_SetAPPermOffCmd_Test_APNotDisabled");
     UtTest_Add(LC_SetAPPermOffCmd_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPPermOffCmd_Test_Nominal");
     UtTest_Add(LC_SetAPPermOffCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPPermOffCmd_Test_BadLength");
-    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed");
-    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff");
+    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed");
+    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff");
 
     UtTest_Add(LC_ResetAPStatsCmd_Test_AllActionPoints, LC_Test_Setup, LC_Test_TearDown,
                "LC_ResetAPStatsCmd_Test_AllActionPoints");

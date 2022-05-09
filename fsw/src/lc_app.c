@@ -1,23 +1,28 @@
 /************************************************************************
-** File:
-**   $Id: lc_app.c 1.7 2017/01/22 17:24:23EST sstrege Exp  $
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   The CFS Limit Checker (LC) is a table driven application
-**   that provides telemetry monitoring and autonomous response
-**   capabilities to Core Flight Executive (cFE) based systems.
-**
-**
-*************************************************************************/
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   The CFS Limit Checker (LC) is a table driven application
+ *   that provides telemetry monitoring and autonomous response
+ *   capabilities to Core Flight Executive (cFE) based systems.
+ */
 
 /************************************************************************
 ** Includes
@@ -261,7 +266,7 @@ int32 LC_SbInit(void)
     /*
     ** Initialize housekeeping packet...
     */
-    CFE_MSG_Init(&LC_OperData.HkPacket.TlmHeader.Msg, LC_HK_TLM_MID, sizeof(LC_HkPacket_t));
+    CFE_MSG_Init(&LC_OperData.HkPacket.TlmHeader.Msg, CFE_SB_ValueToMsgId(LC_HK_TLM_MID), sizeof(LC_HkPacket_t));
 
     /*
     ** Create Software Bus message pipe...
@@ -278,7 +283,7 @@ int32 LC_SbInit(void)
         /*
         ** Subscribe to Housekeeping request messages...
         */
-        Status = CFE_SB_Subscribe(LC_SEND_HK_MID, LC_OperData.CmdPipe);
+        Status = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(LC_SEND_HK_MID), LC_OperData.CmdPipe);
         if (Status != CFE_SUCCESS)
         {
             CFE_EVS_SendEvent(LC_SUB_HK_REQ_ERR_EID, CFE_EVS_EventType_ERROR,
@@ -292,7 +297,7 @@ int32 LC_SbInit(void)
         /*
         ** Subscribe to LC ground command messages...
         */
-        Status = CFE_SB_Subscribe(LC_CMD_MID, LC_OperData.CmdPipe);
+        Status = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(LC_CMD_MID), LC_OperData.CmdPipe);
         if (Status != CFE_SUCCESS)
         {
             CFE_EVS_SendEvent(LC_SUB_GND_CMD_ERR_EID, CFE_EVS_EventType_ERROR,
@@ -305,7 +310,7 @@ int32 LC_SbInit(void)
         /*
         ** Subscribe to LC internal actionpoint sample messages...
         */
-        Status = CFE_SB_Subscribe(LC_SAMPLE_AP_MID, LC_OperData.CmdPipe);
+        Status = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID), LC_OperData.CmdPipe);
         if (Status != CFE_SUCCESS)
         {
             CFE_EVS_SendEvent(LC_SUB_SAMPLE_CMD_ERR_EID, CFE_EVS_EventType_ERROR,

@@ -1,0 +1,198 @@
+Summary,Custom field (Requirement ID),Description,Custom field (Requirement Rationale)
+LC1000,LC1000,"Upon receipt of a No-Op command, LC shall increment the LC Valid Command Counter and generate an event message.",Debug command to verify application is alive.  Heritage from LRO.
+LC1001,LC1001,"Upon receipt of a Reset command, LC shall reset the following housekeeping variables to a value of zero:
+a)	Valid Command Counter
+b)	Command Rejected Counter
+c)	Passive RTS Execution Counter
+d)	Actionpoint Sample Count
+e)	TLM Count
+f)	RTS Execution Counter","Important for testing and on-orbit flight operations in order to start with a “clean slate”.  Heritage from LRO, SDO."
+LC1002,LC1002,"For all LC commands, if the length contained in the message header is not equal to the expected length, LC shall reject the command and issue an event message.","Basic command verification in the event of  SEU or memory corruption.  Heritage from LRO, SDO."
+LC1003,LC1003,"If LC accepts any command as valid, LC shall execute the command, increment the LC Valid Command Counter and issue an event message.","Operators require feedback on command execution.  Note that this only applies to “ground commands” (i.e. does not include requests that come from the scheduler).  Heritage from LRO, SDO."
+LC1004,LC1004,"If LC rejects any command, LC shall abort the command execution, increment the LC Command Rejected Counter and issue an error event message.","Operators require feedback on command execution. Heritage from LRO, SDO."
+LC2000,LC2000,The flight software shall monitor a maximum of <PLATFORM_DEFINED> Watchpoints.,"Need to define a limit for defining data structures.  Heritage from LRO, SDO."
+LC2001,LC2001,For each Watchpoint specified in the Watchpoint Definition Table (WDT) LC shall specify an age value which indicates when the data becomes “stale”.,Need to provide a means of ensuring evaluated data is not stale.  Heritage from MMS.
+LC2002,LC2002,For each Watchpoint specified in the Watchpoint Definition Table (WDT) LC shall maintain the age of the data.,Need to provide a means of ensuring evaluated data is not stale.  Heritage from MMS.
+LC2003,LC2003,"Upon receipt of a message, LC shall compare the data in the message to the table-defined value using the table-defined comparison value and comparison operator for each data point defined in the Watchpoint Definition Table (WDT) if the LC Application State is one of the following:
+a)	Active
+b)	Passive","Telemetry Watchpoints shall be evaluated whenever the message (packet) containing the data to be examined is received.  If LC App is Disabled, LC does not process WDT or ADT.   Disabled state useful for making updates to LC tables (note that LC does not have to be disabled in order to make WDT or ADT updates, however, care must be taken to ensure the validity of the relationship between the 2 tables during updates). Note that individual Watchpoints can’t be disabled;  Individual Actionpoints can be disabled.  Note also that WDT can have unused entries.  Heritage from LRO (loosely SDO)."
+LC2003.1,LC2003.1,"LC shall support the following comparison values:
+a)       =
+b)       !=
+c)       >
+d)      >=
+e)      <
+f)        <=",Watchdog comparison values
+LC2003.2,LC2003.2,"If the WDT comparison operator specifies that a Custom Function shall be performed, LC shall apply the custom function to the data contained in the message.",Provides capability to do a calculation on the data instead of just a comparison.  Heritage from LRO (loosely SDO).
+LC2003.3,LC2003.3,"If the comparison result for a Watchpoint results in a False, LC shall set the Number of Consecutive True values to zero.","Restarts the consecutive True values.  Heritage from LRO, SDO."
+LC2003.4,LC2003.4,"If the Watchpoint cannot be evaluated, LC shall set the Watchpoint Results Table to ERROR for the erroneous Watchpoint.",Want to report that there was an erroneous watchpoint.  Heritage from LRO.
+LC2004,LC2004,"For each Watchpoint, the flight software shall maintain the following statistics in the dump-only Watchpoint Results Table:
+a)	The result of the last relational comparison (False, True, Error, or Stale)
+b)	The number of times this Watchpoint has been compared
+c)	The number of times this Watchpoint has crossed from the False to True result
+d)	The number of consecutive times the comparison has yielded a True result
+e)	The cumulative number of times the comparison has yielded a True result
+f)	Most recent FALSE to TRUE transition value
+g)	Most recent FALSE to TRUE transition timestamp
+h)	Most recent TRUE to FALSE transition value
+i)	Most recent TRUE to FALSE transition timestamp
+j)	Most recent comparison age","Provides results for each evaluation of the WDT.  Heritage from LRO, SDO."
+LC2005,LC2005,"Upon receipt of a table update indication, LC shall validate the Watchpoint Definition Table for the following:
+a)	Valid operator
+b)	Data size
+c)	Message  ID",Valid the items that can be validated when an table is updated (some items cannot be valued until runtime).  Heritage from LRO.
+LC2006,LC2006,LC shall convert telemetry to native byte order prior to evaluating actionpoint or watchpoint equations.,
+LC3000,LC3000,Limit Checker shall support up to a maximum of <PLATFORM_DEFINED> Actionpoints,Used to size the actionpoint table
+LC3001,LC3001,"Upon receipt of a Sample Request, LC shall process the request specified Actionpoints defined in the Actionpoint Definition Table (ADT) if the LC Application State is one of the following:
+a)	Active
+b)	Passive","Processing of the Actionpoint Definition Table is scheduled upon receipt of a  command (usually from the CFS Scheduler Application).  If LC App is Disabled, LC does not process WDT or ADT.   Disabled state useful for making updates to LC tables. Note that individual Watchpoints can’t be disabled;  Individual Actionpoints can be disabled.  Can sample individual or all actionpoints.  Heritage from LRO."
+LC3001.1,LC3001.1,"LC shall support the following Reverse Polish Operators:
+a)	And
+b)	Or
+c)	Xor
+d)	Not
+e)	equals",
+LC3001.2,LC3001.2,"If the equation result for an Actionpoint results in a Pass, LC shall set the Number of Consecutive Fail values to zero.","Used to track consecutive failures.  If consecutive failures > max then take action.  Need to reset if Actionpoint doesn’t fail.  Heritage from LRO, SDO."
+LC3001.3,LC3001.3,"If the Actionpoint cannot be evaluated, LC shall set the Actionpoint Results Table to ERROR for the erroneous Actionpoint.",Potential problems with the Watchpoint or the equation.  Heritage from LRO.
+LC3002,LC3002,"For Each table-defined Actionpoint, LC shall store the results in the dump-only Actionpoint Results Table if the Actionpoint state is either:
+a)	Active
+b)	Passive","Actionpoint is not evaluated if state is unused, disabled or permanently disabled.  Heritage from LRO, (loosely SDO)."
+LC3002.1,LC3002.1,"If the Actionpoint equation results in a transition from PASS to FAIL, LC shall issue an event message indicating the failure.","Want to see when an Actionpoint first exceeds the limit.  Heritage from LRO, SDO."
+LC3002.1.1,LC3002.1.1,"If the PASS to FAIL transition event message has been sent for the table-defined number of times, LC shall apply the table-defined event message filter.",
+LC3002.2,LC3002.2,"If the Actionpoint equation results in a transition from FAIL to PASS, LC shall issue an event message indicating that the actionpoint is now within limits.","Want to see if an actionpoint which had fails, go back within limits.  Helps to see if there is data that is “bad” but not so bad that it fails enough times to cause the RTS to be executed.  Heritage from LRO, SDO."
+LC3002.2.1,LC3002.2.1,"If the FAIL to PASS transition event message has been sent for the table-defined number of times, LC shall apply the table-defined event message filter.",
+LC3002.3,LC3002.3,"If the equation has yielded a Fail result for the table-defined consecutive number of times limit and the Actionpoint is currently Active, LC shall:
+a)	generate an event message
+b)	send a command to start the table-defined RTS
+c)	Increment the counter indicating Total count of commands sent to SC task to start an RTS","Takes the action defined in the actionpoint definition table.  Heritage from LRO, SDO."
+LC3002.3.1,LC3002.3.1,"Once an RTS is initiated, LC shall change the current state of the associated Actionpoint to Passive.","Prevents an RTS from getting initiated more than once.  Heritage from LRO, (loosely SDO)."
+LC3002.4,LC3002.4,"If the equation has yielded a Fail result for the defined consecutive number of times and the Actionpoint is currently Passive, LC shall:
+a)	generate an event message indicating that the Actionpoint Failed but the action was not taken
+b)	Increment the Passive RTS Execution Counter","Informs the ground that an actionpoint tripped but that the action was not taken.  Heritage from LRO, SDO."
+LC3003,LC3003,"If the Actionpoint is Disabled, LC shall skip processing that actionpoint.","Actionpoints can be individually enabled/disabled.  If disabled, don’t process the definition.  Heritage from LRO, (loosely SDO)."
+LC3004,LC3004,"If the Actionpoint is Unused, LC shall skip processing that actionpoint","Unused Actionpoint entries can’t be processed.  Heritage from LRO, (loosely SDO)."
+LC3005,LC3005,"If the Actionpoint is Permanently Disabled, LC shall skip processing that actionpoint",Useful for separation sequence actionpoints.  Heritage from LRO.
+LC3006,LC3006,"For each Actionpoint, the flight software shall maintain the following statistics in the dump-only Actionpoint Results Table:
+a)	The result of the last Sample (Pass, Fail, Error, or Stale)
+b)	The current state (PermOff, Disabled, Active, Passive, Unused)
+c)	The number of times this Actionpoint has crossed from the Fail to Pass state
+d)	The number of times this Actionpoint has crossed from the Pass to Fail state
+e)	The number of consecutive times the equation result = Failed
+f)	The cumulative number of times the equation result = Failed
+g)	The cumulative count of the RTS executions
+h)	Total number of event messages sent",Provides detailed results of the Actionpoint evaluation.  Heritage from LRO.
+LC3007,LC3007,"Upon receipt of a table update indication, LC shall validate the Actionpoint Definition Table for the following:
+a)	valid default state
+b)	RTS number (in range)
+c)	Event Type (DEBUG, INFO, ERROR, CRITICAL)
+d)	Failure Count (in range)
+e)	Action Equation syntax",Not much can be validated since much is at run-time. Heritage from LRO.
+LC4000,LC4000,"Upon receipt of a Set LC Application State To Active Command, LC shall set the state of the LC Application to Active.","Nominal mode for LC.  LC performs all limit tests defined in the watchpoint definition table and will invoke stored command sequences if the results of watchpoint evaluations trigger an actionpoint condition as defined in the actionpoint definition table.  Heritage from LRO, SDO."
+LC4001,LC4001,"Upon receipt of a Set LC Application State to Passive Command, LC shall set the LC Application State to Passive.","Provides the ability to monitor data but not take actions.  LC still monitors telemetry and report statistics, however, no actions will be taken.  Heritage from LRO, SDO (SDO used the term Watch Mode)"
+LC4002,LC4002,"Upon receipt of a Set LC Application State to Disable Command, LC shall set the LC Application State to Disabled.","Provides capability to stop all LC monitoring.  Useful when updating watchpoint and/or Actionpoint definition tables.  Heritage from LRO, SDO."
+LC4003,LC4003,"Upon receipt of a Set Actionpoint to Active Command, LC shall set the state for the command-specified Actionpoint to ACTIVE such that the actionpoint is evaluated and the table-defined actions are taken based on the evaluation.","Provides the ability to enable the actionpoint so that appropriate actions are taken on the basis of current watchpoint states.  Heritage from LRO, SDO."
+LC4004,LC4004,"Upon receipt of a Set All Actionpoints to Active Command, LC shall set the state for all Actionpoints to ACTIVE such that the actionpoints are evaluated and the table-defined actions are taken based on the evaluation.","Provide the ability to enable ALL actionpoints.  Heritage from LRO, SDO."
+LC4005,LC4005,"Upon receipt of a Set Actionpoint to Passive Command, LC shall set the state for the command-specified Actionpoint to PASSIVE such that the actionpoint is evaluated, however, no actions are taken.","Provides ability to monitor data associated with an action point but not take the action defined for that actionpoint.  Heritage from LRO, SDO."
+LC4006,LC4006,"Upon receipt of a Set All Actionpoints to Passive Command, LC shall set the state for the all Actionpoints to PASSIVE such that all actionpoints are evaluated, however, no actions are taken.","Provides ability to quiet all actionpoints.  Heritage from LRO, SDO."
+LC4007,LC4007,"Upon receipt of a Set Actionpoint to Disabled Command, LC shall set the state for the command-specified Actionpoint to DISABLED such that the actionpoints are not evaluated and no actions are taken.","Disable an action point so that no evaluation is performed for the particular actionpoint.  Heritage from LRO, SDO."
+LC4008,LC4008,"Upon receipt of a Set All Actionpoints to Disabled Command, LC shall set the state for all Actionpoint to DISABLED such that:
+a)	the actionpoints are not evaluated
+b)	no actions are taken
+c)	no event messages generated.","Provides the ability to “turn off” all actionpoint evaluations.  Heritage from LRO, SDO."
+LC4009,LC4009,"Upon receipt of a Set Actionpoint to Permanent Disable, LC shall mark the command-specified Actionpoint such that the Actionpoint cannot be Activated.",Useful for separation sequences or other actionpoints that should only be active for a limited period of time and never re-enabled by the ground.  Heritage from LRO.
+LC4009.1,LC4009.1,"If a command is received to Activate an Actionpoint which has been permanently disabled, the command shall be rejected.",The only way to activate a permanently disabled actionpoint is to restart LC application or load a new Actionpoint table.  Note that the restart of the LC application will only activate this Actionpoint if the Save Critical Data  parameter is set to “No” (see LC9005).  Heritage from LRO.
+LC4010,LC4010,"Upon receipt of a Reset Actionpoint Statistics Command, LC shall set to zero, all of the following Actionpoint Statistics for the command-specified Actionpoints:
+a)	Total number of FAIL to PASS transitions
+b)	Total number of PASS to FAIL transitions
+c)	Number of consecutive FAIL results
+d)	Total number of FAIL results
+e)	Total number of RTS executions
+f)	Total number of event messages sent  relating to that Actionpoint","Provides ability to start monitoring “from scratch”.  Heritage from LRO, SDO."
+LC4011,LC4011,"Upon receipt of a Reset All Actionpoint Statistics Command, LC shall set to zero, all of the following Actionpoint Statistics for all Actionpoints:
+a)	Total number of FAIL to PASS transitions
+b)	Total number of PASS to FAIL transitions
+c)	Number of consecutive FAIL results
+d)	Total number of FAIL results
+e)	Total number of RTS executions
+f)	Total number of event messages sent relating to that Actionpoint","Provides ability to start monitoring “from scratch”.  Heritage from LRO, SDO."
+LC4012,LC4012,"Upon receipt of a Reset Watchpoint Statistics Command, LC shall set to zero all of the following Watchpoint Statistics for the command-specified Watchpoints:
+a)	Total sample count for this watchpoint
+b)	Number of times result transitioned from FALSE to TRUE
+c)	Number of consecutive TRUE results
+d)	Total number of TRUE results
+e)	Most recent FALSE to TRUE transition value
+f)	Most recent FALSE to TRUE transition timestamp
+g)	Most recent TRUE to FALSE transition value
+h)	Most recent TRUE to FALSE transition timestamp","Provides ability to start monitoring “from scratch”.  Heritage from LRO, SDO."
+LC4013,LC4013,"Upon receipt of a Reset All Watchpoint Statistics Command, LC shall set to zero, all of the following Watchpoint Statistics for all Watchpoints:
+a)	Total sample count for this watchpoint
+b)	Number of times result transitioned from FALSE to TRUE
+c)	Number of consecutive TRUE results
+d)	Total number of TRUE results
+e)	Most recent FALSE to TRUE transition value
+f)	Most recent FALSE to TRUE transition timestamp
+g)	Most recent TRUE to FALSE transition value
+h)	Most recent TRUE to FALSE transition timestamp","Provides ability to start monitoring “from scratch”.  Heritage from LRO, SDO."
+LC8000,LC8000,"LC shall generate a housekeeping message containing the following:
+a)	Valid  Command Counter
+b)	Command Rejected Counter
+c)	Passive RTS Execution Counter (Total count of RTS sequences not initiated because either the LC application state or the state of the actionpoint that failed is set to Passive) 
+d)	Current LC Application State (LC_ACTIVE, LC_PASSIVE, LC_DISABLED)...
+e)	Total count of actionpoints sampled while LC_ACTIVE or LC_PASSIVE...
+f)	Total count of packets monitored for watchpoints (cmd and tlm)
+g)	RTS Execution Counter (Total count of commands sent to SC task to start an RTS)
+h)	Selected data from watchpoint results table
+i)	Selected data from actionpoint results table","Housekeeping telemetry to indicate basic LC status.  Heritage from LRO, loosely SDO."
+LC9000,LC9000,"Upon cFE Power-On LC shall initialize the following Housekeeping data to Zero (or value specified):
+a)	Valid Command Counter
+b)	Command Rejected Counter
+c)	Passive RTS Execution Counter
+d)	Current LC State to <PLATFORM_DEFINED> Default Power-on State
+e)	Actionpoint Sample Count
+f)	TLM Count
+g)	RTS Execution Counter
+h)	Watch Results (bitmapped)
+i)	Action Results (bitmapped)",Need to initialize values to a default state on cFE Power-on reset.  Derived requirement.
+LC9001,LC9001,"Upon cFE Power-On LC shall initialize the following Watchpoint data to Zero (or value specified) for all Watchpoints:
+a)	The result of the last watchpoint relational comparison to STALE
+b)	The number of times this Watchpoint has been compared
+c)	The number of times this Watchpoint has crossed from the False to True result
+d)	The number of consecutive times the comparison has yielded a True result
+e)	The cumulative number of times the comparison has yielded a True result
+f)	The value that caused the last False-to-True crossing, and the crossing time stamp
+g)	The value that caused the last True-to-False crossing, and the crossing time stamp",
+LC9002,LC9002,"Upon cFE Power-On LC shall initialize the following Actionpoint data to Zero (or value specified) for all Actionpoints:
+a)	The result of the last Actionpoint Sample to STALE
+b)	The current state as defined in the ADT
+c)	The number of times this Actionpoint has crossed from the Fail to Pass state
+d)	The number of times this Actionpoint has crossed from the Pass to Fail state
+e)	The number of consecutive times the equation result = Failed
+f)	The cumulative number of times the equation result = Failed
+g)	The cumulative count of the RTS executions
+h)	Total number of event messages sent",
+LC9003,LC9003,"Upon a cFE Processor Reset or LC Application Reset,  if the <PLATFORM_DEFINED> Save Critical Data parameter is set to NO, LC shall perform the same initialization as a cFE Power-on (see LC9000, LC9001, LC9002, and LC9003)",Configuration parameter indicates if data should be saved across a cFE Processor Reset or LC Application Reset.
+LC9004,LC9004,"Upon a cFE Processor Reset or LC Application Reset,  if the <PLATFORM_DEFINED> Save Critical Data parameter is set to YES, LC shall  restore the following data:
+a)	LC housekeeping data
+b)	WDT
+c)	Watchpoint Statistics
+d)	ADT
+e)	Actionpoint Statistics",Provides ability to “fly thru” a cFE processor reset or LC Application reset.
+LC9004.1,LC9004.1,LC shall initialize the LC Application State to <PLATFORM_DEFINED> Default Reset State,Provides flexibility.  May want to “fly thru” a reset by defaulting to LC ACTIVE or maybe defaulting to PASSIVE so that no actions are taken.  May want to default to LC Disable.
+LC9004.1.1,LC9004.1.1,"If the platform defined Default Reset State indicates to use the state of the LC Application prior to the reset, LC shall set the state of the LC Application to the state restored from the CDS",Provides ability to maintain the state of the LC Application prior to the reset instead of using the default value
+LC9004.2,LC9004.2,"If LC determines the Critical Data is invalid, LC shall perform the same initialization as a cFE Power-on (see LC9000, LC9001 and LC9002)",Need to validate critical data to make sure that the data looks reasonable
+LC9005,LC9005,"Upon any initialization, LC shall validate the Watchpoint Definition Table for the following:
+a)	valid operator
+b)	data size
+c)	Message ID",Valid the items that can be validated when a table is updated (some items cannot be validated until runtime).  Heritage from LRO.
+LC9006,LC9006,"Upon any initialization, LC shall validate the Actionpoint Definition Table for the following:
+a)	valid default state
+b)	RTS number (in range)
+c)	Event Type (DEBUG, INFO, ERROR, CRITICAL)
+d)	Failure Count (in range)
+e)	Action Equation syntax",Valid the items that can be validated when a table is updated (some items cannot be validated until runtime).  Heritage from LRO.
+LC9007,LC9007,"Upon any initialization, LC shall subscribe to the messages defined in the WDT.","Must subscribe to all of the messages defined in the Watchpoint
+Definition Table after any reset.  Heritage from LRO."
+LC9007.1,LC9007.1,"For a cFE Processor Reset, If the Save Critical Data parameter is YES, LC shall subscribe to the messages defined in the WDT restored from the CDS","Need to use the WDT that was being used prior to the cFE Processor Reset instead of the default WDT.
+"
+LC9007.2,LC9007.2,"For an LC Application Reset, If the Save Critical Data parameter is YES, LC shall subscribe to the messages defined in the WDT restored from the CDS","Need to use the WDT that was being used prior to the LC App reset instead of the default WDT
+"

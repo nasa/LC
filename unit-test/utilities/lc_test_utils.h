@@ -1,8 +1,33 @@
-#ifndef _LC_APP_TEST_UTILS_H_
-#define _LC_APP_TEST_UTILS_H_
+/************************************************************************
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   This file contains the function prototypes and global variables for
+ *   the unit test utilities for the LC application.
+ */
+#ifndef LC_TEST_UTILS_H
+#define LC_TEST_UTILS_H
 
 #include "lc_app.h"
 #include "utstubs.h"
+#include "cfe_msgids.h"
 
 /*
  * Allow UT access to the global "LC_AppData" object.
@@ -16,41 +41,48 @@ LC_ADTEntry_t ADTable[LC_MAX_ACTIONPOINTS];
 LC_WRTEntry_t WRTable[LC_MAX_WATCHPOINTS];
 LC_ARTEntry_t ARTable[LC_MAX_ACTIONPOINTS];
 
-LC_MessageList_t HashTable[LC_HASH_TABLE_ENTRIES];
-
-LC_WatchPtList_t WatchPtList[LC_HASH_TABLE_ENTRIES][LC_MAX_WATCHPOINTS];
-
 /*
  * Global context structures
  */
 typedef struct
 {
-    uint16      EventID;
-    uint16      EventType;
-    const char *Spec;
-} __attribute__((packed)) CFE_EVS_SendEvent_context_t;
+    uint16 EventID;
+    uint16 EventType;
+    char   Spec[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+} CFE_EVS_SendEvent_context_t;
 
 typedef struct
 {
-    const char *Spec;
-} __attribute__((packed)) CFE_ES_WriteToSysLog_context_t;
+    char Spec[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+} CFE_ES_WriteToSysLog_context_t;
 
-/*
- * Macro to call a function and check its int32 return code
- */
-#define UT_TEST_FUNCTION_RC(func, exp)                                                                \
-    {                                                                                                 \
-        int32 rcexp = exp;                                                                            \
-        int32 rcact = func;                                                                           \
-        UtAssert_True(rcact == rcexp, "%s (%ld) == %s (%ld)", #func, (long)rcact, #exp, (long)rcexp); \
-    }
+extern CFE_EVS_SendEvent_context_t    context_CFE_EVS_SendEvent[];
+extern CFE_ES_WriteToSysLog_context_t context_CFE_ES_WriteToSysLog;
+
+/* Command buffer typedef for any handler */
+typedef union
+{
+    CFE_SB_Buffer_t   Buf;
+    LC_NoArgsCmd_t    NoArgsCmd;
+    LC_SetLCState_t   SetLCStateCmd;
+    LC_SetAPState_t   SetAPStateCmd;
+    LC_SetAPPermOff_t SetAPPermOffCmd;
+    LC_ResetAPStats_t ResetAPStatsCmd;
+    LC_ResetWPStats_t ResetWPStatsCmd;
+    LC_SampleAP_t     SampleAPCmd;
+    LC_RTSRequest_t   RTSRequestCmd;
+} UT_CmdBuf_t;
+
+extern UT_CmdBuf_t UT_CmdBuf;
 
 /*
  * Macro to add a test case to the list of tests to execute
  */
 #define ADD_TEST(test) UtTest_Add((Test_##test), LC_UT_Setup, LC_UT_TearDown, #test)
 
-int32 UT_Utils_stub_reporter_hook(void *UserObj, int32 StubRetcode, uint32 CallCount, const UT_StubContext_t *Context);
+/* Unit test MID */
+#define LC_UT_MID_1 CFE_SB_ValueToMsgId(CFE_PLATFORM_TLM_MID_BASE + 1)
+#define LC_UT_MID_2 CFE_SB_ValueToMsgId(CFE_PLATFORM_TLM_MID_BASE + 2)
 
 /*
  * Setup function prior to every test

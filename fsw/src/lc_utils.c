@@ -1,20 +1,26 @@
 /************************************************************************
-** File: lc_utils.c
-**
-**  Copyright (c) 2007-2020 United States Government as represented by the
-**  Administrator of the National Aeronautics and Space Administration.
-**  All Other Rights Reserved.
-**
-**  This software was created at NASA's Goddard Space Flight Center.
-**  This software is governed by the NASA Open Source Agreement and may be
-**  used, distributed and modified only pursuant to the terms of that
-**  agreement.
-**
-** Purpose:
-**   CFS Limit Checker (LC) utility functions
-**
-**
-*************************************************************************/
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   CFS Limit Checker (LC) utility functions
+ */
 
 /************************************************************************
 ** Includes
@@ -51,34 +57,38 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
         CFE_MSG_GetMsgId(MsgPtr, &MessageID);
         CFE_MSG_GetFcnCode(MsgPtr, &CommandCode);
 
-        if (MessageID == LC_SEND_HK_MID)
+        switch (CFE_SB_MsgIdToValue(MessageID))
         {
-            /*
-            ** For a bad HK request, just send the event. We only increment
-            ** the error counter for ground commands and not internal messages.
-            */
-            CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Invalid HK request msg length: ID = 0x%08X, CC = %d, Len = %d, Expected = %d", MessageID,
-                              CommandCode, (int)ActualLength, (int)ExpectedLength);
-        }
-        else if (MessageID == LC_SAMPLE_AP_MID)
-        {
-            /*
-            ** Same thing as previous for a bad actionpoint sample request
-            */
-            CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Invalid AP sample msg length: ID = 0x%08X, CC = %d, Len = %d, Expected = %d", MessageID,
-                              CommandCode, (int)ActualLength, (int)ExpectedLength);
-        }
-        else
-        {
-            /*
-            ** All other cases, increment error counter
-            */
-            CFE_EVS_SendEvent(LC_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Invalid msg length: ID = 0x%08X, CC = %d, Len = %d, Expected = %d", MessageID,
-                              CommandCode, (int)ActualLength, (int)ExpectedLength);
-            LC_AppData.CmdErrCount++;
+            case LC_SEND_HK_MID:
+                /*
+                ** For a bad HK request, just send the event. We only increment
+                ** the error counter for ground commands and not internal messages.
+                */
+                CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                                  "Invalid HK request msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
+                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
+                                  (int)ExpectedLength);
+                break;
+
+            case LC_SAMPLE_AP_MID:
+                /*
+                ** Same thing as previous for a bad actionpoint sample request
+                */
+                CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                                  "Invalid AP sample msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
+                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
+                                  (int)ExpectedLength);
+                break;
+
+            default:
+                /*
+                ** All other cases, increment error counter
+                */
+                CFE_EVS_SendEvent(LC_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                                  "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
+                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
+                                  (int)ExpectedLength);
+                LC_AppData.CmdErrCount++;
         }
 
         result = false;
