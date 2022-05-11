@@ -77,13 +77,13 @@ void LC_ResetCounters(void);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param [in]   StartIndex   Start of area to reset (base zero)
- *  \param [in]   EndIndex     End of area to reset (base zero)
- *  \param [in]   ResetCmd     Reset AP stats command does not reset all fields
+ *  \param [in]   StartIndex    Start of area to reset (base zero)
+ *  \param [in]   EndIndex      End of area to reset (base zero)
+ *  \param [in]   ResetStatsCmd Reset AP stats command does not reset all fields
  *
  *  \sa #LC_ResetAPStatsCmd
  */
-void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetCmd);
+void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd);
 
 /**
  * \brief Reset WP results
@@ -94,13 +94,13 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetCmd);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param [in]   StartIndex   Start of area to reset (base zero)
- *  \param [in]   EndIndex     End of area to reset (base zero)
- *  \param [in]   ResetCmd     Reset WP stats command does not reset all fields
+ *  \param [in]   StartIndex    Start of area to reset (base zero)
+ *  \param [in]   EndIndex      End of area to reset (base zero)
+ *  \param [in]   ResetStatsCmd Reset WP stats command does not reset all fields
  *
  *  \sa #LC_ResetWPStatsCmd
  */
-void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetCmd);
+void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd);
 
 /**
  * \brief Sample actionpoints request
