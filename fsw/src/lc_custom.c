@@ -42,7 +42,8 @@
 void LC_ExecuteRTS(uint16 RTSId)
 {
     LC_RTSRequest_t RTSRequest;
-    /**************************************************************/
+
+    memset(&RTSRequest, 0, sizeof(RTSRequest));
 
     CFE_MSG_Init(&RTSRequest.CmdHeader.Msg, CFE_SB_ValueToMsgId(LC_RTS_REQ_MID), sizeof(LC_RTSRequest_t));
 
