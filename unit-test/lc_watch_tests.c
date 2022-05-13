@@ -415,6 +415,8 @@ void LC_ProcessWP_Test_CustomFunctionWatchFalse(void)
     CFE_TIME_SysTime_t Timestamp;
     CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
 
+    memset(&Timestamp, 0, sizeof(Timestamp));
+
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
@@ -448,6 +450,8 @@ void LC_ProcessWP_Test_OperatorCompareError(void)
     uint16             WatchIndex = 0;
     CFE_TIME_SysTime_t Timestamp;
     CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
+
+    memset(&Timestamp, 0, sizeof(Timestamp));
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
@@ -672,6 +676,8 @@ void LC_ProcessWP_Test_BadSize(void)
     uint16             WatchIndex = 0;
     CFE_TIME_SysTime_t Timestamp;
     CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
+
+    memset(&Timestamp, 0, sizeof(Timestamp));
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
@@ -1701,7 +1707,7 @@ void LC_GetSizedWPData_Test_DataByte(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
@@ -1726,7 +1732,7 @@ void LC_GetSizedWPData_Test_DataUByte(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
@@ -1751,7 +1757,7 @@ void LC_GetSizedWPData_Test_DataWordBELittleEndian(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
@@ -1776,7 +1782,7 @@ void LC_GetSizedWPData_Test_DataWordLELittleEndian(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
@@ -1801,7 +1807,7 @@ void LC_GetSizedWPData_Test_DataUWordBELittleEndian(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
@@ -1826,7 +1832,7 @@ void LC_GetSizedWPData_Test_DataUWordLELittleEndian(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
@@ -1851,7 +1857,7 @@ void LC_GetSizedWPData_Test_DataFloatBELittleEndian(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
@@ -1876,7 +1882,7 @@ void LC_GetSizedWPData_Test_DataFloatLELittleEndian(void)
     bool   Result;
     uint16 WatchIndex = 0;
     uint8  WPData[4];
-    uint32 SizedData;
+    uint32 SizedData = 0;
 
     WPData[0] = 1;
     WPData[1] = 2;
