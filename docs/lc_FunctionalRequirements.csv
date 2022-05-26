@@ -41,7 +41,7 @@ LC2005,LC2005,"Upon receipt of a table update indication, LC shall validate the 
 a)	Valid operator
 b)	Data size
 c)	Message  ID",Valid the items that can be validated when an table is updated (some items cannot be valued until runtime).  Heritage from LRO.
-LC2006,LC2006,LC shall convert telemetry to native byte order prior to evaluating actionpoint or watchpoint equations.,
+LC2006,LC2006,LC shall convert telemetry to native byte order prior to evaluating actionpoint or watchpoint equations.,Actionpoint and Watchpoint evaluation need to be evaluated using data in the correct byte order.
 LC3000,LC3000,Limit Checker shall support up to a maximum of <PLATFORM_DEFINED> Actionpoints,Used to size the actionpoint table
 LC3001,LC3001,"Upon receipt of a Sample Request, LC shall process the request specified Actionpoints defined in the Actionpoint Definition Table (ADT) if the LC Application State is one of the following:
 a)	Active
@@ -51,16 +51,16 @@ a)	And
 b)	Or
 c)	Xor
 d)	Not
-e)	equals",
+e)	equals",Specifies supported operators
 LC3001.2,LC3001.2,"If the equation result for an Actionpoint results in a Pass, LC shall set the Number of Consecutive Fail values to zero.","Used to track consecutive failures.  If consecutive failures > max then take action.  Need to reset if Actionpoint doesn’t fail.  Heritage from LRO, SDO."
 LC3001.3,LC3001.3,"If the Actionpoint cannot be evaluated, LC shall set the Actionpoint Results Table to ERROR for the erroneous Actionpoint.",Potential problems with the Watchpoint or the equation.  Heritage from LRO.
 LC3002,LC3002,"For Each table-defined Actionpoint, LC shall store the results in the dump-only Actionpoint Results Table if the Actionpoint state is either:
 a)	Active
 b)	Passive","Actionpoint is not evaluated if state is unused, disabled or permanently disabled.  Heritage from LRO, (loosely SDO)."
 LC3002.1,LC3002.1,"If the Actionpoint equation results in a transition from PASS to FAIL, LC shall issue an event message indicating the failure.","Want to see when an Actionpoint first exceeds the limit.  Heritage from LRO, SDO."
-LC3002.1.1,LC3002.1.1,"If the PASS to FAIL transition event message has been sent for the table-defined number of times, LC shall apply the table-defined event message filter.",
+LC3002.1.1,LC3002.1.1,"If the PASS to FAIL transition event message has been sent for the table-defined number of times, LC shall apply the table-defined event message filter.",Event generation limit avoids spamming of event messages.
 LC3002.2,LC3002.2,"If the Actionpoint equation results in a transition from FAIL to PASS, LC shall issue an event message indicating that the actionpoint is now within limits.","Want to see if an actionpoint which had fails, go back within limits.  Helps to see if there is data that is “bad” but not so bad that it fails enough times to cause the RTS to be executed.  Heritage from LRO, SDO."
-LC3002.2.1,LC3002.2.1,"If the FAIL to PASS transition event message has been sent for the table-defined number of times, LC shall apply the table-defined event message filter.",
+LC3002.2.1,LC3002.2.1,"If the FAIL to PASS transition event message has been sent for the table-defined number of times, LC shall apply the table-defined event message filter.",Event generation limit avoids spamming of event messages.
 LC3002.3,LC3002.3,"If the equation has yielded a Fail result for the table-defined consecutive number of times limit and the Actionpoint is currently Active, LC shall:
 a)	generate an event message
 b)	send a command to start the table-defined RTS
@@ -160,7 +160,7 @@ c)	The number of times this Watchpoint has crossed from the False to True result
 d)	The number of consecutive times the comparison has yielded a True result
 e)	The cumulative number of times the comparison has yielded a True result
 f)	The value that caused the last False-to-True crossing, and the crossing time stamp
-g)	The value that caused the last True-to-False crossing, and the crossing time stamp",
+g)	The value that caused the last True-to-False crossing, and the crossing time stamp",Power on reset behavior for watchpoint data
 LC9002,LC9002,"Upon cFE Power-On LC shall initialize the following Actionpoint data to Zero (or value specified) for all Actionpoints:
 a)	The result of the last Actionpoint Sample to STALE
 b)	The current state as defined in the ADT
@@ -169,7 +169,7 @@ d)	The number of times this Actionpoint has crossed from the Pass to Fail state
 e)	The number of consecutive times the equation result = Failed
 f)	The cumulative number of times the equation result = Failed
 g)	The cumulative count of the RTS executions
-h)	Total number of event messages sent",
+h)	Total number of event messages sent",Power on reset behavior for actionpoint data
 LC9003,LC9003,"Upon a cFE Processor Reset or LC Application Reset,  if the <PLATFORM_DEFINED> Save Critical Data parameter is set to NO, LC shall perform the same initialization as a cFE Power-on (see LC9000, LC9001, LC9002, and LC9003)",Configuration parameter indicates if data should be saved across a cFE Processor Reset or LC Application Reset.
 LC9004,LC9004,"Upon a cFE Processor Reset or LC Application Reset,  if the <PLATFORM_DEFINED> Save Critical Data parameter is set to YES, LC shall  restore the following data:
 a)	LC housekeeping data
