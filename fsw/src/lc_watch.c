@@ -92,9 +92,9 @@ void LC_CreateHashTable(void)
     }
 
     /* Initialize hash table structures */
-    CFE_PSP_MemSet(LC_OperData.HashTable, 0, (LC_HASH_TABLE_ENTRIES * sizeof(LC_MessageList_t *)));
-    CFE_PSP_MemSet(LC_OperData.MessageLinks, 0, (LC_MAX_WATCHPOINTS * sizeof(LC_MessageList_t)));
-    CFE_PSP_MemSet(LC_OperData.WatchPtLinks, 0, (LC_MAX_WATCHPOINTS * sizeof(LC_WatchPtList_t)));
+    memset(LC_OperData.HashTable, 0, sizeof(LC_OperData.HashTable));
+    memset(LC_OperData.MessageLinks, 0, sizeof(LC_OperData.MessageLinks));
+    memset(LC_OperData.WatchPtLinks, 0, sizeof(LC_OperData.WatchPtLinks));
 
     LC_OperData.MessageIDsCount = 0;
     LC_OperData.WatchpointCount = 0;

@@ -186,8 +186,8 @@ int32 LC_AppInit(void)
     /*
     ** Zero out the global data structures...
     */
-    CFE_PSP_MemSet(&LC_OperData, 0, sizeof(LC_OperData_t));
-    CFE_PSP_MemSet(&LC_AppData, 0, sizeof(LC_AppData_t));
+    memset(&LC_OperData, 0, sizeof(LC_OperData));
+    memset(&LC_AppData, 0, sizeof(LC_AppData));
 
     /*
     ** Initialize event services

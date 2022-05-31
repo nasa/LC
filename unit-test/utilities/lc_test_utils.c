@@ -80,18 +80,18 @@ void LC_Test_Setup(void)
     /* initialize test environment to default state for every test */
     UT_ResetState(0);
 
-    memset(&LC_AppData, 0, sizeof(LC_AppData_t));
-    memset(&LC_OperData, 0, sizeof(LC_OperData_t));
+    memset(&LC_AppData, 0, sizeof(LC_AppData));
+    memset(&LC_OperData, 0, sizeof(LC_OperData));
 
     LC_OperData.WDTPtr = WDTable;
     LC_OperData.ADTPtr = ADTable;
     LC_OperData.WRTPtr = WRTable;
     LC_OperData.ARTPtr = ARTable;
 
-    memset(LC_OperData.WDTPtr, 0, sizeof(LC_WDTEntry_t) * LC_MAX_WATCHPOINTS);
-    memset(LC_OperData.ADTPtr, 0, sizeof(LC_ADTEntry_t) * LC_MAX_ACTIONPOINTS);
-    memset(LC_OperData.WRTPtr, 0, sizeof(LC_WRTEntry_t) * LC_MAX_WATCHPOINTS);
-    memset(LC_OperData.ARTPtr, 0, sizeof(LC_ARTEntry_t) * LC_MAX_ACTIONPOINTS);
+    memset(&WDTable, 0, sizeof(WDTable));
+    memset(&ADTable, 0, sizeof(ADTable));
+    memset(&WRTable, 0, sizeof(WRTable));
+    memset(&ARTable, 0, sizeof(ARTable));
 
     memset(context_CFE_EVS_SendEvent, 0, sizeof(context_CFE_EVS_SendEvent));
     memset(&context_CFE_ES_WriteToSysLog, 0, sizeof(context_CFE_ES_WriteToSysLog));

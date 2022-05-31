@@ -251,8 +251,8 @@ void LC_AppInit_Test_Nominal(void)
     int32 Result;
     char  Message[125];
 
-    CFE_PSP_MemSet(&LC_OperData, 1, sizeof(LC_OperData_t));
-    CFE_PSP_MemSet(&LC_AppData, 1, sizeof(LC_AppData_t));
+    memset(&LC_OperData, 1, sizeof(LC_OperData));
+    memset(&LC_AppData, 1, sizeof(LC_AppData));
 
     /* Set to prevent errors when initializing tables */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
