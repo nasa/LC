@@ -1596,7 +1596,8 @@ void LC_ValidateRPN_Test_StackDepthZero(void)
 {
     uint8 Result;
 
-    int32 IndexValue, StackDepthValue;
+    int32 IndexValue      = 0;
+    int32 StackDepthValue = 0;
 
     LC_OperData.ADTPtr[0].RPNEquation[0] = LC_RPN_NOT;
 
@@ -1616,7 +1617,8 @@ void LC_ValidateRPN_Test_StackDepthZero2(void)
 {
     uint8 Result;
 
-    int32 IndexValue, StackDepthValue;
+    int32 IndexValue      = 0;
+    int32 StackDepthValue = 0;
 
     LC_OperData.ADTPtr[0].RPNEquation[0] = LC_RPN_EQUAL;
 
@@ -1636,7 +1638,8 @@ void LC_ValidateRPN_Test_MaxRPNSize(void)
 {
     uint8 Result;
 
-    int32 IndexValue, StackDepthValue;
+    int32 IndexValue      = 0;
+    int32 StackDepthValue = 0;
 
     for (int i = 0; i < LC_MAX_RPN_EQU_SIZE; i++)
     {
@@ -1659,7 +1662,8 @@ void LC_ValidateRPN_Test_InvalidBufferItem(void)
 {
     uint8 Result;
 
-    int32 IndexValue, StackDepthValue;
+    int32 IndexValue      = 0;
+    int32 StackDepthValue = 0;
 
     LC_OperData.ADTPtr[0].RPNEquation[0] = LC_MAX_WATCHPOINTS;
 
