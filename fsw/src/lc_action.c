@@ -287,15 +287,6 @@ void LC_SampleSingleAP(uint16 APNumber)
  * in the RPMStack array, then returns the next element.
  */
 #define POP_RPN_DATA ((StackPtr <= 0) ? (IllegalRPN = true) : (RPNStack[--StackPtr]))
-
-/*
- * StackPtr is an index into an array RPNStack (see LC_EvaluateRPN)
- * which contains values to be used in an RPN function.  This macro
- * validates the StackPtr to confirm that there is space for additional
- * values in the RPNStack array, then inserts the provided element value
- * into the next available location in the array.
- */
-#define PUSH_RPN_DATA(x) ((StackPtr >= LC_MAX_RPN_EQU_SIZE) ? (IllegalRPN = true) : (RPNStack[StackPtr++] = x))
 uint8 LC_EvaluateRPN(uint16 APNumber)
 {
     bool   Done;
@@ -341,19 +332,19 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if ((Operand1 == LC_WATCH_FALSE) || (Operand2 == LC_WATCH_FALSE))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_FALSE);
+                    RPNStack[StackPtr++] = LC_WATCH_FALSE;
                 }
                 else if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_ERROR);
+                    RPNStack[StackPtr++] = LC_WATCH_ERROR;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_STALE);
+                    RPNStack[StackPtr++] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    PUSH_RPN_DATA(LC_WATCH_TRUE);
+                    RPNStack[StackPtr++] = LC_WATCH_TRUE;
                 }
                 break;
 
@@ -362,19 +353,19 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if ((Operand1 == LC_WATCH_TRUE) || (Operand2 == LC_WATCH_TRUE))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_TRUE);
+                    RPNStack[StackPtr++] = LC_WATCH_TRUE;
                 }
                 else if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_ERROR);
+                    RPNStack[StackPtr++] = LC_WATCH_ERROR;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_STALE);
+                    RPNStack[StackPtr++] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    PUSH_RPN_DATA(LC_WATCH_FALSE);
+                    RPNStack[StackPtr++] = LC_WATCH_FALSE;
                 }
                 break;
 
@@ -383,15 +374,15 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_ERROR);
+                    RPNStack[StackPtr++] = LC_WATCH_ERROR;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
-                    PUSH_RPN_DATA(LC_WATCH_STALE);
+                    RPNStack[StackPtr++] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    PUSH_RPN_DATA(Operand1 != Operand2);
+                    RPNStack[StackPtr++] = (Operand1 != Operand2);
                 }
                 break;
 
@@ -399,15 +390,15 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if (Operand1 == LC_WATCH_ERROR)
                 {
-                    PUSH_RPN_DATA(LC_WATCH_ERROR);
+                    RPNStack[StackPtr++] = LC_WATCH_ERROR;
                 }
                 else if (Operand1 == LC_WATCH_STALE)
                 {
-                    PUSH_RPN_DATA(LC_WATCH_STALE);
+                    RPNStack[StackPtr++] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    PUSH_RPN_DATA(Operand1 == LC_WATCH_FALSE);
+                    RPNStack[StackPtr++] = (Operand1 == LC_WATCH_FALSE);
                 }
                 break;
 
@@ -417,7 +408,7 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 {
                     IllegalOperand = true;
                 }
-                if (StackPtr == 0)
+                else if (StackPtr == 0)
                 {
                     Done = true;
                 }
@@ -434,7 +425,7 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
             default:
                 if (RPNData < LC_MAX_WATCHPOINTS)
                 {
-                    PUSH_RPN_DATA(LC_OperData.WRTPtr[RPNData].WatchResult);
+                    RPNStack[StackPtr++] = LC_OperData.WRTPtr[RPNData].WatchResult;
                 }
                 else
                 {
