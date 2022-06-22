@@ -1061,38 +1061,53 @@ void LC_EvaluateRPN_Test_NotNominal(void)
 
 } /* end LC_EvaluateRPN_Test_NotNominal */
 
-void LC_EvaluateRPN_Test_EqualIllegalRPN(void)
+void LC_EvaluateRPN_Test_Equal(void)
 {
-    uint8  Result;
     uint16 APNumber = 0;
-    int32  strCmpResult;
-    char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
-
+    /* Pass */
     LC_OperData.ADTPtr[APNumber].RPNEquation[0] = 0;
-    LC_OperData.ADTPtr[APNumber].RPNEquation[1] = 1;
+    LC_OperData.ADTPtr[APNumber].RPNEquation[1] = LC_RPN_EQUAL;
+
+    LC_OperData.WRTPtr[0].WatchResult = LC_WATCH_FALSE;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(APNumber), LC_ACTION_PASS);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+
+    /* Fail */
+    LC_OperData.WRTPtr[0].WatchResult = LC_WATCH_TRUE;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(APNumber), LC_ACTION_FAIL);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+
+    /* LC_WATCH_ERROR */
+    LC_OperData.WRTPtr[0].WatchResult = LC_WATCH_ERROR;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(APNumber), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+
+    /* LC_WATCH_STALE */
+    LC_OperData.WRTPtr[0].WatchResult = LC_WATCH_STALE;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(APNumber), LC_ACTION_STALE);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+
+    /* Fail empty stack pointer check */
+    LC_OperData.ADTPtr[APNumber].RPNEquation[0] = 0;
+    LC_OperData.ADTPtr[APNumber].RPNEquation[1] = 0;
     LC_OperData.ADTPtr[APNumber].RPNEquation[2] = LC_RPN_EQUAL;
 
     LC_OperData.WRTPtr[0].WatchResult = 77;
-    LC_OperData.WRTPtr[1].WatchResult = 77;
 
-    /* Execute the function being tested */
-    Result = LC_EvaluateRPN(APNumber);
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(APNumber), LC_ACTION_ERROR);
 
-    /* Verify results */
-    UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
-
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_EvaluateRPN_Test_EqualIllegalRPN */
+}
 
 void LC_EvaluateRPN_Test_WatchpointNumberNominal(void)
 {
@@ -1177,6 +1192,91 @@ void LC_EvaluateRPN_Test_EndOfBufferWhenNotDone(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
 } /* end LC_EvaluateRPN_Test_EndOfBufferWhenNotDone */
+
+void LC_EvaluateRPN_Test_PushPopFail(void)
+{
+    /* Fail LC_RPN_AND pop 2 */
+    LC_OperData.ADTPtr[0].RPNEquation[0] = 0;
+    LC_OperData.ADTPtr[0].RPNEquation[1] = LC_RPN_AND;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+
+    /* Fail LC_RPN_AND pop 1 */
+    UT_ResetState(0);
+    LC_OperData.ADTPtr[0].RPNEquation[0] = LC_RPN_AND;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+
+    /* Fail LC_RPN_OR pop 2 */
+    UT_ResetState(0);
+    LC_OperData.ADTPtr[0].RPNEquation[0] = 0;
+    LC_OperData.ADTPtr[0].RPNEquation[1] = LC_RPN_OR;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+
+    /* Fail LC_RPN_OR pop 1 */
+    UT_ResetState(0);
+    LC_OperData.ADTPtr[0].RPNEquation[0] = LC_RPN_OR;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+
+    /* Fail LC_RPN_XOR pop 2 */
+    UT_ResetState(0);
+    LC_OperData.ADTPtr[0].RPNEquation[0] = 0;
+    LC_OperData.ADTPtr[0].RPNEquation[1] = LC_RPN_XOR;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+
+    /* Fail LC_RPN_XOR pop 1 */
+    UT_ResetState(0);
+    LC_OperData.ADTPtr[0].RPNEquation[0] = LC_RPN_XOR;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+
+    /* Fail LC_RPN_NOT pop */
+    UT_ResetState(0);
+    LC_OperData.ADTPtr[0].RPNEquation[0] = LC_RPN_NOT;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+
+    /* Fail LC_RPN_EQUAL pop */
+    UT_ResetState(0);
+    LC_OperData.ADTPtr[0].RPNEquation[0] = LC_RPN_EQUAL;
+
+    UtAssert_UINT32_EQ(LC_EvaluateRPN(0), LC_ACTION_ERROR);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_INVALID_RPN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+}
 
 void LC_ValidateADT_Test_ActionNotUsed(void)
 {
@@ -1748,14 +1848,14 @@ void UtTest_Setup(void)
     UtTest_Add(LC_EvaluateRPN_Test_OrNominal, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_OrNominal");
     UtTest_Add(LC_EvaluateRPN_Test_XorNominal, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_XorNominal");
     UtTest_Add(LC_EvaluateRPN_Test_NotNominal, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_NotNominal");
-    UtTest_Add(LC_EvaluateRPN_Test_EqualIllegalRPN, LC_Test_Setup, LC_Test_TearDown,
-               "LC_EvaluateRPN_Test_EqualIllegalRPN");
+    UtTest_Add(LC_EvaluateRPN_Test_Equal, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_Equal");
     UtTest_Add(LC_EvaluateRPN_Test_WatchpointNumberNominal, LC_Test_Setup, LC_Test_TearDown,
                "LC_EvaluateRPN_Test_WatchpointNumberNominal");
     UtTest_Add(LC_EvaluateRPN_Test_DefaultIllegalRPN, LC_Test_Setup, LC_Test_TearDown,
                "LC_EvaluateRPN_Test_DefaultIllegalRPN");
     UtTest_Add(LC_EvaluateRPN_Test_EndOfBufferWhenNotDone, LC_Test_Setup, LC_Test_TearDown,
                "LC_EvaluateRPN_Test_EndOfBufferWhenNotDone");
+    UtTest_Add(LC_EvaluateRPN_Test_PushPopFail, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_PushPopFail");
 
     UtTest_Add(LC_ValidateADT_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateADT_Test_Nominal");
     UtTest_Add(LC_ValidateADT_Test_ActionNotUsed, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateADT_Test_ActionNotUsed");

@@ -36,6 +36,8 @@
 #include "lc_test_utils.h"
 #include "lc_cmds.h"
 
+#include "cfe.h"
+
 /* UT includes */
 #include "uttest.h"
 #include "utassert.h"
@@ -97,6 +99,35 @@ int32 LC_APP_TEST_CFE_TBL_RegisterHook4(void *UserObj, int32 StubRetcode, uint32
         return -1;
 }
 
+/* Hook used to override CDS settings */
+static void UT_Handler_CFE_ES_RunLoop(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
+{
+    uint16 CallCount;
+    bool   Status = false;
+
+    CallCount = UT_GetStubCount(FuncKey);
+
+    /* Exercise each option for coverage */
+    if (CallCount == 1)
+    {
+        LC_OperData.HaveActiveCDS = false;
+        LC_AppData.CDSSavedOnExit = 0;
+    }
+    else if (CallCount == 2)
+    {
+        LC_OperData.HaveActiveCDS = true;
+        LC_AppData.CDSSavedOnExit = 0;
+    }
+    else
+    {
+        LC_OperData.HaveActiveCDS = true;
+        LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
+    }
+
+    /* Always return false */
+    UT_Stub_SetReturnValue(FuncKey, Status);
+}
+
 void LC_AppMain_Test_Nominal(void)
 {
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, true);
@@ -119,35 +150,21 @@ void LC_AppMain_Test_Nominal(void)
 
 void LC_AppMain_Test_NominalCDSSave(void)
 {
-    LC_OperData.HaveActiveCDS = true;
-    LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
+    /* Handler forces CDS conditions based on call count */
+    UT_SetHandlerFunction(UT_KEY(CFE_ES_RunLoop), &UT_Handler_CFE_ES_RunLoop, NULL);
 
-    /* Setup LC_CreateTaskCDS to succeed */
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
-    LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 3, CFE_TBL_INFO_RECOVERED_TBL);
-    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_TBL_INFO_RECOVERED_TBL);
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, true);
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, false);
-
-    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_AppPipe), CFE_SUCCESS);
-
+    /* Cycle through all conditions forced by handler */
     LC_AppMain();
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 0);
 
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    /* generates 2 messages we don't care about in this test */
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 2);
+    /* Reset SendEvent to avoid filling buffer */
+    UT_ResetState(UT_KEY(CFE_EVS_SendEvent));
+    LC_AppMain();
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 0);
 
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_ES_ExitApp)), 1);
-
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_AppPipe)), 1);
-
-    //   UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 1); //TODO
+    UT_ResetState(UT_KEY(CFE_EVS_SendEvent));
+    LC_AppMain();
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 1);
 }
 
 void LC_AppMain_Test_NominalCDSNoSave(void)
@@ -512,29 +529,18 @@ void LC_SbInit_Test_SubscribeSampleCmdError(void)
 
 } /* end LC_SbInit_Test_SubscribeSampleCmdError */
 
-#ifndef LC_SAVE_TO_CDS
-void LC_TableInit_Test_NoActiveCDS(void)
-{
-    LC_OperData.HaveActiveCDS = false;
-}
-#endif
-
 void LC_TableInit_Test_CreateResultsTablesError(void)
 {
-    int32 Result;
     LC_OperData.HaveActiveCDS = true;
 
     /* force LC_CreateResultTables to fail */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Register), -1);
 
-    Result = LC_TableInit();
-
-    UtAssert_True(Result == -1, "Result == -1");
+    UtAssert_INT32_EQ(LC_TableInit(), -1);
 }
 
 void LC_TableInit_Test_CreateDefinitionTablesError(void)
 {
-    int32 Result;
     LC_OperData.HaveActiveCDS = true;
 
     /* force LC_CreateDefinitionTables to fail (but allow LC_CreateResultsTables
@@ -544,22 +550,97 @@ void LC_TableInit_Test_CreateDefinitionTablesError(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, -1);
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, -1);
 
-    Result = LC_TableInit();
-
-    UtAssert_True(Result == -1, "Result == -1");
+    UtAssert_INT32_EQ(LC_TableInit(), -1);
 }
 
-void LC_TableInit_Test_LoadDefaultTablesError(void) {}
+/* Hits the uncovered branches related to LoadDefaultTables */
+void LC_TableInit_Test_LoadDefaultTables(void)
+{
+    LC_OperData.HaveActiveCDS = true;
+
+    /* Only recover WDT */
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 3, CFE_TBL_INFO_RECOVERED_TBL);
+
+    /* Setup LC_CreateTaskCDS to succeed */
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
+    LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
+
+    /* Hit table info updated case for LC_LoadDefaultTables */
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_GetAddress), 4, CFE_TBL_INFO_UPDATED);
+
+    UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
+
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+
+    /* Reset SendEvent and don't recover WDT */
+    UT_ResetState(UT_KEY(CFE_EVS_SendEvent));
+    LC_OperData.TableResults = 0;
+
+    UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
+
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+
+    /* Reset all states and only restore WRT and ART CDS */
+    UT_ResetState(0);
+    LC_OperData.TableResults = 0;
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
+
+    UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
+
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+
+    /* Reset all states and only restore WRT */
+    UT_ResetState(0);
+    LC_OperData.TableResults = 0;
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
+
+    UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
+
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_NEQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+}
 
 void LC_TableInit_Test_GetWDTAddressError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting WDT address, RC=0x%%08X");
-
     LC_OperData.HaveActiveCDS = true;
+
+    /* Recover all but the first two tables so LC_CreateResultTables will succeed */
+    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Register), CFE_TBL_INFO_RECOVERED_TBL);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
     /* Setup LC_CreateTaskCDS to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
@@ -568,37 +649,29 @@ void LC_TableInit_Test_GetWDTAddressError(void)
 
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_GetAddress), 3, -1);
 
-    Result = LC_TableInit();
+    UtAssert_INT32_EQ(LC_TableInit(), -1);
 
-    UtAssert_True(Result == -1, "Result == -1");
-
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_CREATED) == LC_WRT_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_CREATED == LC_WRT_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_CREATED) == LC_ART_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_ART_CDS_CREATED == LC_ART_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_CREATED) == LC_APP_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_APP_CDS_CREATED == LC_APP_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_RESTORED) == LC_WRT_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_RESTORED == LC_WRT_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_RESTORED) == LC_ART_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_ART_CDS_RESTORED == LC_ART_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_RESTORED) == LC_APP_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_APP_CDS_RESTORED == LC_APP_CDS_RESTORED");
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDT_GETADDR_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_TableInit_Test_GetWDTAddressUpdated(void)
 {
-    int32 Result;
-
     LC_OperData.HaveActiveCDS = true;
+
+    /* Recover all but the first two tables so LC_CreateResultTables will succeed */
+    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Register), CFE_TBL_INFO_RECOVERED_TBL);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
     /* Setup LC_CreateTaskCDS to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
@@ -607,33 +680,27 @@ void LC_TableInit_Test_GetWDTAddressUpdated(void)
 
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_GetAddress), 3, CFE_TBL_INFO_UPDATED);
 
-    Result = LC_TableInit();
+    UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
 
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
 
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_CREATED) == LC_WRT_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_CREATED == LC_WRT_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_CREATED) == LC_ART_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_ART_CDS_CREATED == LC_ART_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_CREATED) == LC_APP_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_APP_CDS_CREATED == LC_APP_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_RESTORED) == LC_WRT_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_RESTORED == LC_WRT_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_RESTORED) == LC_ART_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_ART_CDS_RESTORED == LC_ART_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_RESTORED) == LC_APP_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_APP_CDS_RESTORED == LC_APP_CDS_RESTORED");
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_RESTORED_INF_EID);
 }
 
 void LC_TableInit_Test_GetADTAddressError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting ADT address, RC=0x%%08X");
-
     LC_OperData.HaveActiveCDS = true;
+
+    /* Recover all but the first two tables so LC_CreateResultTables will succeed */
+    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Register), CFE_TBL_INFO_RECOVERED_TBL);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
     /* Setup LC_CreateTaskCDS to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
@@ -642,37 +709,29 @@ void LC_TableInit_Test_GetADTAddressError(void)
 
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_GetAddress), 4, -1);
 
-    Result = LC_TableInit();
+    UtAssert_INT32_EQ(LC_TableInit(), -1);
 
-    UtAssert_True(Result == -1, "Result == -1");
-
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_CREATED) == LC_WRT_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_CREATED == LC_WRT_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_CREATED) == LC_ART_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_ART_CDS_CREATED == LC_ART_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_CREATED) == LC_APP_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_APP_CDS_CREATED == LC_APP_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_RESTORED) == LC_WRT_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_RESTORED == LC_WRT_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_RESTORED) == LC_ART_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_ART_CDS_RESTORED == LC_ART_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_RESTORED) == LC_APP_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_APP_CDS_RESTORED == LC_APP_CDS_RESTORED");
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADT_GETADDR_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
 void LC_TableInit_Test_GetADTAddressUpdated(void)
 {
-    int32 Result;
-
     LC_OperData.HaveActiveCDS = true;
+
+    /* Recover all but the first two tables so LC_CreateResultTables will succeed */
+    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Register), CFE_TBL_INFO_RECOVERED_TBL);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
+    UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
     /* Setup LC_CreateTaskCDS to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
@@ -681,22 +740,17 @@ void LC_TableInit_Test_GetADTAddressUpdated(void)
 
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_GetAddress), 4, CFE_TBL_INFO_UPDATED);
 
-    Result = LC_TableInit();
+    UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
 
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
+    /* Ensure correct table state */
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WRT_CDS_RESTORED, LC_WRT_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ART_CDS_RESTORED, LC_ART_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_APP_CDS_RESTORED, LC_APP_CDS_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_WDT_TBL_RESTORED, LC_WDT_TBL_RESTORED);
+    UtAssert_UINT32_EQ(LC_OperData.TableResults & LC_ADT_TBL_RESTORED, LC_ADT_TBL_RESTORED);
 
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_CREATED) == LC_WRT_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_CREATED == LC_WRT_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_CREATED) == LC_ART_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_ART_CDS_CREATED == LC_ART_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_CREATED) == LC_APP_CDS_CREATED),
-                  "LC_OperData.TableResult & LC_APP_CDS_CREATED == LC_APP_CDS_CREATED");
-    UtAssert_True(((LC_OperData.TableResults & LC_WRT_CDS_RESTORED) == LC_WRT_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_WRT_CDS_RESTORED == LC_WRT_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_ART_CDS_RESTORED) == LC_ART_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_ART_CDS_RESTORED == LC_ART_CDS_RESTORED");
-    UtAssert_True(((LC_OperData.TableResults & LC_APP_CDS_RESTORED) == LC_APP_CDS_RESTORED),
-                  "LC_OperData.TableResult & LC_APP_CDS_RESTORED == LC_APP_CDS_RESTORED");
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_RESTORED_INF_EID);
 }
 
 void LC_TableInit_Test_CreateTaskCDSError(void)
@@ -1017,8 +1071,6 @@ void LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical(void)
 
 void LC_CreateDefinitionTables_Test_WDTReRegisterError(void)
 {
-    int32 Result;
-
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = false;
 
@@ -1029,26 +1081,19 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterError(void)
     UT_SetHookFunction(UT_KEY(CFE_TBL_Register), &LC_APP_TEST_CFE_TBL_RegisterHook4, NULL);
 
     /* Execute the function being tested */
-    Result = LC_CreateDefinitionTables();
+    UtAssert_INT32_EQ(LC_CreateDefinitionTables(), -1);
 
     /* Verify results */
-    UtAssert_True(Result == -1, "Result == -1");
     UtAssert_True(LC_OperData.TableResults == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_NOT_CRITICAL),
                   "LC_OperData.TableResults == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_NOT_CRITICAL)");
 
-    /*UtAssert_True
-        (Ut_CFE_EVS_EventSent(LC_WDT_REREGISTER_ERR_EID, CFE_EVS_ERROR, "Error re-registering WDT, RC=0xFFFFFFFF"),
-        "Error re-registering WDT, RC=0xFFFFFFFF");
-*/
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDT_REREGISTER_ERR_EID);
 
 } /* end LC_CreateDefinitionTables_Test_WDTReRegisterError */
 
 void LC_CreateDefinitionTables_Test_WDTRegisterError(void)
 {
-    int32 Result;
-
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = false;
 
@@ -1056,23 +1101,16 @@ void LC_CreateDefinitionTables_Test_WDTRegisterError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Register), -1);
 
     /* Execute the function being tested */
-    Result = LC_CreateDefinitionTables();
+    UtAssert_INT32_EQ(LC_CreateDefinitionTables(), -1);
 
     /* Verify results */
-    UtAssert_True(Result == -1, "Result == -1");
-    /*  UtAssert_True
-          (Ut_CFE_EVS_EventSent(LC_WDT_REGISTER_ERR_EID, CFE_EVS_ERROR, "Error registering WDT, RC=0xFFFFFFFF"),
-          "Error registering WDT, RC=0xFFFFFFFF");
-  */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDT_REGISTER_ERR_EID);
 
 } /* end LC_CreateDefinitionTables_Test_WDTRegisterError */
 
 void LC_CreateDefinitionTables_Test_ADTRegisterError(void)
 {
-    int32 Result;
-
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = false;
 
@@ -1080,16 +1118,10 @@ void LC_CreateDefinitionTables_Test_ADTRegisterError(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 2, -1);
 
     /* Execute the function being tested */
-    Result = LC_CreateDefinitionTables();
+    UtAssert_INT32_EQ(LC_CreateDefinitionTables(), -1);
 
-    /* Verify results */
-    UtAssert_True(Result == -1, "Result == -1");
-    /*   UtAssert_True
-           (Ut_CFE_EVS_EventSent(LC_ADT_REGISTER_ERR_EID, CFE_EVS_ERROR, "Error registering ADT, RC=0xFFFFFFFF"),
-           "Error registering ADT, RC=0xFFFFFFFF");
-   */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADT_REGISTER_ERR_EID);
 
 } /* end LC_CreateDefinitionTables_Test_ADTRegisterError */
 
@@ -1269,8 +1301,6 @@ void LC_LoadDefaultTables_Test_LoadADTError(void)
 
 void LC_LoadDefaultTables_Test_GetADTAddressError(void)
 {
-    int32 Result;
-
     LC_OperData.HaveActiveCDS = false;
 
     /* Set to satisfy all instances of condition "Result == CFE_SUCCESS" after calls to CFE_TBL_Load */
@@ -1280,17 +1310,14 @@ void LC_LoadDefaultTables_Test_GetADTAddressError(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_GetAddress), 2, -1);
 
     /* Execute the function being tested */
-    Result = LC_LoadDefaultTables();
+    UtAssert_INT32_EQ(LC_LoadDefaultTables(), -1);
 
     /* Verify results */
     /*UtAssert_True
         (Ut_CFE_EVS_EventSent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_ERROR, "Error getting ADT address, RC=0xCC000001"),
         "Error getting ADT address, RC=0xCC000001");
 */
-    UtAssert_INT32_EQ(Result, -1);
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 
 } /* end LC_LoadDefaultTables_Test_GetADTAddressError */
 
@@ -1548,8 +1575,8 @@ void UtTest_Setup(void)
                "LC_TableInit_Test_CreateDefinitionTablesError");
 
     UtTest_Add(LC_TableInit_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_Nominal");
-    UtTest_Add(LC_TableInit_Test_LoadDefaultTablesError, LC_Test_Setup, LC_Test_TearDown,
-               "LC_TableInit_Test_LoadDefaultTablesError");
+    UtTest_Add(LC_TableInit_Test_LoadDefaultTables, LC_Test_Setup, LC_Test_TearDown,
+               "LC_TableInit_Test_LoadDefaultTables");
     UtTest_Add(LC_TableInit_Test_GetWDTAddressError, LC_Test_Setup, LC_Test_TearDown,
                "LC_TableInit_Test_GetWDTAddressError");
     UtTest_Add(LC_TableInit_Test_GetWDTAddressUpdated, LC_Test_Setup, LC_Test_TearDown,

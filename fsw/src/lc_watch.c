@@ -976,11 +976,10 @@ int32 LC_ValidateWDT(void *TableData)
             */
             UnusedCount++;
         }
-        else if ((DataType != LC_DATA_BYTE) && (DataType != LC_DATA_UBYTE) && (DataType != LC_DATA_BYTE) &&
-                 (DataType != LC_DATA_UBYTE) && (DataType != LC_DATA_WORD_BE) && (DataType != LC_DATA_WORD_LE) &&
-                 (DataType != LC_DATA_UWORD_BE) && (DataType != LC_DATA_UWORD_LE) && (DataType != LC_DATA_DWORD_BE) &&
-                 (DataType != LC_DATA_DWORD_LE) && (DataType != LC_DATA_UDWORD_BE) && (DataType != LC_DATA_UDWORD_LE) &&
-                 (DataType != LC_DATA_FLOAT_BE) && (DataType != LC_DATA_FLOAT_LE))
+        else if ((DataType != LC_DATA_BYTE) && (DataType != LC_DATA_UBYTE) && (DataType != LC_DATA_WORD_BE) &&
+                 (DataType != LC_DATA_WORD_LE) && (DataType != LC_DATA_UWORD_BE) && (DataType != LC_DATA_UWORD_LE) &&
+                 (DataType != LC_DATA_DWORD_BE) && (DataType != LC_DATA_DWORD_LE) && (DataType != LC_DATA_UDWORD_BE) &&
+                 (DataType != LC_DATA_UDWORD_LE) && (DataType != LC_DATA_FLOAT_BE) && (DataType != LC_DATA_FLOAT_LE))
         {
             /*
             ** Invalid data type
@@ -988,9 +987,9 @@ int32 LC_ValidateWDT(void *TableData)
             BadCount++;
             EntryResult = LC_WDTVAL_ERR_DATATYPE;
         }
-        else if ((OperatorID != LC_OPER_LT) && (OperatorID != LC_OPER_LT) && (OperatorID != LC_OPER_LE) &&
-                 (OperatorID != LC_OPER_NE) && (OperatorID != LC_OPER_EQ) && (OperatorID != LC_OPER_GE) &&
-                 (OperatorID != LC_OPER_GT) && (OperatorID != LC_OPER_CUSTOM))
+        else if ((OperatorID != LC_OPER_LT) && (OperatorID != LC_OPER_LE) && (OperatorID != LC_OPER_NE) &&
+                 (OperatorID != LC_OPER_EQ) && (OperatorID != LC_OPER_GE) && (OperatorID != LC_OPER_GT) &&
+                 (OperatorID != LC_OPER_CUSTOM))
         {
             /*
             ** Invalid operator

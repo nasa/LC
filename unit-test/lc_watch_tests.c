@@ -47,109 +47,41 @@
 
 uint8 call_count_CFE_EVS_SendEvent;
 
-void LC_CreateHashTable_Test_UnsubscribeError(void)
+void LC_CreateHashTable_Test(void)
 {
-    LC_OperData.MessageIDsCount           = 1;
-    LC_OperData.MessageLinks[0].MessageID = LC_UT_MID_1;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    uint32 i;
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Error unsubscribing watchpoint: MID=0x%%08lX, RC=0x%%08X");
+    /* One valid and one invalid unsubscribe */
+    LC_OperData.MessageIDsCount = 2;
+    UT_SetDeferredRetcode(UT_KEY(CFE_SB_Unsubscribe), 1, -1);
 
-    /* Set to generate error message LC_UNSUB_WP_ERR_EID */
-    UT_SetDefaultReturnValue(UT_KEY(CFE_SB_Unsubscribe), -1);
+    /* Default entries to unused */
+    for (i = 0; i < LC_MAX_WATCHPOINTS; i++)
+    {
+        LC_OperData.WDTPtr[i].DataType = LC_WATCH_NOT_USED;
+    }
+
+    /* Match MsgID but null watch point list */
+    LC_OperData.WDTPtr[0].DataType  = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[0].MessageID = CFE_SB_INVALID_MSG_ID;
+
+    /* MsgID mismatch */
+    LC_OperData.WDTPtr[1].DataType  = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[1].MessageID = LC_UT_MID_1;
+
+    /* Match MsgID and non-NULL WatchPLink */
+    LC_OperData.WDTPtr[2].DataType  = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[2].MessageID = LC_UT_MID_1;
 
     /* Execute the function being tested */
     LC_CreateHashTable();
 
-    /* Verify results */
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
+    UtAssert_UINT32_EQ(LC_OperData.WatchpointCount, 3);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_UNSUB_WP_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_CreateHashTable_Test_UnsubscribeError */
-
-void LC_CreateHashTable_Test_NominalAllSameMID(void)
-{
-    int32 WatchPtTblIndex;
-
-    LC_OperData.MessageIDsCount = 1;
-    LC_OperData.WatchpointCount = 1;
-
-    for (WatchPtTblIndex = 0; WatchPtTblIndex < LC_MAX_WATCHPOINTS; WatchPtTblIndex++)
-    {
-        LC_OperData.WDTPtr[WatchPtTblIndex].DataType        = 99;
-        LC_OperData.MessageLinks[WatchPtTblIndex].MessageID = LC_UT_MID_1;
-    }
-
-    /* Execute the function being tested */
-    LC_CreateHashTable();
-
-    /* Verify results */
-    /* Nothing to verify for LC_OperData.WatchPtLinks, because it depends on LC_AddWatchpoint, which we're not testing
-     * here */
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_CreateHashTable_Test_NominalAllSameMID */
-
-void LC_CreateHashTable_Test_WatchpointNotUsed(void)
-{
-    int32 WatchPtTblIndex;
-
-    LC_OperData.MessageIDsCount = 1;
-    LC_OperData.WatchpointCount = 1;
-
-    for (WatchPtTblIndex = 0; WatchPtTblIndex < LC_MAX_WATCHPOINTS; WatchPtTblIndex++)
-    {
-        LC_OperData.WDTPtr[WatchPtTblIndex].DataType        = 99;
-        LC_OperData.MessageLinks[WatchPtTblIndex].MessageID = LC_UT_MID_1;
-    }
-
-    LC_OperData.WDTPtr[0].DataType = LC_WATCH_NOT_USED;
-
-    /* Execute the function being tested */
-    LC_CreateHashTable();
-
-    /* Verify results */
-    /* Nothing to verify for LC_OperData.WatchPtLinks, because it depends on LC_AddWatchpoint, which we're not testing
-     * here */
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_CreateHashTable_Test_NominalAllSameMID */
-
-void LC_CreateHashTable_Test_NullLink(void)
-{
-    int32 WatchPtTblIndex;
-
-    LC_OperData.MessageIDsCount = 1;
-    LC_OperData.WatchpointCount = 1;
-
-    for (WatchPtTblIndex = 0; WatchPtTblIndex < LC_MAX_WATCHPOINTS; WatchPtTblIndex++)
-    {
-        LC_OperData.WDTPtr[WatchPtTblIndex].DataType        = 99;
-        LC_OperData.MessageLinks[WatchPtTblIndex].MessageID = LC_UT_MID_1;
-    }
-
-    LC_OperData.WDTPtr[0].MessageID       = CFE_SB_INVALID_MSG_ID;
-    LC_OperData.MessageLinks[0].MessageID = CFE_SB_INVALID_MSG_ID;
-
-    /* Execute the function being tested */
-    LC_CreateHashTable();
-
-    /* Verify results */
-    /* Nothing to verify for LC_OperData.WatchPtLinks, because it depends on LC_AddWatchpoint, which we're not testing
-     * here */
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_CreateHashTable_Test_NominalAllSameMID */
+}
 
 void LC_AddWatchpoint_Test_HashTableAndWatchPtListNullPointersNominal(void)
 {
@@ -2054,13 +1986,12 @@ void LC_ValidateWDT_Test_AllOperatorIDs(void)
 
     /* Add an entry for each data type */
     LC_OperData.WDTPtr[0].OperatorID = LC_OPER_LT;
-    LC_OperData.WDTPtr[1].OperatorID = LC_OPER_LT;
-    LC_OperData.WDTPtr[2].OperatorID = LC_OPER_LE;
-    LC_OperData.WDTPtr[3].OperatorID = LC_OPER_NE;
-    LC_OperData.WDTPtr[4].OperatorID = LC_OPER_EQ;
-    LC_OperData.WDTPtr[5].OperatorID = LC_OPER_GE;
-    LC_OperData.WDTPtr[6].OperatorID = LC_OPER_GT;
-    LC_OperData.WDTPtr[7].OperatorID = LC_OPER_CUSTOM;
+    LC_OperData.WDTPtr[1].OperatorID = LC_OPER_LE;
+    LC_OperData.WDTPtr[2].OperatorID = LC_OPER_NE;
+    LC_OperData.WDTPtr[3].OperatorID = LC_OPER_EQ;
+    LC_OperData.WDTPtr[4].OperatorID = LC_OPER_GE;
+    LC_OperData.WDTPtr[5].OperatorID = LC_OPER_GT;
+    LC_OperData.WDTPtr[6].OperatorID = LC_OPER_CUSTOM;
 
     /* Execute the function being tested */
     Result = LC_ValidateWDT(LC_OperData.WDTPtr);
@@ -2472,13 +2403,7 @@ void LC_Uint32IsInfinite_Test_False2(void)
 
 void UtTest_Setup(void)
 {
-    UtTest_Add(LC_CreateHashTable_Test_UnsubscribeError, LC_Test_Setup, LC_Test_TearDown,
-               "LC_CreateHashTable_Test_UnsubscribeError");
-    UtTest_Add(LC_CreateHashTable_Test_NominalAllSameMID, LC_Test_Setup, LC_Test_TearDown,
-               "LC_CreateHashTable_Test_NominalAllSameMID");
-    UtTest_Add(LC_CreateHashTable_Test_WatchpointNotUsed, LC_Test_Setup, LC_Test_TearDown,
-               "LC_CreateHashTable_Test_WatchpointNotUsed");
-    UtTest_Add(LC_CreateHashTable_Test_NullLink, LC_Test_Setup, LC_Test_TearDown, "LC_CreateHashTable_Test_NullLink");
+    UtTest_Add(LC_CreateHashTable_Test, LC_Test_Setup, LC_Test_TearDown, "LC_CreateHashTable_Test");
 
     UtTest_Add(LC_AddWatchpoint_Test_HashTableAndWatchPtListNullPointersNominal, LC_Test_Setup, LC_Test_TearDown,
                "LC_AddWatchpoint_Test_HashTableAndWatchPtListNullPointersNominal");
