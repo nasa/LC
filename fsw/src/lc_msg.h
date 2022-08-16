@@ -24,10 +24,7 @@
  *
  * @note
  *   Constants and enumerated types related to these message structures
- *   are defined in lc_msgdefs.h. They are kept separate to allow easy
- *   integration with ASIST RDL files which can't handle typedef
- *   declarations (see the main comment block in lc_msgdefs.h for more
- *   info).
+ *   are defined in lc_msgdefs.h.
  */
 #ifndef LC_MSG_H
 #define LC_MSG_H
