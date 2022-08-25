@@ -24,10 +24,7 @@
  *
  * @note
  *   Constants and enumerated types related to these table structures
- *   are defined in lc_tbldefs.h. They are kept separate to allow easy
- *   integration with ASIST RDL files which can't handle typedef
- *   declarations (see the main comment block in lc_tbldefs.h for more
- *   info).
+ *   are defined in lc_tbldefs.h.
  */
 #ifndef LC_TBL_H
 #define LC_TBL_H
