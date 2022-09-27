@@ -236,7 +236,7 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
     }
 
     /* Return pointer to last link in watchpoint linked list */
-    return (WatchPtLink);
+    return WatchPtLink;
 
 } /* End of LC_AddWatchpoint() */
 
@@ -540,7 +540,7 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
             break;
     }
 
-    return (EvalResult);
+    return EvalResult;
 
 } /* end LC_OperatorCompare */
 
@@ -594,7 +594,7 @@ uint8 LC_SignedCompare(uint16 WatchIndex, int32 WPValue, int32 CompareValue)
             break;
     }
 
-    return (EvalResult);
+    return EvalResult;
 
 } /* end LC_SignedCompare */
 
@@ -648,7 +648,7 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex, uint32 WPValue, uint32 CompareValue)
             break;
     }
 
-    return (EvalResult);
+    return EvalResult;
 
 } /* end LC_UnsignedCompare */
 
@@ -735,7 +735,7 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
         EvalResult = LC_WATCH_ERROR;
     }
 
-    return (EvalResult);
+    return EvalResult;
 
 } /* end LC_FloatCompare */
 
@@ -796,7 +796,7 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
             LC_OperData.WRTPtr[WatchIndex].WatchResult      = LC_WATCH_ERROR;
             LC_OperData.WRTPtr[WatchIndex].CountdownToStale = 0;
 
-            return (false);
+            return false;
             break;
 
     } /* end switch */
@@ -820,7 +820,7 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
         LC_OperData.WRTPtr[WatchIndex].CountdownToStale = 0;
     }
 
-    return (OffsetValid);
+    return OffsetValid;
 
 } /* end LC_WPOffsetValid */
 
@@ -933,7 +933,7 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
     /*
     ** Return success flag
     */
-    return (Success);
+    return Success;
 
 } /* end LC_GetSizedWPData */
 
@@ -1068,7 +1068,7 @@ int32 LC_ValidateWDT(void *TableData)
                       "WDT verify results: good = %d, bad = %d, unused = %d", (int)GoodCount, (int)BadCount,
                       (int)UnusedCount);
 
-    return (TableResult);
+    return TableResult;
 
 } /* end LC_ValidateWDT */
 
@@ -1103,7 +1103,7 @@ bool LC_Uint32IsNAN(uint32 Data)
         }
     }
 
-    return (Result);
+    return Result;
 
 } /* end LC_Uint32IsNAN */
 
@@ -1139,7 +1139,7 @@ bool LC_Uint32IsInfinite(uint32 Data)
         }
     }
 
-    return (Result);
+    return Result;
 
 } /* end LC_Uint32IsInfinite */
 
