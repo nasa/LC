@@ -198,9 +198,6 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
             }
         }
     }
-
-    return;
-
 } /* end LC_SampleAPReq */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -509,9 +506,6 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
         CFE_EVS_SendEvent(LC_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION, "No-op command: Version %d.%d.%d.%d",
                           LC_MAJOR_VERSION, LC_MINOR_VERSION, LC_REVISION, LC_MISSION_REV);
     }
-
-    return;
-
 } /* end LC_NoopCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -532,9 +526,6 @@ void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr)
 
         CFE_EVS_SendEvent(LC_RESET_DBG_EID, CFE_EVS_EventType_DEBUG, "Reset counters command");
     }
-
-    return;
-
 } /* end LC_ResetCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -551,9 +542,6 @@ void LC_ResetCounters(void)
     LC_AppData.MonitoredMsgCount   = 0;
     LC_AppData.RTSExecCount        = 0;
     LC_AppData.PassiveRTSExecCount = 0;
-
-    return;
-
 } /* end LC_ResetCounters */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -593,9 +581,6 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
                 break;
         }
     }
-
-    return;
-
 } /* end LC_SetLCStateCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -724,9 +709,6 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
         } /* end ValidState if */
 
     } /* end LC_VerifyMsgLength if */
-
-    return;
-
 } /* end LC_SetAPStateCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -792,9 +774,6 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
         } /* end CmdPtr -> APNumber else */
 
     } /* end LC_VerifyMsgLength if */
-
-    return;
-
 } /* end LC_SetAPPermOffCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -839,9 +818,6 @@ void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
                               CmdPtr->APNumber);
         }
     }
-
-    return;
-
 } /* end LC_ResetAPStatsCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -872,9 +848,6 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
         LC_OperData.ARTPtr[TableIndex].CumulativeRTSExecCount  = 0;
         LC_OperData.ARTPtr[TableIndex].CumulativeEventMsgsSent = 0;
     }
-
-    return;
-
 } /* end LC_ResetResultsAP */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -919,9 +892,6 @@ void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
                               CmdPtr->WPNumber);
         }
     }
-
-    return;
-
 } /* end LC_ResetWPStatsCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -956,9 +926,6 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
         LC_OperData.WRTPtr[TableIndex].LastTrueToFalse.Timestamp.Seconds    = 0;
         LC_OperData.WRTPtr[TableIndex].LastTrueToFalse.Timestamp.Subseconds = 0;
     }
-
-    return;
-
 } /* end LC_ResetResultsWP */
 
 /************************/

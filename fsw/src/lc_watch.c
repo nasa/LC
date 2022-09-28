@@ -131,9 +131,6 @@ void LC_CreateHashTable(void)
             LastMessageID = MessageID;
         }
     }
-
-    return;
-
 } /* End of LC_CreateHashTable() */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -323,9 +320,6 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID));
         }
     }
-
-    return;
-
 } /* end LC_CheckMsgForWPs */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -430,9 +424,6 @@ void LC_ProcessWP(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr, CFE_TIME_Sys
         }
 
     } /* end SizedDataValid if */
-
-    return;
-
 } /* end LC_ProcessWP */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

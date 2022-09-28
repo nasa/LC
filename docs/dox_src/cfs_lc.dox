@@ -230,7 +230,7 @@
   #CFE_PLATFORM_TBL_MAX_SNGL_TABLE_SIZE parameter. When considering how many watchpoints and
   actionpoints are needed, keep in mind the the entire WDT is sequentially searched
   whenever a message that may contain watchpoints is received. Likewise the entire
-  ADT will be processed whenever a #LC_SAMPLE_AP_MID message is recieved. While it
+  ADT will be processed whenever a #LC_SAMPLE_AP_MID message is received. While it
   is desirable to leave unused entries in both tables for later updates, large tables
   will increase search time which may be undesirable depending on the telemetry and 
   actionpoint sample rates required. LC defines the performance ID #LC_WDT_SEARCH_PERF_ID
@@ -429,7 +429,7 @@
      #LC_WATCH_STALE is an initialization value for the Watchpoint
      Results Table. If a watchpoint has this WatchResult then the watchpoint
      is unused (the DataType in the WDT is set to #LC_WATCH_NOT_USED) or a
-     message that contains the watchpoint has not yet been recieved by LC and 
+     message that contains the watchpoint has not yet been received by LC and 
      evaluated.
   </I>
 
@@ -526,7 +526,7 @@
         #LC_ACTION_NOT_USED).
         
      2) An actionpoint sample request (#LC_SAMPLE_AP_MID) targeting the AP has not 
-        yet been recieved by LC so the AP has not yet been evaluated.
+        yet been received by LC so the AP has not yet been evaluated.
           
      3) One or more of the watchpoints that this AP depends on (as defined by
         the RPN expression) has a current WatchResult of #LC_WATCH_STALE

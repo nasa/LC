@@ -52,9 +52,6 @@ void LC_ExecuteRTS(uint16 RTSId)
     RTSRequest.RTSId = RTSId;
 
     CFE_SB_TransmitMsg(&RTSRequest.CmdHeader.Msg, true);
-
-    return;
-
 } /* end LC_ExecuteRTS */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

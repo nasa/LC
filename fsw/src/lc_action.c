@@ -78,9 +78,6 @@ void LC_SampleAPs(uint16 StartIndex, uint16 EndIndex)
             LC_SampleSingleAP(TableIndex);
         }
     }
-
-    return;
-
 } /* end LC_SampleAP */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -268,9 +265,6 @@ void LC_SampleSingleAP(uint16 APNumber)
         }
 
     } /* end CurrentAPState if */
-
-    return;
-
 } /* end LC_SampleSingleAP */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
