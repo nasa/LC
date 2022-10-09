@@ -54,8 +54,7 @@ void LC_ExecuteRTS_Test(void)
 
     /* Verify results */
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ExecuteRTS_Test */
+}
 
 void LC_CustomFunction_Test_WatchIndex0(void)
 {
@@ -79,8 +78,7 @@ void LC_CustomFunction_Test_WatchIndex0(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_CustomFunction_Test_WatchIndex0 */
+}
 
 void LC_CustomFunction_Test_WatchIndex1(void)
 {
@@ -104,8 +102,7 @@ void LC_CustomFunction_Test_WatchIndex1(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_CustomFunction_Test_WatchIndex1 */
+}
 
 void UtTest_Setup(void)
 {
@@ -115,6 +112,3 @@ void UtTest_Setup(void)
     UtTest_Add(LC_CustomFunction_Test_WatchIndex1, LC_Test_Setup, LC_Test_TearDown,
                "LC_CustomFunction_Test_WatchIndex1");
 }
-/************************/
-/*  End of File Comment */
-/************************/

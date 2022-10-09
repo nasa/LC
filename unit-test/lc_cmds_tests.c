@@ -61,8 +61,7 @@ void LC_AppPipe_Test_SampleAPRequest(void)
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-} /* end LC_AppPipe_Test_SampleAPRequest */
+}
 
 void LC_AppPipe_Test_HousekeepingRequest(void)
 {
@@ -89,8 +88,7 @@ void LC_AppPipe_Test_HousekeepingRequest(void)
     uint8 call_count_LC_PerformMaintenance = UT_GetStubCount(UT_KEY(LC_PerformMaintenance));
     UtAssert_INT32_EQ(call_count_LC_PerformMaintenance, 1);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_AppPipe_Test_HousekeepingRequest */
+}
 
 void LC_AppPipe_Test_Noop(void)
 {
@@ -125,8 +123,7 @@ void LC_AppPipe_Test_Noop(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_AppPipe_Test_Noop */
+}
 
 void LC_AppPipe_Test_Reset(void)
 {
@@ -161,8 +158,7 @@ void LC_AppPipe_Test_Reset(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_AppPipe_Test_Reset */
+}
 
 void LC_AppPipe_Test_SetLCState(void)
 {
@@ -187,8 +183,7 @@ void LC_AppPipe_Test_SetLCState(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_AppPipe_Test_SetLCState */
+}
 
 void LC_AppPipe_Test_SetAPState(void)
 {
@@ -213,8 +208,7 @@ void LC_AppPipe_Test_SetAPState(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_AppPipe_Test_SetAPState */
+}
 
 void LC_AppPipe_Test_SetAPPermoff(void)
 {
@@ -239,8 +233,7 @@ void LC_AppPipe_Test_SetAPPermoff(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_AppPipe_Test_SetAPPermoff */
+}
 
 void LC_AppPipe_Test_ResetAPStats(void)
 {
@@ -264,8 +257,7 @@ void LC_AppPipe_Test_ResetAPStats(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_AppPipe_Test_ResetAPStats */
+}
 
 void LC_AppPipe_Test_ResetWPStats(void)
 {
@@ -289,8 +281,7 @@ void LC_AppPipe_Test_ResetWPStats(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_AppPipe_Test_ResetWPStats */
+}
 
 void LC_AppPipe_Test_InvalidCommandCode(void)
 {
@@ -323,8 +314,7 @@ void LC_AppPipe_Test_InvalidCommandCode(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_AppPipe_Test_InvalidCommandCode */
+}
 
 void LC_AppPipe_Test_MonitorPacket(void)
 {
@@ -345,12 +335,10 @@ void LC_AppPipe_Test_MonitorPacket(void)
 
     uint8 call_count_LC_CheckMsgForWPs = UT_GetStubCount(UT_KEY(LC_CheckMsgForWPs));
     UtAssert_INT32_EQ(call_count_LC_CheckMsgForWPs, 1);
-
-} /* end LC_AppPipe_Test_MonitorPacket */
+}
 
 void LC_SampleAPReq_Test_BadLength(void)
 {
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
     LC_SampleAPReq(&UT_CmdBuf.Buf);
@@ -358,7 +346,6 @@ void LC_SampleAPReq_Test_BadLength(void)
 
 void LC_SampleAPReq_Test_StateDisabled(void)
 {
-
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState = LC_STATE_DISABLED;
@@ -390,8 +377,7 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_SampleAPReq_Test_AllowSampleAllWatchStale */
+}
 
 void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
 {
@@ -414,8 +400,7 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_SampleAPReq_Test_AllowSampleAllWatchStale */
+}
 
 void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
 {
@@ -441,8 +426,7 @@ void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale */
+}
 
 void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
 {
@@ -475,8 +459,7 @@ void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SampleAPReq_Test_ArrayIndexOutOfRange */
+}
 
 void LC_SampleAPReq_Test_BadSampleAllArgs(void)
 {
@@ -619,8 +602,7 @@ void LC_HousekeepingReq_Test_WatchStale(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_WatchStale */
+}
 
 void LC_HousekeepingReq_Test_WatchFalse(void)
 {
@@ -671,8 +653,7 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_WatchFalse */
+}
 
 void LC_HousekeepingReq_Test_WatchTrue(void)
 {
@@ -723,8 +704,7 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_WatchTrue */
+}
 
 void LC_HousekeepingReq_Test_WatchError(void)
 {
@@ -776,8 +756,7 @@ void LC_HousekeepingReq_Test_WatchError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_WatchError */
+}
 
 void LC_HousekeepingReq_Test_DefaultWatchResult(void)
 {
@@ -828,8 +807,7 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_DefaultWatchResult */
+}
 
 void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
 {
@@ -881,8 +859,7 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_ActionNotUsedStale */
+}
 
 void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
 {
@@ -937,8 +914,7 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_APStateActiveActionPass */
+}
 
 void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
 {
@@ -990,8 +966,7 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_APStatePassiveActionFail */
+}
 
 void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
 {
@@ -1043,8 +1018,7 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_APStateDisabledActionError */
+}
 
 void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
 {
@@ -1096,8 +1070,7 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_APStatePermOffActionError */
+}
 
 void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
 {
@@ -1149,8 +1122,7 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult */
+}
 
 void LC_HousekeepingReq_Test_ManageTablesError(void)
 {
@@ -1174,8 +1146,7 @@ void LC_HousekeepingReq_Test_ManageTablesError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_HousekeepingReq_Test_ManageTablesError */
+}
 
 void LC_NoopCmd_Test_BadLength(void)
 {
@@ -1218,8 +1189,7 @@ void LC_ResetCounters_Test(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_ResetCounters_Test */
+}
 
 void LC_SetLCStateCmd_Test_BadLength(void)
 {
@@ -1260,8 +1230,7 @@ void LC_SetLCStateCmd_Test_Active(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetLCStateCmd_Test_Active */
+}
 
 void LC_SetLCStateCmd_Test_Passive(void)
 {
@@ -1293,7 +1262,7 @@ void LC_SetLCStateCmd_Test_Passive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-} /* end LC_SetLCStateCmd_Test_Passive */
+}
 
 void LC_SetLCStateCmd_Test_Disabled(void)
 {
@@ -1325,8 +1294,7 @@ void LC_SetLCStateCmd_Test_Disabled(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetLCStateCmd_Test_Disabled */
+}
 
 void LC_SetLCStateCmd_Test_Default(void)
 {
@@ -1357,8 +1325,7 @@ void LC_SetLCStateCmd_Test_Default(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetLCStateCmd_Test_Default */
+}
 
 void LC_SetAPStateCmd_Test_BadLength(void)
 {
@@ -1400,8 +1367,7 @@ void LC_SetAPStateCmd_Test_Default(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_Default */
+}
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
 {
@@ -1454,7 +1420,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-} /* end LC_SetAPStateCmd_Test_SetAllActionPointsActive */
+}
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 {
@@ -1508,7 +1474,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-} /* end LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed */
+}
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
 {
@@ -1562,7 +1528,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-} /* end LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff */
+}
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
 {
@@ -1615,8 +1581,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_SetAllActionPointsPassive */
+}
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
 {
@@ -1669,8 +1634,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_SetAllActionPointsDisabled */
+}
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
 {
@@ -1706,8 +1670,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointActive */
+}
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
 {
@@ -1743,8 +1706,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointActive */
+}
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
 {
@@ -1780,8 +1742,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive */
+}
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
 {
@@ -1817,8 +1778,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled */
+}
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
 {
@@ -1853,8 +1813,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive */
+}
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
 {
@@ -1889,8 +1848,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive */
+}
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
 {
@@ -1926,8 +1884,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled */
+}
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 {
@@ -1961,8 +1918,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_InvalidAPNumberActive */
+}
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 {
@@ -1995,8 +1951,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_InvalidAPNumberPassive */
+}
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 {
@@ -2028,8 +1983,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPStateCmd_Test_InvalidAPNumberDisabled */
+}
 
 void LC_SetAPPermOffCmd_Test_BadLength(void)
 {
@@ -2068,8 +2022,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints */
+}
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 {
@@ -2099,8 +2052,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints */
+}
 
 void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 {
@@ -2133,8 +2085,7 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPPermOffCmd_Test_APNotDisabled */
+}
 
 void LC_SetAPPermOffCmd_Test_Nominal(void)
 {
@@ -2168,8 +2119,7 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SetAPPermOffCmd_Test_Nominal */
+}
 
 void LC_ResetAPStatsCmd_Test_BadLength(void)
 {
@@ -2208,8 +2158,7 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ResetAPStatsCmd_Test_AllActionPoints */
+}
 
 void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 {
@@ -2239,8 +2188,7 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ResetAPStatsCmd_Test_SingleActionPoint */
+}
 
 void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 {
@@ -2270,8 +2218,7 @@ void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ResetAPStatsCmd_Test_InvalidAPNumber */
+}
 
 void LC_ResetResultsAP_Test(void)
 {
@@ -2372,8 +2319,7 @@ void LC_ResetResultsAP_Test(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_ResetResultsAP_Test */
+}
 
 void LC_ResetWPStatsCmd_Test_BadLength(void)
 {
@@ -2412,8 +2358,7 @@ void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ResetWPStatsCmd_Test_AllWatchPoints */
+}
 
 void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 {
@@ -2442,8 +2387,7 @@ void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ResetWPStatsCmd_Test_SingleWatchPoint */
+}
 
 void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
 {
@@ -2473,8 +2417,7 @@ void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ResetWPStatsCmd_Test_InvalidWPNumber */
+}
 
 void LC_ResetResultsWP_Test(void)
 {
@@ -2602,8 +2545,7 @@ void LC_ResetResultsWP_Test(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_ResetResultsWP_Test */
+}
 
 void UtTest_Setup(void)
 {
@@ -2735,7 +2677,3 @@ void UtTest_Setup(void)
     UtTest_Add(LC_ResetWPStatsCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_ResetWPStatsCmd_Test_BadLength");
     UtTest_Add(LC_ResetResultsWP_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetResultsWP_Test");
 }
-
-/************************/
-/*  End of File Comment */
-/************************/

@@ -123,8 +123,7 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
     } /* end MessageID switch */
 
     return (Status);
-
-} /* End LC_AppPipe */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -200,8 +199,7 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
     }
 
     return;
-
-} /* end LC_SampleAPReq */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -487,8 +485,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
     Result = LC_PerformMaintenance();
 
     return Result;
-
-} /* end LC_HousekeepingReq */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -511,8 +508,7 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
     }
 
     return;
-
-} /* end LC_NoopCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -534,8 +530,7 @@ void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr)
     }
 
     return;
-
-} /* end LC_ResetCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -553,8 +548,7 @@ void LC_ResetCounters(void)
     LC_AppData.PassiveRTSExecCount = 0;
 
     return;
-
-} /* end LC_ResetCounters */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -595,8 +589,7 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
     }
 
     return;
-
-} /* end LC_SetLCStateCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -726,8 +719,7 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
     } /* end LC_VerifyMsgLength if */
 
     return;
-
-} /* end LC_SetAPStateCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -794,8 +786,7 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
     } /* end LC_VerifyMsgLength if */
 
     return;
-
-} /* end LC_SetAPPermOffCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -841,8 +832,7 @@ void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
     }
 
     return;
-
-} /* end LC_ResetAPStatsCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -874,8 +864,7 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
     }
 
     return;
-
-} /* end LC_ResetResultsAP */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -921,8 +910,7 @@ void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
     }
 
     return;
-
-} /* end LC_ResetWPStatsCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -958,9 +946,4 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
     }
 
     return;
-
-} /* end LC_ResetResultsWP */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

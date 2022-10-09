@@ -95,8 +95,7 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
     }
 
     return (result);
-
-} /* End of LC_VerifyMsgLength */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -165,8 +164,7 @@ int32 LC_ManageTables(void)
     }
 
     return (CFE_SUCCESS);
-
-} /* LC_ManageTables() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -220,8 +218,7 @@ int32 LC_UpdateTaskCDS(void)
     }
 
     return (CFE_SUCCESS);
-
-} /* LC_UpdateTaskCDS() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */

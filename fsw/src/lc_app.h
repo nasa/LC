@@ -120,7 +120,6 @@ typedef struct LC_WListTag
 
     uint16 WatchIndex; /**< \brief Watchpoint table index   */
     uint16 Spare;      /**< \brief Structure alignment pad  */
-
 } LC_WatchPtList_t;
 
 /** \brief Linked list of MessageID's with same hash function result */
@@ -132,7 +131,6 @@ typedef struct LC_MListTag
     uint16         Spare;     /**< \brief Structure alignment pad  */
 
     LC_WatchPtList_t *WatchPtList; /**< \brief Watchpoint list for this MessageID */
-
 } LC_MessageList_t;
 
 /************************************************************************

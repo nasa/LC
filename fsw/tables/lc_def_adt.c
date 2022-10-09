@@ -2639,7 +2639,3 @@ LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] = {
      .EventText         = {" "},
      .RPNEquation       = {              /* (WP_0) */
                      0, LC_RPN_EQUAL}}}; /* end LC_DefaultADT */
-
-/************************/
-/*  End of File Comment */
-/************************/
