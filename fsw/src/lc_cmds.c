@@ -122,7 +122,7 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 
     } /* end MessageID switch */
 
-    return (Status);
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

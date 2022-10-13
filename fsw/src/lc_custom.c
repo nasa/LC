@@ -89,5 +89,5 @@ uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_
 
     } /* end WatchIndex switch */
 
-    return (EvalResult);
+    return EvalResult;
 }

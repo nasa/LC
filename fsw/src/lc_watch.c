@@ -234,7 +234,8 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
     }
 
     /* Return pointer to last link in watchpoint linked list */
-    return (WatchPtLink);
+
+    return WatchPtLink;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -535,7 +536,7 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
             break;
     }
 
-    return (EvalResult);
+    return EvalResult;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -588,7 +589,7 @@ uint8 LC_SignedCompare(uint16 WatchIndex, int32 WPValue, int32 CompareValue)
             break;
     }
 
-    return (EvalResult);
+    return EvalResult;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -641,7 +642,7 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex, uint32 WPValue, uint32 CompareValue)
             break;
     }
 
-    return (EvalResult);
+    return EvalResult;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -727,7 +728,7 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
         EvalResult = LC_WATCH_ERROR;
     }
 
-    return (EvalResult);
+    return EvalResult;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -787,7 +788,7 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
             LC_OperData.WRTPtr[WatchIndex].WatchResult      = LC_WATCH_ERROR;
             LC_OperData.WRTPtr[WatchIndex].CountdownToStale = 0;
 
-            return (false);
+            return false;
             break;
 
     } /* end switch */
@@ -811,7 +812,7 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
         LC_OperData.WRTPtr[WatchIndex].CountdownToStale = 0;
     }
 
-    return (OffsetValid);
+    return OffsetValid;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -923,7 +924,8 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
     /*
     ** Return success flag
     */
-    return (Success);
+
+    return Success;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1057,7 +1059,7 @@ int32 LC_ValidateWDT(void *TableData)
                       "WDT verify results: good = %d, bad = %d, unused = %d", (int)GoodCount, (int)BadCount,
                       (int)UnusedCount);
 
-    return (TableResult);
+    return TableResult;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1091,7 +1093,7 @@ bool LC_Uint32IsNAN(uint32 Data)
         }
     }
 
-    return (Result);
+    return Result;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -1126,5 +1128,5 @@ bool LC_Uint32IsInfinite(uint32 Data)
         }
     }
 
-    return (Result);
+    return Result;
 }

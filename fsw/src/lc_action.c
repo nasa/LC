@@ -471,7 +471,7 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
         EvalResult = LC_ACTION_FAIL;
     }
 
-    return (EvalResult);
+    return EvalResult;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -600,7 +600,7 @@ int32 LC_ValidateADT(void *TableData)
                       "ADT verify results: good = %d, bad = %d, unused = %d", (int)GoodCount, (int)BadCount,
                       (int)UnusedCount);
 
-    return (TableResult);
+    return TableResult;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -699,5 +699,5 @@ int32 LC_ValidateRPN(const uint16 *RPNPtr, int32 *IndexValue, int32 *StackDepthV
         *StackDepthValue = StackDepth;
     }
 
-    return (Result);
+    return Result;
 }

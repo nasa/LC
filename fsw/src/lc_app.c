@@ -219,7 +219,7 @@ int32 LC_AppInit(void)
                           LC_MAJOR_VERSION, LC_MINOR_VERSION, LC_REVISION, LC_MISSION_REV);
     }
 
-    return (Status);
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -247,7 +247,7 @@ int32 LC_EvsInit(void)
         CFE_ES_WriteToSysLog("LC App: Error Registering For Event Services, RC = 0x%08X\n", (unsigned int)Status);
     }
 
-    return (Status);
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -316,7 +316,7 @@ int32 LC_SbInit(void)
         }
     }
 
-    return (Status);
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -379,7 +379,7 @@ int32 LC_TableInit(void)
     */
     if ((Result = LC_CreateResultTables()) != CFE_SUCCESS)
     {
-        return (Result);
+        return Result;
     }
 
     /*
@@ -399,7 +399,7 @@ int32 LC_TableInit(void)
     */
     if ((Result = LC_CreateDefinitionTables()) != CFE_SUCCESS)
     {
-        return (Result);
+        return Result;
     }
 
     /*
@@ -431,7 +431,7 @@ int32 LC_TableInit(void)
         {
             CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting WDT address, RC=0x%08X",
                               (unsigned int)Result);
-            return (Result);
+            return Result;
         }
 
         /*
@@ -443,7 +443,7 @@ int32 LC_TableInit(void)
         {
             CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting ADT address, RC=0x%08X",
                               (unsigned int)Result);
-            return (Result);
+            return Result;
         }
     }
     else
@@ -451,7 +451,7 @@ int32 LC_TableInit(void)
         Result = LC_LoadDefaultTables();
         if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
         {
-            return (Result);
+            return Result;
         }
     }
 
@@ -484,7 +484,7 @@ int32 LC_TableInit(void)
                           (unsigned int)LC_OperData.TableResults);
     }
 
-    return (CFE_SUCCESS);
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -560,7 +560,7 @@ int32 LC_CreateResultTables(void)
         LC_OperData.TableResults |= LC_ART_TBL_CREATED;
     }
 
-    return (Result);
+    return Result;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -716,7 +716,7 @@ int32 LC_CreateDefinitionTables(void)
         }
     }
 
-    return (Result);
+    return Result;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -761,7 +761,7 @@ int32 LC_CreateTaskCDS(void)
     {
         CFE_EVS_SendEvent(LC_WRT_CDS_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Error registering WRT CDS Area, RC=0x%08X", (unsigned int)Result);
-        return (Result);
+        return Result;
     }
 
     /*
@@ -795,7 +795,7 @@ int32 LC_CreateTaskCDS(void)
     {
         CFE_EVS_SendEvent(LC_ART_CDS_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Error registering ART CDS Area, RC=0x%08X", (unsigned int)Result);
-        return (Result);
+        return Result;
     }
 
     /*
@@ -840,10 +840,10 @@ int32 LC_CreateTaskCDS(void)
     {
         CFE_EVS_SendEvent(LC_APP_CDS_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Error registering application data CDS Area, RC=0x%08X", (unsigned int)Result);
-        return (Result);
+        return Result;
     }
 
-    return (CFE_SUCCESS);
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -962,5 +962,5 @@ int32 LC_LoadDefaultTables(void)
         }
     }
 
-    return (Result);
+    return Result;
 }
