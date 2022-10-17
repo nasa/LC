@@ -280,7 +280,7 @@ void LC_AppInit_Test_Nominal(void)
     /* Verify results */
     sprintf(Message, "LC Initialized. Version %d.%d.%d.%d", LC_MAJOR_VERSION, LC_MINOR_VERSION, LC_REVISION,
             LC_MISSION_REV);
-    //    UtAssert_True (Ut_CFE_EVS_EventSent(LC_INIT_INF_EID, CFE_EVS_INFORMATION, Message), Message);
+    /*    UtAssert_True (Ut_CFE_EVS_EventSent(LC_INIT_INF_EID, CFE_EVS_INFORMATION, Message), Message); */
 
     UtAssert_INT32_EQ(Result, CFE_SUCCESS);
 
@@ -324,8 +324,7 @@ void LC_AppInit_Test_Nominal(void)
     /* Generates 2 event message we don't care about in this test */
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 #endif
-
-} /* end LC_AppInit_Test_Nominal */
+}
 
 void LC_AppInit_Test_EVSInitError(void)
 {
@@ -345,8 +344,7 @@ void LC_AppInit_Test_EVSInitError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_AppInit_Test_EVSInitError */
+}
 
 void LC_AppInit_Test_SBInitError(void)
 {
@@ -367,8 +365,7 @@ void LC_AppInit_Test_SBInitError(void)
     /* Generates one event message we don't care about in this test */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_AppInit_Test_SBInitError */
+}
 
 void LC_AppInit_Test_TableInitError(void)
 {
@@ -386,8 +383,7 @@ void LC_AppInit_Test_TableInitError(void)
     /* Generates one event message we don't care about in this test */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_AppInit_Test_TableInitError */
+}
 
 void LC_EvsInit_Test_Nominal(void)
 {
@@ -401,8 +397,7 @@ void LC_EvsInit_Test_Nominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_EvsInit_Test_Nominal */
+}
 
 void LC_EvsInit_Test_EVSRegisterError(void)
 {
@@ -423,8 +418,7 @@ void LC_EvsInit_Test_EVSRegisterError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_EvsInit_Test_EVSRegisterError */
+}
 
 void LC_SbInit_Test_Nominal(void)
 {
@@ -438,8 +432,7 @@ void LC_SbInit_Test_Nominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_SbInit_Test_Nominal */
+}
 
 void LC_SbInit_Test_CreatePipeError(void)
 {
@@ -460,8 +453,7 @@ void LC_SbInit_Test_CreatePipeError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_SbInit_Test_CreatePipeError */
+}
 
 void LC_SbInit_Test_SubscribeHKReqError(void)
 {
@@ -482,8 +474,7 @@ void LC_SbInit_Test_SubscribeHKReqError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_SbInit_Test_SubscribeHKReqError */
+}
 
 void LC_SbInit_Test_SubscribeGndCmdError(void)
 {
@@ -504,8 +495,7 @@ void LC_SbInit_Test_SubscribeGndCmdError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_SbInit_Test_SubscribeGndCmdError */
+}
 
 void LC_SbInit_Test_SubscribeSampleCmdError(void)
 {
@@ -526,8 +516,7 @@ void LC_SbInit_Test_SubscribeSampleCmdError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_SbInit_Test_SubscribeSampleCmdError */
+}
 
 void LC_TableInit_Test_CreateResultsTablesError(void)
 {
@@ -815,8 +804,7 @@ void LC_CreateResultTables_Test_Nominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_CreateResultTables_Test_Nominal */
+}
 
 void LC_CreateResultTables_Test_WRTRegisterError(void)
 {
@@ -840,8 +828,7 @@ void LC_CreateResultTables_Test_WRTRegisterError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_CreateResultTables_Test_WRTRegisterError */
+}
 
 void LC_CreateResultTables_Test_WRTGetAddressError(void)
 {
@@ -865,8 +852,7 @@ void LC_CreateResultTables_Test_WRTGetAddressError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_CreateResultTables_Test_WRTGetAddressError */
+}
 
 void LC_CreateResultTables_Test_ARTRegisterError(void)
 {
@@ -890,8 +876,7 @@ void LC_CreateResultTables_Test_ARTRegisterError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_CreateResultTables_Test_ARTRegisterError */
+}
 
 void LC_CreateResultTables_Test_ARTGetAddressError(void)
 {
@@ -915,8 +900,7 @@ void LC_CreateResultTables_Test_ARTGetAddressError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_CreateResultTables_Test_ARTGetAddressError */
+}
 
 void LC_CreateDefinitionTables_Test_NominalCDSActive(void)
 {
@@ -938,8 +922,7 @@ void LC_CreateDefinitionTables_Test_NominalCDSActive(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_CreateDefinitionTables_Test_NominalCDSActive */
+}
 
 void LC_CreateDefinitionTables_Test_NominalCDSInactive(void)
 {
@@ -961,8 +944,7 @@ void LC_CreateDefinitionTables_Test_NominalCDSInactive(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_CreateDefinitionTables_Test_NominalCDSInactive */
+}
 
 void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
 {
@@ -1000,8 +982,7 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered */
+}
 
 void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
 {
@@ -1039,8 +1020,7 @@ void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered */
+}
 
 void LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical(void)
 {
@@ -1066,8 +1046,7 @@ void LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical */
+}
 
 void LC_CreateDefinitionTables_Test_WDTReRegisterError(void)
 {
@@ -1089,8 +1068,7 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterError(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDT_REREGISTER_ERR_EID);
-
-} /* end LC_CreateDefinitionTables_Test_WDTReRegisterError */
+}
 
 void LC_CreateDefinitionTables_Test_WDTRegisterError(void)
 {
@@ -1106,8 +1084,7 @@ void LC_CreateDefinitionTables_Test_WDTRegisterError(void)
     /* Verify results */
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDT_REGISTER_ERR_EID);
-
-} /* end LC_CreateDefinitionTables_Test_WDTRegisterError */
+}
 
 void LC_CreateDefinitionTables_Test_ADTRegisterError(void)
 {
@@ -1122,8 +1099,7 @@ void LC_CreateDefinitionTables_Test_ADTRegisterError(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADT_REGISTER_ERR_EID);
-
-} /* end LC_CreateDefinitionTables_Test_ADTRegisterError */
+}
 
 void LC_LoadDefaultTables_Test_NominalActiveCDS(void)
 {
@@ -1153,8 +1129,7 @@ void LC_LoadDefaultTables_Test_NominalActiveCDS(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_LoadDefaultTables_Test_NominalActiveCDS */
+}
 
 void LC_LoadDefaultTables_Test_ActiveCDSNotSuccess(void)
 {
@@ -1188,8 +1163,7 @@ void LC_LoadDefaultTables_Test_ActiveCDSNotSuccess(void)
     /* Generates one event message we don't care about in this test */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_LoadDefaultTables_Test_ActiveCDSNotSuccess */
+}
 
 void LC_LoadDefaultTables_Test_NominalInactiveCDS(void)
 {
@@ -1218,8 +1192,7 @@ void LC_LoadDefaultTables_Test_NominalInactiveCDS(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_LoadDefaultTables_Test_NominalInactiveCDS */
+}
 
 void LC_LoadDefaultTables_Test_LoadWDTError(void)
 {
@@ -1242,8 +1215,7 @@ void LC_LoadDefaultTables_Test_LoadWDTError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_LoadDefaultTables_Test_LoadWDTError */
+}
 
 void LC_LoadDefaultTables_Test_GetWDTAddressError(void)
 {
@@ -1269,8 +1241,7 @@ void LC_LoadDefaultTables_Test_GetWDTAddressError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_LoadDefaultTables_Test_GetWDTAddressError */
+}
 
 void LC_LoadDefaultTables_Test_LoadADTError(void)
 {
@@ -1296,8 +1267,7 @@ void LC_LoadDefaultTables_Test_LoadADTError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-} /* end LC_LoadDefaultTables_Test_LoadADTError */
+}
 
 void LC_LoadDefaultTables_Test_GetADTAddressError(void)
 {
@@ -1318,8 +1288,7 @@ void LC_LoadDefaultTables_Test_GetADTAddressError(void)
         "Error getting ADT address, RC=0xCC000001");
 */
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end LC_LoadDefaultTables_Test_GetADTAddressError */
+}
 
 void LC_LoadDefaultTables_Test_InfoUpdated(void)
 {
@@ -1349,8 +1318,7 @@ void LC_LoadDefaultTables_Test_InfoUpdated(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_LoadDefaultTables_Test_NominalActiveCDS */
+}
 
 void LC_CreateTaskCDS_Test_Nominal(void)
 {
@@ -1534,7 +1502,6 @@ void LC_CreateTaskCDS_Test_RestoreFail(void)
 
 void UtTest_Setup(void)
 {
-
     UtTest_Add(LC_AppMain_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_AppMain_Test_Nominal");
 
     UtTest_Add(LC_AppMain_Test_NominalCDSSave, LC_Test_Setup, LC_Test_TearDown, "LC_AppMain_Test_NominalCDSSave");
@@ -1567,8 +1534,8 @@ void UtTest_Setup(void)
 
     UtTest_Add(LC_TableInit_Test_CreateTaskCDSError, LC_Test_Setup, LC_Test_TearDown,
                "LC_TableInit_Test_CreateTaskCDSError");
-    // UtTest_Add(LC_TableInit_Test_CDSRestored, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_CDSRestored");
-    // UtTest_Add(LC_TableInit_Test_CDSUpdated, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_CDSUpdated");
+    /* UtTest_Add(LC_TableInit_Test_CDSRestored, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_CDSRestored"); */
+    /* UtTest_Add(LC_TableInit_Test_CDSUpdated, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_CDSUpdated"); */
     UtTest_Add(LC_TableInit_Test_CreateResultsTablesError, LC_Test_Setup, LC_Test_TearDown,
                "LC_TableInit_Test_CreateResultsTablesError");
     UtTest_Add(LC_TableInit_Test_CreateDefinitionTablesError, LC_Test_Setup, LC_Test_TearDown,
@@ -1643,9 +1610,4 @@ void UtTest_Setup(void)
     UtTest_Add(LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved, LC_Test_Setup, LC_Test_TearDown,
                "LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved");
     UtTest_Add(LC_CreateTaskCDS_Test_RestoreFail, LC_Test_Setup, LC_Test_TearDown, "LC_CreateTaskCDS_Test_RestoreFail");
-
-} /* end LC_App_Test_AddTestCases */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

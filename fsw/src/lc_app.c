@@ -170,8 +170,7 @@ void LC_AppMain(void)
     ** Exit the application
     */
     CFE_ES_ExitApp(RunStatus);
-
-} /* end LC_AppMain */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -221,8 +220,7 @@ int32 LC_AppInit(void)
     }
 
     return Status;
-
-} /* end LC_AppInit */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -250,8 +248,7 @@ int32 LC_EvsInit(void)
     }
 
     return Status;
-
-} /* end LC_EvsInit */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -320,8 +317,7 @@ int32 LC_SbInit(void)
     }
 
     return Status;
-
-} /* end LC_SbInit */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -489,8 +485,7 @@ int32 LC_TableInit(void)
     }
 
     return CFE_SUCCESS;
-
-} /* LC_TableInit() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -566,8 +561,7 @@ int32 LC_CreateResultTables(void)
     }
 
     return Result;
-
-} /* LC_CreateResultTables() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -723,8 +717,7 @@ int32 LC_CreateDefinitionTables(void)
     }
 
     return Result;
-
-} /* LC_CreateDefinitionTables() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -851,8 +844,7 @@ int32 LC_CreateTaskCDS(void)
     }
 
     return CFE_SUCCESS;
-
-} /* LC_CreateTaskCDS() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -971,9 +963,4 @@ int32 LC_LoadDefaultTables(void)
     }
 
     return Result;
-
-} /* LC_LoadDefaultTables() */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

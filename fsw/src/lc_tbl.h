@@ -131,7 +131,6 @@ typedef struct
     uint8 Padding[3]; /**< \brief Structure padding */
 
     CFE_TIME_SysTime_t Timestamp; /**< \brief Timstamp when the transition was detected    */
-
 } LC_WRTTransition_t;
 
 /**
@@ -157,7 +156,6 @@ typedef struct
                                                     has evaluated to TRUE                  */
     LC_WRTTransition_t LastFalseToTrue; /**< \brief Last transition from FALSE to TRUE     */
     LC_WRTTransition_t LastTrueToFalse; /**< \brief Last transition from TRUE to FALSE     */
-
 } LC_WRTEntry_t;
 
 /**

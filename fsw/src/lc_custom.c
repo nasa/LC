@@ -52,7 +52,9 @@ void LC_ExecuteRTS(uint16 RTSId)
     RTSRequest.RTSId = RTSId;
 
     CFE_SB_TransmitMsg(&RTSRequest.CmdHeader.Msg, true);
-} /* end LC_ExecuteRTS */
+
+    return;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -88,9 +90,4 @@ uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_
     } /* end WatchIndex switch */
 
     return EvalResult;
-
-} /* end LC_CustomFunction */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

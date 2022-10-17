@@ -59,8 +59,7 @@ void LC_SampleAPs_Test_SingleActionPointNominal(void)
 
     /* Verify results */
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_SampleAPs_Test_SingleActionPointNominal */
+}
 
 void LC_SampleAPs_Test_SingleActionPointError(void)
 {
@@ -85,8 +84,7 @@ void LC_SampleAPs_Test_SingleActionPointError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SampleAPs_Test_SingleActionPointError */
+}
 
 void LC_SampleAPs_Test_MultiActionPointNominal(void)
 {
@@ -98,8 +96,7 @@ void LC_SampleAPs_Test_MultiActionPointNominal(void)
 
     /* Verify results */
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_SampleAPs_Test_MultiActionPointNominal */
+}
 
 void LC_SampleAPs_Test_SingleActionPointPermOff(void)
 {
@@ -124,8 +121,7 @@ void LC_SampleAPs_Test_SingleActionPointPermOff(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SampleAPs_Test_SingleActionPointError */
+}
 
 void LC_SampleSingleAP_Test_StateChangePassToFail(void)
 {
@@ -170,8 +166,7 @@ void LC_SampleSingleAP_Test_StateChangePassToFail(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_SampleSingleAP_Test_StateChangePassToFail */
+}
 
 void LC_SampleSingleAP_Test_StateChangePassToFailMaxChange(void)
 {
@@ -212,7 +207,7 @@ void LC_SampleSingleAP_Test_StateChangePassToFailMaxChange(void)
     /* Generates 1 event message we don't care about in this test */
 
     UtAssert_True(LC_AppData.RTSExecCount == 0, "LC_AppData.RTSExecCount == 0");
-} /* end LC_SampleSingleAP_Test_StateChangePassToFailMaxChange */
+}
 
 void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
 {
@@ -252,8 +247,7 @@ void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_OperData.ADTPtr[APNumber].EventID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, LC_OperData.ADTPtr[APNumber].EventType);
-
-} /* end LC_SampleSingleAP_Test_ActiveRequestRTS */
+}
 
 void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
 {
@@ -297,8 +291,7 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SampleSingleAP_Test_APFailWhileLCStatePassive */
+}
 
 void LC_SampleSingleAP_Test_APFailWhilePassive(void)
 {
@@ -348,8 +341,7 @@ void LC_SampleSingleAP_Test_APFailWhilePassive(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SampleSingleAP_Test_APFailWhilePassive */
+}
 
 void LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent(void)
 {
@@ -388,8 +380,7 @@ void LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent(void)
                   "LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent == 0");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent */
+}
 
 void LC_SampleSingleAP_Test_StateChangeFailToPass(void)
 {
@@ -431,8 +422,7 @@ void LC_SampleSingleAP_Test_StateChangeFailToPass(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SampleSingleAP_Test_StateChangeFailToPass */
+}
 
 void LC_SampleSingleAP_Test_StateChangeFailToPassNoEvent(void)
 {
@@ -466,7 +456,7 @@ void LC_SampleSingleAP_Test_StateChangeFailToPassNoEvent(void)
                   "LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount == 0");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-} /* end LC_SampleSingleAP_Test_StateChangeFailToPass */
+}
 
 void LC_SampleSingleAP_Test_ActionStale(void)
 {
@@ -492,8 +482,7 @@ void LC_SampleSingleAP_Test_ActionStale(void)
                   "LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount == 0");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_SampleSingleAP_Test_ActionStale */
+}
 
 void LC_SampleSingleAP_Test_ActionError(void)
 {
@@ -527,8 +516,7 @@ void LC_SampleSingleAP_Test_ActionError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SampleSingleAP_Test_ActionError */
+}
 
 void LC_SampleSingleAP_Test_ConsecutivePass(void)
 {
@@ -558,8 +546,7 @@ void LC_SampleSingleAP_Test_ConsecutivePass(void)
 
     UtAssert_True(LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount == 0,
                   "LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount == 0");
-
-} /* end LC_SampleSingleAP_Test_StateChangeFailToPass */
+}
 
 void LC_EvaluateRPN_Test_AndWatchFalseOp1(void)
 {
@@ -581,8 +568,7 @@ void LC_EvaluateRPN_Test_AndWatchFalseOp1(void)
     UtAssert_True(Result == LC_ACTION_PASS, "Result == LC_ACTION_PASS");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_AndWatchFalseOp1 */
+}
 
 void LC_EvaluateRPN_Test_AndWatchFalseOp2(void)
 {
@@ -604,8 +590,7 @@ void LC_EvaluateRPN_Test_AndWatchFalseOp2(void)
     UtAssert_True(Result == LC_ACTION_PASS, "Result == LC_ACTION_PASS");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_AndWatchFalseOp2 */
+}
 
 void LC_EvaluateRPN_Test_OrWatchTrueOp1(void)
 {
@@ -627,8 +612,7 @@ void LC_EvaluateRPN_Test_OrWatchTrueOp1(void)
     UtAssert_True(Result == LC_ACTION_FAIL, "Result == LC_ACTION_FAIL");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_OrWatchTrueOp1 */
+}
 
 void LC_EvaluateRPN_Test_OrWatchTrueOp2(void)
 {
@@ -650,8 +634,7 @@ void LC_EvaluateRPN_Test_OrWatchTrueOp2(void)
     UtAssert_True(Result == LC_ACTION_FAIL, "Result == LC_ACTION_FAIL");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_OrWatchTrueOp2 */
+}
 
 void LC_EvaluateRPN_Test_AndWatchErrorOp1(void)
 {
@@ -673,8 +656,7 @@ void LC_EvaluateRPN_Test_AndWatchErrorOp1(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_AndWatchErrorOp1 */
+}
 
 void LC_EvaluateRPN_Test_AndWatchErrorOp2(void)
 {
@@ -696,8 +678,7 @@ void LC_EvaluateRPN_Test_AndWatchErrorOp2(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_AndWatchErrorOp2 */
+}
 
 void LC_EvaluateRPN_Test_OrWatchErrorOp1(void)
 {
@@ -719,8 +700,7 @@ void LC_EvaluateRPN_Test_OrWatchErrorOp1(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_OrWatchErrorOp1 */
+}
 
 void LC_EvaluateRPN_Test_OrWatchErrorOp2(void)
 {
@@ -742,8 +722,7 @@ void LC_EvaluateRPN_Test_OrWatchErrorOp2(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_OrWatchErrorOp2 */
+}
 
 void LC_EvaluateRPN_Test_XorWatchErrorOp1(void)
 {
@@ -765,8 +744,7 @@ void LC_EvaluateRPN_Test_XorWatchErrorOp1(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_XorWatchErrorOp1 */
+}
 
 void LC_EvaluateRPN_Test_XorWatchErrorOp2(void)
 {
@@ -788,8 +766,7 @@ void LC_EvaluateRPN_Test_XorWatchErrorOp2(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_XorWatchErrorOp2 */
+}
 
 void LC_EvaluateRPN_Test_NotWatchError(void)
 {
@@ -809,8 +786,7 @@ void LC_EvaluateRPN_Test_NotWatchError(void)
     UtAssert_True(Result == LC_ACTION_ERROR, "Result == LC_ACTION_ERROR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_NotWatchError */
+}
 
 void LC_EvaluateRPN_Test_AndStaleOp1(void)
 {
@@ -832,8 +808,7 @@ void LC_EvaluateRPN_Test_AndStaleOp1(void)
     UtAssert_True(Result == LC_ACTION_STALE, "Result == LC_ACTION_STALE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_AndStaleOp1 */
+}
 
 void LC_EvaluateRPN_Test_AndStaleOp2(void)
 {
@@ -855,8 +830,7 @@ void LC_EvaluateRPN_Test_AndStaleOp2(void)
     UtAssert_True(Result == LC_ACTION_STALE, "Result == LC_ACTION_STALE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_AndStaleOp2 */
+}
 
 void LC_EvaluateRPN_Test_OrStaleOp1(void)
 {
@@ -878,8 +852,7 @@ void LC_EvaluateRPN_Test_OrStaleOp1(void)
     UtAssert_True(Result == LC_ACTION_STALE, "Result == LC_ACTION_STALE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_OrStaleOp1 */
+}
 
 void LC_EvaluateRPN_Test_OrStaleOp2(void)
 {
@@ -901,8 +874,7 @@ void LC_EvaluateRPN_Test_OrStaleOp2(void)
     UtAssert_True(Result == LC_ACTION_STALE, "Result == LC_ACTION_STALE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_OrStaleOp2 */
+}
 
 void LC_EvaluateRPN_Test_XorStaleOp1(void)
 {
@@ -924,8 +896,7 @@ void LC_EvaluateRPN_Test_XorStaleOp1(void)
     UtAssert_True(Result == LC_ACTION_STALE, "Result == LC_ACTION_STALE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_XorStaleOp1 */
+}
 
 void LC_EvaluateRPN_Test_XorStaleOp2(void)
 {
@@ -947,8 +918,7 @@ void LC_EvaluateRPN_Test_XorStaleOp2(void)
     UtAssert_True(Result == LC_ACTION_STALE, "Result == LC_ACTION_STALE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_XorStaleOp2 */
+}
 
 void LC_EvaluateRPN_Test_NotStale(void)
 {
@@ -968,8 +938,7 @@ void LC_EvaluateRPN_Test_NotStale(void)
     UtAssert_True(Result == LC_ACTION_STALE, "Result == LC_ACTION_STALE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_NotStale */
+}
 
 void LC_EvaluateRPN_Test_AndNominal(void)
 {
@@ -991,8 +960,7 @@ void LC_EvaluateRPN_Test_AndNominal(void)
     UtAssert_True(Result == LC_ACTION_FAIL, "Result == LC_ACTION_FAIL");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_AndNominal */
+}
 
 void LC_EvaluateRPN_Test_OrNominal(void)
 {
@@ -1014,8 +982,7 @@ void LC_EvaluateRPN_Test_OrNominal(void)
     UtAssert_True(Result == LC_ACTION_PASS, "Result == LC_ACTION_PASS");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_OrNominal */
+}
 
 void LC_EvaluateRPN_Test_XorNominal(void)
 {
@@ -1037,8 +1004,7 @@ void LC_EvaluateRPN_Test_XorNominal(void)
     UtAssert_True(Result == true, "Result == true");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_XorNominal */
+}
 
 void LC_EvaluateRPN_Test_NotNominal(void)
 {
@@ -1058,8 +1024,7 @@ void LC_EvaluateRPN_Test_NotNominal(void)
     UtAssert_True(Result == false, "Result == false");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_NotNominal */
+}
 
 void LC_EvaluateRPN_Test_Equal(void)
 {
@@ -1126,8 +1091,7 @@ void LC_EvaluateRPN_Test_WatchpointNumberNominal(void)
     UtAssert_True(Result == 77, "Result == 77");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_EvaluateRPN_Test_WatchpointNumberNominal */
+}
 
 void LC_EvaluateRPN_Test_DefaultIllegalRPN(void)
 {
@@ -1154,8 +1118,7 @@ void LC_EvaluateRPN_Test_DefaultIllegalRPN(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_EvaluateRPN_Test_DefaultIllegalRPN */
+}
 
 void LC_EvaluateRPN_Test_EndOfBufferWhenNotDone(void)
 {
@@ -1190,8 +1153,7 @@ void LC_EvaluateRPN_Test_EndOfBufferWhenNotDone(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_EvaluateRPN_Test_EndOfBufferWhenNotDone */
+}
 
 void LC_EvaluateRPN_Test_PushPopFail(void)
 {
@@ -1306,8 +1268,7 @@ void LC_ValidateADT_Test_ActionNotUsed(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ValidateADT_Test_ActionNotUsed */
+}
 
 void LC_ValidateADT_Test_InvalidDefaultState(void)
 {
@@ -1349,8 +1310,7 @@ void LC_ValidateADT_Test_InvalidDefaultState(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateADT_Test_InvalidDefaultState */
+}
 
 void LC_ValidateADT_Test_BadRtsID(void)
 {
@@ -1392,8 +1352,7 @@ void LC_ValidateADT_Test_BadRtsID(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateADT_Test_BadRtsID */
+}
 
 void LC_ValidateADT_Test_BadFailCount(void)
 {
@@ -1434,8 +1393,7 @@ void LC_ValidateADT_Test_BadFailCount(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateADT_Test_BadFailCount */
+}
 
 void LC_ValidateADT_Test_InvalidEventType(void)
 {
@@ -1477,8 +1435,7 @@ void LC_ValidateADT_Test_InvalidEventType(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateADT_Test_InvalidEventType */
+}
 
 void LC_ValidateADT_Test_ValidateRpnAdtValError(void)
 {
@@ -1521,8 +1478,7 @@ void LC_ValidateADT_Test_ValidateRpnAdtValError(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateADT_Test_ValidateRpnAdtValError */
+}
 
 void LC_ValidateADT_Test_ValidateRpnAdtValNoError(void)
 {
@@ -1559,8 +1515,7 @@ void LC_ValidateADT_Test_ValidateRpnAdtValNoError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ValidateADT_Test_ValidateRpnAdtValNoError */
+}
 
 void LC_ValidateADT_Test_Nominal(void)
 {
@@ -1627,8 +1582,7 @@ void LC_ValidateRPN_Test_RpnAnd(void)
     UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_RpnAnd */
+}
 
 void LC_ValidateRPN_Test_RpnOr(void)
 {
@@ -1648,8 +1602,7 @@ void LC_ValidateRPN_Test_RpnOr(void)
     UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_RpnOr */
+}
 
 void LC_ValidateRPN_Test_RpnXor(void)
 {
@@ -1669,8 +1622,7 @@ void LC_ValidateRPN_Test_RpnXor(void)
     UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_RpnXor */
+}
 
 void LC_ValidateRPN_Test_RpnNot(void)
 {
@@ -1689,8 +1641,7 @@ void LC_ValidateRPN_Test_RpnNot(void)
     UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_RpnNot */
+}
 
 void LC_ValidateRPN_Test_StackDepthZero(void)
 {
@@ -1710,8 +1661,7 @@ void LC_ValidateRPN_Test_StackDepthZero(void)
     UtAssert_True(StackDepthValue == 0, "StackDepthValue == 0");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_StackDepthZero */
+}
 
 void LC_ValidateRPN_Test_StackDepthZero2(void)
 {
@@ -1731,8 +1681,7 @@ void LC_ValidateRPN_Test_StackDepthZero2(void)
     UtAssert_True(StackDepthValue == 0, "StackDepthValue == 0");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_StackDepthZero2 */
+}
 
 void LC_ValidateRPN_Test_MaxRPNSize(void)
 {
@@ -1755,8 +1704,7 @@ void LC_ValidateRPN_Test_MaxRPNSize(void)
     UtAssert_True(StackDepthValue == LC_MAX_RPN_EQU_SIZE, "StackDepthValue == LC_MAX_RPN_EQU_SIZE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_StackDepthZero2 */
+}
 
 void LC_ValidateRPN_Test_InvalidBufferItem(void)
 {
@@ -1776,8 +1724,7 @@ void LC_ValidateRPN_Test_InvalidBufferItem(void)
     UtAssert_True(StackDepthValue == 0, "StackDepthValue == 0");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-
-} /* end LC_ValidateRPN_Test_InvalidBufferItem */
+}
 
 void UtTest_Setup(void)
 {
@@ -1883,6 +1830,3 @@ void UtTest_Setup(void)
     UtTest_Add(LC_ValidateRPN_Test_InvalidBufferItem, LC_Test_Setup, LC_Test_TearDown,
                "LC_ValidateRPN_Test_InvalidBufferItem");
 }
-/************************/
-/*  End of File Comment */
-/************************/

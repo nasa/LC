@@ -168,8 +168,7 @@ void LC_AddWatchpoint_Test_NullPointersErrorSubscribingWatchpoint(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_AddWatchpoint_Test_NullPointersErrorSubscribingWatchpoint */
+}
 
 void LC_AddWatchpoint_Test_NonNullMessageList(void)
 {
@@ -233,7 +232,7 @@ void LC_CheckMsgForWPs_Test_Nominal(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
     UtAssert_STUB_COUNT(CFE_TIME_GetTime, 1);
-} /* end LC_CheckMsgForWPs_Test_Nominal */
+}
 
 void LC_CheckMsgForWPs_Test_NominalMsgTime1(void)
 {
@@ -261,7 +260,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime1(void)
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_MID_INF_EID);
     UtAssert_STUB_COUNT(CFE_TIME_GetTime, 0);
-} /* end LC_CheckMsgForWPs_Test_Nominal */
+}
 
 void LC_CheckMsgForWPs_Test_NominalMsgTime2(void)
 {
@@ -298,7 +297,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime2(void)
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WP_OFFSET_ERR_EID);
     UtAssert_STUB_COUNT(CFE_TIME_GetTime, 0);
-} /* end LC_CheckMsgForWPs_Test_Nominal */
+}
 
 void LC_CheckMsgForWPs_Test_NominalDisabled(void)
 {
@@ -314,7 +313,7 @@ void LC_CheckMsgForWPs_Test_NominalDisabled(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
     UtAssert_STUB_COUNT(CFE_TIME_GetTime, 0);
-} /* end LC_CheckMsgForWPs_Test_NominalDisabled */
+}
 
 void LC_CheckMsgForWPs_Test_UnreferencedMessageID(void)
 {
@@ -338,8 +337,7 @@ void LC_CheckMsgForWPs_Test_UnreferencedMessageID(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_CheckMsgForWPs_Test_UnreferencedMessageID */
+}
 
 void LC_ProcessWP_Test_CustomFunctionWatchFalse(void)
 {
@@ -375,7 +373,7 @@ void LC_ProcessWP_Test_CustomFunctionWatchFalse(void)
     /* Note: this event message is generated in a subfunction, but is tested anyway to verify that the correct code path
      * has been reached */
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-} /* end LC_ProcessWP_Test_CustomFunctionWatchFalse */
+}
 
 void LC_ProcessWP_Test_OperatorCompareError(void)
 {
@@ -406,8 +404,7 @@ void LC_ProcessWP_Test_OperatorCompareError(void)
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end LC_ProcessWP_Test_OperatorCompareError */
+}
 
 void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale(void)
 {
@@ -456,8 +453,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale(void)
                   "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Subseconds == 5");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale */
+}
 
 void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousFalse(void)
 {
@@ -506,8 +502,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousFalse(void)
                   "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Subseconds == 5");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale */
+}
 
 void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
 {
@@ -553,8 +548,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
                   "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Subseconds == 5");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale */
+}
 
 void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue(void)
 {
@@ -600,8 +594,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue(void)
                   "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Subseconds == 5");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale */
+}
 
 void LC_ProcessWP_Test_BadSize(void)
 {
@@ -737,8 +730,7 @@ void LC_OperatorCompare_Test_DataByte(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_OperatorCompare_Test_DataByte */
+}
 
 void LC_OperatorCompare_Test_DataWordLE(void)
 {
@@ -761,8 +753,7 @@ void LC_OperatorCompare_Test_DataWordLE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_OperatorCompare_Test_DataWordLE */
+}
 
 void LC_OperatorCompare_Test_DataDWordLE(void)
 {
@@ -785,8 +776,7 @@ void LC_OperatorCompare_Test_DataDWordLE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_OperatorCompare_Test_DataDWordLE */
+}
 
 void LC_OperatorCompare_Test_DataUByte(void)
 {
@@ -809,8 +799,7 @@ void LC_OperatorCompare_Test_DataUByte(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_OperatorCompare_Test_DataUByte */
+}
 
 void LC_OperatorCompare_Test_DataUWordLE(void)
 {
@@ -833,8 +822,7 @@ void LC_OperatorCompare_Test_DataUWordLE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_OperatorCompare_Test_DataUWordLE */
+}
 
 void LC_OperatorCompare_Test_DataUDWordLE(void)
 {
@@ -857,8 +845,7 @@ void LC_OperatorCompare_Test_DataUDWordLE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_OperatorCompare_Test_DataUDWordLE */
+}
 
 void LC_OperatorCompare_Test_DataFloatLE(void)
 {
@@ -881,8 +868,7 @@ void LC_OperatorCompare_Test_DataFloatLE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_OperatorCompare_Test_DataFloatLE */
+}
 
 void LC_OperatorCompare_Test_DataTypeError(void)
 {
@@ -917,8 +903,7 @@ void LC_OperatorCompare_Test_DataTypeError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_OperatorCompare_Test_DataTypeError */
+}
 
 void LC_SignedCompare_Test_LE(void)
 {
@@ -936,8 +921,7 @@ void LC_SignedCompare_Test_LE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_SignedCompare_Test_LE */
+}
 
 void LC_SignedCompare_Test_LT(void)
 {
@@ -955,8 +939,7 @@ void LC_SignedCompare_Test_LT(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_SignedCompare_Test_LT */
+}
 
 void LC_SignedCompare_Test_EQ(void)
 {
@@ -974,8 +957,7 @@ void LC_SignedCompare_Test_EQ(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_SignedCompare_Test_EQ */
+}
 
 void LC_SignedCompare_Test_NE(void)
 {
@@ -993,8 +975,7 @@ void LC_SignedCompare_Test_NE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_SignedCompare_Test_NE */
+}
 
 void LC_SignedCompare_Test_GT(void)
 {
@@ -1012,8 +993,7 @@ void LC_SignedCompare_Test_GT(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_SignedCompare_Test_GT */
+}
 
 void LC_SignedCompare_Test_GE(void)
 {
@@ -1031,8 +1011,7 @@ void LC_SignedCompare_Test_GE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_SignedCompare_Test_GE */
+}
 
 void LC_SignedCompare_Test_InvalidOperatorID(void)
 {
@@ -1062,8 +1041,7 @@ void LC_SignedCompare_Test_InvalidOperatorID(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_SignedCompare_Test_InvalidOperatorID */
+}
 
 void LC_UnsignedCompare_Test_LE(void)
 {
@@ -1081,8 +1059,7 @@ void LC_UnsignedCompare_Test_LE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_UnsignedCompare_Test_LE */
+}
 
 void LC_UnsignedCompare_Test_LT(void)
 {
@@ -1100,8 +1077,7 @@ void LC_UnsignedCompare_Test_LT(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_UnsignedCompare_Test_LT */
+}
 
 void LC_UnsignedCompare_Test_EQ(void)
 {
@@ -1119,8 +1095,7 @@ void LC_UnsignedCompare_Test_EQ(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_UnsignedCompare_Test_EQ */
+}
 
 void LC_UnsignedCompare_Test_NE(void)
 {
@@ -1138,8 +1113,7 @@ void LC_UnsignedCompare_Test_NE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_UnsignedCompare_Test_NE */
+}
 
 void LC_UnsignedCompare_Test_GT(void)
 {
@@ -1157,8 +1131,7 @@ void LC_UnsignedCompare_Test_GT(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_UnsignedCompare_Test_GT */
+}
 
 void LC_UnsignedCompare_Test_GE(void)
 {
@@ -1176,8 +1149,7 @@ void LC_UnsignedCompare_Test_GE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_UnsignedCompare_Test_GE */
+}
 
 void LC_UnsignedCompare_Test_InvalidOperatorID(void)
 {
@@ -1206,8 +1178,7 @@ void LC_UnsignedCompare_Test_InvalidOperatorID(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_UnsignedCompare_Test_InvalidOperatorID */
+}
 
 void LC_FloatCompare_Test_LE(void)
 {
@@ -1228,8 +1199,7 @@ void LC_FloatCompare_Test_LE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_LE */
+}
 
 void LC_FloatCompare_Test_LT(void)
 {
@@ -1250,8 +1220,7 @@ void LC_FloatCompare_Test_LT(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_LT */
+}
 
 void LC_FloatCompare_Test_EQ(void)
 {
@@ -1272,8 +1241,7 @@ void LC_FloatCompare_Test_EQ(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_EQ */
+}
 
 void LC_FloatCompare_Test_EQFail(void)
 {
@@ -1294,8 +1262,7 @@ void LC_FloatCompare_Test_EQFail(void)
     UtAssert_True(Result == LC_WATCH_FALSE, "Result == LC_WATCH_FALSE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_EQ */
+}
 
 void LC_FloatCompare_Test_NE(void)
 {
@@ -1316,8 +1283,7 @@ void LC_FloatCompare_Test_NE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_NE */
+}
 
 void LC_FloatCompare_Test_NEFail(void)
 {
@@ -1338,8 +1304,7 @@ void LC_FloatCompare_Test_NEFail(void)
     UtAssert_True(Result == LC_WATCH_FALSE, "Result == LC_WATCH_FALSE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_NE */
+}
 
 void LC_FloatCompare_Test_GT(void)
 {
@@ -1360,8 +1325,7 @@ void LC_FloatCompare_Test_GT(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_GT */
+}
 
 void LC_FloatCompare_Test_GE(void)
 {
@@ -1382,8 +1346,7 @@ void LC_FloatCompare_Test_GE(void)
     UtAssert_True(Result == LC_WATCH_TRUE, "Result == LC_WATCH_TRUE");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_FloatCompare_Test_GE */
+}
 
 void LC_FloatCompare_Test_InvalidOperatorID(void)
 {
@@ -1415,8 +1378,7 @@ void LC_FloatCompare_Test_InvalidOperatorID(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_FloatCompare_Test_InvalidOperatorID */
+}
 
 void LC_FloatCompare_Test_NaN(void)
 {
@@ -1449,8 +1411,7 @@ void LC_FloatCompare_Test_NaN(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_FloatCompare_Test_NaN */
+}
 
 void LC_WPOffsetValid_Test_DataUByte(void)
 {
@@ -1475,8 +1436,7 @@ void LC_WPOffsetValid_Test_DataUByte(void)
     UtAssert_True(Result == true, "Result == true");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_WPOffsetValid_Test_DataUByte */
+}
 
 void LC_WPOffsetValid_Test_UWordLE(void)
 {
@@ -1501,8 +1461,7 @@ void LC_WPOffsetValid_Test_UWordLE(void)
     UtAssert_True(Result == true, "Result == true");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_WPOffsetValid_Test_UWordLE */
+}
 
 void LC_WPOffsetValid_Test_UDWordLE(void)
 {
@@ -1527,8 +1486,7 @@ void LC_WPOffsetValid_Test_UDWordLE(void)
     UtAssert_True(Result == true, "Result == true");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_WPOffsetValid_Test_UDWordLE */
+}
 
 void LC_WPOffsetValid_Test_FloatLE(void)
 {
@@ -1552,8 +1510,7 @@ void LC_WPOffsetValid_Test_FloatLE(void)
     UtAssert_True(Result == true, "Result == true");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_WPOffsetValid_Test_FloatLE */
+}
 
 void LC_WPOffsetValid_Test_DataTypeError(void)
 {
@@ -1590,8 +1547,7 @@ void LC_WPOffsetValid_Test_DataTypeError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_WPOffsetValid_Test_DataTypeError */
+}
 
 void LC_WPOffsetValid_Test_OffsetError(void)
 {
@@ -1631,8 +1587,7 @@ void LC_WPOffsetValid_Test_OffsetError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_WPOffsetValid_Test_OffsetError */
+}
 
 void LC_GetSizedWPData_Test_DataByte(void)
 {
@@ -1656,8 +1611,7 @@ void LC_GetSizedWPData_Test_DataByte(void)
     UtAssert_True(SizedData == 1, "SizedData == 1");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataByte */
+}
 
 void LC_GetSizedWPData_Test_DataUByte(void)
 {
@@ -1681,8 +1635,7 @@ void LC_GetSizedWPData_Test_DataUByte(void)
     UtAssert_True(SizedData == 1, "SizedData == 1");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataUByte */
+}
 
 void LC_GetSizedWPData_Test_DataWordBELittleEndian(void)
 {
@@ -1706,8 +1659,7 @@ void LC_GetSizedWPData_Test_DataWordBELittleEndian(void)
     UtAssert_True(SizedData == 0x0102, "SizedData == 0x0102");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataWordBELittleEndian */
+}
 
 void LC_GetSizedWPData_Test_DataWordLELittleEndian(void)
 {
@@ -1731,8 +1683,7 @@ void LC_GetSizedWPData_Test_DataWordLELittleEndian(void)
     UtAssert_True(SizedData == 0x0201, "SizedData == 0x0201");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataWordLELittleEndian */
+}
 
 void LC_GetSizedWPData_Test_DataUWordBELittleEndian(void)
 {
@@ -1756,8 +1707,7 @@ void LC_GetSizedWPData_Test_DataUWordBELittleEndian(void)
     UtAssert_True(SizedData == 0x0102, "SizedData == 0x0102");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataUWordBELittleEndian */
+}
 
 void LC_GetSizedWPData_Test_DataUWordLELittleEndian(void)
 {
@@ -1781,8 +1731,7 @@ void LC_GetSizedWPData_Test_DataUWordLELittleEndian(void)
     UtAssert_True(SizedData == 0x0201, "SizedData == 0x0201");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataUWordLELittleEndian */
+}
 
 void LC_GetSizedWPData_Test_DataFloatBELittleEndian(void)
 {
@@ -1806,8 +1755,7 @@ void LC_GetSizedWPData_Test_DataFloatBELittleEndian(void)
     UtAssert_True(SizedData == 0x01020304, "SizedData == 0x01020304");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataFloatBELittleEndian */
+}
 
 void LC_GetSizedWPData_Test_DataFloatLELittleEndian(void)
 {
@@ -1831,8 +1779,7 @@ void LC_GetSizedWPData_Test_DataFloatLELittleEndian(void)
     UtAssert_True(SizedData == 0x04030201, "SizedData == 0x04030201");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_GetSizedWPData_Test_DataFloatLELittleEndian */
+}
 
 void LC_GetSizedWPData_Test_DataTypeError(void)
 {
@@ -1871,8 +1818,7 @@ void LC_GetSizedWPData_Test_DataTypeError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_GetSizedWPData_Test_DataTypeError */
+}
 
 void LC_ValidateWDT_Test_UnusedTableEntry(void)
 {
@@ -1902,8 +1848,7 @@ void LC_ValidateWDT_Test_UnusedTableEntry(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ValidateWDT_Test_UnusedTableEntry */
+}
 
 void LC_ValidateWDT_Test_AllDataTypes(void)
 {
@@ -1959,8 +1904,7 @@ void LC_ValidateWDT_Test_AllDataTypes(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string 2 matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateWDT_Test_UnusedTableEntry */
+}
 
 void LC_ValidateWDT_Test_AllOperatorIDs(void)
 {
@@ -2012,8 +1956,7 @@ void LC_ValidateWDT_Test_AllOperatorIDs(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string 2 matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateWDT_Test_UnusedTableEntry */
+}
 
 void LC_ValidateWDT_Test_InvalidDataType(void)
 {
@@ -2056,8 +1999,7 @@ void LC_ValidateWDT_Test_InvalidDataType(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateWDT_Test_InvalidDataType */
+}
 
 void LC_ValidateWDT_Test_InvalidOperator(void)
 {
@@ -2099,8 +2041,7 @@ void LC_ValidateWDT_Test_InvalidOperator(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateWDT_Test_InvalidOperator */
+}
 
 void LC_ValidateWDT_Test_BadMessageID(void)
 {
@@ -2142,8 +2083,7 @@ void LC_ValidateWDT_Test_BadMessageID(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateWDT_Test_BadMessageID */
+}
 
 void LC_ValidateWDT_Test_NaN(void)
 {
@@ -2184,8 +2124,7 @@ void LC_ValidateWDT_Test_NaN(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateWDT_Test_NaN */
+}
 
 void LC_ValidateWDT_Test_Inf(void)
 {
@@ -2227,8 +2166,7 @@ void LC_ValidateWDT_Test_Inf(void)
     strCmpResult = strncmp(ExpectedEventString2, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-} /* end LC_ValidateWDT_Test_Inf */
+}
 
 void LC_ValidateWDT_Test_FloatingPointPassed(void)
 {
@@ -2261,8 +2199,7 @@ void LC_ValidateWDT_Test_FloatingPointPassed(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ValidateWDT_Test_FloatingPointPassed */
+}
 
 void LC_ValidateWDT_Test_NonFloatingPointPassed(void)
 {
@@ -2295,8 +2232,7 @@ void LC_ValidateWDT_Test_NonFloatingPointPassed(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_ValidateWDT_Test_NonFloatingPointPassed */
+}
 
 void LC_ValidateWDT_Test_FloatBE(void)
 {
@@ -2342,8 +2278,7 @@ void LC_Uint32IsNAN_Test_True(void)
     UtAssert_True(Result == true, "Result == true");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_Uint32IsNAN_Test_True */
+}
 
 void LC_Uint32IsNAN_Test_False(void)
 {
@@ -2356,8 +2291,7 @@ void LC_Uint32IsNAN_Test_False(void)
     UtAssert_True(Result == false, "Result == false");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_Uint32IsNAN_Test_False */
+}
 
 void LC_Uint32IsInfinite_Test_True(void)
 {
@@ -2370,8 +2304,7 @@ void LC_Uint32IsInfinite_Test_True(void)
     UtAssert_True(Result == true, "Result == true");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_Uint32IsInfinite_Test_True */
+}
 
 void LC_Uint32IsInfinite_Test_False(void)
 {
@@ -2384,8 +2317,7 @@ void LC_Uint32IsInfinite_Test_False(void)
     UtAssert_True(Result == false, "Result == false");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_Uint32IsInfinite_Test_False */
+}
 
 void LC_Uint32IsInfinite_Test_False2(void)
 {
@@ -2398,8 +2330,7 @@ void LC_Uint32IsInfinite_Test_False2(void)
     UtAssert_True(Result == false, "Result == false");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-
-} /* end LC_Uint32IsInfinite_Test_False2 */
+}
 
 void UtTest_Setup(void)
 {
@@ -2542,6 +2473,3 @@ void UtTest_Setup(void)
 
     UtTest_Add(LC_Uint32IsInfinite_Test_False2, LC_Test_Setup, LC_Test_TearDown, "LC_Uint32IsInfinite_Test_False2");
 }
-/************************/
-/*  End of File Comment */
-/************************/

@@ -78,7 +78,9 @@ void LC_SampleAPs(uint16 StartIndex, uint16 EndIndex)
             LC_SampleSingleAP(TableIndex);
         }
     }
-} /* end LC_SampleAP */
+
+    return;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -265,7 +267,9 @@ void LC_SampleSingleAP(uint16 APNumber)
         }
 
     } /* end CurrentAPState if */
-} /* end LC_SampleSingleAP */
+
+    return;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -468,8 +472,7 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
     }
 
     return EvalResult;
-
-} /* end LC_EvaluateRPN */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -598,8 +601,7 @@ int32 LC_ValidateADT(void *TableData)
                       (int)UnusedCount);
 
     return TableResult;
-
-} /* end LC_ValidateADT */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -698,9 +700,4 @@ int32 LC_ValidateRPN(const uint16 *RPNPtr, int32 *IndexValue, int32 *StackDepthV
     }
 
     return Result;
-
-} /* end LC_ValidateRPN */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

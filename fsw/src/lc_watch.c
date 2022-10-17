@@ -60,8 +60,7 @@ uint32 LC_GetHashTableIndex(CFE_SB_MsgId_t MessageID)
     ** than 8 elements in its linked list.
     */
     return ((uint32)(CFE_SB_MsgIdToValue(MessageID) & LC_HASH_TABLE_MASK));
-
-} /* End of LC_GetHashTableIndex() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -131,7 +130,9 @@ void LC_CreateHashTable(void)
             LastMessageID = MessageID;
         }
     }
-} /* End of LC_CreateHashTable() */
+
+    return;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -233,9 +234,9 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
     }
 
     /* Return pointer to last link in watchpoint linked list */
-    return WatchPtLink;
 
-} /* End of LC_AddWatchpoint() */
+    return WatchPtLink;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -320,7 +321,9 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID));
         }
     }
-} /* end LC_CheckMsgForWPs */
+
+    return;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -424,7 +427,9 @@ void LC_ProcessWP(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr, CFE_TIME_Sys
         }
 
     } /* end SizedDataValid if */
-} /* end LC_ProcessWP */
+
+    return;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -532,8 +537,7 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
     }
 
     return EvalResult;
-
-} /* end LC_OperatorCompare */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -586,8 +590,7 @@ uint8 LC_SignedCompare(uint16 WatchIndex, int32 WPValue, int32 CompareValue)
     }
 
     return EvalResult;
-
-} /* end LC_SignedCompare */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -640,8 +643,7 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex, uint32 WPValue, uint32 CompareValue)
     }
 
     return EvalResult;
-
-} /* end LC_UnsignedCompare */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -727,8 +729,7 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
     }
 
     return EvalResult;
-
-} /* end LC_FloatCompare */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -812,8 +813,7 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
     }
 
     return OffsetValid;
-
-} /* end LC_WPOffsetValid */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -924,9 +924,9 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
     /*
     ** Return success flag
     */
-    return Success;
 
-} /* end LC_GetSizedWPData */
+    return Success;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1060,8 +1060,7 @@ int32 LC_ValidateWDT(void *TableData)
                       (int)UnusedCount);
 
     return TableResult;
-
-} /* end LC_ValidateWDT */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1095,8 +1094,7 @@ bool LC_Uint32IsNAN(uint32 Data)
     }
 
     return Result;
-
-} /* end LC_Uint32IsNAN */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -1131,9 +1129,4 @@ bool LC_Uint32IsInfinite(uint32 Data)
     }
 
     return Result;
-
-} /* end LC_Uint32IsInfinite */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

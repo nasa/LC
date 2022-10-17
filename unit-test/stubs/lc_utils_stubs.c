@@ -96,13 +96,13 @@ int32 LC_UpdateTaskCDS(void)
  */
 bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
 {
-    // UT_GenStub_SetupReturnBuffer(LC_VerifyMsgLength, bool);
+    /* UT_GenStub_SetupReturnBuffer(LC_VerifyMsgLength, bool); */
 
-    // UT_GenStub_AddParam(LC_VerifyMsgLength, const CFE_MSG_Message_t* , MsgPtr);
-    // UT_GenStub_AddParam(LC_VerifyMsgLength, size_t , ExpectedLength);
+    /* UT_GenStub_AddParam(LC_VerifyMsgLength, const CFE_MSG_Message_t* , MsgPtr); */
+    /* UT_GenStub_AddParam(LC_VerifyMsgLength, size_t , ExpectedLength); */
 
-    // UT_GenStub_Execute(LC_VerifyMsgLength, Basic, NULL);
+    /* UT_GenStub_Execute(LC_VerifyMsgLength, Basic, NULL); */
 
-    // return UT_GenStub_GetReturnValue(LC_VerifyMsgLength, bool);
+    /* return UT_GenStub_GetReturnValue(LC_VerifyMsgLength, bool); */
     return UT_DEFAULT_IMPL(LC_VerifyMsgLength) != 0;
 }

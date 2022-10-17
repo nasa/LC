@@ -123,7 +123,6 @@ void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr)
  */
 void LC_ResetCounters(void)
 {
-
     UT_GenStub_Execute(LC_ResetCounters, Basic, NULL);
 }
 

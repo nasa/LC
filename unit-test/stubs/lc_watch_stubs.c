@@ -84,7 +84,6 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
  */
 void LC_CreateHashTable(void)
 {
-
     UT_GenStub_Execute(LC_CreateHashTable, Basic, NULL);
 }
 

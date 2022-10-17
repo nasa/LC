@@ -2209,7 +2209,3 @@ LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
         .ResultAgeWhenStale         = 0,
         .ComparisonValue.Unsigned32 = 0,
     }}; /* end LC_DefaultWDT */
-
-/************************/
-/*  End of File Comment */
-/************************/

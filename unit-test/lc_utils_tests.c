@@ -70,8 +70,7 @@ void LC_VerifyMsgLength_Test_HKRequestLengthError(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_VerifyMsgLength_Test_HKRequestLengthError */
+}
 
 void LC_VerifyMsgLength_Test_APSampleLengthError(void)
 {
@@ -106,8 +105,7 @@ void LC_VerifyMsgLength_Test_APSampleLengthError(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_VerifyMsgLength_Test_APSampleLengthError */
+}
 
 void LC_VerifyMsgLength_Test_GenericLengthError(void)
 {
@@ -144,8 +142,7 @@ void LC_VerifyMsgLength_Test_GenericLengthError(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_VerifyMsgLength_Test_GenericLengthError */
+}
 
 void LC_VerifyMsgLength_Test_Nominal(void)
 {
@@ -170,8 +167,7 @@ void LC_VerifyMsgLength_Test_Nominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_VerifyMsgLength_Test_Nominal */
+}
 
 void LC_ManageTables_Test_Nominal(void)
 {
@@ -216,8 +212,7 @@ void LC_ManageTables_Test_InfoUpdated(void)
 
     UtAssert_INT32_EQ(call_count_LC_ResetResultsWP, 1);
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 1);
-
-} /* end LC_ManageTables_Test_InfoUpdated */
+}
 
 void LC_ManageTables_Test_WDTGetAddressError(void)
 {
@@ -249,8 +244,7 @@ void LC_ManageTables_Test_WDTGetAddressError(void)
 
     UtAssert_INT32_EQ(call_count_LC_ResetResultsWP, 0);
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 0);
-
-} /* end LC_ManageTables_Test_WDTGetAddressError */
+}
 
 void LC_ManageTables_Test_ADTGetAddressError(void)
 {
@@ -280,8 +274,7 @@ void LC_ManageTables_Test_ADTGetAddressError(void)
     uint8 call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
 
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 0);
-
-} /* end LC_ManageTables_Test_ADTGetAddressError */
+}
 
 void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
 {
@@ -308,8 +301,7 @@ void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_UpdateTaskCDS_Test_UpdateWatchpointError */
+}
 
 void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
 {
@@ -335,8 +327,7 @@ void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_UpdateTaskCDS_Test_UpdateActionpointError */
+}
 
 void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
 {
@@ -364,8 +355,7 @@ void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-} /* end LC_UpdateTaskCDS_Test_UpdateAppDataError */
+}
 
 void LC_UpdateTaskCDS_Test_Nominal(void)
 {
@@ -380,8 +370,7 @@ void LC_UpdateTaskCDS_Test_Nominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-} /* end LC_UpdateTaskCDS_Test_Nominal */
+}
 
 void LC_PerformMaintenance_Test_NominalNoCDS(void)
 {
