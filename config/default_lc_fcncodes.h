@@ -57,7 +57,7 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
- *       - Error specific event message #LC_LEN_ERR_EID
+ *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *
  *  \par Criticality
  *       None
@@ -79,7 +79,7 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdCount will be cleared
- *       - The #LC_RESET_DBG_EID debug event message will be
+ *       - The #LC_RESET_INF_EID debug event message will be
  *         generated when the command is executed
  *
  *  \par Error Conditions
@@ -88,7 +88,7 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
- *       - Error specific event message #LC_LEN_ERR_EID
+ *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *
  *  \par Criticality
  *       None
@@ -121,7 +121,7 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
- *       - Error specific event message #LC_LEN_ERR_EID
+ *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_LCSTATE_ERR_EID
  *
  *  \par Criticality
@@ -157,7 +157,7 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
- *       - Error specific event message #LC_LEN_ERR_EID
+ *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_APSTATE_NEW_ERR_EID
  *       - Error specific event message #LC_APSTATE_APNUM_ERR_EID
  *       - Error specific event message #LC_APSTATE_CURR_ERR_EID
@@ -193,7 +193,7 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
- *       - Error specific event message #LC_LEN_ERR_EID
+ *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_APOFF_APNUM_ERR_EID
  *       - Error specific event message #LC_APOFF_CURR_ERR_EID
  *
@@ -227,7 +227,7 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
- *       - Error specific event message #LC_LEN_ERR_EID
+ *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_APSTATS_APNUM_ERR_EID
  *
  *  \par Criticality
@@ -261,7 +261,7 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
- *       - Error specific event message #LC_LEN_ERR_EID
+ *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_WPSTATS_WPNUM_ERR_EID
  *
  *  \par Criticality
