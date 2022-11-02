@@ -275,8 +275,8 @@ typedef struct
     uint8 APResults[LC_HKAR_NUM_BYTES]; /**< \brief Packed actionpoint results data, 4 bits per actionpoint */
 
     uint16 PassiveRTSExecCount; /**< \brief Total count of RTS sequences not initiated because the LC state is
-                                 *          set to #LC_STATE_PASSIVE or the state of the actionpoint that failed
-                                 *          is set to #LC_APSTATE_PASSIVE
+                                 *          set to #LC_AppState_PASSIVE or the state of the actionpoint that failed
+                                 *          is set to #LC_ActionPointState_PASSIVE
                                  */
 
     uint16 WPsInUse;  /**< \brief How many watchpoints are currently in effect */

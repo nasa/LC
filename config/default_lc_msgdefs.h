@@ -40,29 +40,39 @@
 #include "lc_fcncodes.h"
 
 /************************************************************************
- * Macro Definitions
+ * Type Definitions
  ************************************************************************/
 
 /**
  * \name LC Application States
  * \{
  */
-#define LC_STATE_ACTIVE   1 /**< \brief LC Application State Active */
-#define LC_STATE_PASSIVE  2 /**< \brief LC Application State Pasive */
-#define LC_STATE_DISABLED 3 /**< \brief LC Application State Disabled */
-#define LC_STATE_FROM_CDS 4 /**< \brief Used for reset processing, not valid state */
+typedef enum LC_AppState_Enum
+{
+    LC_AppState_ACTIVE = 1, /**< \brief LC Application State Active */
+    LC_AppState_PASSIVE,    /**< \brief LC Application State Pasive */
+    LC_AppState_DISABLED,   /**< \brief LC Application State Disabled */
+    LC_AppState_FROM_CDS    /**< \brief Used for reset processing, not valid state */
+} LC_AppState_Enum_t;
 /**\}*/
 
 /**
  * \name Actionpoint States
  * \{
  */
-#define LC_APSTATE_NOT_USED 0xFF /**< \brief Actionpoint unused, not valid command argument */
-#define LC_APSTATE_ACTIVE   1    /**< \brief Actionpoint state active */
-#define LC_APSTATE_PASSIVE  2    /**< \brief Actionpoint state passive */
-#define LC_APSTATE_DISABLED 3    /**< \brief Actionpoint state disabled */
-#define LC_APSTATE_PERMOFF  4    /**< \brief Actionpoint state permanently off, see #LC_SET_AP_PERM_OFF_CC */
+typedef enum LC_ActionPointState_Enum
+{
+    LC_ActionPointState_ACTIVE = 1, /**< \brief Actionpoint state active */
+    LC_ActionPointState_PASSIVE,    /**< \brief Actionpoint state passive */
+    LC_ActionPointState_DISABLED,   /**< \brief Actionpoint state disabled */
+    LC_ActionPointState_PERMOFF,    /**< \brief Actionpoint state permanently off, see #LC_SET_AP_PERM_OFF_CC */
+    LC_ActionPoint_NOT_USED = 255   /**< \brief Actionpoint unused, not valid command argument */
+} LC_ActionPointState_Enum_t;
 /**\}*/
+
+/************************************************************************
+ * Macro Definitions
+ ************************************************************************/
 
 /**
  * \name Special Values for Commands
@@ -118,7 +128,8 @@
 /**\}*/
 
 #ifndef LC_OMIT_DEPRECATED
-#define LC_ACTION_NOT_USED LC_APSTATE_NOT_USED
+#define LC_SET_AP_PERMOFF_CC LC_SET_AP_PERM_OFF_CC
+#define LC_ACTION_NOT_USED   LC_ActionPoint_NOT_USED
 #endif
 
 #endif
