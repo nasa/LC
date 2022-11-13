@@ -40,6 +40,8 @@ uint8 call_count_CFE_EVS_SendEvent;
 void LC_ManageTables_Test_Nominal(void)
 {
     int32 Result;
+    uint8 call_count_LC_ResetResultsWP;
+    uint8 call_count_LC_ResetResultsAP;
 
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
@@ -52,8 +54,8 @@ void LC_ManageTables_Test_Nominal(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 
-    uint8 call_count_LC_ResetResultsWP = UT_GetStubCount(UT_KEY(LC_ResetResultsWP));
-    uint8 call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
+    call_count_LC_ResetResultsWP = UT_GetStubCount(UT_KEY(LC_ResetResultsWP));
+    call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
 
     UtAssert_INT32_EQ(call_count_LC_ResetResultsWP, 0);
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 0);
@@ -62,6 +64,8 @@ void LC_ManageTables_Test_Nominal(void)
 void LC_ManageTables_Test_InfoUpdated(void)
 {
     int32 Result;
+    uint8 call_count_LC_ResetResultsWP;
+    uint8 call_count_LC_ResetResultsAP;
 
     /* Set to satisfy all instances of condition "Result == CFE_TBL_INFO_UPDATED" */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_TBL_INFO_UPDATED);
@@ -75,8 +79,8 @@ void LC_ManageTables_Test_InfoUpdated(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 
-    uint8 call_count_LC_ResetResultsWP = UT_GetStubCount(UT_KEY(LC_ResetResultsWP));
-    uint8 call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
+    call_count_LC_ResetResultsWP = UT_GetStubCount(UT_KEY(LC_ResetResultsWP));
+    call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
 
     UtAssert_INT32_EQ(call_count_LC_ResetResultsWP, 1);
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 1);
@@ -87,6 +91,8 @@ void LC_ManageTables_Test_WDTGetAddressError(void)
     int32 Result;
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    uint8 call_count_LC_ResetResultsWP;
+    uint8 call_count_LC_ResetResultsAP;
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting WDT address, RC=0x%%08X");
 
@@ -107,8 +113,8 @@ void LC_ManageTables_Test_WDTGetAddressError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    uint8 call_count_LC_ResetResultsWP = UT_GetStubCount(UT_KEY(LC_ResetResultsWP));
-    uint8 call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
+    call_count_LC_ResetResultsWP = UT_GetStubCount(UT_KEY(LC_ResetResultsWP));
+    call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
 
     UtAssert_INT32_EQ(call_count_LC_ResetResultsWP, 0);
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 0);
@@ -119,6 +125,7 @@ void LC_ManageTables_Test_ADTGetAddressError(void)
     int32 Result;
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    uint8 call_count_LC_ResetResultsAP;
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting ADT address, RC=0x%%08X");
 
@@ -139,7 +146,7 @@ void LC_ManageTables_Test_ADTGetAddressError(void)
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    uint8 call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
+    call_count_LC_ResetResultsAP = UT_GetStubCount(UT_KEY(LC_ResetResultsAP));
 
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 0);
 }
