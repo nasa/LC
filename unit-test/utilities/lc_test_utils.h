@@ -36,10 +36,10 @@ extern LC_AppData_t  LC_AppData;
 extern LC_OperData_t LC_OperData;
 
 /* Global table variables for table pointers contained in LC_OperData */
-LC_WDTEntry_t WDTable[LC_MAX_WATCHPOINTS];
-LC_ADTEntry_t ADTable[LC_MAX_ACTIONPOINTS];
-LC_WRTEntry_t WRTable[LC_MAX_WATCHPOINTS];
-LC_ARTEntry_t ARTable[LC_MAX_ACTIONPOINTS];
+extern LC_WDTEntry_t WDTable[LC_MAX_WATCHPOINTS];
+extern LC_ADTEntry_t ADTable[LC_MAX_ACTIONPOINTS];
+extern LC_WRTEntry_t WRTable[LC_MAX_WATCHPOINTS];
+extern LC_ARTEntry_t ARTable[LC_MAX_ACTIONPOINTS];
 
 /*
  * Global context structures

@@ -34,6 +34,11 @@
 #include "utassert.h"
 #include "utstubs.h"
 
+LC_WDTEntry_t WDTable[LC_MAX_WATCHPOINTS];
+LC_ADTEntry_t ADTable[LC_MAX_ACTIONPOINTS];
+LC_WRTEntry_t WRTable[LC_MAX_WATCHPOINTS];
+LC_ARTEntry_t ARTable[LC_MAX_ACTIONPOINTS];
+
 #define UT_MAX_SENDEVENT_DEPTH 4
 CFE_EVS_SendEvent_context_t    context_CFE_EVS_SendEvent[UT_MAX_SENDEVENT_DEPTH];
 CFE_ES_WriteToSysLog_context_t context_CFE_ES_WriteToSysLog;
