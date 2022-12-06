@@ -37,16 +37,6 @@
  ************************************************************************/
 
 /**
- * \name LC Table Name Strings
- * \{
- */
-#define LC_WDT_TABLENAME "LC_WDT"
-#define LC_ADT_TABLENAME "LC_ADT"
-#define LC_WRT_TABLENAME "LC_WRT"
-#define LC_ART_TABLENAME "LC_ART"
-/**\}*/
-
-/**
  * \name LC CDS Buffer Strings
  * \{
  */
