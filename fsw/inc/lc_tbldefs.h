@@ -23,7 +23,11 @@
  *   constant definitions.
  *
  * @note
- *   DO NOT PUT ANY TYPEDEFS OR STRUCTURE DEFINITIONS IN THIS FILE!
+ *   These Macro definitions have been put in this file (instead of
+ *   lc_tbl.h) so this file can be included directly into ASIST build
+ *   test scripts. ASIST RDL files can accept C language \#defines but
+ *   can't handle type definitions. As a result: DO NOT PUT ANY
+ *   TYPEDEFS OR STRUCTURE DEFINITIONS IN THIS FILE!
  *   ADD THEM TO lc_tbl.h IF NEEDED!
  */
 #ifndef LC_TBLDEFS_H

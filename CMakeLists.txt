@@ -1,9 +1,5 @@
 project(CFS_LC C)
 
-include_directories(fsw/src)
-include_directories(fsw/mission_inc)
-include_directories(fsw/platform_inc)
-
 set(APP_SRC_FILES
   fsw/src/lc_custom.c
   fsw/src/lc_app.c
@@ -15,6 +11,9 @@ set(APP_SRC_FILES
 
 # Create the app module
 add_cfe_app(lc ${APP_SRC_FILES})
+
+# This permits direct access to public headers in the fsw/inc directory
+target_include_directories(lc PUBLIC fsw/inc)
 
 set(APP_TABLE_FILES
   fsw/tables/lc_def_wdt.c
