@@ -24,7 +24,7 @@
 #ifndef LC_PLATFORM_CFG_H
 #define LC_PLATFORM_CFG_H
 
-#include "lc_msgdefs.h"
+#include <lc_msgdefs.h>
 
 /**
  * \defgroup cfslcplatformcfg CFS Limit Checker Platform Configuration
