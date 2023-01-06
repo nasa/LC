@@ -26,7 +26,7 @@
 #ifndef LC_EXTERN_TYPEDEFS_H
 #define LC_EXTERN_TYPEDEFS_H
 
-#include "cfe.h"
+#include <cfe.h>
 
 /**
  * \name LC Table Name Strings

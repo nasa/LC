@@ -32,10 +32,10 @@
 /*************************************************************************
  * Includes
  *************************************************************************/
-#include "cfe.h"
-#include "lc_platform_cfg.h"
-#include "lc_tbldefs.h"
-#include "lc_extern_typedefs.h"
+#include <cfe.h>
+#include <lc_platform_cfg.h>
+#include <lc_tbldefs.h>
+#include <lc_extern_typedefs.h>
 
 /*************************************************************************
  * Type Definitions
