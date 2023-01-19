@@ -230,7 +230,7 @@ void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
 
     LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS    = 5;
     LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount = LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS;
-    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", 50);
+    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", sizeof(LC_OperData.ADTPtr[APNumber].EventText));
 
     /* Execute the function being tested */
     LC_SampleSingleAP(APNumber);
@@ -274,7 +274,7 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
 
     LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS    = 5;
     LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount = LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS;
-    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", 50);
+    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", sizeof(LC_OperData.ADTPtr[APNumber].EventText));
 
     /* Execute the function being tested */
     LC_SampleSingleAP(APNumber);
@@ -318,7 +318,7 @@ void LC_SampleSingleAP_Test_APFailWhilePassive(void)
 
     LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS    = 5;
     LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount = LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS;
-    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", 50);
+    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", sizeof(LC_OperData.ADTPtr[APNumber].EventText));
 
     LC_OperData.ADTPtr[APNumber].MaxPassiveEvents = 5;
     LC_OperData.ARTPtr[APNumber].PassiveAPCount   = LC_OperData.ADTPtr[APNumber].MaxPassiveEvents - 1;
@@ -363,7 +363,7 @@ void LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent(void)
 
     LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS    = 5;
     LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount = LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS;
-    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", 50);
+    strncpy(LC_OperData.ADTPtr[APNumber].EventText, "Event Message", sizeof(LC_OperData.ADTPtr[APNumber].EventText));
 
     LC_OperData.ADTPtr[APNumber].MaxPassiveEvents = 5;
     LC_OperData.ARTPtr[APNumber].PassiveAPCount   = LC_OperData.ADTPtr[APNumber].MaxPassiveEvents + 1;
