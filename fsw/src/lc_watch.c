@@ -32,6 +32,8 @@
 #include "lc_perfids.h"
 #include "cfe_platform_cfg.h"
 
+#include <math.h>
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* LC_GetHashTableIndex() - convert messageID to hash table index  */
@@ -472,7 +474,7 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
             WatchpointValue.Unsigned32 = ProcessedWPData;
             break;
     }
-    ComparisonValue = LC_OperData.WDTPtr[WatchIndex].ComparisonValue;
+    memcpy(&ComparisonValue, &LC_OperData.WDTPtr[WatchIndex].ComparisonValue, sizeof(LC_MultiType_t));
 
     /*
     ** Handle the comparison appropriately depending on the data type
@@ -660,6 +662,9 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
 
     OperatorID = LC_OperData.WDTPtr[WatchIndex].OperatorID;
 
+    memcpy(&WPFloat, WPMultiType, sizeof(float));
+    memcpy(&CompareFloat, CompareMultiType, sizeof(float));
+
     /*
     ** Before we do any comparison, check the watchpoint value for
     ** a floating point NAN (not-a-number). NAN comparisons don't
@@ -672,11 +677,8 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
     ** Definition Table (WDT) and any weird values should get nailed
     ** during table validation.
     */
-    if (LC_Uint32IsNAN(WPMultiType->Unsigned32) == false)
+    if (!isnan(WPFloat))
     {
-        WPFloat      = WPMultiType->Float32;
-        CompareFloat = CompareMultiType->Float32;
-
         switch (OperatorID)
         {
             case LC_OPER_LE:
@@ -723,7 +725,7 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
     {
         CFE_EVS_SendEvent(LC_WP_NAN_ERR_EID, CFE_EVS_EventType_ERROR,
                           "WP data value is a float NAN: WP = %d, Value = 0x%08X", WatchIndex,
-                          (unsigned int)WPMultiType->Unsigned32);
+                          *((unsigned int *)WPMultiType));
 
         EvalResult = LC_WATCH_ERROR;
     }
@@ -944,7 +946,8 @@ int32 LC_ValidateWDT(void *TableData)
     uint8          DataType;
     uint8          OperatorID;
     CFE_SB_MsgId_t MessageID;
-    uint32         CompareValue;
+    uint32         PrintableBits;
+    float          FloatValue;
 
     int32 GoodCount   = 0;
     int32 BadCount    = 0;
@@ -955,10 +958,9 @@ int32 LC_ValidateWDT(void *TableData)
     */
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        DataType     = TableArray[TableIndex].DataType;
-        OperatorID   = TableArray[TableIndex].OperatorID;
-        MessageID    = TableArray[TableIndex].MessageID;
-        CompareValue = TableArray[TableIndex].ComparisonValue.Unsigned32;
+        DataType   = TableArray[TableIndex].DataType;
+        OperatorID = TableArray[TableIndex].OperatorID;
+        MessageID  = TableArray[TableIndex].MessageID;
 
         if (DataType == LC_WATCH_NOT_USED)
         {
@@ -998,16 +1000,18 @@ int32 LC_ValidateWDT(void *TableData)
         }
         else if ((DataType == LC_DATA_FLOAT_BE) || (DataType == LC_DATA_FLOAT_LE))
         {
+            memcpy(&FloatValue, &TableArray[TableIndex].ComparisonValue, sizeof(FloatValue));
+
             /*
             ** Check the floating point comparison value for
             ** NAN (not-a-number) or infinite values
             */
-            if (LC_Uint32IsNAN(CompareValue) == true)
+            if (isnan(FloatValue))
             {
                 BadCount++;
                 EntryResult = LC_WDTVAL_ERR_FPNAN;
             }
-            else if (LC_Uint32IsInfinite(CompareValue) == true)
+            else if (!isfinite(FloatValue))
             {
                 BadCount++;
                 EntryResult = LC_WDTVAL_ERR_FPINF;
@@ -1035,9 +1039,10 @@ int32 LC_ValidateWDT(void *TableData)
         {
             if ((EntryResult == LC_WDTVAL_ERR_FPNAN) || (EntryResult == LC_WDTVAL_ERR_FPINF))
             {
+                memcpy(&PrintableBits, &TableArray[TableIndex].ComparisonValue, sizeof(PrintableBits));
                 CFE_EVS_SendEvent(LC_WDTVAL_FPERR_EID, CFE_EVS_EventType_ERROR,
                                   "WDT verify float err: WP = %d, Err = %d, ComparisonValue = 0x%08X", (int)TableIndex,
-                                  (int)EntryResult, (unsigned int)CompareValue);
+                                  (int)EntryResult, (unsigned int)PrintableBits);
             }
             else
             {
@@ -1060,73 +1065,4 @@ int32 LC_ValidateWDT(void *TableData)
                       (int)UnusedCount);
 
     return TableResult;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Test if a 32 bit integer's value would be a floating point      */
-/* NAN (not-a-number). Assumes IEEE-754 floating point format      */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-bool LC_Uint32IsNAN(uint32 Data)
-{
-    bool   Result = false;
-    uint32 Exponent;
-    uint32 Fraction;
-
-    /*
-    ** Check if the exponent field is all 1's
-    */
-    Exponent = Data & LC_IEEE_EXPONENT_MASK;
-
-    if (Exponent == LC_IEEE_EXPONENT_MASK)
-    {
-        /*
-        ** If the fraction field is also non-zero,
-        ** it's a NAN
-        */
-        Fraction = Data & LC_IEEE_FRACTION_MASK;
-
-        if (Fraction > 0)
-        {
-            Result = true;
-        }
-    }
-
-    return Result;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
-/* Test if a 32 bit integer's value would be an infinite           */
-/* (positive or negative) floating point number. Assumes           */
-/* IEEE-754 floating point format                                  */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-bool LC_Uint32IsInfinite(uint32 Data)
-{
-    bool   Result = false;
-    uint32 Exponent;
-    uint32 Fraction;
-
-    /*
-    ** Check if the exponent field is all 1's
-    */
-    Exponent = Data & LC_IEEE_EXPONENT_MASK;
-
-    if (Exponent == LC_IEEE_EXPONENT_MASK)
-    {
-        /*
-        ** If the fraction field is also zero,
-        ** it's infinite
-        */
-        Fraction = Data & LC_IEEE_FRACTION_MASK;
-
-        if (Fraction == 0)
-        {
-            Result = true;
-        }
-    }
-
-    return Result;
 }

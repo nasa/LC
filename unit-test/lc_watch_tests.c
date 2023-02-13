@@ -2267,71 +2267,6 @@ void LC_ValidateWDT_Test_FloatBE(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_Uint32IsNAN_Test_True(void)
-{
-    bool Result;
-
-    /* Execute the function being tested */
-    Result = LC_Uint32IsNAN(0x7F8FFFFF);
-
-    /* Verify results */
-    UtAssert_True(Result == true, "Result == true");
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-}
-
-void LC_Uint32IsNAN_Test_False(void)
-{
-    bool Result;
-
-    /* Execute the function being tested */
-    Result = LC_Uint32IsNAN(0x10000000);
-
-    /* Verify results */
-    UtAssert_True(Result == false, "Result == false");
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-}
-
-void LC_Uint32IsInfinite_Test_True(void)
-{
-    bool Result;
-
-    /* Execute the function being tested */
-    Result = LC_Uint32IsInfinite(0x7F800000);
-
-    /* Verify results */
-    UtAssert_True(Result == true, "Result == true");
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-}
-
-void LC_Uint32IsInfinite_Test_False(void)
-{
-    bool Result;
-
-    /* Execute the function being tested */
-    Result = LC_Uint32IsInfinite(0x10000000);
-
-    /* Verify results */
-    UtAssert_True(Result == false, "Result == false");
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-}
-
-void LC_Uint32IsInfinite_Test_False2(void)
-{
-    bool Result;
-
-    /* Execute the function being tested */
-    Result = LC_Uint32IsInfinite(0x7F800002);
-
-    /* Verify results */
-    UtAssert_True(Result == false, "Result == false");
-
-    UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
-}
-
 void UtTest_Setup(void)
 {
     UtTest_Add(LC_CreateHashTable_Test, LC_Test_Setup, LC_Test_TearDown, "LC_CreateHashTable_Test");
@@ -2464,12 +2399,4 @@ void UtTest_Setup(void)
                "LC_ValidateWDT_Test_AllOperatorIDs");
 
     UtTest_Add(LC_ValidateWDT_Test_FloatBE, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateWDT_Test_FloatBE");
-
-    UtTest_Add(LC_Uint32IsNAN_Test_True, LC_Test_Setup, LC_Test_TearDown, "LC_Uint32IsNAN_Test_True");
-    UtTest_Add(LC_Uint32IsNAN_Test_False, LC_Test_Setup, LC_Test_TearDown, "LC_Uint32IsNAN_Test_False");
-
-    UtTest_Add(LC_Uint32IsInfinite_Test_True, LC_Test_Setup, LC_Test_TearDown, "LC_Uint32IsInfinite_Test_True");
-    UtTest_Add(LC_Uint32IsInfinite_Test_False, LC_Test_Setup, LC_Test_TearDown, "LC_Uint32IsInfinite_Test_False");
-
-    UtTest_Add(LC_Uint32IsInfinite_Test_False2, LC_Test_Setup, LC_Test_TearDown, "LC_Uint32IsInfinite_Test_False2");
 }
