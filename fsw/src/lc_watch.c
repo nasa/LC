@@ -851,36 +851,36 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
     switch (LC_OperData.WDTPtr[WatchIndex].DataType)
     {
         case LC_DATA_BYTE:
-            TempBuffer.Unsigned8 = *WPDataPtr;
-            ConvBuffer.Signed32  = TempBuffer.Signed8; /* Extend signed 8 bit value to 32 bits */
+            TempBuffer.Signed8 = *WPDataPtr;
+            *SizedDataPtr      = TempBuffer.Signed8; /* Extend signed 8 bit value to 32 bits */
             break;
 
         case LC_DATA_UBYTE:
-            ConvBuffer.Unsigned32 = *WPDataPtr; /* Extend unsigned 8 bit value to 32 bits */
+            *SizedDataPtr = *WPDataPtr; /* Extend unsigned 8 bit value to 32 bits */
             break;
 
         case LC_DATA_WORD_BE:
             ConvBuffer.Unsigned16 = LC_16BIT_BE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(int16));
-            ConvBuffer.Signed32 = TempBuffer.Signed16; /* Extend signed 16 bit value to 32 bits */
+            *SizedDataPtr = TempBuffer.Signed16; /* Extend signed 16 bit value to 32 bits */
             break;
 
         case LC_DATA_WORD_LE:
             ConvBuffer.Unsigned16 = LC_16BIT_LE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(int16));
-            ConvBuffer.Signed32 = TempBuffer.Signed16; /* Extend signed 16 bit value to 32 bits */
+            *SizedDataPtr = TempBuffer.Signed16; /* Extend signed 16 bit value to 32 bits */
             break;
 
         case LC_DATA_UWORD_BE:
             ConvBuffer.Unsigned16 = LC_16BIT_BE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint16));
-            ConvBuffer.Unsigned32 = TempBuffer.Unsigned16; /* Extend unsigned 16 bit value to 32 bits */
+            *SizedDataPtr = TempBuffer.Unsigned16; /* Extend unsigned 16 bit value to 32 bits */
             break;
 
         case LC_DATA_UWORD_LE:
             ConvBuffer.Unsigned16 = LC_16BIT_LE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint16));
-            ConvBuffer.Unsigned32 = TempBuffer.Unsigned16; /* Extend unsigned 16 bit value to 32 bits */
+            *SizedDataPtr = TempBuffer.Unsigned16; /* Extend unsigned 16 bit value to 32 bits */
             break;
 
         case LC_DATA_DWORD_BE:
@@ -888,7 +888,7 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
         case LC_DATA_FLOAT_BE:
             ConvBuffer.Unsigned32 = LC_32BIT_BE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint32));
-            ConvBuffer.Unsigned32 = TempBuffer.Unsigned32; /* Straight copy - no extension (signed or unsigned) */
+            *SizedDataPtr = TempBuffer.Unsigned32; /* Straight copy - no extension (signed or unsigned) */
             break;
 
         case LC_DATA_DWORD_LE:
@@ -896,7 +896,7 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
         case LC_DATA_FLOAT_LE:
             ConvBuffer.Unsigned32 = LC_32BIT_LE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint32));
-            ConvBuffer.Unsigned32 = TempBuffer.Unsigned32; /* Straight copy - no extension (signed or unsigned) */
+            *SizedDataPtr = TempBuffer.Unsigned32; /* Straight copy - no extension (signed or unsigned) */
             break;
 
         default:
@@ -911,20 +911,15 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
             LC_OperData.WRTPtr[WatchIndex].WatchResult      = LC_WATCH_ERROR;
             LC_OperData.WRTPtr[WatchIndex].CountdownToStale = 0;
 
-            Success = false;
+            Success       = false;
+            *SizedDataPtr = 0;
             break;
 
     } /* end switch */
 
     /*
-    ** Set result value
-    */
-    *SizedDataPtr = ConvBuffer.Unsigned32;
-
-    /*
     ** Return success flag
     */
-
     return Success;
 }
 
