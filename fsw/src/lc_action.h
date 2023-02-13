@@ -163,7 +163,7 @@ uint8 LC_EvaluateRPN(uint16 APNumber);
  *                                  stack depth value if an error is detected
  *
  *  \return Actionpoint definition table reverse polish notation validation status
- *  \retval #LC_ADTVAL_NO_ERR  \copydoc LC_ADTVAL_NO_ERR
+ *  \retval #LC_ADTVAL_ERR_NONE  \copydoc LC_ADTVAL_ERR_NONE
  *  \retval #LC_ADTVAL_ERR_RPN \copydoc LC_ADTVAL_ERR_RPN
  *
  *  \sa #LC_ValidateADT

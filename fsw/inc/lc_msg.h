@@ -87,7 +87,7 @@ typedef struct
 /**
  *  \brief Set AP (Actionpoint) Permanently Off
  *
- *  For command details see #LC_SET_AP_PERMOFF_CC
+ *  For command details see #LC_SET_AP_PERM_OFF_CC
  */
 typedef struct
 {

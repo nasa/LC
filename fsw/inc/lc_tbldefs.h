@@ -49,22 +49,22 @@
  * \name Watchpoint Definition Table (WDT) DataType Enumerated Types
  * \{
  */
-#define LC_WATCH_NOT_USED 0xFF /**< \brief Use for empty entries */
-#define LC_DATA_BYTE      1    /**< \brief 8 bit signed byte */
-#define LC_DATA_UBYTE     2    /**< \brief 8 bit unsigned byte */
-#define LC_DATA_WORD_BE   3    /**< \brief 16 bit signed word big endian byte order */
-#define LC_DATA_WORD_LE   4    /**< \brief 16 bit signed word little endian byte order */
-#define LC_DATA_UWORD_BE  5    /**< \brief 16 bit unsigned word big endian byte order */
-#define LC_DATA_UWORD_LE  6    /**< \brief 16 bit unsigned word little endian byte order */
-#define LC_DATA_DWORD_BE  7    /**< \brief 32 bit signed double word big endian byte order */
-#define LC_DATA_DWORD_LE  8    /**< \brief 32 bit signed double word little endian byte order */
-#define LC_DATA_UDWORD_BE 9    /**< \brief 32 bit unsigned double word big endian byte order */
-#define LC_DATA_UDWORD_LE 10   /**< \brief 32 bit unsigned double word little endian byte order */
-#define LC_DATA_FLOAT_BE                                                   \
+#define LC_DATA_WATCH_NOT_USED  0xFF /**< \brief Use for empty entries */
+#define LC_DATA_WATCH_BYTE      1    /**< \brief 8 bit signed byte */
+#define LC_DATA_WATCH_UBYTE     2    /**< \brief 8 bit unsigned byte */
+#define LC_DATA_WATCH_WORD_BE   3    /**< \brief 16 bit signed word big endian byte order */
+#define LC_DATA_WATCH_WORD_LE   4    /**< \brief 16 bit signed word little endian byte order */
+#define LC_DATA_WATCH_UWORD_BE  5    /**< \brief 16 bit unsigned word big endian byte order */
+#define LC_DATA_WATCH_UWORD_LE  6    /**< \brief 16 bit unsigned word little endian byte order */
+#define LC_DATA_WATCH_DWORD_BE  7    /**< \brief 32 bit signed double word big endian byte order */
+#define LC_DATA_WATCH_DWORD_LE  8    /**< \brief 32 bit signed double word little endian byte order */
+#define LC_DATA_WATCH_UDWORD_BE 9    /**< \brief 32 bit unsigned double word big endian byte order */
+#define LC_DATA_WATCH_UDWORD_LE 10   /**< \brief 32 bit unsigned double word little endian byte order */
+#define LC_DATA_WATCH_FLOAT_BE                                             \
     11 /**< \brief 32 bit single precision IEEE-754 floating point number, \
         *          big endian byte order                                   \
         */
-#define LC_DATA_FLOAT_LE                                                   \
+#define LC_DATA_WATCH_FLOAT_LE                                             \
     12 /**< \brief 32 bit single precision IEEE-754 floating point number, \
         *          little endian byte order                                \
         */
@@ -74,7 +74,7 @@
  * \name Watchpoint Definition Table (WDT) OperatorID Enumerated Types
  * \{
  */
-#define LC_NO_OPER     0xFF /**< \brief Use for empty entries         */
+#define LC_OPER_NONE   0xFF /**< \brief Use for empty entries         */
 #define LC_OPER_LT     1    /**< \brief Less Than (<)                 */
 #define LC_OPER_LE     2    /**< \brief Less Than or Equal To (<=)    */
 #define LC_OPER_NE     3    /**< \brief Not Equal (!=)                */
@@ -88,7 +88,7 @@
  * \name Watchpoint Definition Table (WDT) BitMask Enumerated Types
  * \{
  */
-#define LC_NO_BITMASK 0xFFFFFFFF /**< \brief Use for no masking       */
+#define LC_BITMASK_NONE 0xFFFFFFFF /**< \brief Use for no masking       */
 /**\}*/
 
 /**
@@ -126,7 +126,7 @@
  * \name Watchpoint Definition Table (WDT) Validation Error Enumerated Types
  * \{
  */
-#define LC_WDTVAL_NO_ERR       0 /**< \brief No error                          */
+#define LC_WDTVAL_ERR_NONE     0 /**< \brief No error                          */
 #define LC_WDTVAL_ERR_DATATYPE 1 /**< \brief Invalid DataType                  */
 #define LC_WDTVAL_ERR_OPER     2 /**< \brief Invalid OperatorID                */
 #define LC_WDTVAL_ERR_MID      3 /**< \brief Invalid MessageID                 */
@@ -138,12 +138,35 @@
  * \name Actionpoint Definition Table (ADT) Validation Error Enumerated Types
  * \{
  */
-#define LC_ADTVAL_NO_ERR       0 /**< \brief No error                          */
+#define LC_ADTVAL_ERR_NONE     0 /**< \brief No error                          */
 #define LC_ADTVAL_ERR_DEFSTATE 1 /**< \brief Invalid DefaultState              */
 #define LC_ADTVAL_ERR_RTSID    2 /**< \brief Invalid RTSId                     */
 #define LC_ADTVAL_ERR_FAILCNT  3 /**< \brief MaxFailsBeforeRTS is zero         */
 #define LC_ADTVAL_ERR_EVTTYPE  4 /**< \brief Invalid EventType                 */
 #define LC_ADTVAL_ERR_RPN      5 /**< \brief Invalid Reverse Polish Expression */
 /**\}*/
+
+#ifndef LC_OMIT_DEPRECATED
+
+#define LC_NO_OPER       LC_OPER_NONE
+#define LC_NO_BITMASK    LC_BITMASK_NONE
+#define LC_ADTVAL_NO_ERR LC_ADTVAL_ERR_NONE
+#define LC_WDTVAL_NO_ERR LC_WDTVAL_ERR_NONE
+
+#define LC_DATA_NOT_USED  LC_DATA_WATCH_NOT_USED
+#define LC_DATA_BYTE      LC_DATA_WATCH_BYTE
+#define LC_DATA_UBYTE     LC_DATA_WATCH_UBYTE
+#define LC_DATA_WORD_BE   LC_DATA_WATCH_WORD_BE
+#define LC_DATA_WORD_LE   LC_DATA_WATCH_WORD_LE
+#define LC_DATA_UWORD_BE  LC_DATA_WATCH_UWORD_BE
+#define LC_DATA_UWORD_LE  LC_DATA_WATCH_UWORD_LE
+#define LC_DATA_DWORD_BE  LC_DATA_WATCH_DWORD_BE
+#define LC_DATA_DWORD_LE  LC_DATA_WATCH_DWORD_LE
+#define LC_DATA_UDWORD_BE LC_DATA_WATCH_UDWORD_BE
+#define LC_DATA_UDWORD_LE LC_DATA_WATCH_UDWORD_LE
+#define LC_DATA_FLOAT_BE  LC_DATA_WATCH_FLOAT_BE
+#define LC_DATA_FLOAT_LE  LC_DATA_WATCH_FLOAT_LE
+
+#endif
 
 #endif

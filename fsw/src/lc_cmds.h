@@ -209,7 +209,7 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr);
  *
  *  \param[in] BufPtr Pointer to Software Bus buffer
  *
- *  \sa #LC_SET_AP_PERMOFF_CC
+ *  \sa #LC_SET_AP_PERM_OFF_CC
  */
 void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr);
 

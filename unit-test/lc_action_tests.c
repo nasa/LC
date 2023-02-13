@@ -71,7 +71,7 @@ void LC_SampleAPs_Test_SingleActionPointError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
-    LC_OperData.ARTPtr[StartIndex].CurrentState = LC_ACTION_NOT_USED;
+    LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_NOT_USED;
 
     /* Execute the function being tested */
     LC_SampleAPs(StartIndex, EndIndex);
@@ -1252,7 +1252,7 @@ void LC_ValidateADT_Test_ActionNotUsed(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState = LC_ACTION_NOT_USED;
+        LC_OperData.ADTPtr[TableIndex].DefaultState = LC_APSTATE_NOT_USED;
     }
 
     /* Execute the function being tested */
@@ -1506,7 +1506,7 @@ void LC_ValidateADT_Test_ValidateRpnAdtValNoError(void)
     Result = LC_ValidateADT(LC_OperData.ADTPtr);
 
     /* Verify results */
-    UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
+    UtAssert_True(Result == LC_ADTVAL_ERR_NONE, "Result == LC_ADTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADTVAL_INF_EID);
@@ -1529,7 +1529,7 @@ void LC_ValidateADT_Test_Nominal(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_ACTION_NOT_USED;
+        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_NOT_USED;
         LC_OperData.ADTPtr[TableIndex].RTSId             = 1;
         LC_OperData.ADTPtr[TableIndex].MaxFailsBeforeRTS = 1;
         LC_OperData.ADTPtr[TableIndex].EventType         = CFE_EVS_EventType_DEBUG;
@@ -1553,7 +1553,7 @@ void LC_ValidateADT_Test_Nominal(void)
     Result = LC_ValidateADT(LC_OperData.ADTPtr);
 
     /* Verify results */
-    UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
+    UtAssert_True(Result == LC_ADTVAL_ERR_NONE, "Result == LC_ADTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_ADTVAL_INF_EID);
@@ -1579,7 +1579,7 @@ void LC_ValidateRPN_Test_RpnAnd(void)
     Result = LC_ValidateRPN(LC_OperData.ADTPtr[0].RPNEquation, &IndexValue, &StackDepthValue);
 
     /* Verify results */
-    UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
+    UtAssert_True(Result == LC_ADTVAL_ERR_NONE, "Result == LC_ADTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
@@ -1599,7 +1599,7 @@ void LC_ValidateRPN_Test_RpnOr(void)
     Result = LC_ValidateRPN(LC_OperData.ADTPtr[0].RPNEquation, &IndexValue, &StackDepthValue);
 
     /* Verify results */
-    UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
+    UtAssert_True(Result == LC_ADTVAL_ERR_NONE, "Result == LC_ADTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
@@ -1619,7 +1619,7 @@ void LC_ValidateRPN_Test_RpnXor(void)
     Result = LC_ValidateRPN(LC_OperData.ADTPtr[0].RPNEquation, &IndexValue, &StackDepthValue);
 
     /* Verify results */
-    UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
+    UtAssert_True(Result == LC_ADTVAL_ERR_NONE, "Result == LC_ADTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
@@ -1638,7 +1638,7 @@ void LC_ValidateRPN_Test_RpnNot(void)
     Result = LC_ValidateRPN(LC_OperData.ADTPtr[0].RPNEquation, &IndexValue, &StackDepthValue);
 
     /* Verify results */
-    UtAssert_True(Result == LC_ADTVAL_NO_ERR, "Result == LC_ADTVAL_NO_ERR");
+    UtAssert_True(Result == LC_ADTVAL_ERR_NONE, "Result == LC_ADTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }

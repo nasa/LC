@@ -58,19 +58,19 @@ void LC_CreateHashTable_Test(void)
     /* Default entries to unused */
     for (i = 0; i < LC_MAX_WATCHPOINTS; i++)
     {
-        LC_OperData.WDTPtr[i].DataType = LC_WATCH_NOT_USED;
+        LC_OperData.WDTPtr[i].DataType = LC_DATA_WATCH_NOT_USED;
     }
 
     /* Match MsgID but null watch point list */
-    LC_OperData.WDTPtr[0].DataType  = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[0].DataType  = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[0].MessageID = CFE_SB_INVALID_MSG_ID;
 
     /* MsgID mismatch */
-    LC_OperData.WDTPtr[1].DataType  = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[1].DataType  = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[1].MessageID = LC_UT_MID_1;
 
     /* Match MsgID and non-NULL WatchPLink */
-    LC_OperData.WDTPtr[2].DataType  = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[2].DataType  = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[2].MessageID = LC_UT_MID_1;
 
     /* Execute the function being tested */
@@ -220,7 +220,7 @@ void LC_CheckMsgForWPs_Test_Nominal(void)
     LC_OperData.MessageLinks[1].WatchPtList = &LC_OperData.WatchPtLinks[0];
 
     LC_OperData.WatchPtLinks[0].WatchIndex          = WatchIndex;
-    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
     LC_OperData.WDTPtr[WatchIndex].OperatorID       = LC_OPER_CUSTOM;
 
@@ -284,7 +284,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime2(void)
     LC_OperData.WatchPtLinks[0].WatchIndex  = WatchIndex;
 
     /* Bad offset */
-    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = MsgSize + 1;
     LC_OperData.WDTPtr[WatchIndex].OperatorID       = LC_OPER_CUSTOM;
 
@@ -351,7 +351,7 @@ void LC_ProcessWP_Test_CustomFunctionWatchFalse(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType           = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType           = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID         = LC_OPER_CUSTOM;
     LC_OperData.WDTPtr[WatchIndex].CustomFuncArgument = 0;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale = 1;
@@ -387,7 +387,7 @@ void LC_ProcessWP_Test_OperatorCompareError(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType        = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType        = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID      = 99;
     LC_OperData.WRTPtr[WatchIndex].EvaluationCount = 0;
 
@@ -419,7 +419,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -468,7 +468,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousFalse(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_FALSE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -518,7 +518,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_GE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -564,7 +564,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_GE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_TRUE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -635,7 +635,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousTrue(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_TRUE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -681,7 +681,7 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousFalse(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_GE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_FALSE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -715,7 +715,7 @@ void LC_OperatorCompare_Test_DataByte(void)
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -738,7 +738,7 @@ void LC_OperatorCompare_Test_DataWordLE(void)
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                 = LC_DATA_WORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                 = LC_DATA_WATCH_WORD_LE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID               = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult              = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale       = 1;
@@ -761,7 +761,7 @@ void LC_OperatorCompare_Test_DataDWordLE(void)
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                 = LC_DATA_DWORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                 = LC_DATA_WATCH_DWORD_LE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID               = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult              = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale       = 1;
@@ -784,7 +784,7 @@ void LC_OperatorCompare_Test_DataUByte(void)
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                  = LC_DATA_UBYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                  = LC_DATA_WATCH_UBYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID                = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult               = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale        = 1;
@@ -807,7 +807,7 @@ void LC_OperatorCompare_Test_DataUWordLE(void)
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                   = LC_DATA_UWORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                   = LC_DATA_WATCH_UWORD_LE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID                 = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult                = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale         = 1;
@@ -830,7 +830,7 @@ void LC_OperatorCompare_Test_DataUDWordLE(void)
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                   = LC_DATA_UDWORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                   = LC_DATA_WATCH_UDWORD_LE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID                 = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult                = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale         = 1;
@@ -853,7 +853,7 @@ void LC_OperatorCompare_Test_DataFloatLE(void)
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_FLOAT_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_FLOAT_LE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_STALE;
     LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale      = 1;
@@ -1426,7 +1426,7 @@ void LC_WPOffsetValid_Test_DataUByte(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_UBYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UBYTE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
 
     /* Execute the function being tested */
@@ -1451,7 +1451,7 @@ void LC_WPOffsetValid_Test_UWordLE(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_UWORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UWORD_LE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
 
     /* Execute the function being tested */
@@ -1476,7 +1476,7 @@ void LC_WPOffsetValid_Test_UDWordLE(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_UDWORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UDWORD_LE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
 
     /* Execute the function being tested */
@@ -1500,7 +1500,7 @@ void LC_WPOffsetValid_Test_FloatLE(void)
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_FLOAT_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_FLOAT_LE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
 
     /* Execute the function being tested */
@@ -1566,7 +1566,7 @@ void LC_WPOffsetValid_Test_OffsetError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP offset error: MID = 0x%%08lX, WP = %%d, Offset = %%d, DataSize = %%d, MsgLen = %%d");
 
-    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_UBYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UBYTE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = sizeof(LC_NoArgsCmd_t);
 
     /* Execute the function being tested */
@@ -1601,7 +1601,7 @@ void LC_GetSizedWPData_Test_DataByte(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_BYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_BYTE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1625,7 +1625,7 @@ void LC_GetSizedWPData_Test_DataUByte(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_UBYTE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_UBYTE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1649,7 +1649,7 @@ void LC_GetSizedWPData_Test_DataWordBELittleEndian(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WORD_BE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_WORD_BE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1673,7 +1673,7 @@ void LC_GetSizedWPData_Test_DataWordLELittleEndian(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_WORD_LE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1697,7 +1697,7 @@ void LC_GetSizedWPData_Test_DataUWordBELittleEndian(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_UWORD_BE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_UWORD_BE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1721,7 +1721,7 @@ void LC_GetSizedWPData_Test_DataUWordLELittleEndian(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_UWORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_UWORD_LE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1745,7 +1745,7 @@ void LC_GetSizedWPData_Test_DataFloatBELittleEndian(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_FLOAT_BE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_FLOAT_BE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1769,7 +1769,7 @@ void LC_GetSizedWPData_Test_DataFloatLELittleEndian(void)
     WPData[2] = 3;
     WPData[3] = 4;
 
-    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_FLOAT_LE;
+    LC_OperData.WDTPtr[WatchIndex].DataType = LC_DATA_WATCH_FLOAT_LE;
 
     /* Execute the function being tested */
     Result = LC_GetSizedWPData(WatchIndex, WPData, &SizedData);
@@ -1832,7 +1832,7 @@ void LC_ValidateWDT_Test_UnusedTableEntry(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType = LC_WATCH_NOT_USED;
+        LC_OperData.WDTPtr[TableIndex].DataType = LC_DATA_WATCH_NOT_USED;
     }
 
     /* Execute the function being tested */
@@ -1867,22 +1867,22 @@ void LC_ValidateWDT_Test_AllDataTypes(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType = LC_WATCH_NOT_USED;
+        LC_OperData.WDTPtr[TableIndex].DataType = LC_DATA_WATCH_NOT_USED;
     }
 
     /* Add an entry for each data type */
-    LC_OperData.WDTPtr[0].DataType  = LC_DATA_BYTE;
-    LC_OperData.WDTPtr[1].DataType  = LC_DATA_UBYTE;
-    LC_OperData.WDTPtr[2].DataType  = LC_DATA_WORD_BE;
-    LC_OperData.WDTPtr[3].DataType  = LC_DATA_WORD_LE;
-    LC_OperData.WDTPtr[4].DataType  = LC_DATA_UWORD_BE;
-    LC_OperData.WDTPtr[5].DataType  = LC_DATA_UWORD_LE;
-    LC_OperData.WDTPtr[6].DataType  = LC_DATA_DWORD_BE;
-    LC_OperData.WDTPtr[7].DataType  = LC_DATA_DWORD_LE;
-    LC_OperData.WDTPtr[8].DataType  = LC_DATA_UDWORD_BE;
-    LC_OperData.WDTPtr[9].DataType  = LC_DATA_UDWORD_LE;
-    LC_OperData.WDTPtr[10].DataType = LC_DATA_FLOAT_BE;
-    LC_OperData.WDTPtr[11].DataType = LC_DATA_FLOAT_LE;
+    LC_OperData.WDTPtr[0].DataType  = LC_DATA_WATCH_BYTE;
+    LC_OperData.WDTPtr[1].DataType  = LC_DATA_WATCH_UBYTE;
+    LC_OperData.WDTPtr[2].DataType  = LC_DATA_WATCH_WORD_BE;
+    LC_OperData.WDTPtr[3].DataType  = LC_DATA_WATCH_WORD_LE;
+    LC_OperData.WDTPtr[4].DataType  = LC_DATA_WATCH_UWORD_BE;
+    LC_OperData.WDTPtr[5].DataType  = LC_DATA_WATCH_UWORD_LE;
+    LC_OperData.WDTPtr[6].DataType  = LC_DATA_WATCH_DWORD_BE;
+    LC_OperData.WDTPtr[7].DataType  = LC_DATA_WATCH_DWORD_LE;
+    LC_OperData.WDTPtr[8].DataType  = LC_DATA_WATCH_UDWORD_BE;
+    LC_OperData.WDTPtr[9].DataType  = LC_DATA_WATCH_UDWORD_LE;
+    LC_OperData.WDTPtr[10].DataType = LC_DATA_WATCH_FLOAT_BE;
+    LC_OperData.WDTPtr[11].DataType = LC_DATA_WATCH_FLOAT_LE;
 
     /* Execute the function being tested */
     Result = LC_ValidateWDT(LC_OperData.WDTPtr);
@@ -1924,7 +1924,7 @@ void LC_ValidateWDT_Test_AllOperatorIDs(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType  = LC_DATA_BYTE;
+        LC_OperData.WDTPtr[TableIndex].DataType  = LC_DATA_WATCH_BYTE;
         LC_OperData.WDTPtr[TableIndex].MessageID = LC_UT_MID_1;
     }
 
@@ -2015,7 +2015,7 @@ void LC_ValidateWDT_Test_InvalidOperator(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_BYTE;
+        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_WATCH_BYTE;
         LC_OperData.WDTPtr[TableIndex].OperatorID                 = 99;
         LC_OperData.WDTPtr[TableIndex].MessageID                  = LC_UT_MID_2;
         LC_OperData.WDTPtr[TableIndex].ComparisonValue.Unsigned32 = 3;
@@ -2057,7 +2057,7 @@ void LC_ValidateWDT_Test_BadMessageID(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_BYTE;
+        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_WATCH_BYTE;
         LC_OperData.WDTPtr[TableIndex].OperatorID                 = LC_OPER_LT;
         LC_OperData.WDTPtr[TableIndex].MessageID                  = CFE_SB_INVALID_MSG_ID;
         LC_OperData.WDTPtr[TableIndex].ComparisonValue.Unsigned32 = 3;
@@ -2099,7 +2099,7 @@ void LC_ValidateWDT_Test_NaN(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_FLOAT_LE;
+        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_WATCH_FLOAT_LE;
         LC_OperData.WDTPtr[TableIndex].OperatorID                 = LC_OPER_LT;
         LC_OperData.WDTPtr[TableIndex].MessageID                  = LC_UT_MID_1;
         LC_OperData.WDTPtr[TableIndex].ComparisonValue.Unsigned32 = 0x7F8FFFFF;
@@ -2140,7 +2140,7 @@ void LC_ValidateWDT_Test_Inf(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_FLOAT_LE;
+        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_WATCH_FLOAT_LE;
         LC_OperData.WDTPtr[TableIndex].OperatorID                 = LC_OPER_LT;
         LC_OperData.WDTPtr[TableIndex].MessageID                  = LC_UT_MID_1;
         LC_OperData.WDTPtr[TableIndex].ComparisonValue.Unsigned32 = 0x7F800000;
@@ -2180,7 +2180,7 @@ void LC_ValidateWDT_Test_FloatingPointPassed(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_FLOAT_LE;
+        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_WATCH_FLOAT_LE;
         LC_OperData.WDTPtr[TableIndex].OperatorID                 = LC_OPER_LT;
         LC_OperData.WDTPtr[TableIndex].MessageID                  = LC_UT_MID_1;
         LC_OperData.WDTPtr[TableIndex].ComparisonValue.Unsigned32 = 1;
@@ -2190,7 +2190,7 @@ void LC_ValidateWDT_Test_FloatingPointPassed(void)
     Result = LC_ValidateWDT(LC_OperData.WDTPtr);
 
     /* Verify results */
-    UtAssert_True(Result == LC_WDTVAL_NO_ERR, "Result == LC_WDTVAL_NO_ERR");
+    UtAssert_True(Result == LC_WDTVAL_ERR_NONE, "Result == LC_WDTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDTVAL_INF_EID);
@@ -2213,7 +2213,7 @@ void LC_ValidateWDT_Test_NonFloatingPointPassed(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_BYTE;
+        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_WATCH_BYTE;
         LC_OperData.WDTPtr[TableIndex].OperatorID                 = LC_OPER_LT;
         LC_OperData.WDTPtr[TableIndex].MessageID                  = LC_UT_MID_1;
         LC_OperData.WDTPtr[TableIndex].ComparisonValue.Unsigned32 = 1;
@@ -2223,7 +2223,7 @@ void LC_ValidateWDT_Test_NonFloatingPointPassed(void)
     Result = LC_ValidateWDT(LC_OperData.WDTPtr);
 
     /* Verify results */
-    UtAssert_True(Result == LC_WDTVAL_NO_ERR, "Result == LC_WDTVAL_NO_ERR");
+    UtAssert_True(Result == LC_WDTVAL_ERR_NONE, "Result == LC_WDTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDTVAL_INF_EID);
@@ -2246,7 +2246,7 @@ void LC_ValidateWDT_Test_FloatBE(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
-        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_FLOAT_BE;
+        LC_OperData.WDTPtr[TableIndex].DataType                   = LC_DATA_WATCH_FLOAT_BE;
         LC_OperData.WDTPtr[TableIndex].OperatorID                 = LC_OPER_LT;
         LC_OperData.WDTPtr[TableIndex].MessageID                  = LC_UT_MID_1;
         LC_OperData.WDTPtr[TableIndex].ComparisonValue.Unsigned32 = 1;
@@ -2256,7 +2256,7 @@ void LC_ValidateWDT_Test_FloatBE(void)
     Result = LC_ValidateWDT(LC_OperData.WDTPtr);
 
     /* Verify results */
-    UtAssert_True(Result == LC_WDTVAL_NO_ERR, "Result == LC_WDTVAL_NO_ERR");
+    UtAssert_True(Result == LC_WDTVAL_ERR_NONE, "Result == LC_WDTVAL_ERR_NONE");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WDTVAL_INF_EID);

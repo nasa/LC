@@ -51,7 +51,7 @@ void LC_SampleAPs(uint16 StartIndex, uint16 EndIndex)
     {
         CurrentAPState = LC_OperData.ARTPtr[StartIndex].CurrentState;
 
-        if ((CurrentAPState != LC_ACTION_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+        if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
         {
             /*
             ** Sample the specified actionpoint
@@ -483,7 +483,7 @@ int32 LC_ValidateADT(void *TableData)
 {
     LC_ADTEntry_t *TableArray = (LC_ADTEntry_t *)TableData;
 
-    int32 EntryResult = LC_ADTVAL_NO_ERR;
+    int32 EntryResult = LC_ADTVAL_ERR_NONE;
     int32 TableResult = CFE_SUCCESS;
     int32 TableIndex;
 
@@ -511,7 +511,7 @@ int32 LC_ValidateADT(void *TableData)
         RPNPtr            = TableArray[TableIndex].RPNEquation;
         EventType         = TableArray[TableIndex].EventType;
 
-        if (DefaultState == LC_ACTION_NOT_USED)
+        if (DefaultState == LC_APSTATE_NOT_USED)
         {
             /*
             ** Unused table entry
@@ -560,7 +560,7 @@ int32 LC_ValidateADT(void *TableData)
             */
             EntryResult = LC_ValidateRPN(RPNPtr, &RPNIndex, &RPNStackDepth);
 
-            if (EntryResult != LC_ADTVAL_NO_ERR)
+            if (EntryResult != LC_ADTVAL_ERR_NONE)
             {
                 BadCount++;
             }
@@ -573,7 +573,7 @@ int32 LC_ValidateADT(void *TableData)
         /*
         ** Generate detailed event for "first" error
         */
-        if ((EntryResult != LC_ADTVAL_NO_ERR) && (TableResult == CFE_SUCCESS))
+        if ((EntryResult != LC_ADTVAL_ERR_NONE) && (TableResult == CFE_SUCCESS))
         {
             if (EntryResult == LC_ADTVAL_ERR_RPN)
             {
@@ -610,7 +610,7 @@ int32 LC_ValidateADT(void *TableData)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 LC_ValidateRPN(const uint16 *RPNPtr, int32 *IndexValue, int32 *StackDepthValue)
 {
-    int32  Result = LC_ADTVAL_NO_ERR;
+    int32  Result = LC_ADTVAL_ERR_NONE;
     int32  BufferIndex;
     int32  StackDepth;
     uint16 BufferItem;
@@ -686,7 +686,7 @@ int32 LC_ValidateRPN(const uint16 *RPNPtr, int32 *IndexValue, int32 *StackDepthV
     */
     if ((BufferItem == LC_RPN_EQUAL) && (StackDepth == 1))
     {
-        Result = LC_ADTVAL_NO_ERR;
+        Result = LC_ADTVAL_ERR_NONE;
     }
     else
     {
