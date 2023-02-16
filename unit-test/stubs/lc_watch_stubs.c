@@ -190,38 +190,6 @@ uint8 LC_SignedCompare(uint16 WatchIndex, int32 WPValue, int32 CompareValue)
 
 /*
  * ----------------------------------------------------
- * Generated stub function for LC_Uint32IsInfinite()
- * ----------------------------------------------------
- */
-bool LC_Uint32IsInfinite(uint32 Data)
-{
-    UT_GenStub_SetupReturnBuffer(LC_Uint32IsInfinite, bool);
-
-    UT_GenStub_AddParam(LC_Uint32IsInfinite, uint32, Data);
-
-    UT_GenStub_Execute(LC_Uint32IsInfinite, Basic, NULL);
-
-    return UT_GenStub_GetReturnValue(LC_Uint32IsInfinite, bool);
-}
-
-/*
- * ----------------------------------------------------
- * Generated stub function for LC_Uint32IsNAN()
- * ----------------------------------------------------
- */
-bool LC_Uint32IsNAN(uint32 Data)
-{
-    UT_GenStub_SetupReturnBuffer(LC_Uint32IsNAN, bool);
-
-    UT_GenStub_AddParam(LC_Uint32IsNAN, uint32, Data);
-
-    UT_GenStub_Execute(LC_Uint32IsNAN, Basic, NULL);
-
-    return UT_GenStub_GetReturnValue(LC_Uint32IsNAN, bool);
-}
-
-/*
- * ----------------------------------------------------
  * Generated stub function for LC_UnsignedCompare()
  * ----------------------------------------------------
  */

@@ -314,44 +314,6 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr);
 bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedDataPtr);
 
 /**
- * \brief Check uint32 for float NAN
- *
- *  \par Description
- *       Utility function for watchpoint processing that will test if
- *       a uint32 value would result in a NAN (not-a-number) value if
- *       it was interpreted as a float.
- *
- *  \par Assumptions, External Events, and Notes:
- *       None
- *
- *  \param [in]  Data     The uint32 value to check
- *
- *  \return Boolean is a float NAN result
- *  \retval true Value is a float NAN
- *  \retval false Value is not a float NAN
- */
-bool LC_Uint32IsNAN(uint32 Data);
-
-/**
- * \brief Check uint32 for float infinite
- *
- *  \par Description
- *       Utility function for watchpoint processing that will test if
- *       a uint32 value would result in an infinite value if
- *       it was interpreted as a float.
- *
- *  \par Assumptions, External Events, and Notes:
- *       None
- *
- *  \param [in]  Data     The uint32 value to check
- *
- *  \return Boolean is a float infinite result
- *  \retval true Value is an inifinite float
- *  \retval valse Value is not an inifinite float
- */
-bool LC_Uint32IsInfinite(uint32 Data);
-
-/**
  * \brief Convert messageID into hash table index
  *
  *  \par Description
