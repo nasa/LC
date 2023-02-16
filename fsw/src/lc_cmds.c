@@ -89,7 +89,7 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
                     LC_SetAPStateCmd(BufPtr);
                     break;
 
-                case LC_SET_AP_PERMOFF_CC:
+                case LC_SET_AP_PERM_OFF_CC:
                     LC_SetAPPermOffCmd(BufPtr);
                     break;
 
@@ -361,7 +361,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
             */
             switch (LC_OperData.ARTPtr[TableIndex + 1].CurrentState)
             {
-                case LC_ACTION_NOT_USED:
+                case LC_APSTATE_NOT_USED:
                     ByteData = LC_HKAR_STATE_NOT_USED << 6;
                     break;
 
@@ -421,7 +421,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
             */
             switch (LC_OperData.ARTPtr[TableIndex].CurrentState)
             {
-                case LC_ACTION_NOT_USED:
+                case LC_APSTATE_NOT_USED:
                     ByteData = (ByteData | (LC_HKAR_STATE_NOT_USED << 2));
                     break;
 
@@ -648,7 +648,7 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
                 {
                     CurrentAPState = LC_OperData.ARTPtr[TableIndex].CurrentState;
 
-                    if ((CurrentAPState != LC_ACTION_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+                    if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
                     {
                         LC_OperData.ARTPtr[TableIndex].CurrentState = CmdPtr->NewAPState;
                     }
@@ -666,7 +666,7 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
                     TableIndex     = CmdPtr->APNumber;
                     CurrentAPState = LC_OperData.ARTPtr[TableIndex].CurrentState;
 
-                    if ((CurrentAPState != LC_ACTION_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+                    if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
                     {
                         /*
                         ** Update state for single actionpoint specified

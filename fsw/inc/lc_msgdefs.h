@@ -56,11 +56,11 @@
  * \name Actionpoint States
  * \{
  */
-#define LC_ACTION_NOT_USED  0xFF /**< \brief Actionpoint unused, not valid command argument */
+#define LC_APSTATE_NOT_USED 0xFF /**< \brief Actionpoint unused, not valid command argument */
 #define LC_APSTATE_ACTIVE   1    /**< \brief Actionpoint state active */
 #define LC_APSTATE_PASSIVE  2    /**< \brief Actionpoint state passive */
 #define LC_APSTATE_DISABLED 3    /**< \brief Actionpoint state disabled */
-#define LC_APSTATE_PERMOFF  4    /**< \brief Actionpoint state permanently off, see #LC_SET_AP_PERMOFF_CC */
+#define LC_APSTATE_PERMOFF  4    /**< \brief Actionpoint state permanently off, see #LC_SET_AP_PERM_OFF_CC */
 /**\}*/
 
 /**
@@ -238,7 +238,7 @@
  *       - Invalid actionpoint state specified in command message
  *       - Actionpoint number specified in command message is
  *         out of range
- *       - Actionpoint current state is either #LC_ACTION_NOT_USED
+ *       - Actionpoint current state is either #LC_APSTATE_NOT_USED
  *         or #LC_APSTATE_PERMOFF
  *
  *  \par Evidence of failure may be found in the following telemetry:
@@ -287,7 +287,7 @@
  *       None
  *
  */
-#define LC_SET_AP_PERMOFF_CC 4
+#define LC_SET_AP_PERM_OFF_CC 4
 
 /**
  * \brief Reset AP Statistics
@@ -358,5 +358,10 @@
 #define LC_RESET_WP_STATS_CC 6
 
 /**\}*/
+
+#ifndef LC_OMIT_DEPRECATED
+#define LC_SET_AP_PERMOFF_CC LC_SET_AP_PERM_OFF_CC
+#define LC_ACTION_NOT_USED   LC_APSTATE_NOT_USED
+#endif
 
 #endif

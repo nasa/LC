@@ -107,7 +107,7 @@ void LC_CreateHashTable(void)
     for (WatchPtTblIndex = 0; WatchPtTblIndex < LC_MAX_WATCHPOINTS; WatchPtTblIndex++)
     {
         /* Skip unused watchpoint table entries */
-        if (LC_OperData.WDTPtr[WatchPtTblIndex].DataType != LC_WATCH_NOT_USED)
+        if (LC_OperData.WDTPtr[WatchPtTblIndex].DataType != LC_DATA_WATCH_NOT_USED)
         {
             MessageID = LC_OperData.WDTPtr[WatchPtTblIndex].MessageID;
 
@@ -452,24 +452,24 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
      */
     switch (LC_OperData.WDTPtr[WatchIndex].DataType)
     {
-        case LC_DATA_UBYTE:
-        case LC_DATA_BYTE:
+        case LC_DATA_WATCH_UBYTE:
+        case LC_DATA_WATCH_BYTE:
             WatchpointValue.Unsigned8 = ProcessedWPData & 0xFF;
             break;
 
-        case LC_DATA_WORD_BE:
-        case LC_DATA_WORD_LE:
-        case LC_DATA_UWORD_BE:
-        case LC_DATA_UWORD_LE:
+        case LC_DATA_WATCH_WORD_BE:
+        case LC_DATA_WATCH_WORD_LE:
+        case LC_DATA_WATCH_UWORD_BE:
+        case LC_DATA_WATCH_UWORD_LE:
             WatchpointValue.Unsigned16 = ProcessedWPData & 0xFFFF;
             break;
 
-        case LC_DATA_DWORD_BE:
-        case LC_DATA_DWORD_LE:
-        case LC_DATA_UDWORD_BE:
-        case LC_DATA_UDWORD_LE:
-        case LC_DATA_FLOAT_BE:
-        case LC_DATA_FLOAT_LE:
+        case LC_DATA_WATCH_DWORD_BE:
+        case LC_DATA_WATCH_DWORD_LE:
+        case LC_DATA_WATCH_UDWORD_BE:
+        case LC_DATA_WATCH_UDWORD_LE:
+        case LC_DATA_WATCH_FLOAT_BE:
+        case LC_DATA_WATCH_FLOAT_LE:
         default:
             WatchpointValue.Unsigned32 = ProcessedWPData;
             break;
@@ -486,42 +486,42 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
         /*
         ** Signed integer types will get sign extended
         */
-        case LC_DATA_BYTE:
+        case LC_DATA_WATCH_BYTE:
             EvalResult = LC_SignedCompare(WatchIndex, WatchpointValue.Signed8, ComparisonValue.Signed8);
             break;
 
-        case LC_DATA_WORD_BE:
-        case LC_DATA_WORD_LE:
+        case LC_DATA_WATCH_WORD_BE:
+        case LC_DATA_WATCH_WORD_LE:
             EvalResult = LC_SignedCompare(WatchIndex, WatchpointValue.Signed16, ComparisonValue.Signed16);
             break;
 
-        case LC_DATA_DWORD_BE:
-        case LC_DATA_DWORD_LE:
+        case LC_DATA_WATCH_DWORD_BE:
+        case LC_DATA_WATCH_DWORD_LE:
             EvalResult = LC_SignedCompare(WatchIndex, WatchpointValue.Signed32, ComparisonValue.Signed32);
             break;
 
         /*
         ** Unsigned integer types will get zero extended
         */
-        case LC_DATA_UBYTE:
+        case LC_DATA_WATCH_UBYTE:
             EvalResult = LC_UnsignedCompare(WatchIndex, WatchpointValue.Unsigned8, ComparisonValue.Unsigned8);
             break;
 
-        case LC_DATA_UWORD_BE:
-        case LC_DATA_UWORD_LE:
+        case LC_DATA_WATCH_UWORD_BE:
+        case LC_DATA_WATCH_UWORD_LE:
             EvalResult = LC_UnsignedCompare(WatchIndex, WatchpointValue.Unsigned16, ComparisonValue.Unsigned16);
             break;
 
-        case LC_DATA_UDWORD_BE:
-        case LC_DATA_UDWORD_LE:
+        case LC_DATA_WATCH_UDWORD_BE:
+        case LC_DATA_WATCH_UDWORD_LE:
             EvalResult = LC_UnsignedCompare(WatchIndex, WatchpointValue.Unsigned32, ComparisonValue.Unsigned32);
             break;
 
         /*
         ** Floating point values are handled separately
         */
-        case LC_DATA_FLOAT_BE:
-        case LC_DATA_FLOAT_LE:
+        case LC_DATA_WATCH_FLOAT_BE:
+        case LC_DATA_WATCH_FLOAT_LE:
             EvalResult = LC_FloatCompare(WatchIndex, &WatchpointValue, &ComparisonValue);
             break;
 
@@ -754,27 +754,27 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
     */
     switch (LC_OperData.WDTPtr[WatchIndex].DataType)
     {
-        case LC_DATA_BYTE:
-        case LC_DATA_UBYTE:
+        case LC_DATA_WATCH_BYTE:
+        case LC_DATA_WATCH_UBYTE:
             NumOfDataBytes = sizeof(uint8);
             break;
 
-        case LC_DATA_WORD_BE:
-        case LC_DATA_WORD_LE:
-        case LC_DATA_UWORD_BE:
-        case LC_DATA_UWORD_LE:
+        case LC_DATA_WATCH_WORD_BE:
+        case LC_DATA_WATCH_WORD_LE:
+        case LC_DATA_WATCH_UWORD_BE:
+        case LC_DATA_WATCH_UWORD_LE:
             NumOfDataBytes = sizeof(uint16);
             break;
 
-        case LC_DATA_DWORD_BE:
-        case LC_DATA_DWORD_LE:
-        case LC_DATA_UDWORD_BE:
-        case LC_DATA_UDWORD_LE:
+        case LC_DATA_WATCH_DWORD_BE:
+        case LC_DATA_WATCH_DWORD_LE:
+        case LC_DATA_WATCH_UDWORD_BE:
+        case LC_DATA_WATCH_UDWORD_LE:
             NumOfDataBytes = sizeof(uint32);
             break;
 
-        case LC_DATA_FLOAT_BE:
-        case LC_DATA_FLOAT_LE:
+        case LC_DATA_WATCH_FLOAT_BE:
+        case LC_DATA_WATCH_FLOAT_LE:
             NumOfDataBytes = sizeof(float);
             break;
 
@@ -852,50 +852,50 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
     */
     switch (LC_OperData.WDTPtr[WatchIndex].DataType)
     {
-        case LC_DATA_BYTE:
+        case LC_DATA_WATCH_BYTE:
             TempBuffer.Signed8 = *WPDataPtr;
             *SizedDataPtr      = TempBuffer.Signed8; /* Extend signed 8 bit value to 32 bits */
             break;
 
-        case LC_DATA_UBYTE:
+        case LC_DATA_WATCH_UBYTE:
             *SizedDataPtr = *WPDataPtr; /* Extend unsigned 8 bit value to 32 bits */
             break;
 
-        case LC_DATA_WORD_BE:
+        case LC_DATA_WATCH_WORD_BE:
             ConvBuffer.Unsigned16 = LC_16BIT_BE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(int16));
             *SizedDataPtr = TempBuffer.Signed16; /* Extend signed 16 bit value to 32 bits */
             break;
 
-        case LC_DATA_WORD_LE:
+        case LC_DATA_WATCH_WORD_LE:
             ConvBuffer.Unsigned16 = LC_16BIT_LE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(int16));
             *SizedDataPtr = TempBuffer.Signed16; /* Extend signed 16 bit value to 32 bits */
             break;
 
-        case LC_DATA_UWORD_BE:
+        case LC_DATA_WATCH_UWORD_BE:
             ConvBuffer.Unsigned16 = LC_16BIT_BE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint16));
             *SizedDataPtr = TempBuffer.Unsigned16; /* Extend unsigned 16 bit value to 32 bits */
             break;
 
-        case LC_DATA_UWORD_LE:
+        case LC_DATA_WATCH_UWORD_LE:
             ConvBuffer.Unsigned16 = LC_16BIT_LE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint16));
             *SizedDataPtr = TempBuffer.Unsigned16; /* Extend unsigned 16 bit value to 32 bits */
             break;
 
-        case LC_DATA_DWORD_BE:
-        case LC_DATA_UDWORD_BE:
-        case LC_DATA_FLOAT_BE:
+        case LC_DATA_WATCH_DWORD_BE:
+        case LC_DATA_WATCH_UDWORD_BE:
+        case LC_DATA_WATCH_FLOAT_BE:
             ConvBuffer.Unsigned32 = LC_32BIT_BE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint32));
             *SizedDataPtr = TempBuffer.Unsigned32; /* Straight copy - no extension (signed or unsigned) */
             break;
 
-        case LC_DATA_DWORD_LE:
-        case LC_DATA_UDWORD_LE:
-        case LC_DATA_FLOAT_LE:
+        case LC_DATA_WATCH_DWORD_LE:
+        case LC_DATA_WATCH_UDWORD_LE:
+        case LC_DATA_WATCH_FLOAT_LE:
             ConvBuffer.Unsigned32 = LC_32BIT_LE_VAL;
             LC_CopyBytesWithSwap(&TempBuffer, WPDataPtr, &ConvBuffer, sizeof(uint32));
             *SizedDataPtr = TempBuffer.Unsigned32; /* Straight copy - no extension (signed or unsigned) */
@@ -934,7 +934,7 @@ int32 LC_ValidateWDT(void *TableData)
 {
     LC_WDTEntry_t *TableArray = (LC_WDTEntry_t *)TableData;
 
-    int32 EntryResult = LC_WDTVAL_NO_ERR;
+    int32 EntryResult = LC_WDTVAL_ERR_NONE;
     int32 TableResult = CFE_SUCCESS;
     int32 TableIndex;
 
@@ -957,17 +957,19 @@ int32 LC_ValidateWDT(void *TableData)
         OperatorID = TableArray[TableIndex].OperatorID;
         MessageID  = TableArray[TableIndex].MessageID;
 
-        if (DataType == LC_WATCH_NOT_USED)
+        if (DataType == LC_DATA_WATCH_NOT_USED)
         {
             /*
             ** Unused table entry
             */
             UnusedCount++;
         }
-        else if ((DataType != LC_DATA_BYTE) && (DataType != LC_DATA_UBYTE) && (DataType != LC_DATA_WORD_BE) &&
-                 (DataType != LC_DATA_WORD_LE) && (DataType != LC_DATA_UWORD_BE) && (DataType != LC_DATA_UWORD_LE) &&
-                 (DataType != LC_DATA_DWORD_BE) && (DataType != LC_DATA_DWORD_LE) && (DataType != LC_DATA_UDWORD_BE) &&
-                 (DataType != LC_DATA_UDWORD_LE) && (DataType != LC_DATA_FLOAT_BE) && (DataType != LC_DATA_FLOAT_LE))
+        else if ((DataType != LC_DATA_WATCH_BYTE) && (DataType != LC_DATA_WATCH_UBYTE) &&
+                 (DataType != LC_DATA_WATCH_WORD_BE) && (DataType != LC_DATA_WATCH_WORD_LE) &&
+                 (DataType != LC_DATA_WATCH_UWORD_BE) && (DataType != LC_DATA_WATCH_UWORD_LE) &&
+                 (DataType != LC_DATA_WATCH_DWORD_BE) && (DataType != LC_DATA_WATCH_DWORD_LE) &&
+                 (DataType != LC_DATA_WATCH_UDWORD_BE) && (DataType != LC_DATA_WATCH_UDWORD_LE) &&
+                 (DataType != LC_DATA_WATCH_FLOAT_BE) && (DataType != LC_DATA_WATCH_FLOAT_LE))
         {
             /*
             ** Invalid data type
@@ -993,7 +995,7 @@ int32 LC_ValidateWDT(void *TableData)
             BadCount++;
             EntryResult = LC_WDTVAL_ERR_MID;
         }
-        else if ((DataType == LC_DATA_FLOAT_BE) || (DataType == LC_DATA_FLOAT_LE))
+        else if ((DataType == LC_DATA_WATCH_FLOAT_BE) || (DataType == LC_DATA_WATCH_FLOAT_LE))
         {
             memcpy(&FloatValue, &TableArray[TableIndex].ComparisonValue, sizeof(FloatValue));
 
@@ -1030,7 +1032,7 @@ int32 LC_ValidateWDT(void *TableData)
         /*
         ** Generate detailed event for "first" error
         */
-        if ((EntryResult != LC_WDTVAL_NO_ERR) && (TableResult == CFE_SUCCESS))
+        if ((EntryResult != LC_WDTVAL_ERR_NONE) && (TableResult == CFE_SUCCESS))
         {
             if ((EntryResult == LC_WDTVAL_ERR_FPNAN) || (EntryResult == LC_WDTVAL_ERR_FPINF))
             {

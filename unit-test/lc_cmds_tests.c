@@ -217,7 +217,7 @@ void LC_AppPipe_Test_SetAPPermoff(void)
     CFE_MSG_FcnCode_t FcnCode;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_SET_AP_PERMOFF_CC;
+    FcnCode   = LC_SET_AP_PERM_OFF_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
 
@@ -824,7 +824,7 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_ACTION_NOT_USED;
+        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_NOT_USED;
         LC_OperData.ARTPtr[TableIndex].ActionResult = LC_ACTION_STALE;
     }
 
@@ -1444,7 +1444,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     {
         LC_OperData.ARTPtr[TableIndex].CurrentState = 99;
     }
-    LC_OperData.ARTPtr[0].CurrentState = LC_ACTION_NOT_USED;
+    LC_OperData.ARTPtr[0].CurrentState = LC_APSTATE_NOT_USED;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1453,8 +1453,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 
     /* Checks for first index: */
     TableIndex = 0;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ACTION_NOT_USED,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ACTION_NOT_USED");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_NOT_USED,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_NOT_USED");
 
     /* Checks for middle index: */
     TableIndex = LC_MAX_ACTIONPOINTS / 2;
@@ -1689,14 +1689,14 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
     UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
     UT_CmdBuf.SetAPStateCmd.APNumber   = 0;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_ACTION_NOT_USED;
+    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_NOT_USED;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_ACTION_NOT_USED,
-                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_ACTION_NOT_USED");
+    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_NOT_USED,
+                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_NOT_USED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
