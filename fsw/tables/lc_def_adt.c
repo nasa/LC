@@ -169,14 +169,13 @@
 /*
 ** Table file header
 */
-static CFE_TBL_FileDef_t CFE_TBL_FileDef
-    __attribute__((__used__)) = {"LC_DefaultADT", LC_APP_NAME "." LC_ADT_TABLENAME, "LC actionpoint definition table",
-                                 "lc_def_adt.tbl", (sizeof(LC_ADTEntry_t) * LC_MAX_ACTIONPOINTS)};
+CFE_TBL_FileDef_t CFE_TBL_FileDef = {"LC_ADT", LC_APP_NAME "." LC_ADT_TABLENAME, "LC actionpoint definition table",
+                                     "lc_def_adt.tbl", (sizeof(LC_ADTEntry_t) * LC_MAX_ACTIONPOINTS)};
 
 /*
 ** Default actionpoint definition table (ADT) data
 */
-LC_ADTEntry_t LC_DefaultADT[LC_MAX_ACTIONPOINTS] = {
+LC_ADTEntry_t LC_ADT[LC_MAX_ACTIONPOINTS] = {
     /* #0 (unused) */
     {.DefaultState      = LC_ACTION_NOT_USED,
      .MaxPassiveEvents  = 0,

@@ -90,14 +90,13 @@
 /*
 ** Table file header
 */
-static CFE_TBL_FileDef_t CFE_TBL_FileDef
-    __attribute__((__used__)) = {"LC_DefaultWDT", LC_APP_NAME "." LC_WDT_TABLENAME, "LC watchpoint definition table",
-                                 "lc_def_wdt.tbl", (sizeof(LC_WDTEntry_t) * LC_MAX_WATCHPOINTS)};
+CFE_TBL_FileDef_t CFE_TBL_FileDef = {"LC_WDT", LC_APP_NAME "." LC_WDT_TABLENAME, "LC watchpoint definition table",
+                                     "lc_def_wdt.tbl", (sizeof(LC_WDTEntry_t) * LC_MAX_WATCHPOINTS)};
 
 /*
 ** Default watchpoint definition table (WDT) data
 */
-LC_WDTEntry_t LC_DefaultWDT[LC_MAX_WATCHPOINTS] = {
+LC_WDTEntry_t LC_WDT[LC_MAX_WATCHPOINTS] = {
     /* #0 (unused) */
     {
         .DataType                   = LC_WATCH_NOT_USED,
