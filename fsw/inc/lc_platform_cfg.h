@@ -232,7 +232,7 @@
  *
  *  \par Description:
  *       The maximum RTS ID that LC will allow during table
- *       validation in a Actionpoint Definition Table (ADT) entry
+ *       validation in an Actionpoint Definition Table (ADT) entry
  *
  *  \par Limits:
  *       This parameter can't be larger than an unsigned 16 bit

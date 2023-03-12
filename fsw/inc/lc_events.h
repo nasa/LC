@@ -19,7 +19,7 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) event identifers.
+ *   Specification for the CFS Limit Checker (LC) event identifiers.
  */
 #ifndef LC_EVENTS_H
 #define LC_EVENTS_H
@@ -179,7 +179,7 @@
  *  \par Cause:
  *
  *  This event message is issued when the CDS area for the
- *  watchpoint restuls table (WRT) data could not be registered.
+ *  watchpoint results table (WRT) data could not be registered.
  */
 #define LC_WRT_CDS_REGISTER_ERR_EID 12
 
@@ -191,7 +191,7 @@
  *  \par Cause:
  *
  *  This event message is issued when the CDS area for the
- *  actionpont restuls table (ART) data could not be registered.
+ *  actionpont results table (ART) data could not be registered.
  */
 #define LC_ART_CDS_REGISTER_ERR_EID 13
 
@@ -208,7 +208,7 @@
 #define LC_APP_CDS_REGISTER_ERR_EID 14
 
 /**
- * \brief LC Watchpoint Defintion Table Load From File Failed Event ID
+ * \brief LC Watchpoint Definition Table Load From File Failed Event ID
  *
  *  \par Type: ERROR
  *
@@ -539,7 +539,7 @@
 #define LC_APSTATS_INF_EID 38
 
 /**
- * \brief LC Reset Watchpoint Stats Watchpoint Number Invalid Evnt ID
+ * \brief LC Reset Watchpoint Stats Watchpoint Number Invalid Event ID
  *
  *  \par Type: ERROR
  *
@@ -581,7 +581,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when a actionpoint sample request is received
+ *  This event message is issued when an actionpoint sample request is received
  *  with a message length that doesn't match the expected value.
  */
 #define LC_APSAMPLE_LEN_ERR_EID 42
@@ -686,7 +686,7 @@
 #define LC_WP_DATATYPE_ERR_EID 50
 
 /**
- * \brief LC Watchpoint Operatior ID Invalid Event ID
+ * \brief LC Watchpoint Operator ID Invalid Event ID
  *
  *  \par Type: ERROR
  *
@@ -724,7 +724,7 @@
 #define LC_WP_OFFSET_ERR_EID 53
 
 /**
- * \brief LC Watchpoint Defintion Table Validation Floating Point Check Failed Event ID
+ * \brief LC Watchpoint Definition Table Validation Floating Point Check Failed Event ID
  *
  *  \par Type: ERROR
  *
@@ -752,7 +752,7 @@
 #define LC_WDTVAL_ERR_EID 55
 
 /**
- * \brief LC Watchpoint Defintion Table Validation Results Event ID
+ * \brief LC Watchpoint Definition Table Validation Results Event ID
  *
  *  \par Type: INFORMATION
  *
@@ -856,7 +856,7 @@
  *  \par Cause:
  *
  *  This event message is issued on the first error when a table validation
- *  fails for a actionpoint definition table (ADT) load and the error is
+ *  fails for an actionpoint definition table (ADT) load and the error is
  *  a failed RPN equation check.
  */
 #define LC_ADTVAL_RPNERR_EID 64
@@ -875,7 +875,7 @@
 #define LC_ADTVAL_ERR_EID 65
 
 /**
- * \brief LC Actionpoint Defintion Table Validation Result Event ID
+ * \brief LC Actionpoint Definition Table Validation Result Event ID
  *
  *  \par Type: INFORMATION
  *

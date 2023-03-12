@@ -87,6 +87,7 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
                                   (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
                                   (int)ExpectedLength);
                 LC_AppData.CmdErrCount++;
+                break;
         }
 
         result = false;

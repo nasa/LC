@@ -516,7 +516,7 @@
   </I>
 
   <B> (Q)
-     When would a actionpoint evalute to #LC_ACTION_STALE?
+     When would an actionpoint evalute to #LC_ACTION_STALE?
   </B> <BR> <BR> <I>
      #LC_ACTION_STALE is an initialization value for the Actionpoint
      Results Table. If an actionpoint has this ActionResult then one of
@@ -534,7 +534,7 @@
   </I>
 
   <B> (Q)
-     When would a actionpoint evalute to #LC_ACTION_ERROR?
+     When would an actionpoint evalute to #LC_ACTION_ERROR?
   </B> <BR> <BR> <I>
      #LC_ACTION_ERROR is a runtime error indicator for actionpoint processing.
      Such a result should be rare since most of the causes are invalid actionpoint
