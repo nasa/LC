@@ -575,7 +575,7 @@ void LC_HousekeepingReq_Test_WatchStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -626,7 +626,7 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -677,7 +677,7 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -729,7 +729,7 @@ void LC_HousekeepingReq_Test_WatchError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -780,7 +780,7 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -832,7 +832,7 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -884,7 +884,7 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -939,7 +939,7 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -991,7 +991,7 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1043,7 +1043,7 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1095,7 +1095,7 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1139,7 +1139,7 @@ void LC_HousekeepingReq_Test_ManageTablesError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), -1);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.NoArgsCmd.CmdHeader);
+    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");

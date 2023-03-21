@@ -128,7 +128,7 @@
  *       Implements the Noop command that insures the LC task is alive
  *
  *  \par Command Structure
- *       #LC_NoArgsCmd_t
+ *       #LC_NoopCmd_t
  *
  *  \par Command Verification
  *       Successful execution of this command may be verified with
@@ -159,7 +159,7 @@
  *       Resets the LC housekeeping counters
  *
  *  \par Command Structure
- *       #LC_NoArgsCmd_t
+ *       #LC_ResetCountersCmd_t
  *
  *  \par Command Verification
  *       Successful execution of this command may be verified with
@@ -190,7 +190,7 @@
  *       Sets the operational state of the LC application
  *
  *  \par Command Structure
- *       #LC_SetLCState_t
+ *       #LC_SetLCStateCmd_t
  *
  *  \par Command Verification
  *       Successful execution of this command may be verified with
@@ -223,7 +223,7 @@
  *       Set actionpoint state
  *
  *  \par Command Structure
- *       #LC_SetAPState_t
+ *       #LC_SetAPStateCmd_t
  *
  *  \par Command Verification
  *       Successful execution of this command may be verified with
@@ -261,7 +261,7 @@
  *       Set the specified actionpoint's state to #LC_APSTATE_PERMOFF
  *
  *  \par Command Structure
- *       #LC_SetAPPermOff_t
+ *       #LC_SetAPPermOffCmd_t
  *
  *  \par Command Verification
  *       Successful execution of this command may be verified with
@@ -296,7 +296,7 @@
  *       Resets actionpoint statistics
  *
  *  \par Command Structure
- *       #LC_ResetAPStats_t
+ *       #LC_ResetAPStatsCmd_t
  *
  *  \par Command Verification
  *       Successful execution of this command may be verified with
@@ -330,7 +330,7 @@
  *       Resets watchpoint statistics
  *
  *  \par Command Structure
- *       #LC_ResetWPStats_t
+ *       #LC_ResetWPStatsCmd_t
  *
  *  \par Command Verification
  *       Successful execution of this command may be verified with

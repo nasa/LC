@@ -62,15 +62,18 @@ extern CFE_ES_WriteToSysLog_context_t context_CFE_ES_WriteToSysLog;
 /* Command buffer typedef for any handler */
 typedef union
 {
-    CFE_SB_Buffer_t   Buf;
-    LC_NoArgsCmd_t    NoArgsCmd;
-    LC_SetLCState_t   SetLCStateCmd;
-    LC_SetAPState_t   SetAPStateCmd;
-    LC_SetAPPermOff_t SetAPPermOffCmd;
-    LC_ResetAPStats_t ResetAPStatsCmd;
-    LC_ResetWPStats_t ResetWPStatsCmd;
-    LC_SampleAP_t     SampleAPCmd;
-    LC_RTSRequest_t   RTSRequestCmd;
+    CFE_SB_Buffer_t Buf;
+
+    LC_SendHkCmd_t        SendHkCmd;
+    LC_NoopCmd_t          NoopCmd;
+    LC_ResetCountersCmd_t ResetCountersCmd;
+    LC_SetLCStateCmd_t    SetLCStateCmd;
+    LC_SetAPStateCmd_t    SetAPStateCmd;
+    LC_SetAPPermOffCmd_t  SetAPPermOffCmd;
+    LC_ResetAPStatsCmd_t  ResetAPStatsCmd;
+    LC_ResetWPStatsCmd_t  ResetWPStatsCmd;
+    LC_SampleAPCmd_t      SampleAPCmd;
+    LC_RTSRequestCmd_t    RTSRequestCmd;
 } UT_CmdBuf_t;
 
 extern UT_CmdBuf_t UT_CmdBuf;
