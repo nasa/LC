@@ -48,7 +48,7 @@ void LC_ExecuteRTS(uint16 RTSId)
     CFE_MSG_Init(CFE_MSG_PTR(RTSRequest.CommandHeader), CFE_SB_ValueToMsgId(LC_RTS_REQ_MID), sizeof(RTSRequest));
     CFE_MSG_SetFcnCode(CFE_MSG_PTR(RTSRequest.CommandHeader), LC_RTS_REQ_CC);
 
-    RTSRequest.RTSId = RTSId;
+    RTSRequest.Payload.RTSId = RTSId;
 
     CFE_SB_TransmitMsg(CFE_MSG_PTR(RTSRequest.CommandHeader), true);
 

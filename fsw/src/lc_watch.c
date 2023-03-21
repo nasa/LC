@@ -824,10 +824,15 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_CopyBytesWithSwap(LC_MultiType_t *DestBuffer, const uint8 *SrcPtr, LC_MultiType_t *SwapMap, uint32 NumBytes)
 {
+    uint8 *      DestPtr;
+    const uint8 *SwapMapPtr;
+
+    DestPtr    = (uint8 *)DestBuffer;
+    SwapMapPtr = (const uint8 *)SwapMap;
     while (NumBytes > 0)
     {
         --NumBytes;
-        DestBuffer->RawByte[NumBytes] = SrcPtr[SwapMap->RawByte[NumBytes] & 0x3];
+        DestPtr[NumBytes] = SrcPtr[SwapMapPtr[NumBytes] & 0x3];
     }
 }
 

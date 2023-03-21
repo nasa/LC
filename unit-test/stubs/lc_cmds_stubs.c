@@ -84,14 +84,14 @@ void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
 
 /*
  * ----------------------------------------------------
- * Generated stub function for LC_ResetCmd()
+ * Generated stub function for LC_ResetCountersCmd()
  * ----------------------------------------------------
  */
-void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr)
+void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    UT_GenStub_AddParam(LC_ResetCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_AddParam(LC_ResetCountersCmd, const CFE_SB_Buffer_t *, BufPtr);
 
-    UT_GenStub_Execute(LC_ResetCmd, Basic, NULL);
+    UT_GenStub_Execute(LC_ResetCountersCmd, Basic, NULL);
 }
 
 /*

@@ -35,7 +35,7 @@
 #include "lc_platform_cfg.h"
 #include "lc_utils.h"
 
-#define LC_GET_CMD_PAYLOAD(ptr, type) ((const type *)(ptr))
+#define LC_GET_CMD_PAYLOAD(ptr, type) (&((const type *)(ptr))->Payload)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -80,7 +80,7 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
                     break;
 
                 case LC_RESET_CC:
-                    LC_ResetCmd(BufPtr);
+                    LC_ResetCountersCmd(BufPtr);
                     break;
 
                 case LC_SET_LC_STATE_CC:
@@ -134,10 +134,10 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
 {
-    const LC_SampleAPCmd_t *LC_SampleAP;
-    size_t                  ExpectedLength = sizeof(LC_SampleAPCmd_t);
-    uint16                  WatchIndex;
-    bool                    ValidSampleCmd = false;
+    const LC_SampleAP_Payload_t *LC_SampleAP;
+    size_t                       ExpectedLength = sizeof(LC_SampleAPCmd_t);
+    uint16                       WatchIndex;
+    bool                         ValidSampleCmd = false;
 
     /*
     ** Verify message packet length
@@ -218,6 +218,8 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
     uint16 HKIndex;
     uint8  ByteData;
 
+    LC_HkTlm_Payload_t *PayloadPtr;
+
     /*
     ** Verify message packet length
     */
@@ -226,20 +228,22 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
         /*
         ** Update HK variables
         */
-        LC_OperData.HkPacket.CmdCount            = LC_AppData.CmdCount;
-        LC_OperData.HkPacket.CmdErrCount         = LC_AppData.CmdErrCount;
-        LC_OperData.HkPacket.APSampleCount       = LC_AppData.APSampleCount;
-        LC_OperData.HkPacket.MonitoredMsgCount   = LC_AppData.MonitoredMsgCount;
-        LC_OperData.HkPacket.RTSExecCount        = LC_AppData.RTSExecCount;
-        LC_OperData.HkPacket.PassiveRTSExecCount = LC_AppData.PassiveRTSExecCount;
-        LC_OperData.HkPacket.CurrentLCState      = LC_AppData.CurrentLCState;
-        LC_OperData.HkPacket.WPsInUse            = LC_OperData.WatchpointCount;
+        PayloadPtr = &LC_OperData.HkPacket.Payload;
+
+        PayloadPtr->CmdCount            = LC_AppData.CmdCount;
+        PayloadPtr->CmdErrCount         = LC_AppData.CmdErrCount;
+        PayloadPtr->APSampleCount       = LC_AppData.APSampleCount;
+        PayloadPtr->MonitoredMsgCount   = LC_AppData.MonitoredMsgCount;
+        PayloadPtr->RTSExecCount        = LC_AppData.RTSExecCount;
+        PayloadPtr->PassiveRTSExecCount = LC_AppData.PassiveRTSExecCount;
+        PayloadPtr->CurrentLCState      = LC_AppData.CurrentLCState;
+        PayloadPtr->WPsInUse            = LC_OperData.WatchpointCount;
 
         /*
         ** Clear out the active actionpoint count, it will get
         ** recomputed below
         */
-        LC_OperData.HkPacket.ActiveAPs = 0;
+        PayloadPtr->ActiveAPs = 0;
 
         /*
         ** Update packed watch results
@@ -348,7 +352,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
             /*
             ** Update houskeeping watch results array
             */
-            LC_OperData.HkPacket.WPResults[HKIndex] = ByteData;
+            PayloadPtr->WPResults[HKIndex] = ByteData;
 
         } /* end watch results for loop */
 
@@ -371,7 +375,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
 
                 case LC_APSTATE_ACTIVE:
                     ByteData = LC_HKAR_STATE_ACTIVE << 6;
-                    LC_OperData.HkPacket.ActiveAPs++;
+                    PayloadPtr->ActiveAPs++;
                     break;
 
                 case LC_APSTATE_PASSIVE:
@@ -431,7 +435,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
 
                 case LC_APSTATE_ACTIVE:
                     ByteData = (ByteData | (LC_HKAR_STATE_ACTIVE << 2));
-                    LC_OperData.HkPacket.ActiveAPs++;
+                    PayloadPtr->ActiveAPs++;
                     break;
 
                 case LC_APSTATE_PASSIVE:
@@ -474,7 +478,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
             /*
             ** Update houskeeping action results array
             */
-            LC_OperData.HkPacket.APResults[HKIndex] = ByteData;
+            PayloadPtr->APResults[HKIndex] = ByteData;
 
         } /* end action results for loop */
 
@@ -519,7 +523,7 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
 /* Reset counters command                                          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr)
+void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr)
 {
     size_t ExpectedLength = sizeof(LC_ResetCountersCmd_t);
 
@@ -561,8 +565,8 @@ void LC_ResetCounters(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t                    ExpectedLength = sizeof(LC_SetLCStateCmd_t);
-    const LC_SetLCStateCmd_t *CmdPtr;
+    size_t                         ExpectedLength = sizeof(LC_SetLCStateCmd_t);
+    const LC_SetLCState_Payload_t *CmdPtr;
 
     /*
     ** Verify message packet length
@@ -602,12 +606,12 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t                    ExpectedLength = sizeof(LC_SetAPStateCmd_t);
-    const LC_SetAPStateCmd_t *CmdPtr;
-    uint32                    TableIndex;
-    uint8                     CurrentAPState;
-    bool                      ValidState = true;
-    bool                      CmdSuccess = false;
+    size_t                         ExpectedLength = sizeof(LC_SetAPStateCmd_t);
+    const LC_SetAPState_Payload_t *CmdPtr;
+    uint32                         TableIndex;
+    uint8                          CurrentAPState;
+    bool                           ValidState = true;
+    bool                           CmdSuccess = false;
 
     /*
     ** Verify message packet length
@@ -732,10 +736,10 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t                      ExpectedLength = sizeof(LC_SetAPPermOffCmd_t);
-    const LC_SetAPPermOffCmd_t *CmdPtr;
-    uint32                      TableIndex;
-    uint8                       CurrentAPState;
+    size_t                           ExpectedLength = sizeof(LC_SetAPPermOffCmd_t);
+    const LC_SetAPPermOff_Payload_t *CmdPtr;
+    uint32                           TableIndex;
+    uint8                            CurrentAPState;
 
     /*
     ** Verify message packet length
@@ -799,9 +803,9 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t                      ExpectedLength = sizeof(LC_ResetAPStatsCmd_t);
-    const LC_ResetAPStatsCmd_t *CmdPtr;
-    bool                        CmdSuccess = false;
+    size_t                           ExpectedLength = sizeof(LC_ResetAPStatsCmd_t);
+    const LC_ResetAPStats_Payload_t *CmdPtr;
+    bool                             CmdSuccess = false;
 
     /* verify message packet length */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
@@ -879,9 +883,9 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t                      ExpectedLength = sizeof(LC_ResetWPStatsCmd_t);
-    const LC_ResetWPStatsCmd_t *CmdPtr;
-    bool                        CmdSuccess = false;
+    size_t                           ExpectedLength = sizeof(LC_ResetWPStatsCmd_t);
+    const LC_ResetWPStats_Payload_t *CmdPtr;
+    bool                             CmdSuccess = false;
 
     /* verify message packet length */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))

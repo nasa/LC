@@ -64,7 +64,7 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \sa #LC_ResetCmd
+ *  \sa #LC_ResetCountersCmd
  */
 void LC_ResetCounters(void);
 
@@ -166,7 +166,7 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr);
  *
  *  \sa #LC_RESET_CC
  */
-void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr);
+void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr);
 
 /**
  * \brief Set LC state command
