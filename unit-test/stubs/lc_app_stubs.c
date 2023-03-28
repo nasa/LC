@@ -19,39 +19,12 @@
 
 /**
  * @file
- *   Unit specification for the Core Flight System (CFS)
- *   Limit Checker (LC) Application.
- */
-
-/**
- * @file
  *
  * Auto-Generated stub implementations for functions defined in lc_app header
  */
 
 #include "lc_app.h"
-#include "lc_msg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgids.h"
-#include "lc_events.h"
-#include "lc_version.h"
-#include "lc_test_utils.h"
-
-/* UT includes */
-#include "uttest.h"
-#include "utassert.h"
-#include "utstubs.h"
-
-#include <unistd.h>
-#include <stdlib.h>
-
 #include "utgenstub.h"
-
-/************************************************************************
-** LC Global Data
-*************************************************************************/
-LC_OperData_t LC_OperData;
-LC_AppData_t  LC_AppData;
 
 /*
  * ----------------------------------------------------
@@ -74,6 +47,7 @@ int32 LC_AppInit(void)
  */
 void LC_AppMain(void)
 {
+
     UT_GenStub_Execute(LC_AppMain, Basic, NULL);
 }
 

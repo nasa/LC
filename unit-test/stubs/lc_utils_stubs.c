@@ -19,32 +19,11 @@
 
 /**
  * @file
- *   CFS Limit Checker (LC) utility functions
- */
-
-/**
- * @file
  *
  * Auto-Generated stub implementations for functions defined in lc_utils header
  */
 
 #include "lc_utils.h"
-#include "lc_app.h"
-#include "lc_msg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgids.h"
-#include "lc_events.h"
-#include "lc_version.h"
-#include "lc_test_utils.h"
-
-/* UT includes */
-#include "uttest.h"
-#include "utassert.h"
-#include "utstubs.h"
-
-#include <unistd.h>
-#include <stdlib.h>
-
 #include "utgenstub.h"
 
 /*
@@ -96,13 +75,12 @@ int32 LC_UpdateTaskCDS(void)
  */
 bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
 {
-    /* UT_GenStub_SetupReturnBuffer(LC_VerifyMsgLength, bool); */
+    UT_GenStub_SetupReturnBuffer(LC_VerifyMsgLength, bool);
 
-    /* UT_GenStub_AddParam(LC_VerifyMsgLength, const CFE_MSG_Message_t* , MsgPtr); */
-    /* UT_GenStub_AddParam(LC_VerifyMsgLength, size_t , ExpectedLength); */
+    UT_GenStub_AddParam(LC_VerifyMsgLength, const CFE_MSG_Message_t *, MsgPtr);
+    UT_GenStub_AddParam(LC_VerifyMsgLength, size_t, ExpectedLength);
 
-    /* UT_GenStub_Execute(LC_VerifyMsgLength, Basic, NULL); */
+    UT_GenStub_Execute(LC_VerifyMsgLength, Basic, NULL);
 
-    /* return UT_GenStub_GetReturnValue(LC_VerifyMsgLength, bool); */
-    return UT_DEFAULT_IMPL(LC_VerifyMsgLength) != 0;
+    return UT_GenStub_GetReturnValue(LC_VerifyMsgLength, bool);
 }

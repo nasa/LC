@@ -19,33 +19,11 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) routines that
- *   handle command processing
- */
-
-/**
- * @file
  *
  * Auto-Generated stub implementations for functions defined in lc_cmds header
  */
 
 #include "lc_cmds.h"
-#include "lc_app.h"
-#include "lc_msg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgids.h"
-#include "lc_events.h"
-#include "lc_version.h"
-#include "lc_test_utils.h"
-
-/* UT includes */
-#include "uttest.h"
-#include "utassert.h"
-#include "utstubs.h"
-
-#include <unistd.h>
-#include <stdlib.h>
-
 #include "utgenstub.h"
 
 /*
@@ -123,6 +101,7 @@ void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr)
  */
 void LC_ResetCounters(void)
 {
+
     UT_GenStub_Execute(LC_ResetCounters, Basic, NULL);
 }
 
@@ -131,11 +110,11 @@ void LC_ResetCounters(void)
  * Generated stub function for LC_ResetResultsAP()
  * ----------------------------------------------------
  */
-void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetCmd)
+void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
 {
     UT_GenStub_AddParam(LC_ResetResultsAP, uint32, StartIndex);
     UT_GenStub_AddParam(LC_ResetResultsAP, uint32, EndIndex);
-    UT_GenStub_AddParam(LC_ResetResultsAP, bool, ResetCmd);
+    UT_GenStub_AddParam(LC_ResetResultsAP, bool, ResetStatsCmd);
 
     UT_GenStub_Execute(LC_ResetResultsAP, Basic, NULL);
 }
@@ -145,11 +124,11 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetCmd)
  * Generated stub function for LC_ResetResultsWP()
  * ----------------------------------------------------
  */
-void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetCmd)
+void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
 {
     UT_GenStub_AddParam(LC_ResetResultsWP, uint32, StartIndex);
     UT_GenStub_AddParam(LC_ResetResultsWP, uint32, EndIndex);
-    UT_GenStub_AddParam(LC_ResetResultsWP, bool, ResetCmd);
+    UT_GenStub_AddParam(LC_ResetResultsWP, bool, ResetStatsCmd);
 
     UT_GenStub_Execute(LC_ResetResultsWP, Basic, NULL);
 }
