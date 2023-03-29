@@ -33,6 +33,7 @@
 #include "lc_perfids.h"
 #include "lc_version.h"
 #include "lc_cmds.h"
+#include "lc_dispatch.h"
 #include "lc_action.h"
 #include "lc_watch.h"
 #include "lc_utils.h"

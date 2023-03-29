@@ -13,6 +13,7 @@ add_cfe_coverage_stubs("lc_internal"
   stubs/lc_cmds_stubs.c
   stubs/lc_action_stubs.c
   stubs/lc_custom_stubs.c
+  stubs/lc_dispatch_stubs.c
   stubs/lc_utils_stubs.c
   stubs/lc_watch_stubs.c
   stubs/lc_global_stubs.c

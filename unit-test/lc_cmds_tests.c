@@ -47,307 +47,8 @@
 
 uint8 call_count_CFE_EVS_SendEvent;
 
-void LC_AppPipe_Test_SampleAPRequest(void)
-{
-    int32          Result;
-    CFE_SB_MsgId_t TestMsgId;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-}
-
-void LC_AppPipe_Test_HousekeepingRequest(void)
-{
-    int32          Result;
-    CFE_SB_MsgId_t TestMsgId;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
-    /* Set to prevent unintended error messages in subfunctions */
-    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-    uint8 call_count_LC_PerformMaintenance = UT_GetStubCount(UT_KEY(LC_PerformMaintenance));
-    UtAssert_INT32_EQ(call_count_LC_PerformMaintenance, 1);
-    /* Generates 1 event message we don't care about in this test */
-}
-
-void LC_AppPipe_Test_Noop(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-    int32             strCmpResult;
-    char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "No-op command: Version %%d.%%d.%%d.%%d");
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_NOOP_CC;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    /* Note: this event message is generated in a subfunction, but is tested anyway to verify that the correct code path
-     * has been reached */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_NOOP_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-}
-
-void LC_AppPipe_Test_Reset(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-    int32             strCmpResult;
-    char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset counters command");
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_RESET_CC;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    /* Note: this event message is generated in a subfunction, but is tested anyway to verify that the correct code path
-     * has been reached */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_RESET_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-}
-
-void LC_AppPipe_Test_SetLCState(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_SET_LC_STATE_CC;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-    /* Generates 1 event message we don't care about in this test */
-}
-
-void LC_AppPipe_Test_SetAPState(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_SET_AP_STATE_CC;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-    /* Generates 1 event message we don't care about in this test */
-}
-
-void LC_AppPipe_Test_SetAPPermoff(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_SET_AP_PERM_OFF_CC;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-
-    /* Generates 1 event message we don't care about in this test */
-}
-
-void LC_AppPipe_Test_ResetAPStats(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_RESET_AP_STATS_CC;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    /* Generates 1 event message we don't care about in this test */
-}
-
-void LC_AppPipe_Test_ResetWPStats(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = LC_RESET_WP_STATS_CC;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    /* Generates 1 event message we don't care about in this test */
-}
-
-void LC_AppPipe_Test_InvalidCommandCode(void)
-{
-    int32             Result;
-    CFE_SB_MsgId_t    TestMsgId;
-    CFE_MSG_FcnCode_t FcnCode;
-
-    TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
-    FcnCode   = 99;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Invalid command code: ID = 0x%%08lX, CC = %%d");
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CC_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-}
-
-void LC_AppPipe_Test_MonitorPacket(void)
-{
-    int32          Result;
-    CFE_SB_MsgId_t TestMsgId;
-
-    TestMsgId = LC_UT_MID_1;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    /* Execute the function being tested */
-    Result = LC_AppPipe(&UT_CmdBuf.Buf);
-
-    /* Verify results */
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
-
-    uint8 call_count_LC_CheckMsgForWPs = UT_GetStubCount(UT_KEY(LC_CheckMsgForWPs));
-    UtAssert_INT32_EQ(call_count_LC_CheckMsgForWPs, 1);
-}
-
-void LC_SampleAPReq_Test_BadLength(void)
-{
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
-}
-
 void LC_SampleAPReq_Test_StateDisabled(void)
 {
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_AppData.CurrentLCState = LC_STATE_DISABLED;
 
     LC_SampleAPReq(&UT_CmdBuf.Buf);
@@ -360,8 +61,6 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState = 99;
 
@@ -388,8 +87,6 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_AppData.CurrentLCState              = 99;
     LC_SampleAP_Payload_t *PayloadPtr      = &UT_CmdBuf.SampleAPCmd.Payload;
     PayloadPtr->StartIndex                 = LC_ALL_ACTIONPOINTS;
@@ -412,8 +109,6 @@ void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState              = 99;
     PayloadPtr->StartIndex                 = LC_MAX_ACTIONPOINTS - 1;
@@ -439,8 +134,6 @@ void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState = 99;
     PayloadPtr->StartIndex    = 2;
@@ -473,8 +166,6 @@ void LC_SampleAPReq_Test_BadSampleAllArgs(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -509,8 +200,6 @@ void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
@@ -544,8 +233,6 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_AppData.CurrentLCState              = 99;
     PayloadPtr->StartIndex                 = LC_ALL_ACTIONPOINTS;
     PayloadPtr->EndIndex                   = LC_ALL_ACTIONPOINTS;
@@ -561,7 +248,7 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_WatchStale(void)
+void LC_SendHkCmd_Test_WatchStale(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -573,8 +260,6 @@ void LC_HousekeepingReq_Test_WatchStale(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
         LC_OperData.WRTPtr[TableIndex].WatchResult = LC_WATCH_STALE;
@@ -584,7 +269,7 @@ void LC_HousekeepingReq_Test_WatchStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -613,7 +298,7 @@ void LC_HousekeepingReq_Test_WatchStale(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_WatchFalse(void)
+void LC_SendHkCmd_Test_WatchFalse(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -625,8 +310,6 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
         LC_OperData.WRTPtr[TableIndex].WatchResult = LC_WATCH_FALSE;
@@ -636,7 +319,7 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -665,7 +348,7 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_WatchTrue(void)
+void LC_SendHkCmd_Test_WatchTrue(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -677,8 +360,6 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
         LC_OperData.WRTPtr[TableIndex].WatchResult = LC_WATCH_TRUE;
@@ -688,7 +369,7 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -717,7 +398,7 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_WatchError(void)
+void LC_SendHkCmd_Test_WatchError(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -730,8 +411,6 @@ void LC_HousekeepingReq_Test_WatchError(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
         LC_OperData.WRTPtr[TableIndex].WatchResult = LC_WATCH_ERROR;
@@ -741,7 +420,7 @@ void LC_HousekeepingReq_Test_WatchError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -770,7 +449,7 @@ void LC_HousekeepingReq_Test_WatchError(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_DefaultWatchResult(void)
+void LC_SendHkCmd_Test_DefaultWatchResult(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -781,8 +460,6 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
     {
@@ -793,7 +470,7 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -822,7 +499,7 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
+void LC_SendHkCmd_Test_ActionNotUsedStale(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -833,8 +510,6 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -846,7 +521,7 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -875,7 +550,7 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
+void LC_SendHkCmd_Test_APStateActiveActionPass(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -887,8 +562,6 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_ACTIVE;
@@ -899,7 +572,7 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -930,7 +603,7 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
+void LC_SendHkCmd_Test_APStatePassiveActionFail(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -942,8 +615,6 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_PASSIVE;
@@ -954,7 +625,7 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -983,7 +654,7 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
+void LC_SendHkCmd_Test_APStateDisabledActionError(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -995,8 +666,6 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_DISABLED;
@@ -1007,7 +676,7 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1036,7 +705,7 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
+void LC_SendHkCmd_Test_APStatePermOffActionError(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -1047,8 +716,6 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1060,7 +727,7 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1089,7 +756,7 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
+void LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult(void)
 {
     int32                     Result;
     uint16                    TableIndex;
@@ -1101,8 +768,6 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ARTPtr[TableIndex].CurrentState = 99;
@@ -1113,7 +778,7 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -1142,7 +807,7 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_HousekeepingReq_Test_ManageTablesError(void)
+void LC_SendHkCmd_Test_ManageTablesError(void)
 {
     int32          Result;
     CFE_SB_MsgId_t TestMsgId;
@@ -1151,13 +816,12 @@ void LC_HousekeepingReq_Test_ManageTablesError(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_PerformMaintenance), -1);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     /* Set to satisfy condition "(Result = LC_ManageTables()) != CFE_SUCCESS" */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), -1);
 
     /* Execute the function being tested */
-    Result = LC_HousekeepingReq(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
@@ -1166,22 +830,21 @@ void LC_HousekeepingReq_Test_ManageTablesError(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_NoopCmd_Test_BadLength(void)
+void LC_NoopCmd_Test(void)
 {
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
+    LC_AppData.CmdCount = 1;
 
     LC_NoopCmd(&UT_CmdBuf.Buf);
 
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
+    UtAssert_UINT8_EQ(LC_AppData.CmdCount, 2);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
 
-void LC_ResetCountersCmd_Test_BadLength(void)
+void LC_ResetCountersCmd_Test(void)
 {
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
     LC_ResetCountersCmd(&UT_CmdBuf.Buf);
 
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
 
 void LC_ResetCounters_Test(void)
@@ -1209,15 +872,6 @@ void LC_ResetCounters_Test(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_SetLCStateCmd_Test_BadLength(void)
-{
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
-    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
-
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-}
-
 void LC_SetLCStateCmd_Test_Active(void)
 {
     CFE_SB_MsgId_t           TestMsgId;
@@ -1225,7 +879,6 @@ void LC_SetLCStateCmd_Test_Active(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1258,7 +911,6 @@ void LC_SetLCStateCmd_Test_Passive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1291,7 +943,6 @@ void LC_SetLCStateCmd_Test_Disabled(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1324,7 +975,6 @@ void LC_SetLCStateCmd_Test_Default(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1349,15 +999,6 @@ void LC_SetLCStateCmd_Test_Default(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_SetAPStateCmd_Test_BadLength(void)
-{
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
-
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-}
-
 void LC_SetAPStateCmd_Test_Default(void)
 {
     CFE_SB_MsgId_t           TestMsgId;
@@ -1365,7 +1006,6 @@ void LC_SetAPStateCmd_Test_Default(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1400,7 +1040,6 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1454,7 +1093,6 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1509,7 +1147,6 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1564,7 +1201,6 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1618,7 +1254,6 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1671,7 +1306,6 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1708,7 +1342,6 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1745,7 +1378,6 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1782,7 +1414,6 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1819,7 +1450,6 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1855,7 +1485,6 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1891,7 +1520,6 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1928,7 +1556,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1963,7 +1590,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -1997,7 +1623,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2023,15 +1648,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_SetAPPermOffCmd_Test_BadLength(void)
-{
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
-    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
-
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-}
-
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 {
     CFE_SB_MsgId_t             TestMsgId;
@@ -2039,7 +1655,6 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2070,7 +1685,6 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2101,7 +1715,6 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2135,7 +1748,6 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2163,15 +1775,6 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_ResetAPStatsCmd_Test_BadLength(void)
-{
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
-    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
-
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-}
-
 void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 {
     CFE_SB_MsgId_t             TestMsgId;
@@ -2179,7 +1782,6 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2210,7 +1812,6 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2241,7 +1842,6 @@ void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2366,15 +1966,6 @@ void LC_ResetResultsAP_Test(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_ResetWPStatsCmd_Test_BadLength(void)
-{
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
-
-    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
-
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
-}
-
 void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 {
     CFE_SB_MsgId_t             TestMsgId;
@@ -2382,7 +1973,6 @@ void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2413,7 +2003,6 @@ void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2443,7 +2032,6 @@ void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -2597,20 +2185,6 @@ void LC_ResetResultsWP_Test(void)
 
 void UtTest_Setup(void)
 {
-    UtTest_Add(LC_AppPipe_Test_SampleAPRequest, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_SampleAPRequest");
-    UtTest_Add(LC_AppPipe_Test_HousekeepingRequest, LC_Test_Setup, LC_Test_TearDown,
-               "LC_AppPipe_Test_HousekeepingRequest");
-    UtTest_Add(LC_AppPipe_Test_Noop, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_Noop");
-    UtTest_Add(LC_AppPipe_Test_Reset, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_Reset");
-    UtTest_Add(LC_AppPipe_Test_SetLCState, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_SetLCState");
-    UtTest_Add(LC_AppPipe_Test_SetAPState, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_SetAPState");
-    UtTest_Add(LC_AppPipe_Test_SetAPPermoff, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_SetAPPermoff");
-    UtTest_Add(LC_AppPipe_Test_ResetAPStats, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_ResetAPStats");
-    UtTest_Add(LC_AppPipe_Test_ResetWPStats, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_ResetWPStats");
-    UtTest_Add(LC_AppPipe_Test_InvalidCommandCode, LC_Test_Setup, LC_Test_TearDown,
-               "LC_AppPipe_Test_InvalidCommandCode");
-    UtTest_Add(LC_AppPipe_Test_MonitorPacket, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_MonitorPacket");
-    UtTest_Add(LC_SampleAPReq_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_SampleAPReq_Test_BadLength");
     UtTest_Add(LC_SampleAPReq_Test_AllowSampleAllWatchStale, LC_Test_Setup, LC_Test_TearDown,
                "LC_SampleAPReq_Test_AllowSampleAllWatchStale");
     UtTest_Add(LC_SampleAPReq_Test_AllowSampleAllWatchNotStale, LC_Test_Setup, LC_Test_TearDown,
@@ -2628,33 +2202,29 @@ void UtTest_Setup(void)
     UtTest_Add(LC_SampleAPReq_Test_BadSampleAllArgs, LC_Test_Setup, LC_Test_TearDown,
                "LC_SampleAPReq_Test_BadSampleAllArgs");
 
-    UtTest_Add(LC_HousekeepingReq_Test_WatchStale, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_WatchStale");
-    UtTest_Add(LC_HousekeepingReq_Test_WatchFalse, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_WatchFalse");
-    UtTest_Add(LC_HousekeepingReq_Test_WatchTrue, LC_Test_Setup, LC_Test_TearDown, "LC_HousekeepingReq_Test_WatchTrue");
-    UtTest_Add(LC_HousekeepingReq_Test_WatchError, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_WatchError");
-    UtTest_Add(LC_HousekeepingReq_Test_DefaultWatchResult, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_DefaultWatchResult");
-    UtTest_Add(LC_HousekeepingReq_Test_ActionNotUsedStale, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_ActionNotUsedStale");
-    UtTest_Add(LC_HousekeepingReq_Test_APStateActiveActionPass, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_APStateActiveActionPass");
-    UtTest_Add(LC_HousekeepingReq_Test_APStatePassiveActionFail, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_APStatePassiveActionFail");
-    UtTest_Add(LC_HousekeepingReq_Test_APStateDisabledActionError, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_APStateDisabledActionError");
-    UtTest_Add(LC_HousekeepingReq_Test_APStatePermOffActionError, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_APStatePermOffActionError");
-    UtTest_Add(LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult");
-    UtTest_Add(LC_HousekeepingReq_Test_ManageTablesError, LC_Test_Setup, LC_Test_TearDown,
-               "LC_HousekeepingReq_Test_ManageTablesError");
+    UtTest_Add(LC_SendHkCmd_Test_WatchStale, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchStale");
+    UtTest_Add(LC_SendHkCmd_Test_WatchFalse, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchFalse");
+    UtTest_Add(LC_SendHkCmd_Test_WatchTrue, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchTrue");
+    UtTest_Add(LC_SendHkCmd_Test_WatchError, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchError");
+    UtTest_Add(LC_SendHkCmd_Test_DefaultWatchResult, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_DefaultWatchResult");
+    UtTest_Add(LC_SendHkCmd_Test_ActionNotUsedStale, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_ActionNotUsedStale");
+    UtTest_Add(LC_SendHkCmd_Test_APStateActiveActionPass, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_APStateActiveActionPass");
+    UtTest_Add(LC_SendHkCmd_Test_APStatePassiveActionFail, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_APStatePassiveActionFail");
+    UtTest_Add(LC_SendHkCmd_Test_APStateDisabledActionError, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_APStateDisabledActionError");
+    UtTest_Add(LC_SendHkCmd_Test_APStatePermOffActionError, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_APStatePermOffActionError");
+    UtTest_Add(LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult");
+    UtTest_Add(LC_SendHkCmd_Test_ManageTablesError, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SendHkCmd_Test_ManageTablesError");
 
-    UtTest_Add(LC_NoopCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_NoopCmd_Test_BadLength");
-    UtTest_Add(LC_ResetCountersCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown,
-               "LC_ResetCountersCmd_Test_BadLength");
+    UtTest_Add(LC_NoopCmd_Test, LC_Test_Setup, LC_Test_TearDown, "LC_NoopCmd_Test");
+    UtTest_Add(LC_ResetCountersCmd_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCountersCmd_Test");
 
     UtTest_Add(LC_ResetCounters_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCounters_Test");
 
@@ -2662,9 +2232,7 @@ void UtTest_Setup(void)
     UtTest_Add(LC_SetLCStateCmd_Test_Passive, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Passive");
     UtTest_Add(LC_SetLCStateCmd_Test_Disabled, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Disabled");
     UtTest_Add(LC_SetLCStateCmd_Test_Default, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Default");
-    UtTest_Add(LC_SetLCStateCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_BadLength");
 
-    UtTest_Add(LC_SetAPStateCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPStateCmd_Test_BadLength");
     UtTest_Add(LC_SetAPStateCmd_Test_Default, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPStateCmd_Test_Default");
     UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActive, LC_Test_Setup, LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_SetAllActionPointsActive");
@@ -2701,7 +2269,6 @@ void UtTest_Setup(void)
     UtTest_Add(LC_SetAPPermOffCmd_Test_APNotDisabled, LC_Test_Setup, LC_Test_TearDown,
                "LC_SetAPPermOffCmd_Test_APNotDisabled");
     UtTest_Add(LC_SetAPPermOffCmd_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPPermOffCmd_Test_Nominal");
-    UtTest_Add(LC_SetAPPermOffCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPPermOffCmd_Test_BadLength");
     UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed, LC_Test_Setup, LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed");
     UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff, LC_Test_Setup, LC_Test_TearDown,
@@ -2713,7 +2280,6 @@ void UtTest_Setup(void)
                "LC_ResetAPStatsCmd_Test_SingleActionPoint");
     UtTest_Add(LC_ResetAPStatsCmd_Test_InvalidAPNumber, LC_Test_Setup, LC_Test_TearDown,
                "LC_ResetAPStatsCmd_Test_InvalidAPNumber");
-    UtTest_Add(LC_ResetAPStatsCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_ResetAPStatsCmd_Test_BadLength");
     UtTest_Add(LC_ResetResultsAP_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetResultsAP_Test");
 
     UtTest_Add(LC_ResetWPStatsCmd_Test_AllWatchPoints, LC_Test_Setup, LC_Test_TearDown,
@@ -2723,6 +2289,5 @@ void UtTest_Setup(void)
     UtTest_Add(LC_ResetWPStatsCmd_Test_InvalidWPNumber, LC_Test_Setup, LC_Test_TearDown,
                "LC_ResetWPStatsCmd_Test_InvalidWPNumber");
 
-    UtTest_Add(LC_ResetWPStatsCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_ResetWPStatsCmd_Test_BadLength");
     UtTest_Add(LC_ResetResultsWP_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetResultsWP_Test");
 }

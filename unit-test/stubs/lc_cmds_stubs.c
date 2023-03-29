@@ -28,38 +28,6 @@
 
 /*
  * ----------------------------------------------------
- * Generated stub function for LC_AppPipe()
- * ----------------------------------------------------
- */
-int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
-{
-    UT_GenStub_SetupReturnBuffer(LC_AppPipe, int32);
-
-    UT_GenStub_AddParam(LC_AppPipe, const CFE_SB_Buffer_t *, BufPtr);
-
-    UT_GenStub_Execute(LC_AppPipe, Basic, NULL);
-
-    return UT_GenStub_GetReturnValue(LC_AppPipe, int32);
-}
-
-/*
- * ----------------------------------------------------
- * Generated stub function for LC_HousekeepingReq()
- * ----------------------------------------------------
- */
-int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
-{
-    UT_GenStub_SetupReturnBuffer(LC_HousekeepingReq, int32);
-
-    UT_GenStub_AddParam(LC_HousekeepingReq, const CFE_MSG_CommandHeader_t *, MsgPtr);
-
-    UT_GenStub_Execute(LC_HousekeepingReq, Basic, NULL);
-
-    return UT_GenStub_GetReturnValue(LC_HousekeepingReq, int32);
-}
-
-/*
- * ----------------------------------------------------
  * Generated stub function for LC_NoopCmd()
  * ----------------------------------------------------
  */
@@ -84,6 +52,17 @@ void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for LC_ResetCounters()
+ * ----------------------------------------------------
+ */
+void LC_ResetCounters(void)
+{
+
+    UT_GenStub_Execute(LC_ResetCounters, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for LC_ResetCountersCmd()
  * ----------------------------------------------------
  */
@@ -92,17 +71,6 @@ void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr)
     UT_GenStub_AddParam(LC_ResetCountersCmd, const CFE_SB_Buffer_t *, BufPtr);
 
     UT_GenStub_Execute(LC_ResetCountersCmd, Basic, NULL);
-}
-
-/*
- * ----------------------------------------------------
- * Generated stub function for LC_ResetCounters()
- * ----------------------------------------------------
- */
-void LC_ResetCounters(void)
-{
-
-    UT_GenStub_Execute(LC_ResetCounters, Basic, NULL);
 }
 
 /*
@@ -155,6 +123,22 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
     UT_GenStub_AddParam(LC_SampleAPReq, const CFE_SB_Buffer_t *, BufPtr);
 
     UT_GenStub_Execute(LC_SampleAPReq, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
+ * Generated stub function for LC_SendHkCmd()
+ * ----------------------------------------------------
+ */
+int32 LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
+{
+    UT_GenStub_SetupReturnBuffer(LC_SendHkCmd, int32);
+
+    UT_GenStub_AddParam(LC_SendHkCmd, const CFE_MSG_CommandHeader_t *, MsgPtr);
+
+    UT_GenStub_Execute(LC_SendHkCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_SendHkCmd, int32);
 }
 
 /*

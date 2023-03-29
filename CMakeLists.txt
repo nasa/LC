@@ -4,6 +4,7 @@ set(APP_SRC_FILES
   fsw/src/lc_custom.c
   fsw/src/lc_app.c
   fsw/src/lc_cmds.c
+  fsw/src/lc_dispatch.c
   fsw/src/lc_watch.c
   fsw/src/lc_action.c
   fsw/src/lc_utils.c
