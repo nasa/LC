@@ -40,7 +40,7 @@ uint8 call_count_CFE_EVS_SendEvent;
 void LC_VerifyMsgLength_Test_HKRequestLengthError(void)
 {
     bool              Result;
-    LC_NoArgsCmd_t    CmdPacket;
+    LC_SendHkCmd_t    CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
@@ -52,7 +52,7 @@ void LC_VerifyMsgLength_Test_HKRequestLengthError(void)
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     FcnCode   = LC_NOOP_CC;
-    MsgSize   = sizeof(LC_NoArgsCmd_t) + 1;
+    MsgSize   = sizeof(CmdPacket) + 1;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
@@ -75,7 +75,7 @@ void LC_VerifyMsgLength_Test_HKRequestLengthError(void)
 void LC_VerifyMsgLength_Test_APSampleLengthError(void)
 {
     bool              Result;
-    LC_NoArgsCmd_t    CmdPacket;
+    LC_SampleAPCmd_t  CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
@@ -110,7 +110,7 @@ void LC_VerifyMsgLength_Test_APSampleLengthError(void)
 void LC_VerifyMsgLength_Test_GenericLengthError(void)
 {
     bool              Result;
-    LC_NoArgsCmd_t    CmdPacket;
+    LC_NoopCmd_t      CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
@@ -147,14 +147,14 @@ void LC_VerifyMsgLength_Test_GenericLengthError(void)
 void LC_VerifyMsgLength_Test_Nominal(void)
 {
     bool              Result;
-    LC_NoArgsCmd_t    CmdPacket;
+    LC_NoopCmd_t      CmdPacket;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
     TestMsgId = LC_UT_MID_1;
     FcnCode   = LC_NOOP_CC;
-    MsgSize   = sizeof(LC_NoArgsCmd_t);
+    MsgSize   = sizeof(CmdPacket);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);

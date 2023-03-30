@@ -263,7 +263,8 @@ int32 LC_SbInit(void)
     /*
     ** Initialize housekeeping packet...
     */
-    CFE_MSG_Init(&LC_OperData.HkPacket.TlmHeader.Msg, CFE_SB_ValueToMsgId(LC_HK_TLM_MID), sizeof(LC_HkPacket_t));
+    CFE_MSG_Init(CFE_MSG_PTR(LC_OperData.HkPacket.TelemetryHeader), CFE_SB_ValueToMsgId(LC_HK_TLM_MID),
+                 sizeof(LC_HkPacket_t));
 
     /*
     ** Create Software Bus message pipe...

@@ -35,6 +35,8 @@
 #include "lc_platform_cfg.h"
 #include "lc_utils.h"
 
+#define LC_GET_CMD_PAYLOAD(ptr, type) ((const type *)(ptr))
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Process a command pipe message                                  */
@@ -132,16 +134,18 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
 {
-    LC_SampleAP_t *LC_SampleAP    = (LC_SampleAP_t *)BufPtr;
-    size_t         ExpectedLength = sizeof(LC_SampleAP_t);
-    uint16         WatchIndex;
-    bool           ValidSampleCmd = false;
+    const LC_SampleAPCmd_t *LC_SampleAP;
+    size_t                  ExpectedLength = sizeof(LC_SampleAPCmd_t);
+    uint16                  WatchIndex;
+    bool                    ValidSampleCmd = false;
 
     /*
     ** Verify message packet length
     */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
+        LC_SampleAP = LC_GET_CMD_PAYLOAD(BufPtr, LC_SampleAPCmd_t);
+
         /*
         ** Ignore AP sample requests if disabled at the application level
         */
@@ -209,7 +213,7 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
 int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
 {
     int32  Result;
-    size_t ExpectedLength = sizeof(LC_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(LC_SendHkCmd_t);
     uint16 TableIndex;
     uint16 HKIndex;
     uint8  ByteData;
@@ -477,8 +481,8 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
         /*
         ** Timestamp and send housekeeping packet
         */
-        CFE_SB_TimeStampMsg(&LC_OperData.HkPacket.TlmHeader.Msg);
-        CFE_SB_TransmitMsg(&LC_OperData.HkPacket.TlmHeader.Msg, true);
+        CFE_SB_TimeStampMsg(CFE_MSG_PTR(LC_OperData.HkPacket.TelemetryHeader));
+        CFE_SB_TransmitMsg(CFE_MSG_PTR(LC_OperData.HkPacket.TelemetryHeader), true);
 
     } /* end LC_VerifyMsgLength if */
 
@@ -494,7 +498,7 @@ int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t ExpectedLength = sizeof(LC_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(LC_NoopCmd_t);
 
     /*
     ** Verify message packet length
@@ -517,7 +521,7 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_ResetCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t ExpectedLength = sizeof(LC_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(LC_ResetCountersCmd_t);
 
     /*
     ** Verify message packet length
@@ -557,15 +561,15 @@ void LC_ResetCounters(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t           ExpectedLength = sizeof(LC_SetLCState_t);
-    LC_SetLCState_t *CmdPtr;
+    size_t                    ExpectedLength = sizeof(LC_SetLCStateCmd_t);
+    const LC_SetLCStateCmd_t *CmdPtr;
 
     /*
     ** Verify message packet length
     */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        CmdPtr = ((LC_SetLCState_t *)BufPtr);
+        CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_SetLCStateCmd_t);
 
         switch (CmdPtr->NewLCState)
         {
@@ -598,19 +602,19 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t           ExpectedLength = sizeof(LC_SetAPState_t);
-    LC_SetAPState_t *CmdPtr;
-    uint32           TableIndex;
-    uint8            CurrentAPState;
-    bool             ValidState = true;
-    bool             CmdSuccess = false;
+    size_t                    ExpectedLength = sizeof(LC_SetAPStateCmd_t);
+    const LC_SetAPStateCmd_t *CmdPtr;
+    uint32                    TableIndex;
+    uint8                     CurrentAPState;
+    bool                      ValidState = true;
+    bool                      CmdSuccess = false;
 
     /*
     ** Verify message packet length
     */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        CmdPtr = ((LC_SetAPState_t *)BufPtr);
+        CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_SetAPStateCmd_t);
 
         /*
         ** Do a sanity check on the new actionpoint state
@@ -728,17 +732,17 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t             ExpectedLength = sizeof(LC_SetAPPermOff_t);
-    LC_SetAPPermOff_t *CmdPtr;
-    uint32             TableIndex;
-    uint8              CurrentAPState;
+    size_t                      ExpectedLength = sizeof(LC_SetAPPermOffCmd_t);
+    const LC_SetAPPermOffCmd_t *CmdPtr;
+    uint32                      TableIndex;
+    uint8                       CurrentAPState;
 
     /*
     ** Verify message packet length
     */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        CmdPtr = ((LC_SetAPPermOff_t *)BufPtr);
+        CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_SetAPPermOffCmd_t);
 
         if (((CmdPtr->APNumber) == LC_ALL_ACTIONPOINTS) || ((CmdPtr->APNumber) >= LC_MAX_ACTIONPOINTS))
         {
@@ -795,13 +799,15 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t             ExpectedLength = sizeof(LC_ResetAPStats_t);
-    LC_ResetAPStats_t *CmdPtr         = (LC_ResetAPStats_t *)BufPtr;
-    bool               CmdSuccess     = false;
+    size_t                      ExpectedLength = sizeof(LC_ResetAPStatsCmd_t);
+    const LC_ResetAPStatsCmd_t *CmdPtr;
+    bool                        CmdSuccess = false;
 
     /* verify message packet length */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
+        CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_ResetAPStatsCmd_t);
+
         /* arg may be one or all AP's */
         if (CmdPtr->APNumber == LC_ALL_ACTIONPOINTS)
         {
@@ -873,13 +879,15 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    size_t             ExpectedLength = sizeof(LC_ResetWPStats_t);
-    LC_ResetWPStats_t *CmdPtr         = (LC_ResetWPStats_t *)BufPtr;
-    bool               CmdSuccess     = false;
+    size_t                      ExpectedLength = sizeof(LC_ResetWPStatsCmd_t);
+    const LC_ResetWPStatsCmd_t *CmdPtr;
+    bool                        CmdSuccess = false;
 
     /* verify message packet length */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
+        CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_ResetWPStatsCmd_t);
+
         /* arg may be one or all WP's */
         if (CmdPtr->WPNumber == LC_ALL_WATCHPOINTS)
         {

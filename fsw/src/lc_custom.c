@@ -41,17 +41,16 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_ExecuteRTS(uint16 RTSId)
 {
-    LC_RTSRequest_t RTSRequest;
+    LC_RTSRequestCmd_t RTSRequest;
 
     memset(&RTSRequest, 0, sizeof(RTSRequest));
 
-    CFE_MSG_Init(&RTSRequest.CmdHeader.Msg, CFE_SB_ValueToMsgId(LC_RTS_REQ_MID), sizeof(LC_RTSRequest_t));
-
-    CFE_MSG_SetFcnCode(&RTSRequest.CmdHeader.Msg, LC_RTS_REQ_CC);
+    CFE_MSG_Init(CFE_MSG_PTR(RTSRequest.CommandHeader), CFE_SB_ValueToMsgId(LC_RTS_REQ_MID), sizeof(RTSRequest));
+    CFE_MSG_SetFcnCode(CFE_MSG_PTR(RTSRequest.CommandHeader), LC_RTS_REQ_CC);
 
     RTSRequest.RTSId = RTSId;
 
-    CFE_SB_TransmitMsg(&RTSRequest.CmdHeader.Msg, true);
+    CFE_SB_TransmitMsg(CFE_MSG_PTR(RTSRequest.CommandHeader), true);
 
     return;
 }

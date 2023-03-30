@@ -202,7 +202,7 @@ void LC_CheckMsgForWPs_Test_Nominal(void)
 {
     uint16             WatchIndex = 0;
     CFE_SB_MsgId_t     TestMsgId  = LC_UT_MID_1;
-    size_t             MsgSize    = sizeof(UT_CmdBuf.NoArgsCmd);
+    size_t             MsgSize    = sizeof(UT_CmdBuf);
     CFE_TIME_SysTime_t Timestamp  = {.Seconds = 0, .Subseconds = 0};
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgTime), &Timestamp, sizeof(Timestamp), false);
@@ -237,7 +237,7 @@ void LC_CheckMsgForWPs_Test_Nominal(void)
 void LC_CheckMsgForWPs_Test_NominalMsgTime1(void)
 {
     CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
-    size_t             MsgSize   = sizeof(UT_CmdBuf.NoArgsCmd);
+    size_t             MsgSize   = sizeof(UT_CmdBuf);
     CFE_TIME_SysTime_t Timestamp = {.Seconds = 1, .Subseconds = 0};
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgTime), &Timestamp, sizeof(Timestamp), false);
@@ -266,7 +266,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime2(void)
 {
     uint16             WatchIndex = 0;
     CFE_SB_MsgId_t     TestMsgId  = LC_UT_MID_1;
-    size_t             MsgSize    = sizeof(UT_CmdBuf.NoArgsCmd);
+    size_t             MsgSize    = sizeof(UT_CmdBuf);
     CFE_TIME_SysTime_t Timestamp  = {.Seconds = 0, .Subseconds = 1};
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgTime), &Timestamp, sizeof(Timestamp), false);
@@ -1567,7 +1567,7 @@ void LC_WPOffsetValid_Test_OffsetError(void)
              "WP offset error: MID = 0x%%08lX, WP = %%d, Offset = %%d, DataSize = %%d, MsgLen = %%d");
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UBYTE;
-    LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = sizeof(LC_NoArgsCmd_t);
+    LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = sizeof(LC_NoopCmd_t) - 1;
 
     /* Execute the function being tested */
     Result = LC_WPOffsetValid(WatchIndex, &UT_CmdBuf.Buf);

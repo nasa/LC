@@ -48,15 +48,34 @@
  */
 
 /**
- *  \brief No Arguments Command
+ *  \brief Send HK Command
  *
- *  For command details see #LC_NOOP_CC, #LC_RESET_CC
- *  Also see #LC_SEND_HK_MID
+ *  For command details see #LC_SEND_HK_MID
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
-} LC_NoArgsCmd_t;
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
+} LC_SendHkCmd_t;
+
+/**
+ *  \brief No-op Command
+ *
+ *  For command details see #LC_NOOP_CC
+ */
+typedef struct
+{
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
+} LC_NoopCmd_t;
+
+/**
+ *  \brief Reset Counters Command
+ *
+ *  For command details see #LC_RESET_CC
+ */
+typedef struct
+{
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
+} LC_ResetCountersCmd_t;
 
 /**
  *  \brief Set LC Application State Command
@@ -65,11 +84,11 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
 
     uint16 NewLCState; /**< \brief New LC application state    */
     uint16 Padding;    /**< \brief Structure padding           */
-} LC_SetLCState_t;
+} LC_SetLCStateCmd_t;
 
 /**
  *  \brief Set AP (Actionpoint) State Command
@@ -78,11 +97,11 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
 
     uint16 APNumber;   /**< \brief Which actionpoint(s) to change */
     uint16 NewAPState; /**< \brief New actionpoint state          */
-} LC_SetAPState_t;
+} LC_SetAPStateCmd_t;
 
 /**
  *  \brief Set AP (Actionpoint) Permanently Off
@@ -91,11 +110,11 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
 
     uint16 APNumber; /**< \brief Which actionpoint to change */
     uint16 Padding;  /**< \brief Structure padding           */
-} LC_SetAPPermOff_t;
+} LC_SetAPPermOffCmd_t;
 
 /**
  *  \brief Reset AP (Actionpoint) Statistics
@@ -104,11 +123,11 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
 
     uint16 APNumber; /**< \brief Which actionpoint(s) to change */
     uint16 Padding;  /**< \brief Structure padding              */
-} LC_ResetAPStats_t;
+} LC_ResetAPStatsCmd_t;
 
 /**
  *  \brief Reset WP (Watchpoint) Statistics
@@ -117,11 +136,11 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
 
     uint16 WPNumber; /**< \brief Which watchpoint(s) to change */
     uint16 Padding;  /**< \brief Structure padding             */
-} LC_ResetWPStats_t;
+} LC_ResetWPStatsCmd_t;
 
 /**
  *  \brief Sample AP (Actionpoint) Request
@@ -130,14 +149,14 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
 
     uint16 StartIndex; /**< \brief Start actionpoint to sample */
     uint16 EndIndex;   /**< \brief End actionpoint to sample */
 
     uint16 UpdateAge; /**< \brief Update WP results age (T or F) */
     uint16 Padding;   /**< \brief Structure padding              */
-} LC_SampleAP_t;
+} LC_SampleAPCmd_t;
 
 /**
  * \brief Send Command to Start a Stored Command RTS
@@ -154,10 +173,10 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
 
     uint16 RTSId; /**< \brief RTS Id to start */
-} LC_RTSRequest_t;
+} LC_RTSRequestCmd_t;
 
 /**\}*/
 
@@ -171,7 +190,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_TelemetryHeader_t TlmHeader; /**< \brief Telemetry Header */
+    CFE_MSG_TelemetryHeader_t TelemetryHeader; /**< \brief Telemetry Header */
 
     uint8 CmdCount;       /**< \brief LC Application Command Counter */
     uint8 CmdErrCount;    /**< \brief LC Application Command Error Counter */
