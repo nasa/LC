@@ -19,33 +19,11 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) mission specific
- *   custom function template
- */
-
-/**
- * @file
  *
  * Auto-Generated stub implementations for functions defined in lc_custom header
  */
 
 #include "lc_custom.h"
-#include "lc_app.h"
-#include "lc_msg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgids.h"
-#include "lc_events.h"
-#include "lc_version.h"
-#include "lc_test_utils.h"
-
-/* UT includes */
-#include "uttest.h"
-#include "utassert.h"
-#include "utstubs.h"
-
-#include <unistd.h>
-#include <stdlib.h>
-
 #include "utgenstub.h"
 
 /*
@@ -56,17 +34,16 @@
 uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_Buffer_t *BufPtr,
                         uint32 WDTCustomFuncArg)
 {
-    /*UT_GenStub_SetupReturnBuffer(LC_CustomFunction, uint8);
+    UT_GenStub_SetupReturnBuffer(LC_CustomFunction, uint8);
 
-    UT_GenStub_AddParam(LC_CustomFunction, uint16 , WatchIndex);
-    UT_GenStub_AddParam(LC_CustomFunction, uint32 , ProcessedWPData);
-    UT_GenStub_AddParam(LC_CustomFunction, const CFE_SB_Buffer_t* , BufPtr);
-    UT_GenStub_AddParam(LC_CustomFunction, uint32 , WDTCustomFuncArg);
+    UT_GenStub_AddParam(LC_CustomFunction, uint16, WatchIndex);
+    UT_GenStub_AddParam(LC_CustomFunction, uint32, ProcessedWPData);
+    UT_GenStub_AddParam(LC_CustomFunction, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_AddParam(LC_CustomFunction, uint32, WDTCustomFuncArg);
 
     UT_GenStub_Execute(LC_CustomFunction, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_CustomFunction, uint8);*/
-    return UT_DEFAULT_IMPL(LC_CustomFunction);
+    return UT_GenStub_GetReturnValue(LC_CustomFunction, uint8);
 }
 
 /*

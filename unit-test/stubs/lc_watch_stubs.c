@@ -19,33 +19,11 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) routines that
- *   handle watchpoint processing
- */
-
-/**
- * @file
  *
  * Auto-Generated stub implementations for functions defined in lc_watch header
  */
 
 #include "lc_watch.h"
-#include "lc_app.h"
-#include "lc_msg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgids.h"
-#include "lc_events.h"
-#include "lc_version.h"
-#include "lc_test_utils.h"
-
-/* UT includes */
-#include "uttest.h"
-#include "utassert.h"
-#include "utstubs.h"
-
-#include <unistd.h>
-#include <stdlib.h>
-
 #include "utgenstub.h"
 
 /*
@@ -84,6 +62,7 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
  */
 void LC_CreateHashTable(void)
 {
+
     UT_GenStub_Execute(LC_CreateHashTable, Basic, NULL);
 }
 
@@ -97,8 +76,8 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
     UT_GenStub_SetupReturnBuffer(LC_FloatCompare, uint8);
 
     UT_GenStub_AddParam(LC_FloatCompare, uint16, WatchIndex);
-    UT_GenStub_AddParam(LC_FloatCompare, LC_MultiType_t, WPMultiType);
-    UT_GenStub_AddParam(LC_FloatCompare, LC_MultiType_t, CompareMultiType);
+    UT_GenStub_AddParam(LC_FloatCompare, LC_MultiType_t *, WPMultiType);
+    UT_GenStub_AddParam(LC_FloatCompare, LC_MultiType_t *, CompareMultiType);
 
     UT_GenStub_Execute(LC_FloatCompare, Basic, NULL);
 

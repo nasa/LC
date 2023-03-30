@@ -19,33 +19,11 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) routines that
- *   handle actionpoint processing
- */
-
-/**
- * @file
  *
  * Auto-Generated stub implementations for functions defined in lc_action header
  */
 
 #include "lc_action.h"
-#include "lc_app.h"
-#include "lc_msg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgids.h"
-#include "lc_events.h"
-#include "lc_version.h"
-#include "lc_test_utils.h"
-
-/* UT includes */
-#include "uttest.h"
-#include "utassert.h"
-#include "utstubs.h"
-
-#include <unistd.h>
-#include <stdlib.h>
-
 #include "utgenstub.h"
 
 /*
