@@ -29,7 +29,7 @@
 #include "lc_cmds.h"
 #include "lc_dispatch.h"
 #include "lc_msgids.h"
-#include "lc_events.h"
+#include "lc_eventids.h"
 #include "lc_platform_cfg.h"
 #include "lc_watch.h"
 

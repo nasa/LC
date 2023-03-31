@@ -28,7 +28,7 @@
 ** Includes
 *************************************************************************/
 #include "lc_app.h"
-#include "lc_events.h"
+#include "lc_eventids.h"
 #include "lc_msgids.h"
 #include "lc_perfids.h"
 #include "lc_version.h"

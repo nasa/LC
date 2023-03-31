@@ -32,10 +32,10 @@
 ** Includes
 *************************************************************************/
 #include "cfe_tbl_filedef.h"
+#include "cfe_sb_api_typedefs.h"
 #include "lc_platform_cfg.h"
 #include "lc_msgdefs.h"
-#include "lc_extern_typedefs.h"
-#include "lc_tbldefs.h"
+#include "lc_tbl.h"
 
 /*************************************************************************
 ** Examples

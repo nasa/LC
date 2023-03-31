@@ -36,11 +36,11 @@
 ** Includes
 *************************************************************************/
 #include "cfe_tbl_filedef.h"
+#include "cfe_evs_extern_typedefs.h"
 #include "lc_platform_cfg.h"
 #include "lc_msgdefs.h"
-#include "lc_extern_typedefs.h"
-#include "lc_tbldefs.h"
-#include "lc_events.h"
+#include "lc_tbl.h"
+#include "lc_eventids.h"
 
 /*************************************************************************
 ** Examples

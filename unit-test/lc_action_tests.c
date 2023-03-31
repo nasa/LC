@@ -31,11 +31,12 @@
 #include "lc_msg.h"
 #include "lc_msgdefs.h"
 #include "lc_msgids.h"
-#include "lc_events.h"
+#include "lc_eventids.h"
 #include "lc_version.h"
 #include "lc_test_utils.h"
 #include "lc_utils.h"
 #include "lc_custom.h"
+#include "lc_platform_cfg.h"
 
 /* UT includes */
 #include "uttest.h"

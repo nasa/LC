@@ -19,12 +19,19 @@
 
 /**
  * @file
- *   CFS Limit Checker (LC) Application Platform Configuration Header File
+ *   CFS Limit Checker (LC) Application Private Config Definitions
+ *
+ * This provides default values for configurable items that are internal
+ * to this module and do NOT affect the interface(s) of this module.  Changes
+ * to items in this file only affect the local module and will be transparent
+ * to external entities that are using the public interface(s).
+ *
+ * @note This file may be overridden/superceded by mission-provided defintions
+ * either by overriding this header or by generating definitions from a command/data
+ * dictionary tool.
  */
-#ifndef LC_PLATFORM_CFG_H
-#define LC_PLATFORM_CFG_H
-
-#include <lc_msgdefs.h>
+#ifndef LC_INTERNAL_CFG_H
+#define LC_INTERNAL_CFG_H
 
 /**
  * \defgroup cfslcplatformcfg CFS Limit Checker Platform Configuration
@@ -61,55 +68,6 @@
  *       integer (65535).
  */
 #define LC_PIPE_DEPTH 12
-
-/**
- * \brief Maximum number of watchpoints
- *
- *  \par Description:
- *       Maximum number of watchpoints that can be defined in the
- *       Watchpoint Definition Table (WDT)
- *
- *  \par Limits:
- *       This parameter can't be larger than 65520 (0xFFF0) because
- *       higher values are reserved for use as Reverse Polish
- *       operators. It must be a multiple of 4 to avoid
- *       indexing past the end of the array as LC indexes
- *       ahead to build the packed status bytes.
- *
- *       This parameter will dictate the size of the Watchpoint
- *       Definition Table:
- *
- *       WDT Size = LC_MAX_WATCHPOINTS * sizeof(#LC_WDTEntry_t)
- *
- *       The total size of this table should not exceed the
- *       cFE size limit for a single buffered table set by the
- *       #CFE_PLATFORM_TBL_MAX_SNGL_TABLE_SIZE parameter
- */
-#define LC_MAX_WATCHPOINTS 176
-
-/**
- * \brief Maximum number of actionpoints
- *
- *  \par Description:
- *       Maximum number of actionpoints that can be defined in the
- *       Actionpoint Definition Table (ADT)
- *
- *  \par Limits:
- *       This parameter can't be larger than an unsigned 16 bit
- *       integer (65535). It must be a multiple of 2 to avoid
- *       indexing past the end of the array as LC indexes
- *       ahead to build the packed status bytes.
- *
- *       This parameter will dictate the size of the Actionpoint
- *       Definition Table:
- *
- *       ADT Size = LC_MAX_ACTIONPOINTS * sizeof(#LC_ADTEntry_t)
- *
- *       The total size of this table should not exceed the
- *       cFE size limit for a single buffered table set by the
- *       #CFE_PLATFORM_TBL_MAX_SNGL_TABLE_SIZE parameter
- */
-#define LC_MAX_ACTIONPOINTS 176
 
 /**
  * \brief LC state after power-on reset
@@ -193,41 +151,6 @@
 #define LC_ADT_FILENAME "/cf/lc_def_adt.tbl"
 
 /**
- * \brief Maximum reverse polish (RPN) equation size
- *
- *  \par Description:
- *       Maximum combined number of operators and operands that may
- *       exist in an actionpoint definition's reverse polish equation
- *
- *  \par Limits:
- *       The LC app limits this parameter to 32.
- *       Increasing this value will increase the size of the
- *       Actionpoint Definition Table (ADT)
- */
-#define LC_MAX_RPN_EQU_SIZE 20
-
-/**
- * \brief Maximum actionpoint event text string size
- *
- *  \par Description:
- *       Maximum length of the event message string that can specified
- *       in an actionpoint definition (including NUL terminator)
- *
- *  \par Limits:
- *       LC appends the trailer text #LC_AP_EVENT_TAIL_STR to this
- *       string when reporting actionpoint failures. The size of this
- *       string is #LC_AP_EVENT_TAIL_LEN
- *
- *       The total value of LC_MAX_ACTION_TEXT + #LC_AP_EVENT_TAIL_LEN
- *       should be less than #CFE_MISSION_EVS_MAX_MESSAGE_LENGTH to avoid
- *       event message truncation
- *
- *       Raising this value will also increase the size of the
- *       Actionpoint Definition Table (ADT)
- */
-#define LC_MAX_ACTION_TEXT 32
-
-/**
  * \brief Maximum valid ADT RTS ID
  *
  *  \par Description:
@@ -252,6 +175,16 @@
  *       The LC app does not place a limit on this parameter.
  */
 #define LC_FLOAT_TOLERANCE (1.0e-25)
+
+/**
+ * \name LC Table Name Strings
+ * \{
+ */
+#define LC_WDT_TABLENAME "LC_WDT"
+#define LC_ADT_TABLENAME "LC_ADT"
+#define LC_WRT_TABLENAME "LC_WRT"
+#define LC_ART_TABLENAME "LC_ART"
+/**\}*/
 
 /**
  * \brief Mission specific version number for LC application

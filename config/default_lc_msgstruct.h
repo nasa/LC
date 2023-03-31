@@ -22,6 +22,12 @@
  *   Specification for the CFS Limit Checker (LC) command and telemetry
  *   message data types.
  *
+ * Provides default definitions for message structures
+ *
+ * @note This file may be overridden/superceded by mission-provided defintions
+ * either by overriding this header or by generating definitions from a command/data
+ * dictionary tool.
+ *
  * @note
  *   Constants and enumerated types related to these message structures
  *   are defined in lc_msgdefs.h. They are kept separate to allow easy
@@ -29,14 +35,15 @@
  *   declarations (see the main comment block in lc_msgdefs.h for more
  *   info).
  */
-#ifndef LC_MSG_H
-#define LC_MSG_H
+#ifndef LC_MSGSTRUCT_H
+#define LC_MSGSTRUCT_H
 
 /************************************************************************
  * Includes
  ************************************************************************/
-#include <cfe.h>
-#include <lc_msgdefs.h>
+#include "common_types.h"
+#include "lc_msgdefs.h"
+#include "cfe_msg_hdr.h"
 
 /************************************************************************
  * Type Definitions
