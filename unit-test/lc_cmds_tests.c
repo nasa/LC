@@ -355,17 +355,19 @@ void LC_SampleAPReq_Test_StateDisabled(void)
 
 void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_SampleAP_Payload_t *PayloadPtr = &UT_CmdBuf.SampleAPCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_AppData.CurrentLCState              = 99;
-    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_ALL_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    LC_AppData.CurrentLCState = 99;
+
+    PayloadPtr->StartIndex                 = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->EndIndex                   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->UpdateAge                  = 1;
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
@@ -389,9 +391,10 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState              = 99;
-    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_ALL_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    LC_SampleAP_Payload_t *PayloadPtr      = &UT_CmdBuf.SampleAPCmd.Payload;
+    PayloadPtr->StartIndex                 = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->EndIndex                   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->UpdateAge                  = 1;
     LC_OperData.WRTPtr[0].CountdownToStale = 2;
 
     /* Execute the function being tested */
@@ -404,7 +407,8 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
 
 void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_SampleAP_Payload_t *PayloadPtr = &UT_CmdBuf.SampleAPCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -412,9 +416,9 @@ void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState              = 99;
-    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_MAX_ACTIONPOINTS - 1;
-    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_MAX_ACTIONPOINTS - 1;
-    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    PayloadPtr->StartIndex                 = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->EndIndex                   = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->UpdateAge                  = 1;
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
@@ -430,16 +434,17 @@ void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
 
 void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_SampleAP_Payload_t *PayloadPtr = &UT_CmdBuf.SampleAPCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
-    LC_AppData.CurrentLCState        = 99;
-    UT_CmdBuf.SampleAPCmd.StartIndex = 2;
-    UT_CmdBuf.SampleAPCmd.EndIndex   = 1;
+    LC_AppData.CurrentLCState = 99;
+    PayloadPtr->StartIndex    = 2;
+    PayloadPtr->EndIndex      = 1;
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -463,7 +468,8 @@ void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
 
 void LC_SampleAPReq_Test_BadSampleAllArgs(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_SampleAP_Payload_t *PayloadPtr = &UT_CmdBuf.SampleAPCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -477,9 +483,9 @@ void LC_SampleAPReq_Test_BadSampleAllArgs(void)
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
     LC_AppData.CurrentLCState              = 99;
-    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.EndIndex         = 1;
-    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    PayloadPtr->StartIndex                 = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->EndIndex                   = 1;
+    PayloadPtr->UpdateAge                  = 1;
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
@@ -497,7 +503,8 @@ void LC_SampleAPReq_Test_BadSampleAllArgs(void)
 
 void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_SampleAP_Payload_t *PayloadPtr = &UT_CmdBuf.SampleAPCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -511,9 +518,9 @@ void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
     LC_AppData.CurrentLCState              = 99;
-    UT_CmdBuf.SampleAPCmd.StartIndex       = 1;
-    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_MAX_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.UpdateAge        = 1;
+    PayloadPtr->StartIndex                 = 1;
+    PayloadPtr->EndIndex                   = LC_MAX_ACTIONPOINTS;
+    PayloadPtr->UpdateAge                  = 1;
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
@@ -531,7 +538,8 @@ void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
 
 void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_SampleAP_Payload_t *PayloadPtr = &UT_CmdBuf.SampleAPCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -539,9 +547,9 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_AppData.CurrentLCState              = 99;
-    UT_CmdBuf.SampleAPCmd.StartIndex       = LC_ALL_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.EndIndex         = LC_ALL_ACTIONPOINTS;
-    UT_CmdBuf.SampleAPCmd.UpdateAge        = 0;
+    PayloadPtr->StartIndex                 = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->EndIndex                   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->UpdateAge                  = 0;
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
@@ -555,11 +563,12 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
 
 void LC_HousekeepingReq_Test_WatchStale(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -587,18 +596,18 @@ void LC_HousekeepingReq_Test_WatchStale(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_WATCHPOINTS / 2) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_WATCHPOINTS - 1) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -606,11 +615,12 @@ void LC_HousekeepingReq_Test_WatchStale(void)
 
 void LC_HousekeepingReq_Test_WatchFalse(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -638,18 +648,18 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_WATCHPOINTS / 2) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_WATCHPOINTS - 1) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -657,11 +667,12 @@ void LC_HousekeepingReq_Test_WatchFalse(void)
 
 void LC_HousekeepingReq_Test_WatchTrue(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -689,18 +700,18 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_WATCHPOINTS / 2) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_WATCHPOINTS - 1) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -708,10 +719,11 @@ void LC_HousekeepingReq_Test_WatchTrue(void)
 
 void LC_HousekeepingReq_Test_WatchError(void)
 {
-    int32  Result;
-    uint16 TableIndex;
-    uint16 HKIndex;
-    uint8  ExpectedByteData;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     CFE_SB_MsgId_t TestMsgId;
 
@@ -741,18 +753,18 @@ void LC_HousekeepingReq_Test_WatchError(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_WATCHPOINTS / 2) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_WATCHPOINTS - 1) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -760,11 +772,12 @@ void LC_HousekeepingReq_Test_WatchError(void)
 
 void LC_HousekeepingReq_Test_DefaultWatchResult(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -792,18 +805,18 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_WATCHPOINTS / 2) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_WATCHPOINTS - 1) / 4;
-    UtAssert_True(LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.WPResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->WPResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->WPResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -811,11 +824,12 @@ void LC_HousekeepingReq_Test_DefaultWatchResult(void)
 
 void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -844,18 +858,18 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_ACTIONPOINTS / 2) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_ACTIONPOINTS - 1) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -863,11 +877,12 @@ void LC_HousekeepingReq_Test_ActionNotUsedStale(void)
 
 void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -896,21 +911,20 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_ACTIONPOINTS / 2) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_ACTIONPOINTS - 1) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
-    UtAssert_True(LC_OperData.HkPacket.ActiveAPs == LC_MAX_ACTIONPOINTS,
-                  "LC_OperData.HkPacket.ActiveAPs = LC_MAX_ACTIONPOINTS");
+    UtAssert_True(PayloadPtr->ActiveAPs == LC_MAX_ACTIONPOINTS, "PayloadPtr->ActiveAPs = LC_MAX_ACTIONPOINTS");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -918,11 +932,12 @@ void LC_HousekeepingReq_Test_APStateActiveActionPass(void)
 
 void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -951,18 +966,18 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_ACTIONPOINTS / 2) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_ACTIONPOINTS - 1) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -970,11 +985,12 @@ void LC_HousekeepingReq_Test_APStatePassiveActionFail(void)
 
 void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1003,18 +1019,18 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_ACTIONPOINTS / 2) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_ACTIONPOINTS - 1) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -1022,11 +1038,12 @@ void LC_HousekeepingReq_Test_APStateDisabledActionError(void)
 
 void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1055,18 +1072,18 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_ACTIONPOINTS / 2) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_ACTIONPOINTS - 1) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -1074,11 +1091,12 @@ void LC_HousekeepingReq_Test_APStatePermOffActionError(void)
 
 void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
 {
-    int32          Result;
-    uint16         TableIndex;
-    uint16         HKIndex;
-    uint8          ExpectedByteData;
-    CFE_SB_MsgId_t TestMsgId;
+    int32                     Result;
+    uint16                    TableIndex;
+    uint16                    HKIndex;
+    uint8                     ExpectedByteData;
+    CFE_SB_MsgId_t            TestMsgId;
+    const LC_HkTlm_Payload_t *PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1107,18 +1125,18 @@ void LC_HousekeepingReq_Test_DefaultCurrentStateAndActionResult(void)
 
     /* Checks for first index: */
     HKIndex = 0;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for middle index: */
     HKIndex = (LC_MAX_ACTIONPOINTS / 2) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     /* Checks for last index: */
     HKIndex = (LC_MAX_ACTIONPOINTS - 1) / 2;
-    UtAssert_True(LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData,
-                  "LC_OperData.HkPacket.APResults[HKIndex] == ExpectedByteData");
+    UtAssert_True(PayloadPtr->APResults[HKIndex] == ExpectedByteData,
+                  "PayloadPtr->APResults[HKIndex] == ExpectedByteData");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -1157,11 +1175,11 @@ void LC_NoopCmd_Test_BadLength(void)
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
-void LC_ResetCmd_Test_BadLength(void)
+void LC_ResetCountersCmd_Test_BadLength(void)
 {
     UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), false);
 
-    LC_ResetCmd(&UT_CmdBuf.Buf);
+    LC_ResetCountersCmd(&UT_CmdBuf.Buf);
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
@@ -1202,7 +1220,8 @@ void LC_SetLCStateCmd_Test_BadLength(void)
 
 void LC_SetLCStateCmd_Test_Active(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetLCState_Payload_t *PayloadPtr = &UT_CmdBuf.SetLCStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1213,7 +1232,7 @@ void LC_SetLCStateCmd_Test_Active(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    UT_CmdBuf.SetLCStateCmd.NewLCState = LC_STATE_ACTIVE;
+    PayloadPtr->NewLCState = LC_STATE_ACTIVE;
 
     /* Execute the function being tested */
     LC_SetLCStateCmd(&UT_CmdBuf.Buf);
@@ -1234,7 +1253,8 @@ void LC_SetLCStateCmd_Test_Active(void)
 
 void LC_SetLCStateCmd_Test_Passive(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetLCState_Payload_t *PayloadPtr = &UT_CmdBuf.SetLCStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1245,7 +1265,7 @@ void LC_SetLCStateCmd_Test_Passive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    UT_CmdBuf.SetLCStateCmd.NewLCState = LC_STATE_PASSIVE;
+    PayloadPtr->NewLCState = LC_STATE_PASSIVE;
 
     /* Execute the function being tested */
     LC_SetLCStateCmd(&UT_CmdBuf.Buf);
@@ -1266,7 +1286,8 @@ void LC_SetLCStateCmd_Test_Passive(void)
 
 void LC_SetLCStateCmd_Test_Disabled(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetLCState_Payload_t *PayloadPtr = &UT_CmdBuf.SetLCStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1277,7 +1298,7 @@ void LC_SetLCStateCmd_Test_Disabled(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    UT_CmdBuf.SetLCStateCmd.NewLCState = LC_STATE_DISABLED;
+    PayloadPtr->NewLCState = LC_STATE_DISABLED;
 
     /* Execute the function being tested */
     LC_SetLCStateCmd(&UT_CmdBuf.Buf);
@@ -1298,7 +1319,8 @@ void LC_SetLCStateCmd_Test_Disabled(void)
 
 void LC_SetLCStateCmd_Test_Default(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetLCState_Payload_t *PayloadPtr = &UT_CmdBuf.SetLCStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1309,7 +1331,7 @@ void LC_SetLCStateCmd_Test_Default(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state error: invalid state = %%d");
 
-    UT_CmdBuf.SetLCStateCmd.NewLCState = 99;
+    PayloadPtr->NewLCState = 99;
 
     /* Execute the function being tested */
     LC_SetLCStateCmd(&UT_CmdBuf.Buf);
@@ -1338,7 +1360,8 @@ void LC_SetAPStateCmd_Test_BadLength(void)
 
 void LC_SetAPStateCmd_Test_Default(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1350,8 +1373,8 @@ void LC_SetAPStateCmd_Test_Default(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid new state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.APNumber   = 1;
-    UT_CmdBuf.SetAPStateCmd.NewAPState = 99;
+    PayloadPtr->APNumber   = 1;
+    PayloadPtr->NewAPState = 99;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1371,8 +1394,9 @@ void LC_SetAPStateCmd_Test_Default(void)
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
 {
-    uint16         TableIndex;
-    CFE_SB_MsgId_t TestMsgId;
+    uint16                   TableIndex;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1384,8 +1408,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1424,8 +1448,9 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 {
-    uint16         TableIndex;
-    CFE_SB_MsgId_t TestMsgId;
+    uint16                   TableIndex;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1437,8 +1462,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1478,8 +1503,9 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
 {
-    uint16         TableIndex;
-    CFE_SB_MsgId_t TestMsgId;
+    uint16                   TableIndex;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1491,8 +1517,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1532,8 +1558,9 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
 {
-    uint16         TableIndex;
-    CFE_SB_MsgId_t TestMsgId;
+    uint16                   TableIndex;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1545,8 +1572,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1585,8 +1612,9 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
 
 void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
 {
-    uint16         TableIndex;
-    CFE_SB_MsgId_t TestMsgId;
+    uint16                   TableIndex;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1598,8 +1626,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
@@ -1638,7 +1666,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1650,17 +1679,17 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_ACTIVE,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_ACTIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1674,7 +1703,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1686,17 +1716,17 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = 0;
+    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->APNumber   = 0;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_NOT_USED;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_NOT_USED;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_NOT_USED,
-                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_NOT_USED");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_NOT_USED,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_NOT_USED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1710,7 +1740,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1722,17 +1753,17 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_PASSIVE,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_PASSIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1746,7 +1777,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
 
 void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1758,17 +1790,17 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_DISABLED,
-                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState == LC_APSTATE_DISABLED");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_DISABLED,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_DISABLED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1782,7 +1814,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1794,10 +1827,10 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1817,7 +1850,8 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1829,10 +1863,10 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1852,7 +1886,8 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
 
 void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1864,10 +1899,10 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1888,7 +1923,8 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1899,10 +1935,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_ACTIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1922,7 +1958,8 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1933,10 +1970,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_PASSIVE;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1955,7 +1992,8 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 
 void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t           TestMsgId;
+    LC_SetAPState_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPStateCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1966,10 +2004,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    UT_CmdBuf.SetAPStateCmd.NewAPState = LC_APSTATE_DISABLED;
-    UT_CmdBuf.SetAPStateCmd.APNumber   = LC_MAX_ACTIONPOINTS;
+    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPStateCmd.APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1996,7 +2034,8 @@ void LC_SetAPPermOffCmd_Test_BadLength(void)
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2007,7 +2046,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP perm off error: Invalid AP number = %%d");
 
-    UT_CmdBuf.SetAPPermOffCmd.APNumber = LC_MAX_ACTIONPOINTS;
+    PayloadPtr->APNumber = LC_MAX_ACTIONPOINTS;
 
     /* Execute the function being tested */
     LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
@@ -2026,7 +2065,8 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2037,7 +2077,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP perm off error: Invalid AP number = %%d");
 
-    UT_CmdBuf.SetAPPermOffCmd.APNumber = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->APNumber = LC_ALL_ACTIONPOINTS;
 
     /* Execute the function being tested */
     LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
@@ -2056,7 +2096,8 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 
 void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2068,9 +2109,9 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP perm off error, AP NOT Disabled: AP = %%d, Current state = %%d");
 
-    UT_CmdBuf.SetAPPermOffCmd.APNumber = 1;
+    PayloadPtr->APNumber = 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState = 99;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
     LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
@@ -2089,7 +2130,8 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 
 void LC_SetAPPermOffCmd_Test_Nominal(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2100,16 +2142,16 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP permanently off command: AP = %%d");
 
-    UT_CmdBuf.SetAPPermOffCmd.APNumber = 1;
+    PayloadPtr->APNumber = 1;
 
-    LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState = LC_APSTATE_DISABLED;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_DISABLED;
 
     /* Execute the function being tested */
     LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState == 4,
-                  "LC_OperData.ARTPtr[UT_CmdBuf.SetAPPermOffCmd.APNumber].CurrentState == 4");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == 4,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == 4");
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -2132,7 +2174,8 @@ void LC_ResetAPStatsCmd_Test_BadLength(void)
 
 void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2143,7 +2186,7 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset AP stats command: AP = %%d");
 
-    UT_CmdBuf.ResetAPStatsCmd.APNumber = LC_ALL_ACTIONPOINTS;
+    PayloadPtr->APNumber = LC_ALL_ACTIONPOINTS;
 
     /* Execute the function being tested */
     LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
@@ -2162,7 +2205,8 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 
 void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2173,7 +2217,7 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset AP stats command: AP = %%d");
 
-    UT_CmdBuf.ResetAPStatsCmd.APNumber = LC_MAX_ACTIONPOINTS - 1;
+    PayloadPtr->APNumber = LC_MAX_ACTIONPOINTS - 1;
 
     /* Execute the function being tested */
     LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
@@ -2192,7 +2236,8 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 
 void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2203,7 +2248,7 @@ void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset AP stats error: invalid AP number = %%d");
 
-    UT_CmdBuf.ResetAPStatsCmd.APNumber = LC_MAX_ACTIONPOINTS;
+    PayloadPtr->APNumber = LC_MAX_ACTIONPOINTS;
 
     /* Execute the function being tested */
     LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
@@ -2332,7 +2377,8 @@ void LC_ResetWPStatsCmd_Test_BadLength(void)
 
 void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_ResetWPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetWPStatsCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2343,7 +2389,7 @@ void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset WP stats command: WP = %%d");
 
-    UT_CmdBuf.ResetWPStatsCmd.WPNumber = LC_ALL_WATCHPOINTS;
+    PayloadPtr->WPNumber = LC_ALL_WATCHPOINTS;
 
     /* Execute the function being tested */
     LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
@@ -2362,7 +2408,8 @@ void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
 
 void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_ResetWPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetWPStatsCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2373,7 +2420,7 @@ void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset WP stats command: WP = %%d");
 
-    UT_CmdBuf.ResetWPStatsCmd.WPNumber = LC_MAX_WATCHPOINTS - 1;
+    PayloadPtr->WPNumber = LC_MAX_WATCHPOINTS - 1;
 
     /* Execute the function being tested */
     LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
@@ -2391,7 +2438,8 @@ void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
 
 void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
 {
-    CFE_SB_MsgId_t TestMsgId;
+    CFE_SB_MsgId_t             TestMsgId;
+    LC_ResetWPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetWPStatsCmd.Payload;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -2402,7 +2450,7 @@ void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset WP stats error: invalid WP number = %%d");
 
-    UT_CmdBuf.ResetWPStatsCmd.WPNumber = LC_MAX_WATCHPOINTS;
+    PayloadPtr->WPNumber = LC_MAX_WATCHPOINTS;
 
     /* Execute the function being tested */
     LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
@@ -2605,7 +2653,8 @@ void UtTest_Setup(void)
                "LC_HousekeepingReq_Test_ManageTablesError");
 
     UtTest_Add(LC_NoopCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_NoopCmd_Test_BadLength");
-    UtTest_Add(LC_ResetCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCmd_Test_BadLength");
+    UtTest_Add(LC_ResetCountersCmd_Test_BadLength, LC_Test_Setup, LC_Test_TearDown,
+               "LC_ResetCountersCmd_Test_BadLength");
 
     UtTest_Add(LC_ResetCounters_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCounters_Test");
 
