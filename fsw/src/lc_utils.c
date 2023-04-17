@@ -37,68 +37,6 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* Verify message packet length                                    */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
-{
-    bool              result       = true;
-    CFE_MSG_FcnCode_t CommandCode  = 0;
-    size_t            ActualLength = 0;
-    CFE_SB_MsgId_t    MessageID    = CFE_SB_INVALID_MSG_ID;
-
-    /*
-    ** Verify the message packet length...
-    */
-
-    CFE_MSG_GetSize(MsgPtr, &ActualLength);
-    if (ExpectedLength != ActualLength)
-    {
-        CFE_MSG_GetMsgId(MsgPtr, &MessageID);
-        CFE_MSG_GetFcnCode(MsgPtr, &CommandCode);
-
-        switch (CFE_SB_MsgIdToValue(MessageID))
-        {
-            case LC_SEND_HK_MID:
-                /*
-                ** For a bad HK request, just send the event. We only increment
-                ** the error counter for ground commands and not internal messages.
-                */
-                CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Invalid HK request msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
-                                  (int)ExpectedLength);
-                break;
-
-            case LC_SAMPLE_AP_MID:
-                /*
-                ** Same thing as previous for a bad actionpoint sample request
-                */
-                CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Invalid AP sample msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
-                                  (int)ExpectedLength);
-                break;
-
-            default:
-                /*
-                ** All other cases, increment error counter
-                */
-                CFE_EVS_SendEvent(LC_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
-                                  (int)ExpectedLength);
-                LC_AppData.CmdErrCount++;
-        }
-
-        result = false;
-    }
-
-    return result;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /* Manage tables - chance to be dumped, reloaded, etc.             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

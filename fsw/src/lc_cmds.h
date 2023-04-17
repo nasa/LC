@@ -35,27 +35,6 @@
  *************************************************************************/
 
 /**
- * \brief Process a command pipe message
- *
- *  \par Description
- *       Processes a single software bus command pipe message. Checks
- *       the message and command IDs and calls the appropriate routine
- *       to handle the message.
- *
- *       All messageIDs other than #LC_CMD_MID, #LC_SEND_HK_MID, and
- *       #LC_SAMPLE_AP_MID are assumed to be monitor packets.
- *
- *  \par Assumptions, External Events, and Notes:
- *       None
- *
- *  \param[in] BufPtr Pointer to Software Bus buffer
- *
- *  \return Execution status, see \ref CFEReturnCodes
- *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
- */
-int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr);
-
-/**
  * \brief Reset HK counters
  *
  *  \par Description
@@ -126,10 +105,8 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr);
  *
  *  \param[in] MsgPtr Pointer to command header
  *
- *  \return Execution status, see \ref CFEReturnCodes
- *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 LC_HousekeepingReq(const CFE_MSG_CommandHeader_t *MsgPtr);
+int32 LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr);
 
 /**
  * \brief Noop command

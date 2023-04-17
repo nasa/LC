@@ -349,8 +349,6 @@ void LC_ProcessWP_Test_CustomFunctionWatchFalse(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType           = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID         = LC_OPER_CUSTOM;
     LC_OperData.WDTPtr[WatchIndex].CustomFuncArgument = 0;
@@ -385,8 +383,6 @@ void LC_ProcessWP_Test_OperatorCompareError(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType        = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID      = 99;
     LC_OperData.WRTPtr[WatchIndex].EvaluationCount = 0;
@@ -416,8 +412,6 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale(void)
     CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
@@ -465,8 +459,6 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousFalse(void)
     CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
@@ -516,8 +508,6 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_GE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_STALE;
@@ -562,8 +552,6 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_GE;
     LC_OperData.WRTPtr[WatchIndex].WatchResult             = LC_WATCH_TRUE;
@@ -606,8 +594,6 @@ void LC_ProcessWP_Test_BadSize(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType           = 99;
     LC_OperData.WDTPtr[WatchIndex].OperatorID         = LC_OPER_CUSTOM;
     LC_OperData.WDTPtr[WatchIndex].CustomFuncArgument = 0;
@@ -632,8 +618,6 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousTrue(void)
     CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
@@ -678,8 +662,6 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousFalse(void)
     CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_OperData.WDTPtr[WatchIndex].DataType                = LC_DATA_WATCH_BYTE;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_GE;
@@ -1424,8 +1406,6 @@ void LC_WPOffsetValid_Test_DataUByte(void)
     size_t MsgSize = 16;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UBYTE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
 
@@ -1448,8 +1428,6 @@ void LC_WPOffsetValid_Test_UWordLE(void)
 
     size_t MsgSize = 16;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
-
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UWORD_LE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
@@ -1474,8 +1452,6 @@ void LC_WPOffsetValid_Test_UDWordLE(void)
     size_t MsgSize = 16;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UDWORD_LE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
 
@@ -1498,8 +1474,6 @@ void LC_WPOffsetValid_Test_FloatLE(void)
     size_t MsgSize = 16;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
-
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_FLOAT_LE;
     LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0;
 
@@ -1520,7 +1494,6 @@ void LC_WPOffsetValid_Test_DataTypeError(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
@@ -1559,7 +1532,6 @@ void LC_WPOffsetValid_Test_OffsetError(void)
     size_t MsgSize = 0;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    UT_SetDefaultReturnValue(UT_KEY(LC_VerifyMsgLength), true);
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 

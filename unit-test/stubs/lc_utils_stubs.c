@@ -67,20 +67,3 @@ int32 LC_UpdateTaskCDS(void)
 
     return UT_GenStub_GetReturnValue(LC_UpdateTaskCDS, int32);
 }
-
-/*
- * ----------------------------------------------------
- * Generated stub function for LC_VerifyMsgLength()
- * ----------------------------------------------------
- */
-bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
-{
-    UT_GenStub_SetupReturnBuffer(LC_VerifyMsgLength, bool);
-
-    UT_GenStub_AddParam(LC_VerifyMsgLength, const CFE_MSG_Message_t *, MsgPtr);
-    UT_GenStub_AddParam(LC_VerifyMsgLength, size_t, ExpectedLength);
-
-    UT_GenStub_Execute(LC_VerifyMsgLength, Basic, NULL);
-
-    return UT_GenStub_GetReturnValue(LC_VerifyMsgLength, bool);
-}

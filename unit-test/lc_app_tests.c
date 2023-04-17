@@ -34,7 +34,7 @@
 #include "lc_version.h"
 #include "lc_utils.h"
 #include "lc_test_utils.h"
-#include "lc_cmds.h"
+#include "lc_dispatch.h"
 
 #include "cfe.h"
 
