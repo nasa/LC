@@ -44,39 +44,28 @@ void LC_SampleAPs(uint16 StartIndex, uint16 EndIndex)
     uint8  CurrentAPState;
 
     /*
-    ** If we're specifying a single actionpoint, make sure it's
-    ** current state is valid for a sample request
+    ** Make sure the current state of the starting actionpoint
+    ** in the sample is valid for a sample request
     */
-    if (StartIndex == EndIndex)
-    {
-        CurrentAPState = LC_OperData.ARTPtr[StartIndex].CurrentState;
+    CurrentAPState = LC_OperData.ARTPtr[StartIndex].CurrentState;
 
-        if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+    if ((CurrentAPState != LC_ACTION_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+    {
+        /*
+         ** Sample selected actionpoints
+         */
+        for (TableIndex = StartIndex; TableIndex <= EndIndex; TableIndex++)
         {
-            /*
-            ** Sample the specified actionpoint
-            */
-            LC_SampleSingleAP(StartIndex);
-        }
-        else
-        {
-            /*
-            **  Actionpoint isn't currently operational
-            */
-            CFE_EVS_SendEvent(LC_APSAMPLE_CURR_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Sample AP error, invalid current AP state: AP = %d, State = %d", StartIndex,
-                              CurrentAPState);
+            LC_SampleSingleAP(TableIndex);
         }
     }
     else
     {
         /*
-        ** Sample selected actionpoints
+        **  Actionpoint isn't currently operational
         */
-        for (TableIndex = StartIndex; TableIndex <= EndIndex; TableIndex++)
-        {
-            LC_SampleSingleAP(TableIndex);
-        }
+        CFE_EVS_SendEvent(LC_APSAMPLE_CURR_ERR_EID, CFE_EVS_EventType_ERROR,
+                          "Sample AP error, invalid current AP state: AP = %d, State = %d", StartIndex, CurrentAPState);
     }
 
     return;
