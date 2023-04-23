@@ -242,9 +242,8 @@ void LC_ResetWPStatsVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 /* Process a command pipe message                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 {
-    int32             Status      = CFE_SUCCESS;
     CFE_SB_MsgId_t    MessageID   = CFE_SB_INVALID_MSG_ID;
     CFE_MSG_FcnCode_t CommandCode = 0;
 
@@ -324,5 +323,5 @@ int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 
     } /* end MessageID switch */
 
-    return Status;
+    return CFE_SUCCESS;
 }

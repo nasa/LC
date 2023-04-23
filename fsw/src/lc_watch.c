@@ -77,7 +77,7 @@ void LC_CreateHashTable(void)
     CFE_SB_MsgId_t    MessageID;
     int32             MessageLinkIndex;
     int32             WatchPtTblIndex;
-    int32             Result;
+    CFE_Status_t      Result;
 
     /* Un-subscribe to any MessageID's referenced in previous Watchpoint Definition Table */
     for (MessageLinkIndex = 0; MessageLinkIndex < LC_OperData.MessageIDsCount; MessageLinkIndex++)
@@ -148,7 +148,7 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
     LC_WatchPtList_t *WatchPtLink;
     bool              NeedSubscription;
     int32             HashTableIndex;
-    int32             Result;
+    CFE_Status_t      Result;
 
     /* Hash function converts MessageID into hash table index */
     HashTableIndex = LC_GetHashTableIndex(MessageID);

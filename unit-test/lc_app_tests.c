@@ -267,8 +267,8 @@ void LC_AppMain_Test_SbTimeout(void)
 
 void LC_AppInit_Test_Nominal(void)
 {
-    int32 Result;
-    char  Message[125];
+    CFE_Status_t Result;
+    char         Message[125];
 
     memset(&LC_OperData, 1, sizeof(LC_OperData));
     memset(&LC_AppData, 1, sizeof(LC_AppData));
@@ -330,7 +330,7 @@ void LC_AppInit_Test_Nominal(void)
 
 void LC_AppInit_Test_EVSInitError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to prevent errors when initializing tables */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
@@ -350,7 +350,7 @@ void LC_AppInit_Test_EVSInitError(void)
 
 void LC_AppInit_Test_SBInitError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to prevent errors when initializing tables */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
@@ -371,7 +371,7 @@ void LC_AppInit_Test_SBInitError(void)
 
 void LC_AppInit_Test_TableInitError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to cause LC_TableInit to return -1, in order to satisfy subsequent condition "Status != CFE_SUCCESS" */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), -1);
@@ -389,7 +389,7 @@ void LC_AppInit_Test_TableInitError(void)
 
 void LC_EvsInit_Test_Nominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Execute the function being tested */
     Result = LC_EvsInit();
@@ -403,7 +403,7 @@ void LC_EvsInit_Test_Nominal(void)
 
 void LC_EvsInit_Test_EVSRegisterError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to generate system log message "LC App: Error Registering For Event Services" */
     UT_SetDefaultReturnValue(UT_KEY(CFE_EVS_Register), -1);
@@ -424,7 +424,7 @@ void LC_EvsInit_Test_EVSRegisterError(void)
 
 void LC_SbInit_Test_Nominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Execute the function being tested */
     Result = LC_SbInit();
@@ -438,7 +438,7 @@ void LC_SbInit_Test_Nominal(void)
 
 void LC_SbInit_Test_CreatePipeError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to generate error message LC_CR_PIPE_ERR_EID */
     UT_SetDefaultReturnValue(UT_KEY(CFE_SB_CreatePipe), -1);
@@ -459,7 +459,7 @@ void LC_SbInit_Test_CreatePipeError(void)
 
 void LC_SbInit_Test_SubscribeHKReqError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to generate error message LC_SUB_HK_REQ_ERR_EID */
     UT_SetDefaultReturnValue(UT_KEY(CFE_SB_Subscribe), -1);
@@ -480,7 +480,7 @@ void LC_SbInit_Test_SubscribeHKReqError(void)
 
 void LC_SbInit_Test_SubscribeGndCmdError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to generate error message LC_SUB_GND_CMD_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_SB_Subscribe), 2, -1);
@@ -501,7 +501,7 @@ void LC_SbInit_Test_SubscribeGndCmdError(void)
 
 void LC_SbInit_Test_SubscribeSampleCmdError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Set to generate error message LC_SUB_SAMPLE_CMD_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_SB_Subscribe), 3, -1);
@@ -746,7 +746,7 @@ void LC_TableInit_Test_GetADTAddressUpdated(void)
 
 void LC_TableInit_Test_CreateTaskCDSError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
     LC_OperData.HaveActiveCDS = true;
 
     /* force LC_CreateTaskCDS to fail */
@@ -760,7 +760,7 @@ void LC_TableInit_Test_CreateTaskCDSError(void)
 
 void LC_TableInit_Test_Nominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = true;
 
@@ -792,7 +792,7 @@ void LC_TableInit_Test_Nominal(void)
 
 void LC_CreateResultTables_Test_Nominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults = 0;
 
@@ -810,7 +810,7 @@ void LC_CreateResultTables_Test_Nominal(void)
 
 void LC_CreateResultTables_Test_WRTRegisterError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults = 0;
 
@@ -834,7 +834,7 @@ void LC_CreateResultTables_Test_WRTRegisterError(void)
 
 void LC_CreateResultTables_Test_WRTGetAddressError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults = 0;
 
@@ -858,7 +858,7 @@ void LC_CreateResultTables_Test_WRTGetAddressError(void)
 
 void LC_CreateResultTables_Test_ARTRegisterError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults = 0;
 
@@ -882,7 +882,7 @@ void LC_CreateResultTables_Test_ARTRegisterError(void)
 
 void LC_CreateResultTables_Test_ARTGetAddressError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults = 0;
 
@@ -906,7 +906,7 @@ void LC_CreateResultTables_Test_ARTGetAddressError(void)
 
 void LC_CreateDefinitionTables_Test_NominalCDSActive(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = true;
@@ -928,7 +928,7 @@ void LC_CreateDefinitionTables_Test_NominalCDSActive(void)
 
 void LC_CreateDefinitionTables_Test_NominalCDSInactive(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = false;
@@ -950,9 +950,9 @@ void LC_CreateDefinitionTables_Test_NominalCDSInactive(void)
 
 void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering WDT as critical table, retrying with default options, RC=0x%%08X");
@@ -988,9 +988,9 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
 
 void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering ADT as critical table, retrying with default options, RC=0x%%08X");
@@ -1026,7 +1026,7 @@ void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
 
 void LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.TableResults  = 0;
     LC_OperData.HaveActiveCDS = false;
@@ -1105,7 +1105,7 @@ void LC_CreateDefinitionTables_Test_ADTRegisterError(void)
 
 void LC_LoadDefaultTables_Test_NominalActiveCDS(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = true;
 
@@ -1135,7 +1135,7 @@ void LC_LoadDefaultTables_Test_NominalActiveCDS(void)
 
 void LC_LoadDefaultTables_Test_ActiveCDSNotSuccess(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = true;
 
@@ -1169,7 +1169,7 @@ void LC_LoadDefaultTables_Test_ActiveCDSNotSuccess(void)
 
 void LC_LoadDefaultTables_Test_NominalInactiveCDS(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
     LC_OperData.HaveActiveCDS = false;
 
     /* Set to satisfy all instances of condition "Result == CFE_SUCCESS" after calls to CFE_TBL_Load */
@@ -1198,7 +1198,7 @@ void LC_LoadDefaultTables_Test_NominalInactiveCDS(void)
 
 void LC_LoadDefaultTables_Test_LoadWDTError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = false;
 
@@ -1221,7 +1221,7 @@ void LC_LoadDefaultTables_Test_LoadWDTError(void)
 
 void LC_LoadDefaultTables_Test_GetWDTAddressError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = false;
 
@@ -1247,7 +1247,7 @@ void LC_LoadDefaultTables_Test_GetWDTAddressError(void)
 
 void LC_LoadDefaultTables_Test_LoadADTError(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = false;
 
@@ -1294,7 +1294,7 @@ void LC_LoadDefaultTables_Test_GetADTAddressError(void)
 
 void LC_LoadDefaultTables_Test_InfoUpdated(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = true;
 
@@ -1324,7 +1324,7 @@ void LC_LoadDefaultTables_Test_InfoUpdated(void)
 
 void LC_CreateTaskCDS_Test_Nominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_SUCCESS);
 
@@ -1344,9 +1344,9 @@ void LC_CreateTaskCDS_Test_Nominal(void)
 
 void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, -1);
 
@@ -1367,9 +1367,9 @@ void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
 
 void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 2, -1);
 
@@ -1390,9 +1390,9 @@ void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
 
 void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 3, -1);
 
@@ -1414,7 +1414,7 @@ void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
 
 void LC_CreateTaskCDS_Test_RestoreSuccess(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
@@ -1443,7 +1443,7 @@ void LC_CreateTaskCDS_Test_RestoreSuccess(void)
 
 void LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
@@ -1472,7 +1472,7 @@ void LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved(void)
 
 void LC_CreateTaskCDS_Test_RestoreFail(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), -1);

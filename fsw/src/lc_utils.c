@@ -41,9 +41,9 @@
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_ManageTables(void)
+CFE_Status_t LC_ManageTables(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /*
     ** It is not necessary to release dump only table pointers before
@@ -110,9 +110,9 @@ int32 LC_ManageTables(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_UpdateTaskCDS(void)
+CFE_Status_t LC_UpdateTaskCDS(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /*
     ** Copy the watchpoint results table (WRT) data to CDS
@@ -164,9 +164,9 @@ int32 LC_UpdateTaskCDS(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_PerformMaintenance(void)
+CFE_Status_t LC_PerformMaintenance(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /*
     ** Manage tables - allow cFE to perform dump, update, etc.
