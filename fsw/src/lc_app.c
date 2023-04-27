@@ -522,8 +522,7 @@ int32 LC_CreateResultTables(void)
         CFE_EVS_SendEvent(LC_WRT_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR, "Error registering WRT, RC=0x%08X",
                           (unsigned int)Result);
     }
-
-    if (Result == CFE_SUCCESS)
+    else
     {
         Result = CFE_TBL_GetAddress((void *)&LC_OperData.WRTPtr, LC_OperData.WRTHandle);
 
