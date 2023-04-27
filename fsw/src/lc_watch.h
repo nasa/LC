@@ -232,7 +232,7 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex, uint32 WPValue, uint32 CompareValue)
  *
  *  \par Description
  *       Support function for watchpoint processing that will perform
- *       an floating point watchpoint data comparison based upon the operator
+ *       a floating point watchpoint data comparison based upon the operator
  *       specified in the watchpoint definition table
  *
  *  \par Assumptions, External Events, and Notes:

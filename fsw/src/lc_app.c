@@ -335,12 +335,12 @@ int32 LC_TableInit(void)
 ** LC task use of Critical Data Store (CDS)
 **
 **    Global application data (LC_AppData)
-**    Watchpint results dump only table data
+**    Watchpoint results dump only table data
 **    Actionpoint results dump only table data
 **
 ** cFE Table Services use of CDS for LC task
 **
-**    Watchpint definition loadable table data
+**    Watchpoint definition loadable table data
 **    Actionpoint definition loadable table data
 **
 ** LC table initialization logic re CDS
