@@ -1,8 +1,8 @@
 /************************************************************************
- * NASA Docket No. GSC-18,447-1, and identified as “CFS CFDP (CF)
- * Application version 3.0.0”
+ * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
+ * Application version 2.2.1”
  *
- * Copyright (c) 2019 United States Government as represented by the
+ * Copyright (c) 2021 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -19,24 +19,22 @@
 
 /**
  * @file
+ *   CFS Limit Checker (LC) Application Table Structure Definition
  *
- * Declarations and prototypes for fm_extern_typedefs module
+ * Provides default definitions for LC table structures
+ *
+ * @note This file may be overridden/superceded by mission-provided defintions
+ * either by overriding this header or by generating definitions from a command/data
+ * dictionary tool.
  */
 
-#ifndef LC_EXTERN_TYPEDEFS_H
-#define LC_EXTERN_TYPEDEFS_H
+#ifndef LC_TBLSTRUCT_H
+#define LC_TBLSTRUCT_H
 
-#include <cfe.h>
-
-/**
- * \name LC Table Name Strings
- * \{
- */
-#define LC_WDT_TABLENAME "LC_WDT"
-#define LC_ADT_TABLENAME "LC_ADT"
-#define LC_WRT_TABLENAME "LC_WRT"
-#define LC_ART_TABLENAME "LC_ART"
-/**\}*/
+#include "common_types.h"
+#include "lc_interface_cfg.h"
+#include "cfe_sb_extern_typedefs.h"
+#include "cfe_time_extern_typedefs.h"
 
 /**
  *  \brief Actionpoint Definition Table (ADT) Entry
@@ -66,7 +64,7 @@ typedef struct
                                   or #CFE_EVS_EventType_CRITICAL      */
 
     uint16 EventID; /**< \brief Event ID used for event msg if AP fails
-                                See lc_events.h for those already in use  */
+                                See lc_eventids.h for those already in use  */
 
     char EventText[LC_MAX_ACTION_TEXT]; /**< \brief Text used for the event msg when
                                                     this AP fails                   */
@@ -117,4 +115,69 @@ typedef struct
                                                 #LC_OPER_CUSTOM                       */
 } LC_WDTEntry_t;
 
-#endif /* LC_EXTERN_TYPEDEFS_H */
+/**
+ *  \brief Watchpoint Transition Structure
+ */
+typedef struct
+{
+    uint32 Value;   /**< \brief Watchpoint value at comparison that caused
+                                the transition                               */
+    uint8 DataType; /**< \brief Same as Watchpoint Data Type (enumerated)    */
+
+    uint8 Padding[3]; /**< \brief Structure padding */
+
+    CFE_TIME_SysTime_t Timestamp; /**< \brief Timstamp when the transition was detected    */
+} LC_WRTTransition_t;
+
+/**
+ *  \brief Watchpoint Results Table (WRT) Entry
+ */
+typedef struct
+{
+    uint8 WatchResult; /**< \brief Result for the last evaluation of this
+                                   watchpoint (enumerated)                */
+
+    uint8 Padding[3]; /**< \brief Structure padding */
+
+    uint32 CountdownToStale;            /**< \brief Number of LC Sample Actionpoint
+                                                    commands still to be processed
+                                                    before WatchResult becomes stale        */
+    uint32 EvaluationCount;             /**< \brief How many times this watchpoint has
+                                                    been evaluated                         */
+    uint32 FalseToTrueCount;            /**< \brief How many times this watchpoint has
+                                                    transitioned from FALSE to TRUE        */
+    uint32 ConsecutiveTrueCount;        /**< \brief Number of consecutive times this
+                                                    watchpoint has evaluated to TRUE       */
+    uint32 CumulativeTrueCount;         /**< \brief Total number of times this watchpoint
+                                                    has evaluated to TRUE                  */
+    LC_WRTTransition_t LastFalseToTrue; /**< \brief Last transition from FALSE to TRUE     */
+    LC_WRTTransition_t LastTrueToFalse; /**< \brief Last transition from TRUE to FALSE     */
+} LC_WRTEntry_t;
+
+/**
+ *  \brief Actionpoint Results Table (ART) Entry
+ */
+typedef struct
+{
+    uint8 ActionResult; /**< \brief Result for the last sample of this
+                                    actionpoint                            */
+    uint8 CurrentState; /**< \brief Current state of this actionpoint      */
+
+    uint16 Padding; /**< \brief Structure padding */
+
+    uint32 PassiveAPCount;          /**< \brief Total number of times RTS not invoked
+                                                because this AP was passive            */
+    uint32 FailToPassCount;         /**< \brief How many times this actionpoint has
+                                                transitioned from Fail to Pass         */
+    uint32 PassToFailCount;         /**< \brief How many times this actionpoint has
+                                                transitioned from Pass to Fail         */
+    uint32 ConsecutiveFailCount;    /**< \brief Number of consecutive times this
+                                                actionpoint has evaluated to Fail      */
+    uint32 CumulativeFailCount;     /**< \brief Total number of times this actionpoint
+                                                has evaluated to Fail                  */
+    uint32 CumulativeRTSExecCount;  /**< \brief Total number of times an RTS request
+                                                has been sent for this actionpoint     */
+    uint32 CumulativeEventMsgsSent; /**< \brief Total number of event messages sent    */
+} LC_ARTEntry_t;
+
+#endif /* LC_TABLE_STRUCTS_H */

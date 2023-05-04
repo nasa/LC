@@ -32,7 +32,7 @@
 #include "lc_msg.h"
 #include "lc_msgdefs.h"
 #include "lc_msgids.h"
-#include "lc_events.h"
+#include "lc_eventids.h"
 #include "lc_version.h"
 #include "lc_test_utils.h"
 #include "lc_watch.h"

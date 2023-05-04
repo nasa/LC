@@ -27,10 +27,10 @@
 *************************************************************************/
 #include "lc_app.h"
 #include "lc_watch.h"
-#include "lc_events.h"
+#include "lc_eventids.h"
 #include "lc_custom.h"
 #include "lc_perfids.h"
-#include "cfe_platform_cfg.h"
+#include "lc_platform_cfg.h"
 
 #include <math.h>
 
