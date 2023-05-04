@@ -500,11 +500,10 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
 {
     uint16             WatchIndex = 0;
     CFE_TIME_SysTime_t Timestamp;
+    CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
 
     Timestamp.Seconds    = 3;
     Timestamp.Subseconds = 5;
-
-    CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
@@ -544,11 +543,10 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue(void)
 {
     uint16             WatchIndex = 0;
     CFE_TIME_SysTime_t Timestamp;
+    CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
 
     Timestamp.Seconds    = 3;
     Timestamp.Subseconds = 5;
-
-    CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
@@ -612,10 +610,10 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousTrue(void)
 {
     uint16             WatchIndex = 0;
     CFE_TIME_SysTime_t Timestamp;
+    CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
 
-    Timestamp.Seconds        = 3;
-    Timestamp.Subseconds     = 5;
-    CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
+    Timestamp.Seconds    = 3;
+    Timestamp.Subseconds = 5;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
@@ -655,11 +653,10 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousFalse(void)
 {
     uint16             WatchIndex = 0;
     CFE_TIME_SysTime_t Timestamp;
+    CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
 
     Timestamp.Seconds    = 3;
     Timestamp.Subseconds = 5;
-
-    CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
@@ -857,6 +854,8 @@ void LC_OperatorCompare_Test_DataTypeError(void)
     uint8  Result;
     uint16 WatchIndex      = 0;
     uint32 ProcessedWPData = 0;
+    int32  strCmpResult;
+    char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     LC_OperData.WDTPtr[WatchIndex].DataType                = 99;
     LC_OperData.WDTPtr[WatchIndex].OperatorID              = LC_OPER_LE;
@@ -865,9 +864,6 @@ void LC_OperatorCompare_Test_DataTypeError(void)
     LC_OperData.WDTPtr[WatchIndex].BitMask                 = 0;
     LC_OperData.WDTPtr[WatchIndex].ComparisonValue.Float32 = 1.0;
     LC_OperData.WRTPtr[WatchIndex].EvaluationCount         = 0;
-
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has undefined data type: WP = %%d, DataType = %%d");
@@ -1001,11 +997,10 @@ void LC_SignedCompare_Test_InvalidOperatorID(void)
     uint16 WatchIndex   = 0;
     int32  WPValue      = 1;
     int32  CompareValue = 0;
+    int32  strCmpResult;
+    char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     LC_OperData.WDTPtr[WatchIndex].OperatorID = 99;
-
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has invalid operator ID: WP = %%d, OperID = %%d");
@@ -1336,13 +1331,13 @@ void LC_FloatCompare_Test_InvalidOperatorID(void)
     uint16         WatchIndex = 0;
     LC_MultiType_t WPMultiType;
     LC_MultiType_t CompareMultiType;
+    int32          strCmpResult;
+    char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     WPMultiType.Float32      = 1.0;
     CompareMultiType.Float32 = 0.0;
 
     LC_OperData.WDTPtr[WatchIndex].OperatorID = 99;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has invalid operator ID: WP = %%d, OperID = %%d");
@@ -1368,12 +1363,12 @@ void LC_FloatCompare_Test_NaN(void)
     uint16         WatchIndex = 0;
     LC_MultiType_t WPMultiType;
     LC_MultiType_t CompareMultiType;
+    int32          strCmpResult;
+    char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     WPMultiType.Float32      = 1.0;
     WPMultiType.Unsigned32   = 0x7F8FFFFF;
     CompareMultiType.Float32 = 0.0;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP data value is a float NAN: WP = %%d, Value = 0x%%08X");
@@ -1400,10 +1395,10 @@ void LC_WPOffsetValid_Test_DataUByte(void)
     bool           Result;
     uint16         WatchIndex = 0;
     CFE_SB_MsgId_t TestMsgId  = LC_UT_MID_1;
+    size_t         MsgSize    = 16;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    size_t MsgSize = 16;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UBYTE;
@@ -1423,10 +1418,10 @@ void LC_WPOffsetValid_Test_UWordLE(void)
     bool           Result;
     uint16         WatchIndex = 0;
     CFE_SB_MsgId_t TestMsgId  = LC_UT_MID_1;
+    size_t         MsgSize    = 16;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    size_t MsgSize = 16;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UWORD_LE;
@@ -1446,10 +1441,10 @@ void LC_WPOffsetValid_Test_UDWordLE(void)
     bool           Result;
     uint16         WatchIndex = 0;
     CFE_SB_MsgId_t TestMsgId  = LC_UT_MID_1;
+    size_t         MsgSize    = 16;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    size_t MsgSize = 16;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UDWORD_LE;
@@ -1469,9 +1464,10 @@ void LC_WPOffsetValid_Test_FloatLE(void)
     bool           Result;
     uint16         WatchIndex = 0;
     CFE_SB_MsgId_t TestMsgId  = LC_UT_MID_1;
+    size_t         MsgSize    = 16;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    size_t MsgSize = 16;
+
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_FLOAT_LE;
@@ -1491,11 +1487,10 @@ void LC_WPOffsetValid_Test_DataTypeError(void)
     bool           Result;
     uint16         WatchIndex = 0;
     CFE_SB_MsgId_t TestMsgId  = LC_UT_MID_1;
+    int32          strCmpResult;
+    char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has undefined data type: WP = %%d, DataType = %%d");
@@ -1527,13 +1522,13 @@ void LC_WPOffsetValid_Test_OffsetError(void)
     bool           Result;
     uint16         WatchIndex = 0;
     CFE_SB_MsgId_t TestMsgId  = LC_UT_MID_1;
+    size_t         MsgSize    = 0;
+    int32          strCmpResult;
+    char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    size_t MsgSize = 0;
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP offset error: MID = 0x%%08lX, WP = %%d, Offset = %%d, DataSize = %%d, MsgLen = %%d");
@@ -1828,11 +1823,10 @@ void LC_ValidateWDT_Test_AllDataTypes(void)
     int32 TableIndex;
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify err: WP = %%d, Err = %%d, DType = %%d, Oper = %%d, MID = 0x%%08lX");
-
-    char ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
@@ -1885,11 +1879,10 @@ void LC_ValidateWDT_Test_AllOperatorIDs(void)
 
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify err: WP = %%d, Err = %%d, DType = %%d, Oper = %%d, MID = 0x%%08lX");
-
-    char ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");

@@ -1345,11 +1345,10 @@ void LC_CreateTaskCDS_Test_Nominal(void)
 void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
 {
     int32 Result;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, -1);
-
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, -1);
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error registering WRT CDS Area, RC=0x%%08X");
 
@@ -1369,11 +1368,10 @@ void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
 void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
 {
     int32 Result;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 2, -1);
-
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 2, -1);
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error registering ART CDS Area, RC=0x%%08X");
 
@@ -1393,11 +1391,10 @@ void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
 void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
 {
     int32 Result;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 3, -1);
-
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 3, -1);
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering application data CDS Area, RC=0x%%08X");
