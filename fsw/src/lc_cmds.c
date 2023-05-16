@@ -91,14 +91,16 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
         {
             for (WatchIndex = 0; WatchIndex < LC_MAX_WATCHPOINTS; WatchIndex++)
             {
-                if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale != 0)
+                if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 0)
                 {
-                    LC_OperData.WRTPtr[WatchIndex].CountdownToStale--;
+                    continue;
+                }
 
-                    if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 0)
-                    {
-                        LC_OperData.WRTPtr[WatchIndex].WatchResult = LC_WATCH_STALE;
-                    }
+                LC_OperData.WRTPtr[WatchIndex].CountdownToStale--;
+
+                if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 0)
+                {
+                    LC_OperData.WRTPtr[WatchIndex].WatchResult = LC_WATCH_STALE;
                 }
             }
         }
@@ -114,13 +116,14 @@ int32 LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
 {
     uint16 TableIndex;
     uint16 HKIndex;
-    uint8  ByteData;
+    uint8  ByteData = 0;
+    uint8  Shift;
+    uint8  TempByteData;
+    uint8  i;
 
     LC_HkTlm_Payload_t *PayloadPtr;
 
-    /*
-    ** Update HK variables
-    */
+    /* Update HK variables */
     PayloadPtr = &LC_OperData.HkPacket.Payload;
 
     PayloadPtr->CmdCount            = LC_AppData.CmdCount;
@@ -132,252 +135,123 @@ int32 LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
     PayloadPtr->CurrentLCState      = LC_AppData.CurrentLCState;
     PayloadPtr->WPsInUse            = LC_OperData.WatchpointCount;
 
-    /*
-    ** Clear out the active actionpoint count, it will get
-    ** recomputed below
-    */
+    /* Clear out the active actionpoint count, it will get recomputed below */
     PayloadPtr->ActiveAPs = 0;
 
-    /*
-    ** Update packed watch results
-    ** (4 watch results in one 8-bit byte)
-    */
+    /* Update packed watch results (4 watch results in one 8-bit byte) */
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex += 4)
     {
         HKIndex = TableIndex / 4;
 
-        /*
-        ** Pack in first result
-        */
-        switch (LC_OperData.WRTPtr[TableIndex + 3].WatchResult)
+        /* Pack in the results 2-bits at a time to ByteData */
+        for (i = 0; i < 4; i++)
         {
-            case LC_WATCH_STALE:
-                ByteData = LC_HKWR_STALE << 6;
-                break;
+            Shift = 6 - (i * 2);
+            switch (LC_OperData.WRTPtr[TableIndex + 3 - i].WatchResult)
+            {
+                case LC_WATCH_STALE:
+                    TempByteData = LC_HKWR_STALE << Shift;
+                    break;
 
-            case LC_WATCH_FALSE:
-                ByteData = LC_HKWR_FALSE << 6;
-                break;
+                case LC_WATCH_FALSE:
+                    TempByteData = LC_HKWR_FALSE << Shift;
+                    break;
 
-            case LC_WATCH_TRUE:
-                ByteData = LC_HKWR_TRUE << 6;
-                break;
+                case LC_WATCH_TRUE:
+                    TempByteData = LC_HKWR_TRUE << Shift;
+                    break;
 
-            /*
-            ** We should never get an undefined watch result,
-            ** but we'll set an error result if we do
-            */
-            case LC_WATCH_ERROR:
-            default:
-                ByteData = LC_HKWR_ERROR << 6;
-                break;
+                /* We should never get an undefined watch result, but set an error result if we do */
+                case LC_WATCH_ERROR:
+                default:
+                    TempByteData = LC_HKWR_ERROR << Shift;
+                    break;
+            }
+
+            /* Directly assign 1st result, but logical OR the 2nd, 3rd and 4th results */
+            if (i == 0)
+                ByteData = TempByteData;
+            else
+                ByteData |= TempByteData;
         }
 
-        /*
-        ** Pack in second result
-        */
-        switch (LC_OperData.WRTPtr[TableIndex + 2].WatchResult)
-        {
-            case LC_WATCH_STALE:
-                ByteData = (ByteData | (LC_HKWR_STALE << 4));
-                break;
-
-            case LC_WATCH_FALSE:
-                ByteData = (ByteData | (LC_HKWR_FALSE << 4));
-                break;
-
-            case LC_WATCH_TRUE:
-                ByteData = (ByteData | (LC_HKWR_TRUE << 4));
-                break;
-
-            case LC_WATCH_ERROR:
-            default:
-                ByteData = (ByteData | (LC_HKWR_ERROR << 4));
-                break;
-        }
-
-        /*
-        ** Pack in third result
-        */
-        switch (LC_OperData.WRTPtr[TableIndex + 1].WatchResult)
-        {
-            case LC_WATCH_STALE:
-                ByteData = (ByteData | (LC_HKWR_STALE << 2));
-                break;
-
-            case LC_WATCH_FALSE:
-                ByteData = (ByteData | (LC_HKWR_FALSE << 2));
-                break;
-
-            case LC_WATCH_TRUE:
-                ByteData = (ByteData | (LC_HKWR_TRUE << 2));
-                break;
-
-            case LC_WATCH_ERROR:
-            default:
-                ByteData = (ByteData | (LC_HKWR_ERROR << 2));
-                break;
-        }
-
-        /*
-        ** Pack in fourth and last result
-        */
-        switch (LC_OperData.WRTPtr[TableIndex].WatchResult)
-        {
-            case LC_WATCH_STALE:
-                ByteData = (ByteData | LC_HKWR_STALE);
-                break;
-
-            case LC_WATCH_FALSE:
-                ByteData = (ByteData | LC_HKWR_FALSE);
-                break;
-
-            case LC_WATCH_TRUE:
-                ByteData = (ByteData | LC_HKWR_TRUE);
-                break;
-
-            case LC_WATCH_ERROR:
-            default:
-                ByteData = (ByteData | LC_HKWR_ERROR);
-                break;
-        }
-
-        /*
-        ** Update houskeeping watch results array
-        */
+        /* Update houskeeping watch results array */
         PayloadPtr->WPResults[HKIndex] = ByteData;
+    }
 
-    } /* end watch results for loop */
-
-    /*
-    ** Update packed action results
-    ** (2 action state/result pairs (4 bits each) in one 8-bit byte)
-    */
+    /* Update packed action results (2 action state/result pairs (4 bits each) in one 8-bit byte) */
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex += 2)
     {
         HKIndex = TableIndex / 2;
 
-        /*
-        ** Pack in first actionpoint, current state
-        */
-        switch (LC_OperData.ARTPtr[TableIndex + 1].CurrentState)
+        /* Pack in 1st and 2nd actionpoints, current state */
+        for (i = 0; i < 2; i++)
         {
-            case LC_APSTATE_NOT_USED:
-                ByteData = LC_HKAR_STATE_NOT_USED << 6;
-                break;
+            Shift = 6 - (i * 4);
+            switch (LC_OperData.ARTPtr[TableIndex + 1 - i].CurrentState)
+            {
+                case LC_APSTATE_NOT_USED:
+                    TempByteData = LC_HKAR_STATE_NOT_USED << Shift;
+                    break;
 
-            case LC_APSTATE_ACTIVE:
-                ByteData = LC_HKAR_STATE_ACTIVE << 6;
-                PayloadPtr->ActiveAPs++;
-                break;
+                case LC_APSTATE_ACTIVE:
+                    TempByteData = LC_HKAR_STATE_ACTIVE << Shift;
+                    PayloadPtr->ActiveAPs++;
+                    break;
 
-            case LC_APSTATE_PASSIVE:
-                ByteData = LC_HKAR_STATE_PASSIVE << 6;
-                break;
+                case LC_APSTATE_PASSIVE:
+                    TempByteData = LC_HKAR_STATE_PASSIVE << Shift;
+                    break;
 
-            case LC_APSTATE_DISABLED:
-                ByteData = LC_HKAR_STATE_DISABLED << 6;
-                break;
+                case LC_APSTATE_DISABLED:
+                    TempByteData = LC_HKAR_STATE_DISABLED << Shift;
+                    break;
 
-            /*
-            ** Permanantly disabled actionpoints get reported
-            ** as unused. We should never get an undefined
-            ** action state, but we'll set to not used if we do.
-            */
-            case LC_APSTATE_PERMOFF:
-            default:
-                ByteData = LC_HKAR_STATE_NOT_USED << 6;
-                break;
+                /*
+                ** Permanantly disabled actionpoints get reported as unused. We should
+                ** never get an undefined action state, but set to NOT_USED if we do.
+                */
+                case LC_APSTATE_PERMOFF:
+                default:
+                    TempByteData = LC_HKAR_STATE_NOT_USED << Shift;
+                    break;
+            }
+
+            /* Directly assign 1st state, but logical OR the 2nd state */
+            if (i == 0)
+                ByteData = TempByteData;
+            else
+                ByteData |= TempByteData;
+
+            /* Pack in 1st and 2nd actionpoints, action result */
+            Shift -= 2;
+            switch (LC_OperData.ARTPtr[TableIndex + 1 - i].ActionResult)
+            {
+                case LC_ACTION_STALE:
+                    ByteData |= LC_HKAR_STALE << Shift;
+                    break;
+
+                case LC_ACTION_PASS:
+                    ByteData |= LC_HKAR_PASS << Shift;
+                    break;
+
+                case LC_ACTION_FAIL:
+                    ByteData |= LC_HKAR_FAIL << Shift;
+                    break;
+
+                /* We should never get an undefined action result, but set an error result if we do */
+                case LC_ACTION_ERROR:
+                default:
+                    ByteData |= LC_HKAR_ERROR << Shift;
+                    break;
+            }
         }
 
-        /*
-        ** Pack in first actionpoint, action result
-        */
-        switch (LC_OperData.ARTPtr[TableIndex + 1].ActionResult)
-        {
-            case LC_ACTION_STALE:
-                ByteData = (ByteData | (LC_HKAR_STALE << 4));
-                break;
-
-            case LC_ACTION_PASS:
-                ByteData = (ByteData | (LC_HKAR_PASS << 4));
-                break;
-
-            case LC_ACTION_FAIL:
-                ByteData = (ByteData | (LC_HKAR_FAIL << 4));
-                break;
-
-            /*
-            ** We should never get an undefined action result,
-            ** but we'll set an error result if we do
-            */
-            case LC_ACTION_ERROR:
-            default:
-                ByteData = (ByteData | (LC_HKAR_ERROR << 4));
-                break;
-        }
-
-        /*
-        ** Pack in second actionpoint, current state
-        */
-        switch (LC_OperData.ARTPtr[TableIndex].CurrentState)
-        {
-            case LC_APSTATE_NOT_USED:
-                ByteData = (ByteData | (LC_HKAR_STATE_NOT_USED << 2));
-                break;
-
-            case LC_APSTATE_ACTIVE:
-                ByteData = (ByteData | (LC_HKAR_STATE_ACTIVE << 2));
-                PayloadPtr->ActiveAPs++;
-                break;
-
-            case LC_APSTATE_PASSIVE:
-                ByteData = (ByteData | (LC_HKAR_STATE_PASSIVE << 2));
-                break;
-
-            case LC_APSTATE_DISABLED:
-                ByteData = (ByteData | (LC_HKAR_STATE_DISABLED << 2));
-                break;
-
-            case LC_APSTATE_PERMOFF:
-            default:
-                ByteData = (ByteData | (LC_HKAR_STATE_NOT_USED << 2));
-                break;
-        }
-
-        /*
-        ** Pack in second actionpoint, action result
-        */
-        switch (LC_OperData.ARTPtr[TableIndex].ActionResult)
-        {
-            case LC_ACTION_STALE:
-                ByteData = (ByteData | LC_HKAR_STALE);
-                break;
-
-            case LC_ACTION_PASS:
-                ByteData = (ByteData | LC_HKAR_PASS);
-                break;
-
-            case LC_ACTION_FAIL:
-                ByteData = (ByteData | LC_HKAR_FAIL);
-                break;
-
-            case LC_ACTION_ERROR:
-            default:
-                ByteData = (ByteData | LC_HKAR_ERROR);
-                break;
-        }
-
-        /*
-        ** Update houskeeping action results array
-        */
+        /* Update houskeeping action results array */
         PayloadPtr->APResults[HKIndex] = ByteData;
+    }
 
-    } /* end action results for loop */
-
-    /*
-    ** Timestamp and send housekeeping packet
-    */
+    /* Timestamp and send housekeeping packet */
     CFE_SB_TimeStampMsg(CFE_MSG_PTR(LC_OperData.HkPacket.TelemetryHeader));
     CFE_SB_TransmitMsg(CFE_MSG_PTR(LC_OperData.HkPacket.TelemetryHeader), true);
 
