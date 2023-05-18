@@ -54,7 +54,7 @@
 
   This document provides a complete specification for the commands and telemetry associated
   with the CFS Limit Checker (LC) application software.  The document is intended primarily
-  for users of the software (operations personal, test engineers, and maintenance personnel).
+  for users of the software (operations personnel, test engineers, and maintenance personnel).
   The last section of the document, the deployment guide section, is intended for mission
   developers when deploying and configuring the LC application software for a mission
   flight software build environment.
@@ -113,7 +113,7 @@
   is encountered, an event message is issued and a Relative Time Sequence (RTS) command
   script may be initiated to respond to the threshold violation.
 
-  LC is a table driven application. Monitoring and response configuration data is stored in
+  LC is a table-driven application. Monitoring and response configuration data is stored in
   definition tables that can be updated by the ground operators, while statistics on threshold
   violations are stored in dump-only results tables and summarized in housekeeping data.
 
@@ -195,7 +195,7 @@
   \image html LC_Monitor_Process.png "LC Monitoring Process Example Diagram"
   \image latex LC_Monitor_Process.png "LC Monitoring Process Example Diagram"
 
-  Since LC is a table driven application, it's behavior is dictated by the contents of the
+  Since LC is a table-driven application, it's behavior is dictated by the contents of the
   WDT and ADT configuration tables. To change this behavior is simply a matter of loading a
   new table with modified parameters. LC will check for any pending table updates whenever
   it processes a housekeeping request. If the table passes validation it will go into
@@ -295,11 +295,11 @@
   #LC_MAX_ACTIONPOINTS. The index into this table is the same Actionpoint ID used for the
   corresponding definition table entry.
 
-  The entire WDT is searched anytime a message is received that may contain watchpoints.
+  The entire WDT is searched any time a message is received that may contain watchpoints.
   For this reason, it is important that unused entries are properly marked by setting
   the WDT parameter DataType to #LC_DATA_WATCH_NOT_USED.
 
-  The entire ADT is processed anytime a sample request is received that specifies an
+  The entire ADT is processed any time a sample request is received that specifies an
   actionpoint equal to #LC_ALL_ACTIONPOINTS. For this reason, it is important that unused
   entries are properly marked by setting the ADT parameter DefaultState to
   #LC_APSTATE_NOT_USED.

@@ -106,7 +106,7 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr);
  *  \param[in] MsgPtr Pointer to command header
  *
  */
-int32 LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr);
+CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr);
 
 /**
  * \brief Noop command

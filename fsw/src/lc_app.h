@@ -237,7 +237,7 @@ void LC_AppMain(void);
  *  \return Execution status, see \ref CFEReturnCodes
  *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 LC_AppInit(void);
+CFE_Status_t LC_AppInit(void);
 
 /**
  * \brief Initialize Event Services
@@ -252,7 +252,7 @@ int32 LC_AppInit(void);
  *  \return Execution status, see \ref CFEReturnCodes
  *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 LC_EvsInit(void);
+CFE_Status_t LC_EvsInit(void);
 
 /**
  * \brief Initialize Software Bus
@@ -267,7 +267,7 @@ int32 LC_EvsInit(void);
  *  \return Execution status, see \ref CFEReturnCodes
  *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 LC_SbInit(void);
+CFE_Status_t LC_SbInit(void);
 
 /**
  * \brief Initialize Table Services (includes CDS)
@@ -286,7 +286,7 @@ int32 LC_SbInit(void);
  *
  *  \sa LC_SAVE_TO_CDS
  */
-int32 LC_TableInit(void);
+CFE_Status_t LC_TableInit(void);
 
 /**
  * \brief Create Watchpoint and Actionpoint Result Tables
@@ -303,7 +303,7 @@ int32 LC_TableInit(void);
  *
  *  \sa #LC_TableInit
  */
-int32 LC_CreateResultTables(void);
+CFE_Status_t LC_CreateResultTables(void);
 
 /**
  * \brief Create Watchpoint and Actionpoint Definition Tables
@@ -320,7 +320,7 @@ int32 LC_CreateResultTables(void);
  *
  *  \sa #LC_TableInit
  */
-int32 LC_CreateDefinitionTables(void);
+CFE_Status_t LC_CreateDefinitionTables(void);
 
 /**
  * \brief Create Result Table and Application Data CDS Areas
@@ -337,7 +337,7 @@ int32 LC_CreateDefinitionTables(void);
  *
  *  \sa #LC_TableInit
  */
-int32 LC_CreateTaskCDS(void);
+CFE_Status_t LC_CreateTaskCDS(void);
 
 /**
  * \brief Load Default Table Values
@@ -356,6 +356,6 @@ int32 LC_CreateTaskCDS(void);
  *
  *  \sa #LC_TableInit
  */
-int32 LC_LoadDefaultTables(void);
+CFE_Status_t LC_LoadDefaultTables(void);
 
 #endif

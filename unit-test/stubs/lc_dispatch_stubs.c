@@ -31,13 +31,13 @@
  * Generated stub function for LC_AppPipe()
  * ----------------------------------------------------
  */
-int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 {
-    UT_GenStub_SetupReturnBuffer(LC_AppPipe, int32);
+    UT_GenStub_SetupReturnBuffer(LC_AppPipe, CFE_Status_t);
 
     UT_GenStub_AddParam(LC_AppPipe, const CFE_SB_Buffer_t *, BufPtr);
 
     UT_GenStub_Execute(LC_AppPipe, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_AppPipe, int32);
+    return UT_GenStub_GetReturnValue(LC_AppPipe, CFE_Status_t);
 }

@@ -247,7 +247,7 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
 
 void LC_SendHkCmd_Test_WatchStale(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -297,7 +297,7 @@ void LC_SendHkCmd_Test_WatchStale(void)
 
 void LC_SendHkCmd_Test_WatchFalse(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -347,7 +347,7 @@ void LC_SendHkCmd_Test_WatchFalse(void)
 
 void LC_SendHkCmd_Test_WatchTrue(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -397,7 +397,7 @@ void LC_SendHkCmd_Test_WatchTrue(void)
 
 void LC_SendHkCmd_Test_WatchError(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -448,7 +448,7 @@ void LC_SendHkCmd_Test_WatchError(void)
 
 void LC_SendHkCmd_Test_DefaultWatchResult(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -498,7 +498,7 @@ void LC_SendHkCmd_Test_DefaultWatchResult(void)
 
 void LC_SendHkCmd_Test_ActionNotUsedStale(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -549,7 +549,7 @@ void LC_SendHkCmd_Test_ActionNotUsedStale(void)
 
 void LC_SendHkCmd_Test_APStateActiveActionPass(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -602,7 +602,7 @@ void LC_SendHkCmd_Test_APStateActiveActionPass(void)
 
 void LC_SendHkCmd_Test_APStatePassiveActionFail(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -653,7 +653,7 @@ void LC_SendHkCmd_Test_APStatePassiveActionFail(void)
 
 void LC_SendHkCmd_Test_APStateDisabledActionError(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -704,7 +704,7 @@ void LC_SendHkCmd_Test_APStateDisabledActionError(void)
 
 void LC_SendHkCmd_Test_APStatePermOffActionError(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -755,7 +755,7 @@ void LC_SendHkCmd_Test_APStatePermOffActionError(void)
 
 void LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult(void)
 {
-    int32                     Result;
+    CFE_Status_t              Result;
     uint16                    TableIndex;
     uint16                    HKIndex;
     uint8                     ExpectedByteData;
@@ -806,7 +806,7 @@ void LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult(void)
 
 void LC_SendHkCmd_Test_ManageTablesError(void)
 {
-    int32          Result;
+    CFE_Status_t   Result;
     CFE_SB_MsgId_t TestMsgId;
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);

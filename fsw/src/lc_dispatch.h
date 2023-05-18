@@ -53,6 +53,6 @@
  *  \return Execution status, see \ref CFEReturnCodes
  *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 LC_AppPipe(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_AppPipe(const CFE_SB_Buffer_t *BufPtr);
 
 #endif

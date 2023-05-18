@@ -130,15 +130,15 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
  * Generated stub function for LC_SendHkCmd()
  * ----------------------------------------------------
  */
-int32 LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
+CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
 {
-    UT_GenStub_SetupReturnBuffer(LC_SendHkCmd, int32);
+    UT_GenStub_SetupReturnBuffer(LC_SendHkCmd, CFE_Status_t);
 
     UT_GenStub_AddParam(LC_SendHkCmd, const CFE_MSG_CommandHeader_t *, MsgPtr);
 
     UT_GenStub_Execute(LC_SendHkCmd, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_SendHkCmd, int32);
+    return UT_GenStub_GetReturnValue(LC_SendHkCmd, CFE_Status_t);
 }
 
 /*

@@ -44,7 +44,7 @@
  *
  *  \sa #LC_WDT_GETADDR_ERR_EID, #LC_ADT_GETADDR_ERR_EID
  */
-int32 LC_ManageTables(void);
+CFE_Status_t LC_ManageTables(void);
 
 /**
  * \brief Write to Critical Data Store (CDS)
@@ -60,7 +60,7 @@ int32 LC_ManageTables(void);
  *  \return Execution status, see \ref CFEReturnCodes
  *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 LC_UpdateTaskCDS(void);
+CFE_Status_t LC_UpdateTaskCDS(void);
 
 /**
  * \brief Perform Routine Maintenance
@@ -82,6 +82,6 @@ int32 LC_UpdateTaskCDS(void);
  *  \return Execution status, see \ref CFEReturnCodes
  *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 LC_PerformMaintenance(void);
+CFE_Status_t LC_PerformMaintenance(void);
 
 #endif

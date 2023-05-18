@@ -40,9 +40,9 @@ uint8 call_count_CFE_EVS_SendEvent;
 
 void LC_ManageTables_Test_Nominal(void)
 {
-    int32 Result;
-    uint8 call_count_LC_ResetResultsWP;
-    uint8 call_count_LC_ResetResultsAP;
+    CFE_Status_t Result;
+    uint8        call_count_LC_ResetResultsWP;
+    uint8        call_count_LC_ResetResultsAP;
 
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
@@ -64,9 +64,9 @@ void LC_ManageTables_Test_Nominal(void)
 
 void LC_ManageTables_Test_InfoUpdated(void)
 {
-    int32 Result;
-    uint8 call_count_LC_ResetResultsWP;
-    uint8 call_count_LC_ResetResultsAP;
+    CFE_Status_t Result;
+    uint8        call_count_LC_ResetResultsWP;
+    uint8        call_count_LC_ResetResultsAP;
 
     /* Set to satisfy all instances of condition "Result == CFE_TBL_INFO_UPDATED" */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_TBL_INFO_UPDATED);
@@ -89,11 +89,11 @@ void LC_ManageTables_Test_InfoUpdated(void)
 
 void LC_ManageTables_Test_WDTGetAddressError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    uint8 call_count_LC_ResetResultsWP;
-    uint8 call_count_LC_ResetResultsAP;
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    uint8        call_count_LC_ResetResultsWP;
+    uint8        call_count_LC_ResetResultsAP;
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting WDT address, RC=0x%%08X");
 
@@ -123,10 +123,10 @@ void LC_ManageTables_Test_WDTGetAddressError(void)
 
 void LC_ManageTables_Test_ADTGetAddressError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    uint8 call_count_LC_ResetResultsAP;
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    uint8        call_count_LC_ResetResultsAP;
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error getting ADT address, RC=0x%%08X");
 
@@ -154,9 +154,9 @@ void LC_ManageTables_Test_ADTGetAddressError(void)
 
 void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Unable to update watchpoint results in CDS, RC=0x%%08X");
@@ -181,9 +181,9 @@ void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
 
 void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Unable to update actionpoint results in CDS, RC=0x%%08X");
@@ -207,9 +207,9 @@ void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
 
 void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Unable to update application data in CDS, RC=0x%%08X");
@@ -235,7 +235,7 @@ void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
 
 void LC_UpdateTaskCDS_Test_Nominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Execute the function being tested */
     Result = LC_UpdateTaskCDS();
@@ -250,7 +250,7 @@ void LC_UpdateTaskCDS_Test_Nominal(void)
 
 void LC_PerformMaintenance_Test_NominalNoCDS(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = false;
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
@@ -267,7 +267,7 @@ void LC_PerformMaintenance_Test_NominalNoCDS(void)
 
 void LC_PerformMaintenance_Test_NominalCDS(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = true;
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
@@ -284,7 +284,7 @@ void LC_PerformMaintenance_Test_NominalCDS(void)
 
 void LC_PerformMaintenance_Test_UpdateCDSFail(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = true;
 
@@ -305,7 +305,7 @@ void LC_PerformMaintenance_Test_UpdateCDSFail(void)
 
 void LC_PerformMaintenance_Test_ManageTablesFail(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     LC_OperData.HaveActiveCDS = false;
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), -1);

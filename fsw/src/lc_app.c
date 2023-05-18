@@ -19,7 +19,7 @@
 
 /**
  * @file
- *   The CFS Limit Checker (LC) is a table driven application
+ *   The CFS Limit Checker (LC) is a table-driven application
  *   that provides telemetry monitoring and autonomous response
  *   capabilities to Core Flight Executive (cFE) based systems.
  */
@@ -179,9 +179,9 @@ void LC_AppMain(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_AppInit(void)
+CFE_Status_t LC_AppInit(void)
 {
-    int32 Status = CFE_SUCCESS;
+    CFE_Status_t Status = CFE_SUCCESS;
 
     /*
     ** Zero out the global data structures...
@@ -229,9 +229,9 @@ int32 LC_AppInit(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_EvsInit(void)
+CFE_Status_t LC_EvsInit(void)
 {
-    int32 Status = CFE_SUCCESS;
+    CFE_Status_t Status = CFE_SUCCESS;
 
     /*
     ** If an application event filter table is added
@@ -257,9 +257,9 @@ int32 LC_EvsInit(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_SbInit(void)
+CFE_Status_t LC_SbInit(void)
 {
-    int32 Status = CFE_SUCCESS;
+    CFE_Status_t Status = CFE_SUCCESS;
 
     /*
     ** Initialize housekeeping packet...
@@ -327,9 +327,9 @@ int32 LC_SbInit(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_TableInit(void)
+CFE_Status_t LC_TableInit(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
 /*
 ** LC task use of Critical Data Store (CDS)
@@ -500,11 +500,11 @@ int32 LC_TableInit(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_CreateResultTables(void)
+CFE_Status_t LC_CreateResultTables(void)
 {
-    int32  Result;
-    uint32 DataSize;
-    uint32 OptionFlags;
+    CFE_Status_t Result;
+    uint32       DataSize;
+    uint32       OptionFlags;
 
     /*
     ** Set "dump only" table option flags
@@ -575,11 +575,11 @@ int32 LC_CreateResultTables(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_CreateDefinitionTables(void)
+CFE_Status_t LC_CreateDefinitionTables(void)
 {
-    int32  Result;
-    uint32 DataSize;
-    uint32 OptionFlags = CFE_TBL_OPT_DEFAULT;
+    CFE_Status_t Result;
+    uint32       DataSize;
+    uint32       OptionFlags = CFE_TBL_OPT_DEFAULT;
 
     /*
     ** If CDS is still enabled, try to register the 2 definition tables as critical
@@ -731,10 +731,10 @@ int32 LC_CreateDefinitionTables(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_CreateTaskCDS(void)
+CFE_Status_t LC_CreateTaskCDS(void)
 {
-    int32  Result;
-    uint32 DataSize;
+    CFE_Status_t Result;
+    uint32       DataSize;
 
     /*
     ** Create CDS and try to restore Watchpoint Results Table (WRT) data
@@ -858,9 +858,9 @@ int32 LC_CreateTaskCDS(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 LC_LoadDefaultTables(void)
+CFE_Status_t LC_LoadDefaultTables(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /*
     ** Load default watchpoint definition table (WDT)

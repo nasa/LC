@@ -31,13 +31,13 @@
  * Generated stub function for LC_AppInit()
  * ----------------------------------------------------
  */
-int32 LC_AppInit(void)
+CFE_Status_t LC_AppInit(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_AppInit, int32);
+    UT_GenStub_SetupReturnBuffer(LC_AppInit, CFE_Status_t);
 
     UT_GenStub_Execute(LC_AppInit, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_AppInit, int32);
+    return UT_GenStub_GetReturnValue(LC_AppInit, CFE_Status_t);
 }
 
 /*
@@ -56,13 +56,13 @@ void LC_AppMain(void)
  * Generated stub function for LC_CreateDefinitionTables()
  * ----------------------------------------------------
  */
-int32 LC_CreateDefinitionTables(void)
+CFE_Status_t LC_CreateDefinitionTables(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_CreateDefinitionTables, int32);
+    UT_GenStub_SetupReturnBuffer(LC_CreateDefinitionTables, CFE_Status_t);
 
     UT_GenStub_Execute(LC_CreateDefinitionTables, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_CreateDefinitionTables, int32);
+    return UT_GenStub_GetReturnValue(LC_CreateDefinitionTables, CFE_Status_t);
 }
 
 /*
@@ -70,13 +70,13 @@ int32 LC_CreateDefinitionTables(void)
  * Generated stub function for LC_CreateResultTables()
  * ----------------------------------------------------
  */
-int32 LC_CreateResultTables(void)
+CFE_Status_t LC_CreateResultTables(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_CreateResultTables, int32);
+    UT_GenStub_SetupReturnBuffer(LC_CreateResultTables, CFE_Status_t);
 
     UT_GenStub_Execute(LC_CreateResultTables, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_CreateResultTables, int32);
+    return UT_GenStub_GetReturnValue(LC_CreateResultTables, CFE_Status_t);
 }
 
 /*
@@ -84,13 +84,13 @@ int32 LC_CreateResultTables(void)
  * Generated stub function for LC_CreateTaskCDS()
  * ----------------------------------------------------
  */
-int32 LC_CreateTaskCDS(void)
+CFE_Status_t LC_CreateTaskCDS(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_CreateTaskCDS, int32);
+    UT_GenStub_SetupReturnBuffer(LC_CreateTaskCDS, CFE_Status_t);
 
     UT_GenStub_Execute(LC_CreateTaskCDS, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_CreateTaskCDS, int32);
+    return UT_GenStub_GetReturnValue(LC_CreateTaskCDS, CFE_Status_t);
 }
 
 /*
@@ -98,13 +98,13 @@ int32 LC_CreateTaskCDS(void)
  * Generated stub function for LC_EvsInit()
  * ----------------------------------------------------
  */
-int32 LC_EvsInit(void)
+CFE_Status_t LC_EvsInit(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_EvsInit, int32);
+    UT_GenStub_SetupReturnBuffer(LC_EvsInit, CFE_Status_t);
 
     UT_GenStub_Execute(LC_EvsInit, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_EvsInit, int32);
+    return UT_GenStub_GetReturnValue(LC_EvsInit, CFE_Status_t);
 }
 
 /*
@@ -112,13 +112,13 @@ int32 LC_EvsInit(void)
  * Generated stub function for LC_LoadDefaultTables()
  * ----------------------------------------------------
  */
-int32 LC_LoadDefaultTables(void)
+CFE_Status_t LC_LoadDefaultTables(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_LoadDefaultTables, int32);
+    UT_GenStub_SetupReturnBuffer(LC_LoadDefaultTables, CFE_Status_t);
 
     UT_GenStub_Execute(LC_LoadDefaultTables, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_LoadDefaultTables, int32);
+    return UT_GenStub_GetReturnValue(LC_LoadDefaultTables, CFE_Status_t);
 }
 
 /*
@@ -126,13 +126,13 @@ int32 LC_LoadDefaultTables(void)
  * Generated stub function for LC_SbInit()
  * ----------------------------------------------------
  */
-int32 LC_SbInit(void)
+CFE_Status_t LC_SbInit(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_SbInit, int32);
+    UT_GenStub_SetupReturnBuffer(LC_SbInit, CFE_Status_t);
 
     UT_GenStub_Execute(LC_SbInit, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_SbInit, int32);
+    return UT_GenStub_GetReturnValue(LC_SbInit, CFE_Status_t);
 }
 
 /*
@@ -140,11 +140,11 @@ int32 LC_SbInit(void)
  * Generated stub function for LC_TableInit()
  * ----------------------------------------------------
  */
-int32 LC_TableInit(void)
+CFE_Status_t LC_TableInit(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_TableInit, int32);
+    UT_GenStub_SetupReturnBuffer(LC_TableInit, CFE_Status_t);
 
     UT_GenStub_Execute(LC_TableInit, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_TableInit, int32);
+    return UT_GenStub_GetReturnValue(LC_TableInit, CFE_Status_t);
 }
