@@ -282,7 +282,6 @@ void LC_AppInit_Test_Nominal(void)
     /* Verify results */
     sprintf(Message, "LC Initialized. Version %d.%d.%d.%d", LC_MAJOR_VERSION, LC_MINOR_VERSION, LC_REVISION,
             LC_MISSION_REV);
-    /*    UtAssert_True (Ut_CFE_EVS_EventSent(LC_INIT_INF_EID, CFE_EVS_INFORMATION, Message), Message); */
 
     UtAssert_INT32_EQ(Result, CFE_SUCCESS);
 
@@ -414,10 +413,6 @@ void LC_EvsInit_Test_EVSRegisterError(void)
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
 
-    /*    UtAssert_True
-            (Ut_CFE_ES_SysLogWritten("LC App: Error Registering For Event Services, RC = 0xFFFFFFFF\n"),
-            "LC App: Error Registering For Event Services, RC = 0xFFFFFFFF");*/
-
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
@@ -447,10 +442,6 @@ void LC_SbInit_Test_CreatePipeError(void)
     Result = LC_SbInit();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_CR_PIPE_ERR_EID, CFE_EVS_ERROR, "Error Creating LC Pipe, RC=0xFFFFFFFF"),
-            "Error Creating LC Pipe, RC=0xFFFFFFFF");
-    */
     UtAssert_True(Result == -1, "Result == -1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -468,10 +459,6 @@ void LC_SbInit_Test_SubscribeHKReqError(void)
     Result = LC_SbInit();
 
     /* Verify results */
-    /*   UtAssert_True
-           (Ut_CFE_EVS_EventSent(LC_SUB_HK_REQ_ERR_EID, CFE_EVS_ERROR, "Error Subscribing to HK Request, MID=0x18A5,
-       RC=0xFFFFFFFF"), "Error Subscribing to HK Request, MID=0x18A5, RC=0xFFFFFFFF");
-   */
     UtAssert_True(Result == -1, "Result == -1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -489,10 +476,6 @@ void LC_SbInit_Test_SubscribeGndCmdError(void)
     Result = LC_SbInit();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_SUB_GND_CMD_ERR_EID, CFE_EVS_ERROR, "Error Subscribing to GND CMD, MID=0x18A4,
-       RC=0xFFFFFFFF"), "Error Subscribing to GND CMD, MID=0x18A4, RC=0xFFFFFFFF");
-    */
     UtAssert_True(Result == -1, "Result == -1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -510,10 +493,6 @@ void LC_SbInit_Test_SubscribeSampleCmdError(void)
     Result = LC_SbInit();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_SUB_SAMPLE_CMD_ERR_EID, CFE_EVS_ERROR, "Error Subscribing to Sample CMD,
-       MID=0x18A6, RC=0xFFFFFFFF"), "Error Subscribing to Sample CMD, MID=0x18A6, RC=0xFFFFFFFF");
-    */
     UtAssert_True(Result == -1, "Result == -1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -821,10 +800,6 @@ void LC_CreateResultTables_Test_WRTRegisterError(void)
     Result = LC_CreateResultTables();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_WRT_REGISTER_ERR_EID, CFE_EVS_ERROR, "Error registering WRT, RC=0xFFFFFFFF"),
-            "Error registering WRT, RC=0xFFFFFFFF");
-    */
     UtAssert_True(LC_OperData.TableResults == 0, "LC_OperData.TableResults == 0");
     UtAssert_True(Result == -1, "Result == -1");
 
@@ -845,10 +820,6 @@ void LC_CreateResultTables_Test_WRTGetAddressError(void)
     Result = LC_CreateResultTables();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_WRT_GETADDR_ERR_EID, CFE_EVS_ERROR, "Error getting WRT address, RC=0xFFFFFFFF"),
-            "Error getting WRT address, RC=0xFFFFFFFF");
-    */
     UtAssert_True(LC_OperData.TableResults == 0, "LC_OperData.TableResults == 0");
     UtAssert_True(Result == -1, "Result == -1");
 
@@ -869,10 +840,6 @@ void LC_CreateResultTables_Test_ARTRegisterError(void)
     Result = LC_CreateResultTables();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_ART_REGISTER_ERR_EID, CFE_EVS_ERROR, "Error registering ART, RC=0xFFFFFFFF"),
-            "Error registering ART, RC=0xFFFFFFFF");
-    */
     UtAssert_True(LC_OperData.TableResults == LC_WRT_TBL_CREATED, "LC_OperData.TableResults == LC_WRT_TBL_CREATED");
     UtAssert_True(Result == -1, "Result == -1");
 
@@ -893,10 +860,6 @@ void LC_CreateResultTables_Test_ARTGetAddressError(void)
     Result = LC_CreateResultTables();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_ART_GETADDR_ERR_EID, CFE_EVS_ERROR, "Error getting ART address, RC=0xFFFFFFFF"),
-            "Error getting ART address, RC=0xFFFFFFFF");
-    */
     UtAssert_True(LC_OperData.TableResults == LC_WRT_TBL_CREATED, "LC_OperData.TableResults == LC_WRT_TBL_CREATED");
     UtAssert_True(Result == -1, "Result == -1");
 
@@ -1209,10 +1172,6 @@ void LC_LoadDefaultTables_Test_LoadWDTError(void)
     Result = LC_LoadDefaultTables();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_WDT_LOAD_ERR_EID, CFE_EVS_ERROR, "Error (RC=0xFFFFFFFF) Loading WDT with '"
-       LC_WDT_FILENAME "'"), "Error (RC=0xFFFFFFFF) Loading WDT with '" LC_WDT_FILENAME "'");
-    */
     UtAssert_True(Result == -1, "Result == -1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1235,10 +1194,6 @@ void LC_LoadDefaultTables_Test_GetWDTAddressError(void)
     Result = LC_LoadDefaultTables();
 
     /* Verify results */
-    /*    UtAssert_True
-            (Ut_CFE_EVS_EventSent(LC_WDT_GETADDR_ERR_EID, CFE_EVS_ERROR, "Error getting WDT address, RC=0xFFFFFFFF"),
-            "Error getting WDT address, RC=0xFFFFFFFF");
-    */
     UtAssert_True(Result == -1, "Result == -1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1261,10 +1216,6 @@ void LC_LoadDefaultTables_Test_LoadADTError(void)
     Result = LC_LoadDefaultTables();
 
     /* Verify results */
-    /*UtAssert_True
-        (Ut_CFE_EVS_EventSent(LC_ADT_LOAD_ERR_EID, CFE_EVS_ERROR, "Error (RC=0xCC000013) Loading ADT with '"
-       LC_ADT_FILENAME "'"), "Error (RC=0xCC000013) Loading ADT with '" LC_ADT_FILENAME "'");
-*/
     UtAssert_INT32_EQ(Result, -1);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1285,10 +1236,6 @@ void LC_LoadDefaultTables_Test_GetADTAddressError(void)
     UtAssert_INT32_EQ(LC_LoadDefaultTables(), -1);
 
     /* Verify results */
-    /*UtAssert_True
-        (Ut_CFE_EVS_EventSent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_ERROR, "Error getting ADT address, RC=0xCC000001"),
-        "Error getting ADT address, RC=0xCC000001");
-*/
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
 
@@ -1533,8 +1480,6 @@ void UtTest_Setup(void)
 
     UtTest_Add(LC_TableInit_Test_CreateTaskCDSError, LC_Test_Setup, LC_Test_TearDown,
                "LC_TableInit_Test_CreateTaskCDSError");
-    /* UtTest_Add(LC_TableInit_Test_CDSRestored, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_CDSRestored"); */
-    /* UtTest_Add(LC_TableInit_Test_CDSUpdated, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_CDSUpdated"); */
     UtTest_Add(LC_TableInit_Test_CreateResultsTablesError, LC_Test_Setup, LC_Test_TearDown,
                "LC_TableInit_Test_CreateResultsTablesError");
     UtTest_Add(LC_TableInit_Test_CreateDefinitionTablesError, LC_Test_Setup, LC_Test_TearDown,
