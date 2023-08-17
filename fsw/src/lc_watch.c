@@ -32,7 +32,26 @@
 #include "lc_perfids.h"
 #include "lc_platform_cfg.h"
 
+#include <float.h>
 #include <math.h>
+
+/*
+ * An ISO-compliant math.h header should provide "isnan" and "isfinite" macros
+ * as they are dicatated by C99.  However some C libraries still in use are not
+ * fully compliant.  If these macros are not defined, define a substitute here.
+ *
+ * Note these are not ideal/complete implementations of these macros, but they
+ * are OK based on the way they are used inside this source file.  Use caution if
+ * changing the code using these, notably:
+ *  - isfinite assumes float type
+ *  - both macros evaluate the argument twice - use only with a simple variable
+ */
+#ifndef isnan
+#define isnan(x) ((x) != (x))
+#endif
+#ifndef isfinite
+#define isfinite(x) ((x) > -FLT_MAX && (x) < FLT_MAX)
+#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
