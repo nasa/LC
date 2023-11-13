@@ -230,7 +230,8 @@ typedef struct
  */
 typedef struct
 {
-    uint16 RTSId; /**< \brief RTS Id to start */
+    uint16 RTSId;   /**< \brief RTS Id to start */
+    uint16 Padding; /**< \brief Padding */
 } LC_RTSRequest_Payload_t;
 
 /**
