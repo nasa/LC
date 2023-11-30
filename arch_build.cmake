@@ -19,7 +19,13 @@ set(LC_PLATFORM_CONFIG_FILE_LIST
 # This makes them individually overridable by the missions, without modifying
 # the distribution default copies
 foreach(LC_CFGFILE ${LC_PLATFORM_CONFIG_FILE_LIST})
-  set(DEFAULT_SOURCE "${CMAKE_CURRENT_LIST_DIR}/config/default_${LC_CFGFILE}")
+   get_filename_component(CFGKEY "${LC_CFGFILE}" NAME_WE) 
+   if (DEFINED LC_CFGFILE_SRC_${CFGKEY}) 
+     set(DEFAULT_SOURCE "${LC_CFGFILE_SRC_${CFGKEY}}") 
+   else() 
+     set(DEFAULT_SOURCE "${CMAKE_CURRENT_LIST_DIR}/config/default_${LC_CFGFILE}") 
+   endif()
+
   generate_config_includefile(
     FILE_NAME           "${LC_CFGFILE}"
     FALLBACK_FILE       "${DEFAULT_SOURCE}"
