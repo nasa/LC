@@ -84,8 +84,8 @@ extern UT_CmdBuf_t UT_CmdBuf;
 #define ADD_TEST(test) UtTest_Add((Test_##test), LC_UT_Setup, LC_UT_TearDown, #test)
 
 /* Unit test MID */
-#define LC_UT_MID_1 CFE_SB_ValueToMsgId(CFE_PLATFORM_TLM_MID_BASE + 1)
-#define LC_UT_MID_2 CFE_SB_ValueToMsgId(CFE_PLATFORM_TLM_MID_BASE + 2)
+#define LC_UT_MID_1 CFE_SB_ValueToMsgId(1)
+#define LC_UT_MID_2 CFE_SB_ValueToMsgId(2)
 
 /*
  * Setup function prior to every test
