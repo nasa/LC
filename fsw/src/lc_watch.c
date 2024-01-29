@@ -37,7 +37,7 @@
 
 /*
  * An ISO-compliant math.h header should provide "isnan" and "isfinite" macros
- * as they are dicatated by C99.  However some C libraries still in use are not
+ * as they are dictated by C99.  However some C libraries still in use are not
  * fully compliant.  If these macros are not defined, define a substitute here.
  *
  * Note these are not ideal/complete implementations of these macros, but they
@@ -370,7 +370,7 @@ void LC_ProcessWP(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr, CFE_TIME_Sys
     if (SizedDataValid == true)
     {
         /*
-        ** Get the last evalution result for this watchpoint
+        ** Get the last evaluation result for this watchpoint
         */
         PreviousResult = LC_OperData.WRTPtr[WatchIndex].WatchResult;
 

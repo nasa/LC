@@ -335,11 +335,11 @@ void UtTest_Setup(void)
     UtTest_Add(LC_UpdateTaskCDS_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_UpdateTaskCDS_Test_Nominal");
 
     UtTest_Add(LC_PerformMaintenance_Test_NominalNoCDS, LC_Test_Setup, LC_Test_TearDown,
-               "LC_PerfomMaintenance_Test_NominalNoCDS");
+               "LC_PerformMaintenance_Test_NominalNoCDS");
     UtTest_Add(LC_PerformMaintenance_Test_NominalCDS, LC_Test_Setup, LC_Test_TearDown,
-               "LC_PerfomMaintenance_Test_NominalCDS");
+               "LC_PerformMaintenance_Test_NominalCDS");
     UtTest_Add(LC_PerformMaintenance_Test_UpdateCDSFail, LC_Test_Setup, LC_Test_TearDown,
-               "LC_PerfomMaintenance_Test_UpdateCDSFail");
+               "LC_PerformMaintenance_Test_UpdateCDSFail");
     UtTest_Add(LC_PerformMaintenance_Test_ManageTablesFail, LC_Test_Setup, LC_Test_TearDown,
-               "LC_PerfomMaintenance_Test_ManageTablesFail");
+               "LC_PerformMaintenance_Test_ManageTablesFail");
 }
