@@ -25,7 +25,7 @@
  * the interface(s) of this module.  This includes the CMD/TLM message
  * interface, tables definitions, and/or the public API, if applicable.
  *
- * @note This file may be overridden/superceded by mission-provided defintions
+ * @note This file may be overridden/superceded by mission-provided definitions
  * either by overriding this header or by generating definitions from a command/data
  * dictionary tool.
  */
