@@ -394,14 +394,14 @@
 /**
  * \brief LC Reset Counters Command Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
  *  This event message is issued when a reset counters command has
  *  been received.
  */
-#define LC_RESET_DBG_EID 27
+#define LC_RESET_INF_EID 27
 
 /**
  * \brief LC Set Limit Checker State Command Event ID
@@ -596,7 +596,7 @@
  *  This event message is issued when a ground command message is received
  *  with a message length that doesn't match the expected value.
  */
-#define LC_LEN_ERR_EID 43
+#define LC_CMD_LEN_ERR_EID 43
 
 /**
  * \brief LC Watchpoint Message Unsubscribe Failed Event ID

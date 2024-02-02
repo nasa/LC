@@ -133,7 +133,7 @@ void LC_AppPipe_Test_Noop(void)
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_NoopCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
@@ -157,7 +157,7 @@ void LC_AppPipe_Test_Reset(void)
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_ResetCountersCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
@@ -181,7 +181,7 @@ void LC_AppPipe_Test_SetLCState(void)
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SetLCStateCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
@@ -207,7 +207,7 @@ void LC_AppPipe_Test_SetAPState(void)
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SetAPStateCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
@@ -231,7 +231,7 @@ void LC_AppPipe_Test_SetAPPermOff(void)
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SetAPPermOffCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
@@ -255,7 +255,7 @@ void LC_AppPipe_Test_ResetAPStats(void)
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_ResetAPStatsCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
@@ -279,7 +279,7 @@ void LC_AppPipe_Test_ResetWPStats(void)
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_ResetWPStatsCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
