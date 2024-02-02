@@ -72,7 +72,7 @@ void LC_SampleAPs_Test_SingleActionPointError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
-    LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_NOT_USED;
+    LC_OperData.ARTPtr[StartIndex].CurrentState = LC_ActionPoint_NOT_USED;
 
     /* Execute the function being tested */
     LC_SampleAPs(StartIndex, EndIndex);
@@ -109,7 +109,7 @@ void LC_SampleAPs_Test_SingleActionPointPermOff(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
-    LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[StartIndex].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SampleAPs(StartIndex, EndIndex);
@@ -132,7 +132,7 @@ void LC_SampleSingleAP_Test_StateChangePassToFail(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "AP state change from PASS to FAIL: AP = %%d");
 
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_PASS;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
     LC_OperData.ADTPtr[APNumber].MaxPassFailEvents       = 100;
@@ -173,7 +173,7 @@ void LC_SampleSingleAP_Test_StateChangePassToFailMaxChange(void)
 {
     uint16 APNumber = 0;
 
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_PASS;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
     LC_OperData.ARTPtr[APNumber].PassToFailCount         = 11;
@@ -214,7 +214,7 @@ void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
 {
     uint16 APNumber = 0;
 
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_FAIL;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
     LC_OperData.ADTPtr[APNumber].MaxPassFailEvents       = 100;
@@ -227,7 +227,7 @@ void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
     LC_OperData.ADTPtr[APNumber].EventID   = 1;
     LC_OperData.ADTPtr[APNumber].EventType = 2;
 
-    LC_AppData.CurrentLCState = LC_STATE_ACTIVE;
+    LC_AppData.CurrentLCState = LC_AppState_ACTIVE;
 
     LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS    = 5;
     LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount = LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS;
@@ -237,8 +237,8 @@ void LC_SampleSingleAP_Test_ActiveRequestRTS(void)
     LC_SampleSingleAP(APNumber);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[APNumber].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[APNumber].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[APNumber].CurrentState == LC_ActionPointState_PASSIVE,
+                  "LC_OperData.ARTPtr[APNumber].CurrentState == LC_ActionPointState_PASSIVE");
     UtAssert_True(LC_OperData.ARTPtr[APNumber].CumulativeRTSExecCount == 1,
                   "LC_OperData.ARTPtr[APNumber].CumulativeRTSExecCount == 1");
     UtAssert_True(LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent == 1,
@@ -259,7 +259,7 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP failed while LC App passive: AP = %%d, FailCount = %%d, RTS = %%d");
 
-    LC_OperData.ARTPtr[APNumber].CurrentState      = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState      = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult      = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxPassFailEvents = 100;
 
@@ -271,7 +271,7 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
     LC_OperData.ADTPtr[APNumber].EventID   = 1;
     LC_OperData.ADTPtr[APNumber].EventType = 2;
 
-    LC_AppData.CurrentLCState = LC_STATE_PASSIVE;
+    LC_AppData.CurrentLCState = LC_AppState_PASSIVE;
 
     LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS    = 5;
     LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount = LC_OperData.ADTPtr[APNumber].MaxFailsBeforeRTS;
@@ -281,8 +281,8 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
     LC_SampleSingleAP(APNumber);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[APNumber].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[APNumber].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[APNumber].CurrentState == LC_ActionPointState_PASSIVE,
+                  "LC_OperData.ARTPtr[APNumber].CurrentState == LC_ActionPointState_PASSIVE");
     UtAssert_True(LC_AppData.PassiveRTSExecCount == 1, "LC_AppData.PassiveRTSExecCount == 1");
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
@@ -303,8 +303,8 @@ void LC_SampleSingleAP_Test_APFailWhilePassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP failed while passive: AP = %%d, FailCount = %%d, RTS = %%d");
 
-    LC_AppData.CurrentLCState                            = LC_STATE_ACTIVE;
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_PASSIVE;
+    LC_AppData.CurrentLCState                            = LC_AppState_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_PASSIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxPassFailEvents       = 100;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
@@ -348,8 +348,8 @@ void LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent(void)
 {
     uint16 APNumber = 0;
 
-    LC_AppData.CurrentLCState                            = LC_STATE_ACTIVE;
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_PASSIVE;
+    LC_AppData.CurrentLCState                            = LC_AppState_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_PASSIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxPassFailEvents       = 100;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
@@ -391,7 +391,7 @@ void LC_SampleSingleAP_Test_StateChangeFailToPass(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "AP state change from FAIL to PASS: AP = %%d");
 
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxFailPassEvents       = 1;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
@@ -428,7 +428,7 @@ void LC_SampleSingleAP_Test_StateChangeFailToPass(void)
 void LC_SampleSingleAP_Test_StateChangeFailToPassNoEvent(void)
 {
     uint16 APNumber                                      = 0;
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxFailPassEvents       = 1;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
@@ -463,7 +463,7 @@ void LC_SampleSingleAP_Test_ActionStale(void)
 {
     uint16 APNumber = 0;
 
-    LC_OperData.ARTPtr[APNumber].CurrentState      = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState      = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult      = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxFailPassEvents = 1;
 
@@ -493,7 +493,7 @@ void LC_SampleSingleAP_Test_ActionError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "AP evaluated to error: AP = %%d, Result = %%d");
 
-    LC_OperData.ARTPtr[APNumber].CurrentState      = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState      = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult      = LC_ACTION_FAIL;
     LC_OperData.ADTPtr[APNumber].MaxFailPassEvents = 1;
 
@@ -523,7 +523,7 @@ void LC_SampleSingleAP_Test_ConsecutivePass(void)
 {
     uint16 APNumber = 0;
 
-    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_APSTATE_ACTIVE;
+    LC_OperData.ARTPtr[APNumber].CurrentState            = LC_ActionPointState_ACTIVE;
     LC_OperData.ARTPtr[APNumber].ActionResult            = LC_ACTION_PASS;
     LC_OperData.ADTPtr[APNumber].MaxFailPassEvents       = 1;
     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent = 0;
@@ -1253,7 +1253,7 @@ void LC_ValidateADT_Test_ActionNotUsed(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState = LC_APSTATE_NOT_USED;
+        LC_OperData.ADTPtr[TableIndex].DefaultState = LC_ActionPoint_NOT_USED;
     }
 
     /* Execute the function being tested */
@@ -1327,7 +1327,7 @@ void LC_ValidateADT_Test_BadRtsID(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
+        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_ActionPointState_ACTIVE;
         LC_OperData.ADTPtr[TableIndex].RTSId             = LC_MAX_VALID_ADT_RTSID + 1;
         LC_OperData.ADTPtr[TableIndex].MaxFailsBeforeRTS = 77;
         LC_OperData.ADTPtr[TableIndex].EventType         = 66;
@@ -1369,7 +1369,7 @@ void LC_ValidateADT_Test_BadFailCount(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
+        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_ActionPointState_ACTIVE;
         LC_OperData.ADTPtr[TableIndex].RTSId             = 1;
         LC_OperData.ADTPtr[TableIndex].MaxFailsBeforeRTS = 0;
         LC_OperData.ADTPtr[TableIndex].EventType         = 66;
@@ -1410,7 +1410,7 @@ void LC_ValidateADT_Test_InvalidEventType(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
+        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_ActionPointState_ACTIVE;
         LC_OperData.ADTPtr[TableIndex].RTSId             = 1;
         LC_OperData.ADTPtr[TableIndex].MaxFailsBeforeRTS = 88;
         LC_OperData.ADTPtr[TableIndex].EventType         = 99;
@@ -1452,7 +1452,7 @@ void LC_ValidateADT_Test_ValidateRpnAdtValError(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
+        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_ActionPointState_ACTIVE;
         LC_OperData.ADTPtr[TableIndex].RTSId             = 1;
         LC_OperData.ADTPtr[TableIndex].MaxFailsBeforeRTS = 88;
         LC_OperData.ADTPtr[TableIndex].EventType         = CFE_EVS_EventType_DEBUG;
@@ -1493,7 +1493,7 @@ void LC_ValidateADT_Test_ValidateRpnAdtValNoError(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_ACTIVE;
+        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_ActionPointState_ACTIVE;
         LC_OperData.ADTPtr[TableIndex].RTSId             = 1;
         LC_OperData.ADTPtr[TableIndex].MaxFailsBeforeRTS = 88;
         LC_OperData.ADTPtr[TableIndex].EventType         = CFE_EVS_EventType_DEBUG;
@@ -1530,7 +1530,7 @@ void LC_ValidateADT_Test_Nominal(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_APSTATE_NOT_USED;
+        LC_OperData.ADTPtr[TableIndex].DefaultState      = LC_ActionPoint_NOT_USED;
         LC_OperData.ADTPtr[TableIndex].RTSId             = 1;
         LC_OperData.ADTPtr[TableIndex].MaxFailsBeforeRTS = 1;
         LC_OperData.ADTPtr[TableIndex].EventType         = CFE_EVS_EventType_DEBUG;
@@ -1540,10 +1540,10 @@ void LC_ValidateADT_Test_Nominal(void)
         LC_OperData.ADTPtr[TableIndex].RPNEquation[2] = LC_RPN_EQUAL;
     }
 
-    LC_OperData.ADTPtr[0].DefaultState = LC_APSTATE_ACTIVE;
-    LC_OperData.ADTPtr[1].DefaultState = LC_APSTATE_PASSIVE;
-    LC_OperData.ADTPtr[2].DefaultState = LC_APSTATE_DISABLED;
-    LC_OperData.ADTPtr[3].DefaultState = LC_APSTATE_PERMOFF;
+    LC_OperData.ADTPtr[0].DefaultState = LC_ActionPointState_ACTIVE;
+    LC_OperData.ADTPtr[1].DefaultState = LC_ActionPointState_PASSIVE;
+    LC_OperData.ADTPtr[2].DefaultState = LC_ActionPointState_DISABLED;
+    LC_OperData.ADTPtr[3].DefaultState = LC_ActionPointState_PERMOFF;
 
     LC_OperData.ADTPtr[0].EventType = CFE_EVS_EventType_DEBUG;
     LC_OperData.ADTPtr[1].EventType = CFE_EVS_EventType_INFORMATION;

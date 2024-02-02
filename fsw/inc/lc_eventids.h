@@ -448,7 +448,7 @@
  *
  *  This event message is issued when the #LC_SET_AP_STATE_CC command
  *  has been received and the current actionpoint state is either
- *  #LC_APSTATE_NOT_USED or #LC_APSTATE_PERMOFF which can only be changed
+ *  #LC_ActionPoint_NOT_USED or #LC_ActionPointState_PERMOFF which can only be changed
  *  with a table load.
  */
 #define LC_APSTATE_CURR_ERR_EID 31
@@ -498,7 +498,7 @@
  *
  *  This event message is issued when the #LC_SET_AP_PERM_OFF_CC command
  *  has been received and the current actionpoint state is not
- *  #LC_APSTATE_DISABLED
+ *  #LC_ActionPointState_DISABLED
  */
 #define LC_APOFF_CURR_ERR_EID 35
 
@@ -772,7 +772,7 @@
  *
  *  This event message is issued when the #LC_SAMPLE_AP_MID message
  *  has been received and the current state for the specified
- *  actionpoint state is either #LC_APSTATE_NOT_USED or #LC_APSTATE_PERMOFF.
+ *  actionpoint state is either #LC_ActionPoint_NOT_USED or #LC_ActionPointState_PERMOFF.
  */
 #define LC_APSAMPLE_CURR_ERR_EID 57
 
@@ -796,7 +796,7 @@
  *  \par Cause:
  *
  *  This event message is issued when an actionpoint fails evaluation while
- *  the LC task operating state is #LC_STATE_PASSIVE
+ *  the LC task operating state is #LC_AppState_PASSIVE
  */
 #define LC_PASSIVE_FAIL_DBG_EID 59
 
@@ -808,7 +808,7 @@
  *  \par Cause:
  *
  *  This event message is issued when an actionpoint fails evaluation while
- *  the actionpoint state is #LC_APSTATE_PASSIVE
+ *  the actionpoint state is #LC_ActionPointState_PASSIVE
  */
 #define LC_AP_PASSIVE_FAIL_INF_EID 60
 

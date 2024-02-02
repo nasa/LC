@@ -211,7 +211,7 @@ void LC_CheckMsgForWPs_Test_Nominal(void)
     LC_OperData.HashTable[LC_GetHashTableIndex(TestMsgId)] = &LC_OperData.MessageLinks[0];
 
     /* Not disabled */
-    LC_AppData.CurrentLCState = LC_STATE_ACTIVE;
+    LC_AppData.CurrentLCState = LC_AppState_ACTIVE;
 
     /* Miss on first, match on next */
     LC_OperData.MessageLinks[0].MessageID   = LC_UT_MID_2;
@@ -246,7 +246,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime1(void)
     LC_OperData.HashTable[LC_GetHashTableIndex(TestMsgId)] = &LC_OperData.MessageLinks[0];
 
     /* Not disabled */
-    LC_AppData.CurrentLCState = LC_STATE_ACTIVE;
+    LC_AppData.CurrentLCState = LC_AppState_ACTIVE;
 
     /* Match on first, Null message list */
     LC_OperData.MessageLinks[0].MessageID = TestMsgId;
@@ -276,7 +276,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime2(void)
     LC_OperData.HashTable[LC_GetHashTableIndex(TestMsgId)] = &LC_OperData.MessageLinks[0];
 
     /* Not disabled */
-    LC_AppData.CurrentLCState = LC_STATE_ACTIVE;
+    LC_AppData.CurrentLCState = LC_AppState_ACTIVE;
 
     /* Miss on first */
     LC_OperData.MessageLinks[0].MessageID   = TestMsgId;
@@ -303,7 +303,7 @@ void LC_CheckMsgForWPs_Test_NominalDisabled(void)
 {
     CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
-    LC_AppData.CurrentLCState = LC_STATE_DISABLED;
+    LC_AppData.CurrentLCState = LC_AppState_DISABLED;
 
     /* Execute the function being tested */
     LC_CheckMsgForWPs(TestMsgId, &UT_CmdBuf.Buf);

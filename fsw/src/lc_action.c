@@ -50,7 +50,7 @@ void LC_SampleAPs(uint16 StartIndex, uint16 EndIndex)
     */
     CurrentAPState = LC_OperData.ARTPtr[StartIndex].CurrentState;
 
-    if ((CurrentAPState != LC_ACTION_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+    if ((CurrentAPState != LC_ActionPoint_NOT_USED) && (CurrentAPState != LC_ActionPointState_PERMOFF))
     {
         /*
          ** Sample selected actionpoints
@@ -91,7 +91,7 @@ void LC_SampleSingleAP(uint16 APNumber)
     */
     CurrentAPState = LC_OperData.ARTPtr[APNumber].CurrentState;
 
-    if ((CurrentAPState == LC_APSTATE_ACTIVE) || (CurrentAPState == LC_APSTATE_PASSIVE))
+    if ((CurrentAPState == LC_ActionPointState_ACTIVE) || (CurrentAPState == LC_ActionPointState_PASSIVE))
     {
         /*
         ** Evaluate the actionpoint and update the results
@@ -136,14 +136,14 @@ void LC_SampleSingleAP(uint16 APNumber)
                 /*
                 ** We have failed enough times to request the RTS
                 */
-                if (CurrentAPState == LC_APSTATE_ACTIVE)
+                if (CurrentAPState == LC_ActionPointState_ACTIVE)
                 {
                     /*
                     ** Actions go to passive after they've failed
                     */
-                    LC_OperData.ARTPtr[APNumber].CurrentState = LC_APSTATE_PASSIVE;
+                    LC_OperData.ARTPtr[APNumber].CurrentState = LC_ActionPointState_PASSIVE;
 
-                    if (LC_AppData.CurrentLCState == LC_STATE_ACTIVE)
+                    if (LC_AppData.CurrentLCState == LC_AppState_ACTIVE)
                     {
                         /*
                         ** If the LC application state is active, request the
@@ -501,15 +501,15 @@ int32 LC_ValidateADT(void *TableData)
         RPNPtr            = TableArray[TableIndex].RPNEquation;
         EventType         = TableArray[TableIndex].EventType;
 
-        if (DefaultState == LC_APSTATE_NOT_USED)
+        if (DefaultState == LC_ActionPoint_NOT_USED)
         {
             /*
             ** Unused table entry
             */
             UnusedCount++;
         }
-        else if ((DefaultState != LC_APSTATE_ACTIVE) && (DefaultState != LC_APSTATE_PASSIVE) &&
-                 (DefaultState != LC_APSTATE_DISABLED) && (DefaultState != LC_APSTATE_PERMOFF))
+        else if ((DefaultState != LC_ActionPointState_ACTIVE) && (DefaultState != LC_ActionPointState_PASSIVE) &&
+                 (DefaultState != LC_ActionPointState_DISABLED) && (DefaultState != LC_ActionPointState_PERMOFF))
         {
             /*
             ** Invalid default state

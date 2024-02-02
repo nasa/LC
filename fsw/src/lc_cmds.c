@@ -53,7 +53,7 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
     /*
     ** Ignore AP sample requests if disabled at the application level
     */
-    if (LC_AppData.CurrentLCState != LC_STATE_DISABLED)
+    if (LC_AppData.CurrentLCState != LC_AppState_DISABLED)
     {
         /*
         ** Range check the actionpoint array index arguments
@@ -190,20 +190,20 @@ CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
             Shift = 6 - (i * 4);
             switch (LC_OperData.ARTPtr[TableIndex + 1 - i].CurrentState)
             {
-                case LC_APSTATE_NOT_USED:
+                case LC_ActionPoint_NOT_USED:
                     TempByteData = LC_HKAR_STATE_NOT_USED << Shift;
                     break;
 
-                case LC_APSTATE_ACTIVE:
+                case LC_ActionPointState_ACTIVE:
                     TempByteData = LC_HKAR_STATE_ACTIVE << Shift;
                     PayloadPtr->ActiveAPs++;
                     break;
 
-                case LC_APSTATE_PASSIVE:
+                case LC_ActionPointState_PASSIVE:
                     TempByteData = LC_HKAR_STATE_PASSIVE << Shift;
                     break;
 
-                case LC_APSTATE_DISABLED:
+                case LC_ActionPointState_DISABLED:
                     TempByteData = LC_HKAR_STATE_DISABLED << Shift;
                     break;
 
@@ -211,7 +211,7 @@ CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
                 ** Permanantly disabled actionpoints get reported as unused. We should
                 ** never get an undefined action state, but set to NOT_USED if we do.
                 */
-                case LC_APSTATE_PERMOFF:
+                case LC_ActionPointState_PERMOFF:
                 default:
                     TempByteData = LC_HKAR_STATE_NOT_USED << Shift;
                     break;
@@ -312,9 +312,9 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
 
     switch (CmdPtr->NewLCState)
     {
-        case LC_STATE_ACTIVE:
-        case LC_STATE_PASSIVE:
-        case LC_STATE_DISABLED:
+        case LC_AppState_ACTIVE:
+        case LC_AppState_PASSIVE:
+        case LC_AppState_DISABLED:
             LC_AppData.CurrentLCState = CmdPtr->NewLCState;
             LC_AppData.CmdCount++;
 
@@ -352,9 +352,9 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
     */
     switch (CmdPtr->NewAPState)
     {
-        case LC_APSTATE_ACTIVE:
-        case LC_APSTATE_PASSIVE:
-        case LC_APSTATE_DISABLED:
+        case LC_ActionPointState_ACTIVE:
+        case LC_ActionPointState_PASSIVE:
+        case LC_ActionPointState_DISABLED:
             break;
 
         default:
@@ -382,7 +382,7 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
             {
                 CurrentAPState = LC_OperData.ARTPtr[TableIndex].CurrentState;
 
-                if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+                if ((CurrentAPState != LC_ActionPoint_NOT_USED) && (CurrentAPState != LC_ActionPointState_PERMOFF))
                 {
                     LC_OperData.ARTPtr[TableIndex].CurrentState = CmdPtr->NewAPState;
                 }
@@ -400,7 +400,7 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
                 TableIndex     = CmdPtr->APNumber;
                 CurrentAPState = LC_OperData.ARTPtr[TableIndex].CurrentState;
 
-                if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+                if ((CurrentAPState != LC_ActionPoint_NOT_USED) && (CurrentAPState != LC_ActionPointState_PERMOFF))
                 {
                     /*
                     ** Update state for single actionpoint specified
@@ -479,7 +479,7 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
         TableIndex     = CmdPtr->APNumber;
         CurrentAPState = LC_OperData.ARTPtr[TableIndex].CurrentState;
 
-        if (CurrentAPState != LC_APSTATE_DISABLED)
+        if (CurrentAPState != LC_ActionPointState_DISABLED)
         {
             /*
             ** Actionpoints can only be turned permanently off if
@@ -496,7 +496,7 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
             /*
             ** Update state for actionpoint specified
             */
-            LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_PERMOFF;
+            LC_OperData.ARTPtr[TableIndex].CurrentState = LC_ActionPointState_PERMOFF;
 
             LC_AppData.CmdCount++;
 

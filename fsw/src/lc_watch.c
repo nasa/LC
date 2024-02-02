@@ -275,7 +275,7 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
     Timestamp.Subseconds = 0;
 
     /* Do nothing if disabled at the application level */
-    if (LC_AppData.CurrentLCState != LC_STATE_DISABLED)
+    if (LC_AppData.CurrentLCState != LC_AppState_DISABLED)
     {
         /* Use message timestamp - if none, use current time */
         CFE_MSG_GetMsgTime(&BufPtr->Msg, &Timestamp);
