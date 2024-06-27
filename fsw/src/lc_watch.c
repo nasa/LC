@@ -493,6 +493,8 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
             WatchpointValue.Unsigned32 = ProcessedWPData;
             break;
     }
+    /* SAD: Using memcpy to safely copy the float value from LC_MultiType_t to ComparisonValue, preserving bitwise
+     * representation */
     memcpy(&ComparisonValue, &LC_OperData.WDTPtr[WatchIndex].ComparisonValue, sizeof(LC_MultiType_t));
 
     /*
@@ -681,7 +683,11 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
 
     OperatorID = LC_OperData.WDTPtr[WatchIndex].OperatorID;
 
+    /* SAD: Using memcpy to safely copy the float value from LC_MultiType_t to WPFloat, preserving bitwise
+     * representation */
     memcpy(&WPFloat, WPMultiType, sizeof(float));
+    /* SAD: Using memcpy to safely copy the float value from LC_MultiType_t to CompareFloat, preserving bitwise
+     * representation */
     memcpy(&CompareFloat, CompareMultiType, sizeof(float));
 
     /*
@@ -1021,6 +1027,8 @@ int32 LC_ValidateWDT(void *TableData)
         }
         else if ((DataType == LC_DATA_WATCH_FLOAT_BE) || (DataType == LC_DATA_WATCH_FLOAT_LE))
         {
+            /* SAD: Using memcpy to safely copy the float value from LC_MultiType_t to FloatValue, preserving bitwise
+             * representation */
             memcpy(&FloatValue, &TableArray[TableIndex].ComparisonValue, sizeof(FloatValue));
 
             /*
@@ -1060,6 +1068,8 @@ int32 LC_ValidateWDT(void *TableData)
         {
             if ((EntryResult == LC_WDTVAL_ERR_FPNAN) || (EntryResult == LC_WDTVAL_ERR_FPINF))
             {
+                /* SAD: Using memcpy to safely copy the uint32 value from LC_MultiType_t to PrintableBits, preserving
+                 * bitwise representation */
                 memcpy(&PrintableBits, &TableArray[TableIndex].ComparisonValue, sizeof(PrintableBits));
                 CFE_EVS_SendEvent(LC_WDTVAL_FPERR_EID, CFE_EVS_EventType_ERROR,
                                   "WDT verify float err: WP = %d, Err = %d, ComparisonValue = 0x%08X", (int)TableIndex,
