@@ -78,11 +78,11 @@
  *
  *  \par Limits:
  *       This parameter must be one of the following:
- *       #LC_STATE_ACTIVE
- *       #LC_STATE_PASSIVE
- *       #LC_STATE_DISABLED
+ *       #LC_AppState_ACTIVE
+ *       #LC_AppState_PASSIVE
+ *       #LC_AppState_DISABLED
  */
-#define LC_STATE_POWER_ON_RESET LC_STATE_DISABLED
+#define LC_STATE_POWER_ON_RESET LC_AppState_DISABLED
 
 /**
  * \brief Save data to CDS compiler switch
@@ -110,19 +110,19 @@
  *       is set to true, and provides a way to override any state LC
  *       may have been operating in prior to the reset occurring.
  *
- *       If this is set to LC_STATE_FROM_CDS and LC_SAVE_TO_CDS is set
+ *       If this is set to LC_AppState_FROM_CDS and LC_SAVE_TO_CDS is set
  *       to true, then the LC state will be preserved across resets and
- *       restored.  If this is not set to LC_STATE_FROM_CDS, the state
+ *       restored.  If this is not set to LC_AppState_FROM_CDS, the state
  *       saved in the CDS is overwritten by the state assigned here.
  *
  *  \par Limits:
  *       This parameter must be one of the following:
- *       #LC_STATE_ACTIVE
- *       #LC_STATE_PASSIVE
- *       #LC_STATE_DISABLED
- *       #LC_STATE_FROM_CDS
+ *       #LC_AppState_ACTIVE
+ *       #LC_AppState_PASSIVE
+ *       #LC_AppState_DISABLED
+ *       #LC_AppState_FROM_CDS
  */
-#define LC_STATE_WHEN_CDS_RESTORED LC_STATE_FROM_CDS
+#define LC_STATE_WHEN_CDS_RESTORED LC_AppState_FROM_CDS
 
 /**
  * \brief Watchpoint Definition Table (WDT) filename
