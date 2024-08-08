@@ -282,7 +282,7 @@ void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr)
 {
     LC_ResetCounters();
 
-    CFE_EVS_SendEvent(LC_RESET_INF_EID, CFE_EVS_EventType_DEBUG, "Reset counters command");
+    CFE_EVS_SendEvent(LC_RESET_INF_EID, CFE_EVS_EventType_INFORMATION, "Reset counters command");
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
