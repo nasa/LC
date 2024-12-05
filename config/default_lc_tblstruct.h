@@ -23,7 +23,7 @@
  *
  * Provides default definitions for LC table structures
  *
- * @note This file may be overridden/superceded by mission-provided defintions
+ * @note This file may be overridden/superceded by mission-provided definitions
  * either by overriding this header or by generating definitions from a command/data
  * dictionary tool.
  */
@@ -180,4 +180,4 @@ typedef struct
     uint32 CumulativeEventMsgsSent; /**< \brief Total number of event messages sent    */
 } LC_ARTEntry_t;
 
-#endif /* LC_TABLE_STRUCTS_H */
+#endif /* LC_TABLE_STRUCT_H */

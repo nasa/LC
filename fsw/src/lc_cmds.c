@@ -91,16 +91,14 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
         {
             for (WatchIndex = 0; WatchIndex < LC_MAX_WATCHPOINTS; WatchIndex++)
             {
-                if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 0)
+                if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale > 0)
                 {
-                    continue;
-                }
+                    LC_OperData.WRTPtr[WatchIndex].CountdownToStale--;
 
-                LC_OperData.WRTPtr[WatchIndex].CountdownToStale--;
-
-                if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 0)
-                {
-                    LC_OperData.WRTPtr[WatchIndex].WatchResult = LC_WATCH_STALE;
+                    if (LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 0)
+                    {
+                        LC_OperData.WRTPtr[WatchIndex].WatchResult = LC_WATCH_STALE;
+                    }
                 }
             }
         }
@@ -175,7 +173,7 @@ CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
                 ByteData |= TempByteData;
         }
 
-        /* Update houskeeping watch results array */
+        /* Update housekeeping watch results array */
         /* SAD: HKIndex is derived from TableIndex, ensuring it stays within the bounds of the WPResults array */
         PayloadPtr->WPResults[HKIndex] = ByteData;
     }
@@ -248,7 +246,7 @@ CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
             }
         }
 
-        /* Update houskeeping action results array */
+        /* Update housekeeping action results array */
         /* SAD: HKIndex is derived from TableIndex, ensuring it stays within the bounds of the APResults array */
         PayloadPtr->APResults[HKIndex] = ByteData;
     }
@@ -630,7 +628,7 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
 {
     uint32 TableIndex;
 
-    /* reset selected entries in watchoint results table */
+    /* reset selected entries in watchpoint results table */
     for (TableIndex = StartIndex; TableIndex <= EndIndex; TableIndex++)
     {
         if (!ResetStatsCmd)
