@@ -27,7 +27,7 @@
 #define LC_FCNCODES_H
 
 /************************************************************************
- * Macro Definitions
+ * Type Definitions
  ************************************************************************/
 
 /**
@@ -152,8 +152,8 @@
  *       - Invalid actionpoint state specified in command message
  *       - Actionpoint number specified in command message is
  *         out of range
- *       - Actionpoint current state is either #LC_APSTATE_NOT_USED
- *         or #LC_APSTATE_PERMOFF
+ *       - Actionpoint current state is either #LC_ActionPoint_NOT_USED
+ *         or #LC_ActionPointState_PERMOFF
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
@@ -172,7 +172,7 @@
  * \brief Set AP Permanently Off
  *
  *  \par Description
- *       Set the specified actionpoint's state to #LC_APSTATE_PERMOFF
+ *       Set the specified actionpoint's state to #LC_ActionPointState_PERMOFF
  *
  *  \par Command Structure
  *       #LC_SetAPPermOffCmd_t
@@ -189,7 +189,7 @@
  *       - Command packet length not as expected
  *       - Actionpoint number specified in command message is
  *         out of range
- *       - Actionpoint current state is not #LC_APSTATE_DISABLED
+ *       - Actionpoint current state is not #LC_ActionPointState_DISABLED
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #LC_HkTlm_Payload_t.CmdErrCount will increment

@@ -181,11 +181,11 @@
   commands as a response to this condition.
 
   Actionpoints can be individually enabled/disabled with the #LC_SET_AP_STATE_CC ground
-  command. The state of an actionpoint may be set to #LC_APSTATE_ACTIVE, #LC_APSTATE_PASSIVE,
-  or #LC_APSTATE_DISABLED. These states operate in the same way as the application operating
-  modes described above. #LC_APSTATE_PASSIVE will just disable RTS requests, while
-  #LC_APSTATE_DISABLED will stop evaluation of the actionpoint all together. An additional
-  state #LC_APSTATE_PERMOFF which functions the same as #LC_APSTATE_DISABLED but can only
+  command. The state of an actionpoint may be set to #LC_ActionPointState_ACTIVE, #LC_ActionPointState_PASSIVE,
+  or #LC_ActionPointState_DISABLED. These states operate in the same way as the application operating
+  modes described above. #LC_ActionPointState_PASSIVE will just disable RTS requests, while
+  #LC_ActionPointState_DISABLED will stop evaluation of the actionpoint all together. An additional
+  state #LC_ActionPointState_PERMOFF which functions the same as #LC_ActionPointState_DISABLED but can only
   be changed via table load, can be set using the #LC_SET_AP_PERM_OFF_CC ground command
   (see \ref cfslcfaqs).
 
@@ -259,7 +259,7 @@
   In the lc_platform_cfg.h file, there are configuration parameters that control use
   of the Critical Data Store (CDS) and the LC operation mode on application
   initialization. The default case is not to use the CDS and to set the application
-  state to #LC_STATE_DISABLED.
+  state to #LC_AppState_DISABLED.
 **/
 
 /**
@@ -302,7 +302,7 @@
   The entire ADT is processed any time a sample request is received that specifies an
   actionpoint equal to #LC_ALL_ACTIONPOINTS. For this reason, it is important that unused
   entries are properly marked by setting the ADT parameter DefaultState to
-  #LC_APSTATE_NOT_USED.
+  #LC_ActionPoint_NOT_USED.
 
   When either the WDT or ADT are updated, the corresponding results table (WRT or ART) is
   reset to initialization values. For each entry in the WRT, WatchResult is set to
@@ -523,7 +523,7 @@
      three possible conditions are true:
 
      1) The actionpoint is unused (the DefaultState in the ADT is set to
-        #LC_APSTATE_NOT_USED).
+        #LC_ActionPoint_NOT_USED).
 
      2) An actionpoint sample request (#LC_SAMPLE_AP_MID) targeting the AP has not
         yet been received by LC so the AP has not yet been evaluated.
@@ -551,10 +551,10 @@
   </I>
 
   <B> (Q)
-     How does the Actionpoint state #LC_APSTATE_PERMOFF differ from
-     #LC_APSTATE_DISABLED?
+     How does the Actionpoint state #LC_ActionPointState_PERMOFF differ from
+     #LC_ActionPointState_DISABLED?
   </B> <BR> <BR> <I>
-     The AP state #LC_APSTATE_PERMOFF is intended to provide a way to disable
+     The AP state #LC_ActionPointState_PERMOFF is intended to provide a way to disable
      an AP so it can not easily be turned back on by mistake. Such actionpoints
      may not be needed after a seperation sequence or only apply to certain
      mission phases.
@@ -562,16 +562,16 @@
      While the two states are treated the same way during actionpoint processing
      (the AP isn't evaluated), there are a few differences.
 
-     An AP can't be set to #LC_APSTATE_PERMOFF with the #LC_SET_AP_STATE_CC command,
+     An AP can't be set to #LC_ActionPointState_PERMOFF with the #LC_SET_AP_STATE_CC command,
      it must be done with the #LC_SET_AP_PERM_OFF_CC command.
 
-     To set an AP to #LC_APSTATE_PERMOFF with the #LC_SET_AP_PERM_OFF_CC command, the
-     current AP state must be #LC_APSTATE_DISABLED.
+     To set an AP to #LC_ActionPointState_PERMOFF with the #LC_SET_AP_PERM_OFF_CC command, the
+     current AP state must be #LC_ActionPointState_DISABLED.
 
      The #LC_SET_AP_PERM_OFF_CC command can only be issued for a single actionpoint,
      #LC_ALL_ACTIONPOINTS is not valid as an argument for this command.
 
-     Once an AP is set to #LC_APSTATE_PERMOFF, it can only be changed with a new ADT
+     Once an AP is set to #LC_ActionPointState_PERMOFF, it can only be changed with a new ADT
      table load.
   </I>
 
@@ -592,7 +592,7 @@
      #LC_HKAR_STATE_NOT_USED, #LC_HKAR_STATE_ACTIVE, #LC_HKAR_STATE_PASSIVE,
      #LC_HKAR_STATE_DISABLED
 
-     An actionpoint whose current state is #LC_APSTATE_PERMOFF will have it's
+     An actionpoint whose current state is #LC_ActionPointState_PERMOFF will have it's
      state reported in the APResults as #LC_HKAR_STATE_NOT_USED.
 
      The numerical 2 bit values for evaluation results are defined using the
@@ -614,9 +614,9 @@
      Will an RTS get requested more than once if an AP stays in the #LC_ACTION_FAIL
      state?
   </B> <BR> <BR> <I>
-     No. Assuming the current state of an actionpoint is #LC_APSTATE_ACTIVE, then
+     No. Assuming the current state of an actionpoint is #LC_ActionPointState_ACTIVE, then
      when the actionpoint fails enough times to trigger an RTS, the state is set
-     to #LC_APSTATE_PASSIVE.
+     to #LC_ActionPointState_PASSIVE.
 
      In the passive state, the AP will continue to be sampled and statistics
      updated, but no RTS requests will be initiated.

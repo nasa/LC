@@ -191,9 +191,9 @@ typedef struct
     uint32 RTSExecCount;        /**< \brief Total count of RTS sequences initiated */
     uint16 PassiveRTSExecCount; /**< \brief Total count of RTS sequences not
                                             initiated because the LC state is
-                                            set to #LC_STATE_PASSIVE or the state
+                                            set to #LC_AppState_PASSIVE or the state
                                             of the actionpoint that failed is set to
-                                            #LC_APSTATE_PASSIVE                    */
+                                            #LC_ActionPointState_PASSIVE                    */
 
     uint16 CDSSavedOnExit; /**< \brief Variable that tells us if we exited clean or not */
     uint8  CurrentLCState; /**< \brief Current LC application operating state */

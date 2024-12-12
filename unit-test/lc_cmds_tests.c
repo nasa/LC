@@ -49,7 +49,7 @@ uint8 call_count_CFE_EVS_SendEvent;
 
 void LC_SampleAPReq_Test_StateDisabled(void)
 {
-    LC_AppData.CurrentLCState = LC_STATE_DISABLED;
+    LC_AppData.CurrentLCState = LC_AppState_DISABLED;
 
     LC_SampleAPReq(&UT_CmdBuf.Buf);
 }
@@ -510,7 +510,7 @@ void LC_SendHkCmd_Test_ActionNotUsedStale(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_NOT_USED;
+        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_ActionPoint_NOT_USED;
         LC_OperData.ARTPtr[TableIndex].ActionResult = LC_ACTION_STALE;
     }
 
@@ -561,7 +561,7 @@ void LC_SendHkCmd_Test_APStateActiveActionPass(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_ACTIVE;
+        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_ActionPointState_ACTIVE;
         LC_OperData.ARTPtr[TableIndex].ActionResult = LC_ACTION_PASS;
     }
 
@@ -614,7 +614,7 @@ void LC_SendHkCmd_Test_APStatePassiveActionFail(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_PASSIVE;
+        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_ActionPointState_PASSIVE;
         LC_OperData.ARTPtr[TableIndex].ActionResult = LC_ACTION_FAIL;
     }
 
@@ -665,7 +665,7 @@ void LC_SendHkCmd_Test_APStateDisabledActionError(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_DISABLED;
+        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_ActionPointState_DISABLED;
         LC_OperData.ARTPtr[TableIndex].ActionResult = LC_ACTION_ERROR;
     }
 
@@ -716,7 +716,7 @@ void LC_SendHkCmd_Test_APStatePermOffActionError(void)
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
-        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_PERMOFF;
+        LC_OperData.ARTPtr[TableIndex].CurrentState = LC_ActionPointState_PERMOFF;
         LC_OperData.ARTPtr[TableIndex].ActionResult = LC_ACTION_ERROR;
     }
 
@@ -881,13 +881,13 @@ void LC_SetLCStateCmd_Test_Active(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    PayloadPtr->NewLCState = LC_STATE_ACTIVE;
+    PayloadPtr->NewLCState = LC_AppState_ACTIVE;
 
     /* Execute the function being tested */
     LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_ACTIVE, "LC_AppData.CurrentLCState == LC_STATE_ACTIVE");
+    UtAssert_True(LC_AppData.CurrentLCState == LC_AppState_ACTIVE, "LC_AppData.CurrentLCState == LC_AppState_ACTIVE");
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -912,13 +912,13 @@ void LC_SetLCStateCmd_Test_Passive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    PayloadPtr->NewLCState = LC_STATE_PASSIVE;
+    PayloadPtr->NewLCState = LC_AppState_PASSIVE;
 
     /* Execute the function being tested */
     LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_PASSIVE, "LC_AppData.CurrentLCState == LC_STATE_PASSIVE");
+    UtAssert_True(LC_AppData.CurrentLCState == LC_AppState_PASSIVE, "LC_AppData.CurrentLCState == LC_AppState_PASSIVE");
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -943,13 +943,14 @@ void LC_SetLCStateCmd_Test_Disabled(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set LC state command: new state = %%d");
 
-    PayloadPtr->NewLCState = LC_STATE_DISABLED;
+    PayloadPtr->NewLCState = LC_AppState_DISABLED;
 
     /* Execute the function being tested */
     LC_SetLCStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_DISABLED, "LC_AppData.CurrentLCState == LC_STATE_DISABLED");
+    UtAssert_True(LC_AppData.CurrentLCState == LC_AppState_DISABLED,
+                  "LC_AppData.CurrentLCState == LC_AppState_DISABLED");
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1038,7 +1039,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_ACTIVE;
     PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1053,18 +1054,18 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
 
     /* Checks for first index: */
     TableIndex = 0;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE");
 
     /* Checks for middle index: */
     TableIndex = LC_MAX_ACTIONPOINTS / 2;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE");
 
     /* Checks for last index: */
     TableIndex = LC_MAX_ACTIONPOINTS - 1;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1090,14 +1091,14 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_ACTIVE;
     PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ARTPtr[TableIndex].CurrentState = 99;
     }
-    LC_OperData.ARTPtr[0].CurrentState = LC_APSTATE_NOT_USED;
+    LC_OperData.ARTPtr[0].CurrentState = LC_ActionPoint_NOT_USED;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1106,18 +1107,18 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
 
     /* Checks for first index: */
     TableIndex = 0;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_NOT_USED,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_NOT_USED");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPoint_NOT_USED,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPoint_NOT_USED");
 
     /* Checks for middle index: */
     TableIndex = LC_MAX_ACTIONPOINTS / 2;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE");
 
     /* Checks for last index: */
     TableIndex = LC_MAX_ACTIONPOINTS - 1;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1143,14 +1144,14 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_ACTIVE;
     PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
     {
         LC_OperData.ARTPtr[TableIndex].CurrentState = 99;
     }
-    LC_OperData.ARTPtr[0].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[0].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1159,18 +1160,18 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
 
     /* Checks for first index: */
     TableIndex = 0;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PERMOFF,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PERMOFF");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PERMOFF,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PERMOFF");
 
     /* Checks for middle index: */
     TableIndex = LC_MAX_ACTIONPOINTS / 2;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE");
 
     /* Checks for last index: */
     TableIndex = LC_MAX_ACTIONPOINTS - 1;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_ACTIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1196,7 +1197,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_PASSIVE;
     PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1211,18 +1212,18 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
 
     /* Checks for first index: */
     TableIndex = 0;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PASSIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PASSIVE");
 
     /* Checks for middle index: */
     TableIndex = LC_MAX_ACTIONPOINTS / 2;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PASSIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PASSIVE");
 
     /* Checks for last index: */
     TableIndex = LC_MAX_ACTIONPOINTS - 1;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PASSIVE,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_PASSIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1248,7 +1249,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->NewAPState = LC_ActionPointState_DISABLED;
     PayloadPtr->APNumber   = LC_ALL_ACTIONPOINTS;
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1263,18 +1264,18 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
 
     /* Checks for first index: */
     TableIndex = 0;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_DISABLED,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_DISABLED");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_DISABLED,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_DISABLED");
 
     /* Checks for middle index: */
     TableIndex = LC_MAX_ACTIONPOINTS / 2;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_DISABLED,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_DISABLED");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_DISABLED,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_DISABLED");
 
     /* Checks for last index: */
     TableIndex = LC_MAX_ACTIONPOINTS - 1;
-    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_DISABLED,
-                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_APSTATE_DISABLED");
+    UtAssert_True(LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_DISABLED,
+                  "LC_OperData.ARTPtr[TableIndex].CurrentState == LC_ActionPointState_DISABLED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1299,7 +1300,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_ACTIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
@@ -1308,8 +1309,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_ACTIVE,
-                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_ACTIVE");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPointState_ACTIVE,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPointState_ACTIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1334,17 +1335,17 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_ACTIVE;
     PayloadPtr->APNumber   = 0;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_NOT_USED;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPoint_NOT_USED;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_NOT_USED,
-                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_NOT_USED");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPoint_NOT_USED,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPoint_NOT_USED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1369,7 +1370,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_PASSIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
@@ -1378,8 +1379,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_PASSIVE,
-                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_PASSIVE");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPointState_PASSIVE,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPointState_PASSIVE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1404,7 +1405,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->NewAPState = LC_ActionPointState_DISABLED;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
@@ -1413,8 +1414,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_DISABLED,
-                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_DISABLED");
+    UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPointState_DISABLED,
+                  "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_ActionPointState_DISABLED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1439,10 +1440,10 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_ACTIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1473,10 +1474,10 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_PASSIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1507,10 +1508,10 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->NewAPState = LC_ActionPointState_DISABLED;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS - 1;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1541,10 +1542,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_ACTIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1574,10 +1575,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
+    PayloadPtr->NewAPState = LC_ActionPointState_PASSIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1606,10 +1607,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Set AP state error: Invalid AP number = %%d");
 
-    PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
+    PayloadPtr->NewAPState = LC_ActionPointState_DISABLED;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPointState_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.Buf);
@@ -1729,7 +1730,7 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
 
     PayloadPtr->APNumber = 1;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_DISABLED;
+    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_ActionPointState_DISABLED;
 
     /* Execute the function being tested */
     LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);

@@ -836,7 +836,7 @@ CFE_Status_t LC_CreateTaskCDS(void)
             ** May need to override the restored application state
             */
 
-#if LC_STATE_WHEN_CDS_RESTORED != LC_STATE_FROM_CDS
+#if LC_STATE_WHEN_CDS_RESTORED != LC_AppState_FROM_CDS
             LC_AppData.CurrentLCState = LC_STATE_WHEN_CDS_RESTORED;
 #endif
         }
