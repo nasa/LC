@@ -421,6 +421,11 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale(void)
     LC_OperData.WDTPtr[WatchIndex].ComparisonValue.Signed8 = 1;
     LC_OperData.WRTPtr[WatchIndex].EvaluationCount         = 0;
 
+    /* Initialize LastFalseToTrue to verify that it doesn't get modified */
+    LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Value                = 0xCC;
+    LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Seconds    = 55;
+    LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Subseconds = 44;
+
     /* Execute the function being tested */
     LC_ProcessWP(WatchIndex, &UT_CmdBuf.Buf, Timestamp);
 
@@ -437,14 +442,16 @@ void LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale(void)
     UtAssert_True(LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 1,
                   "LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 1");
 
-    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].FalseToTrueCount == 1,
-                  "LC_OperData.WRTPtr[WatchIndex].FalseToTrueCount == 1");
-    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Value == 0,
-                  "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Value == 0");
-    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Seconds == 3,
-                  "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Seconds == 3");
-    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Subseconds == 5,
-                  "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Subseconds == 5");
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].FalseToTrueCount == 0,
+                  "LC_OperData.WRTPtr[WatchIndex].FalseToTrueCount == 0");
+
+    /* Verify that LastFalseToTrue Value and Timestamp weren't modified */
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Value == 0xCC,
+                  "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Value == 0xCC (unchanged)");
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Seconds == 55,
+                  "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Seconds == 55 (unchanged)");
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Subseconds == 44,
+                  "LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.Timestamp.Subseconds == 44 (unchanged)");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
 }
@@ -500,10 +507,10 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
 {
     uint16             WatchIndex = 0;
     CFE_TIME_SysTime_t Timestamp;
-    CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
 
     Timestamp.Seconds    = 3;
     Timestamp.Subseconds = 5;
+    CFE_SB_MsgId_t TestMsgId = LC_UT_MID_1;
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
@@ -514,6 +521,11 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
     LC_OperData.WDTPtr[WatchIndex].BitMask                 = 0;
     LC_OperData.WDTPtr[WatchIndex].ComparisonValue.Signed8 = 1;
     LC_OperData.WRTPtr[WatchIndex].EvaluationCount         = 0;
+
+    /* Initialize LastTrueToFalse to verify that it doesn't get modified */
+    LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Value                = 0xBB;
+    LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Seconds    = 77;
+    LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Subseconds = 66;
 
     /* Execute the function being tested */
     LC_ProcessWP(WatchIndex, &UT_CmdBuf.Buf, Timestamp);
@@ -529,12 +541,13 @@ void LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale(void)
     UtAssert_True(LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 1,
                   "LC_OperData.WRTPtr[WatchIndex].CountdownToStale == 1");
 
-    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Value == 0,
-                  "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Value == 0");
-    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Seconds == 3,
-                  "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Seconds == 3");
-    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Subseconds == 5,
-                  "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Subseconds == 5");
+    /* Verify that LastTrueToFalse Value and Timestamp weren't modified */
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Value == 0xBB,
+                  "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Value == 0xBB (unchanged)");
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Seconds == 77,
+                  "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Seconds == 77 (unchanged)");
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Subseconds == 66,
+                  "LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.Timestamp.Subseconds == 66 (unchanged)");
 
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0, "UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)) == 0");
 }
