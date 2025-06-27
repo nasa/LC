@@ -226,6 +226,16 @@ typedef struct
 } LC_SampleAPCmd_t;
 
 /**
+ *  \brief Sample All APs (Actionpoints) Request
+ *
+ *  See #LC_SAMPLE_AP_ALL_MID
+ */
+typedef struct
+{
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
+} LC_SampleAllAPsCmd_t;
+
+/**
  * \brief Payload to Start a Stored Command RTS
  */
 typedef struct

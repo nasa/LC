@@ -42,8 +42,9 @@
  *       the message and command IDs and calls the appropriate routine
  *       to handle the message.
  *
- *       All messageIDs other than #LC_CMD_MID, #LC_SEND_HK_MID, and
- *       #LC_SAMPLE_AP_MID are assumed to be monitor packets.
+ *       All messageIDs other than #LC_CMD_MID, #LC_SEND_HK_MID,
+ *       #LC_SAMPLE_AP_MID, and #LC_SAMPLE_AP_ALL_MID are assumed
+ *       to be monitor packets.
  *
  *  \par Assumptions, External Events, and Notes:
  *       None

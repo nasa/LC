@@ -317,6 +317,20 @@ CFE_Status_t LC_SbInit(void)
         }
     }
 
+    if (Status == CFE_SUCCESS)
+    {
+        /*
+        ** Subscribe to LC sample all actionpoints messages...
+        */
+        Status = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(LC_SAMPLE_AP_ALL_MID), LC_OperData.CmdPipe);
+        if (Status != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(LC_SUB_SAMPLE_ALL_CMD_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Error Subscribing to Sample All CMD, MID=0x%08X, RC=0x%08X", LC_SAMPLE_AP_ALL_MID,
+                              (unsigned int)Status);
+        }
+    }
+
     return Status;
 }
 

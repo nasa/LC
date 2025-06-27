@@ -95,6 +95,20 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd);
 void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr);
 
 /**
+ * \brief Sample all actionpoints request
+ *
+ *  \par Description
+ *       Processes an on-board sample all actionpoints request message.
+ *       This message has no parameters and samples all actionpoints.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       This message does not affect the command execution counter
+ *
+ *  \param[in] BufPtr Pointer to Software Bus buffer
+ */
+void LC_SampleAllAPsReq(const CFE_SB_Buffer_t *BufPtr);
+
+/**
  * \brief Housekeeping request
  *
  *  \par Description

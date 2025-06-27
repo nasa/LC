@@ -88,6 +88,29 @@ void LC_AppPipe_Test_SampleAPRequest(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 }
 
+void LC_AppPipe_Test_SampleAPAllRequest(void)
+{
+    CFE_SB_MsgId_t TestMsgId;
+
+    TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_ALL_MID);
+
+    LC_Dispatch_Test_SetupMsg(TestMsgId, 0, sizeof(LC_SampleAllAPsCmd_t));
+
+    /* Execute the function being tested */
+    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_STUB_COUNT(LC_SampleAllAPsReq, 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+
+    /* Bad Length */
+    LC_Dispatch_Test_SetupMsg(TestMsgId, 0, sizeof(LC_SampleAllAPsCmd_t) + 1);
+    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    /* Verify handler NOT called again */
+    UtAssert_STUB_COUNT(LC_SampleAllAPsReq, 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_ALL_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+}
+
 void LC_AppPipe_Test_SendHkCmd(void)
 {
     CFE_SB_MsgId_t TestMsgId;
@@ -316,6 +339,7 @@ void LC_AppPipe_Test_MonitorPacket(void)
 void UtTest_Setup(void)
 {
     UtTest_Add(LC_AppPipe_Test_SampleAPRequest, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_SampleAPRequest");
+    UtTest_Add(LC_AppPipe_Test_SampleAPAllRequest, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_SampleAPAllRequest");
     UtTest_Add(LC_AppPipe_Test_SendHkCmd, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_SendHkCmd");
     UtTest_Add(LC_AppPipe_Test_Noop, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_Noop");
     UtTest_Add(LC_AppPipe_Test_Reset, LC_Test_Setup, LC_Test_TearDown, "LC_AppPipe_Test_Reset");

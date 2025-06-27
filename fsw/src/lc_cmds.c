@@ -107,6 +107,25 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Sample All Actionpoints Request (no parameters)                */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void LC_SampleAllAPsReq(const CFE_SB_Buffer_t *BufPtr)
+{
+    /*
+    ** Ignore AP sample requests if disabled at the application level
+    */
+    if (LC_AppData.CurrentLCState != LC_STATE_DISABLED)
+    {
+        /*
+        ** Sample all actionpoints (0 to LC_MAX_ACTIONPOINTS-1)
+        */
+        LC_SampleAPs(0, LC_MAX_ACTIONPOINTS - 1);
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* Housekeeping request                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
