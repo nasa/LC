@@ -135,8 +135,8 @@
   or more watchpoints. Actionpoints are defined in the Actionpoint Definition Table (ADT).
   Statistics on actionpoint evaluations are stored in the Actionpoint Results Table (ART)
   (see \ref cfslctbl). Actionpoints are evaluated whenever LC receives a message with
-  the #LC_SAMPLE_AP_MID message ID. This is not a ground command but an internal message
-  that will normally come from the CFS scheduler (SCH) application.
+  the #LC_SAMPLE_AP_MID or #LC_SAMPLE_AP_ALL_MID message ID. These are not ground commands but
+  internal messages that will normally come from the CFS scheduler (SCH) application.
 
   \image html LC_Context.png "LC Context Diagram"
   \image latex LC_Context.png "LC Context Diagram"
@@ -165,12 +165,14 @@
   Watchpoints from being evaluated are to squelch the telemetry packet on which they trigger,
   load a WDT that undefines a Watchpoint or disable the entire LC task.
 
-  Actionpoints are evaluated whenever LC receives a message with the #LC_SAMPLE_AP_MID message
-  ID. This message contains a parameter indicating which actionpoint to evaluate. A single
-  actionpoint can be specified by using the actionpoint ID (0 to #LC_MAX_ACTIONPOINTS). All
-  actionpoints can be evaluated by specifying xFFFF as the parameter. There is no way to evaluate
-  multiple actionpoints other than ALL within a single message. An Actionpoint defines a logical
-  relationship between one or more Watchpoint results.
+  Actionpoints are evaluated whenever LC receives a message with the #LC_SAMPLE_AP_MID or
+  #LC_SAMPLE_AP_ALL_MID message ID. The #LC_SAMPLE_AP_MID message contains a parameter indicating
+  which actionpoint to evaluate. A single actionpoint can be specified by using the actionpoint ID
+  (0 to #LC_MAX_ACTIONPOINTS-1). All actionpoints can be evaluated by specifying xFFFF as the
+  parameter. The #LC_SAMPLE_AP_ALL_MID message has no parameters and will evaluate all actionpoints
+  (equivalent to using #LC_SAMPLE_AP_MID with xFFFF). An Actionpoint defines a logical relationship
+  between one or more Watchpoint results. There is no way to evaluate multiple actionpoints other
+  than ALL within a single message.
 
   This logical relationship is defined in the form of a Reverse Polish Notation (RPN)
   expression in the actionpoint definition specified in the ADT. The result of this RPN
@@ -241,9 +243,11 @@
   Example source code for these tables sized to the default number of watchpoints
   and actionpoints are provided in the files lc_def_wdt.c and lc_def_adt.c.
 
-  LC requires a message with the message ID #LC_SAMPLE_AP_MID to sample actionpoints.
-  The CFS scheduler application (SCH) needs to be configured to provide this trigger
-  message at the desired frequency for actionpoint processing to occur.
+  LC requires a message with the message ID #LC_SAMPLE_AP_MID or #LC_SAMPLE_AP_ALL_MID
+  to sample actionpoints. The CFS scheduler application (SCH) needs to be configured to
+  provide these trigger messages at the desired frequency for actionpoint processing to occur.
+  Use #LC_SAMPLE_AP_MID with a parameter to sample specific actionpoints, or
+  #LC_SAMPLE_AP_ALL_MID (no parameters) to sample all actionpoints.
 
   The function #LC_ExecuteRTS in the file lc_custom.c needs to be reviewed for any
   modifications that may be needed to properly initiate RTS responses to actionpoint
@@ -637,8 +641,9 @@
   <B> (Q)
      Can I send a single actionpoint evaluation message for multiple actionpoints (eg. 1,2,5,6,7)?
   </B> <BR> <BR> <I>
-     No. You can send individual messages for each action point or a single message to evaluate
-     ALL (xFFFF) actionpoints.
+     No. You can send individual messages for each action point using #LC_SAMPLE_AP_MID, or
+     evaluate ALL actionpoints using either #LC_SAMPLE_AP_MID with xFFFF as the parameter or
+     #LC_SAMPLE_AP_ALL_MID which requires no parameters.
   </I>
 
   <B> (Q)

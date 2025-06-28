@@ -36,6 +36,7 @@
 #include "lc_version.h"
 #include "lc_test_utils.h"
 #include "lc_watch.h"
+#include "lc_action.h"
 
 /* UT includes */
 #include "uttest.h"
@@ -240,6 +241,36 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
     LC_SampleAPReq(&UT_CmdBuf.Buf);
 
     /* Verify results */
+
+    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
+    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
+}
+
+void LC_SampleAllAPsReq_Test_StateEnabled(void)
+{
+    /* Set LC state to enabled */
+    LC_AppData.CurrentLCState = LC_STATE_ACTIVE;
+
+    /* Execute the function being tested */
+    LC_SampleAllAPsReq(&UT_CmdBuf.Buf);
+
+    /* Verify results - should have called LC_SampleAPs */
+    UtAssert_STUB_COUNT(LC_SampleAPs, 1);
+
+    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
+    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
+}
+
+void LC_SampleAllAPsReq_Test_StateDisabled(void)
+{
+    /* Set LC state to disabled */
+    LC_AppData.CurrentLCState = LC_STATE_DISABLED;
+
+    /* Execute the function being tested */
+    LC_SampleAllAPsReq(&UT_CmdBuf.Buf);
+
+    /* Verify results - should NOT have called LC_SampleAPs */
+    UtAssert_STUB_COUNT(LC_SampleAPs, 0);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
@@ -2168,6 +2199,11 @@ void UtTest_Setup(void)
                "LC_SampleAPReq_Test_SampleAllUpdateAgeZero");
     UtTest_Add(LC_SampleAPReq_Test_BadSampleAllArgs, LC_Test_Setup, LC_Test_TearDown,
                "LC_SampleAPReq_Test_BadSampleAllArgs");
+
+    UtTest_Add(LC_SampleAllAPsReq_Test_StateEnabled, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SampleAllAPsReq_Test_StateEnabled");
+    UtTest_Add(LC_SampleAllAPsReq_Test_StateDisabled, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SampleAllAPsReq_Test_StateDisabled");
 
     UtTest_Add(LC_SendHkCmd_Test_WatchStale, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchStale");
     UtTest_Add(LC_SendHkCmd_Test_WatchFalse, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchFalse");

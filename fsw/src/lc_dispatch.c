@@ -78,6 +78,16 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
                                   (int)ExpectedLength);
                 break;
 
+            case LC_SAMPLE_AP_ALL_MID:
+                /*
+                ** Same as LC_SAMPLE_AP_MID - don't increment error counter for internal messages
+                */
+                CFE_EVS_SendEvent(LC_APSAMPLE_ALL_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                                  "Invalid AP sample all msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
+                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
+                                  (int)ExpectedLength);
+                break;
+
             default:
                 /*
                 ** All other cases, increment error counter
@@ -111,6 +121,24 @@ void LC_SampleAPVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
         LC_SampleAPReq(BufPtr);
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Sample All Actionpoints Request (no parameters)                */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void LC_SampleAllAPsVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
+{
+    size_t ExpectedLength = sizeof(LC_SampleAllAPsCmd_t);
+
+    /*
+    ** Verify message packet length
+    */
+    if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
+    {
+        LC_SampleAllAPsReq(BufPtr);
     }
 }
 
@@ -256,6 +284,13 @@ CFE_Status_t LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
         */
         case LC_SAMPLE_AP_MID:
             LC_SampleAPVerifyDispatch(BufPtr);
+            break;
+
+        /*
+        ** Sample all actionpoints request (no parameters)
+        */
+        case LC_SAMPLE_AP_ALL_MID:
+            LC_SampleAllAPsVerifyDispatch(BufPtr);
             break;
 
         /*

@@ -127,6 +127,18 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
 
 /*
  * ----------------------------------------------------
+ * Generated stub function for LC_SampleAllAPsReq()
+ * ----------------------------------------------------
+ */
+void LC_SampleAllAPsReq(const CFE_SB_Buffer_t *BufPtr)
+{
+    UT_GenStub_AddParam(LC_SampleAllAPsReq, const CFE_SB_Buffer_t *, BufPtr);
+
+    UT_GenStub_Execute(LC_SampleAllAPsReq, Basic, NULL);
+}
+
+/*
+ * ----------------------------------------------------
  * Generated stub function for LC_SendHkCmd()
  * ----------------------------------------------------
  */

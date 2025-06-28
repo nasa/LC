@@ -29,9 +29,10 @@
  * \{
  */
 
-#define LC_CMD_MID       0x18A4 /**< \brief Msg ID for cmds to LC                */
-#define LC_SEND_HK_MID   0x18A5 /**< \brief Msg ID to request LC housekeeping    */
-#define LC_SAMPLE_AP_MID 0x18A6 /**< \brief Msg ID to request actionpoint sample */
+#define LC_CMD_MID           0x18A4 /**< \brief Msg ID for cmds to LC                */
+#define LC_SEND_HK_MID       0x18A5 /**< \brief Msg ID to request LC housekeeping    */
+#define LC_SAMPLE_AP_MID     0x18A6 /**< \brief Msg ID to request actionpoint sample */
+#define LC_SAMPLE_AP_ALL_MID 0x18A7 /**< \brief Msg ID to sample all actionpoints    */
 
 /**\}*/
 

@@ -499,6 +499,23 @@ void LC_SbInit_Test_SubscribeSampleCmdError(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 }
 
+void LC_SbInit_Test_SubscribeSampleAllCmdError(void)
+{
+    CFE_Status_t Result;
+
+    /* Set to generate error message LC_SUB_SAMPLE_ALL_CMD_ERR_EID */
+    UT_SetDeferredRetcode(UT_KEY(CFE_SB_Subscribe), 4, -1);
+
+    /* Execute the function being tested */
+    Result = LC_SbInit();
+
+    /* Verify results */
+    UtAssert_True(Result == -1, "Result == -1");
+
+    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
+    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
+}
+
 void LC_TableInit_Test_CreateResultsTablesError(void)
 {
     LC_OperData.HaveActiveCDS = true;
@@ -1477,6 +1494,8 @@ void UtTest_Setup(void)
                "LC_SbInit_Test_SubscribeGndCmdError");
     UtTest_Add(LC_SbInit_Test_SubscribeSampleCmdError, LC_Test_Setup, LC_Test_TearDown,
                "LC_SbInit_Test_SubscribeSampleCmdError");
+    UtTest_Add(LC_SbInit_Test_SubscribeSampleAllCmdError, LC_Test_Setup, LC_Test_TearDown,
+               "LC_SbInit_Test_SubscribeSampleAllCmdError");
 
     UtTest_Add(LC_TableInit_Test_CreateTaskCDSError, LC_Test_Setup, LC_Test_TearDown,
                "LC_TableInit_Test_CreateTaskCDSError");
