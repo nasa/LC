@@ -35,6 +35,7 @@
 #include "lc_utils.h"
 #include "lc_test_utils.h"
 #include "lc_dispatch.h"
+#include "lc_cmds.h"
 #include "lc_platform_cfg.h"
 
 #include "cfe.h"
@@ -546,6 +547,7 @@ void LC_TableInit_Test_LoadDefaultTables(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
+    LC_AppData.CurrentLCState = 0x99; /* Non default value */
 
     /* Hit table info updated case for LC_LoadDefaultTables */
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_GetAddress), 4, CFE_TBL_INFO_UPDATED);
@@ -561,10 +563,18 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset SendEvent and don't recover WDT */
     UT_ResetState(UT_KEY(CFE_EVS_SendEvent));
+    UT_ResetState(UT_KEY(LC_ResetCounters));
+    UT_ResetState(UT_KEY(LC_ResetResultsWP));
+    UT_ResetState(UT_KEY(LC_ResetResultsAP));
     LC_OperData.TableResults = 0;
+    LC_AppData.CurrentLCState = 0x99;
 
     UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
 
@@ -577,9 +587,18 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset all states and only restore WRT and ART CDS */
     UT_ResetState(0);
+    UT_ResetState(UT_KEY(LC_ResetCounters));
+    UT_ResetState(UT_KEY(LC_ResetResultsWP));
+    UT_ResetState(UT_KEY(LC_ResetResultsAP));
+    LC_AppData.CurrentLCState = 0x99;
+
     LC_OperData.TableResults = 0;
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
@@ -595,9 +614,18 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset all states and only restore WRT */
     UT_ResetState(0);
+    UT_ResetState(UT_KEY(LC_ResetCounters));
+    UT_ResetState(UT_KEY(LC_ResetResultsWP));
+    UT_ResetState(UT_KEY(LC_ResetResultsAP));
+    LC_AppData.CurrentLCState = 0x99;
+
     LC_OperData.TableResults = 0;
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
 
@@ -612,6 +640,10 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 }
 
 void LC_TableInit_Test_GetWDTAddressError(void)
