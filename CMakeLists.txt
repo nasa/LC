@@ -4,11 +4,20 @@ set(APP_SRC_FILES
   fsw/src/lc_custom.c
   fsw/src/lc_app.c
   fsw/src/lc_cmds.c
-  fsw/src/lc_dispatch.c
   fsw/src/lc_watch.c
   fsw/src/lc_action.c
   fsw/src/lc_utils.c
 )
+
+if (CFE_EDS_ENABLED)
+  list(APPEND APP_SRC_FILES
+    fsw/src/lc_eds_dispatch.c
+  )
+else()
+  list(APPEND APP_SRC_FILES
+    fsw/src/lc_dispatch.c
+  )
+endif()
 
 # Create the app module
 add_cfe_app(lc ${APP_SRC_FILES})

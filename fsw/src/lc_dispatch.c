@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -38,56 +37,65 @@
 /* Verify message packet length                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-bool LC_VerifyMsgLength(const CFE_MSG_Message_t *MsgPtr, size_t ExpectedLength)
+bool LC_VerifyMsgLength(const CFE_MSG_Message_t *msgPtr, size_t ExpectedLength)
 {
     bool              result       = true;
     CFE_MSG_FcnCode_t CommandCode  = 0;
     size_t            ActualLength = 0;
-    CFE_SB_MsgId_t    MessageID    = CFE_SB_INVALID_MSG_ID;
+    CFE_SB_MsgId_t    MsgId        = CFE_SB_INVALID_MSG_ID;
+
+    /* Static MID values for efficient comparison */
+    static CFE_SB_MsgId_t SEND_HK_MID   = CFE_SB_MSGID_RESERVED;
+    static CFE_SB_MsgId_t SAMPLE_AP_MID = CFE_SB_MSGID_RESERVED;
+
+    /* Cache the local MID Values here, this avoids repeat lookups */
+    if (!CFE_SB_IsValidMsgId(SEND_HK_MID))
+    {
+        SEND_HK_MID   = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
+        SAMPLE_AP_MID = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
+    }
+
+    CFE_MSG_GetSize(msgPtr, &ActualLength);
 
     /*
     ** Verify the message packet length...
     */
-
-    CFE_MSG_GetSize(MsgPtr, &ActualLength);
     if (ExpectedLength != ActualLength)
     {
-        CFE_MSG_GetMsgId(MsgPtr, &MessageID);
-        CFE_MSG_GetFcnCode(MsgPtr, &CommandCode);
+        CFE_MSG_GetMsgId(msgPtr, &MsgId);
+        CFE_MSG_GetFcnCode(msgPtr, &CommandCode);
 
-        switch (CFE_SB_MsgIdToValue(MessageID))
+        if (CFE_SB_MsgId_Equal(MsgId, SEND_HK_MID))
         {
-            case LC_SEND_HK_MID:
-                /*
-                ** For a bad HK request, just send the event. We only increment
-                ** the error counter for ground commands and not internal messages.
-                */
-                CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Invalid HK request msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
-                                  (int)ExpectedLength);
-                break;
-
-            case LC_SAMPLE_AP_MID:
-                /*
-                ** Same thing as previous for a bad actionpoint sample request
-                */
-                CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Invalid AP sample msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
-                                  (int)ExpectedLength);
-                break;
-
-            default:
-                /*
-                ** All other cases, increment error counter
-                */
-                CFE_EVS_SendEvent(LC_CMD_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (int)ActualLength,
-                                  (int)ExpectedLength);
-                LC_AppData.CmdErrCount++;
-                break;
+            /*
+            ** For a bad HK request, just send the event. We only increment
+            ** the error counter for ground commands and not internal messages.
+            */
+            CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Invalid HK request msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
+                              (unsigned long)CFE_SB_MsgIdToValue(MsgId), CommandCode, (int)ActualLength,
+                              (int)ExpectedLength);
+        }
+        else if (CFE_SB_MsgId_Equal(MsgId, SAMPLE_AP_MID))
+        {
+            /*
+            ** Same thing as previous for a bad actionpoint sample request
+            */
+            CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Invalid AP sample msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
+                              (unsigned long)CFE_SB_MsgIdToValue(MsgId), CommandCode, (int)ActualLength,
+                              (int)ExpectedLength);
+        }
+        else
+        {
+            /*
+            ** All other cases, increment error counter
+            */
+            CFE_EVS_SendEvent(LC_CMD_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
+                              (unsigned long)CFE_SB_MsgIdToValue(MsgId), CommandCode, (int)ActualLength,
+                              (int)ExpectedLength);
+            LC_AppData.CmdErrCount++;
         }
 
         result = false;
@@ -128,7 +136,7 @@ void LC_SendHkVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
     */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_SendHkCmd((CFE_MSG_CommandHeader_t *)BufPtr);
+        LC_SendHkCmd((LC_SendHkCmd_t *)BufPtr);
     }
 }
 
@@ -143,7 +151,7 @@ void LC_NoopVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_NoopCmd(BufPtr);
+        LC_NoopCmd((LC_NoopCmd_t *)BufPtr);
     }
 }
 
@@ -158,7 +166,7 @@ void LC_ResetCountersVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_ResetCountersCmd(BufPtr);
+        LC_ResetCountersCmd((LC_ResetCountersCmd_t *)BufPtr);
     }
 }
 
@@ -173,7 +181,7 @@ void LC_SetLCStateVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_SetLCStateCmd(BufPtr);
+        LC_SetLCStateCmd((LC_SetLCStateCmd_t *)BufPtr);
     }
 }
 
@@ -188,7 +196,7 @@ void LC_SetAPStateVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_SetAPStateCmd(BufPtr);
+        LC_SetAPStateCmd((LC_SetAPStateCmd_t *)BufPtr);
     }
 }
 
@@ -203,7 +211,7 @@ void LC_SetAPPermOffVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_SetAPPermOffCmd(BufPtr);
+        LC_SetAPPermOffCmd((LC_SetAPPermOffCmd_t *)BufPtr);
     }
 }
 
@@ -218,7 +226,7 @@ void LC_ResetAPStatsVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_ResetAPStatsCmd(BufPtr);
+        LC_ResetAPStatsCmd((LC_ResetAPStatsCmd_t *)BufPtr);
     }
 }
 
@@ -233,95 +241,111 @@ void LC_ResetWPStatsVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
 
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_ResetWPStatsCmd(BufPtr);
+        LC_ResetWPStatsCmd((LC_ResetWPStatsCmd_t *)BufPtr);
     }
 }
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Process LC ground commands                                      */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void LC_AppProcessCmd(const CFE_SB_Buffer_t *BufPtr)
+{
+    CFE_SB_MsgId_t    MessageID   = CFE_SB_INVALID_MSG_ID;
+    CFE_MSG_FcnCode_t CommandCode = 0;
 
+    CFE_MSG_GetFcnCode(&BufPtr->Msg, &CommandCode);
+
+    switch (CommandCode)
+    {
+        case LC_NOOP_CC:
+            LC_NoopVerifyDispatch(BufPtr);
+            break;
+
+        case LC_RESET_CC:
+            LC_ResetCountersVerifyDispatch(BufPtr);
+            break;
+
+        case LC_SET_LC_STATE_CC:
+            LC_SetLCStateVerifyDispatch(BufPtr);
+            break;
+
+        case LC_SET_AP_STATE_CC:
+            LC_SetAPStateVerifyDispatch(BufPtr);
+            break;
+
+        case LC_SET_AP_PERM_OFF_CC:
+            LC_SetAPPermOffVerifyDispatch(BufPtr);
+            break;
+
+        case LC_RESET_AP_STATS_CC:
+            LC_ResetAPStatsVerifyDispatch(BufPtr);
+            break;
+
+        case LC_RESET_WP_STATS_CC:
+            LC_ResetWPStatsVerifyDispatch(BufPtr);
+            break;
+
+        default:
+            CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
+            CFE_EVS_SendEvent(LC_CC_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Invalid command code: ID = 0x%08lX, CC = %d",
+                              (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode);
+            LC_AppData.CmdErrCount++;
+            break;
+    }
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Process a command pipe message                                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
+void LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 {
-    CFE_SB_MsgId_t    MessageID   = CFE_SB_INVALID_MSG_ID;
-    CFE_MSG_FcnCode_t CommandCode = 0;
+    static CFE_SB_MsgId_t CMD_MID       = CFE_SB_MSGID_RESERVED;
+    static CFE_SB_MsgId_t SEND_HK_MID   = CFE_SB_MSGID_RESERVED;
+    static CFE_SB_MsgId_t SAMPLE_AP_MID = CFE_SB_MSGID_RESERVED;
+
+    CFE_SB_MsgId_t MessageID = CFE_SB_INVALID_MSG_ID;
+
+    /* Cache the local MID values here, this avoids repeat lookups */
+    if (!CFE_SB_IsValidMsgId(CMD_MID))
+    {
+        CMD_MID       = CFE_SB_ValueToMsgId(LC_CMD_MID);
+        SEND_HK_MID   = CFE_SB_ValueToMsgId(LC_SEND_HK_MID);
+        SAMPLE_AP_MID = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
+    }
 
     CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
 
-    switch (CFE_SB_MsgIdToValue(MessageID))
+    if (CFE_SB_MsgId_Equal(MessageID, SAMPLE_AP_MID))
     {
         /*
         ** Sample actionpoints request
         */
-        case LC_SAMPLE_AP_MID:
-            LC_SampleAPVerifyDispatch(BufPtr);
-            break;
-
+        LC_SampleAPVerifyDispatch(BufPtr);
+    }
+    else if (CFE_SB_MsgId_Equal(MessageID, SEND_HK_MID))
+    {
         /*
         ** Housekeeping telemetry request
         ** (only routine that can return a critical error indicator)
         */
-        case LC_SEND_HK_MID:
-            LC_SendHkVerifyDispatch(BufPtr);
-            break;
-
+        LC_SendHkVerifyDispatch(BufPtr);
+    }
+    else if (CFE_SB_MsgId_Equal(MessageID, CMD_MID))
+    {
         /*
         ** LC application commands...
         */
-        case LC_CMD_MID:
-
-            CFE_MSG_GetFcnCode(&BufPtr->Msg, &CommandCode);
-            switch (CommandCode)
-            {
-                case LC_NOOP_CC:
-                    LC_NoopVerifyDispatch(BufPtr);
-                    break;
-
-                case LC_RESET_CC:
-                    LC_ResetCountersVerifyDispatch(BufPtr);
-                    break;
-
-                case LC_SET_LC_STATE_CC:
-                    LC_SetLCStateVerifyDispatch(BufPtr);
-                    break;
-
-                case LC_SET_AP_STATE_CC:
-                    LC_SetAPStateVerifyDispatch(BufPtr);
-                    break;
-
-                case LC_SET_AP_PERM_OFF_CC:
-                    LC_SetAPPermOffVerifyDispatch(BufPtr);
-                    break;
-
-                case LC_RESET_AP_STATS_CC:
-                    LC_ResetAPStatsVerifyDispatch(BufPtr);
-                    break;
-
-                case LC_RESET_WP_STATS_CC:
-                    LC_ResetWPStatsVerifyDispatch(BufPtr);
-                    break;
-
-                default:
-                    CFE_EVS_SendEvent(LC_CC_ERR_EID, CFE_EVS_EventType_ERROR,
-                                      "Invalid command code: ID = 0x%08lX, CC = %d",
-                                      (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode);
-
-                    LC_AppData.CmdErrCount++;
-                    break;
-
-            } /* end CommandCode switch */
-            break;
-
+        LC_AppProcessCmd(BufPtr);
+    }
+    else
+    {
         /*
         ** All other message ID's should be monitor
         ** packets
         */
-        default:
-            LC_CheckMsgForWPs(MessageID, BufPtr);
-            break;
-
-    } /* end MessageID switch */
-
-    return CFE_SUCCESS;
+        LC_CheckMsgForWPs(MessageID, BufPtr);
+    }
 }

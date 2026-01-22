@@ -18,21 +18,21 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) command and telemetry
- *   message data types.
+ *   Specification for the CFS Limit Checker (LC) table related
+ *   constant definitions.
  *
- * This is a compatibility header for the "lc_msg.h" file that has
- * traditionally provided the message definitions for cFS apps.
- *
- * @note This file may be overridden/superceded by mission-provided definitions
- * either by overriding this header or by generating definitions from a command/data
- * dictionary tool.
+ * @note
+ *   These Macro definitions have been put in this file (instead of
+ *   lc_tbl.h) so this file can be included directly into ASIST build
+ *   test scripts. ASIST RDL files can accept C language \#defines but
+ *   can't handle type definitions. As a result: DO NOT PUT ANY
+ *   TYPEDEFS OR STRUCTURE DEFINITIONS IN THIS FILE!
+ *   ADD THEM TO lc_tbl.h IF NEEDED!
  */
-#ifndef DEFAULT_LC_MSG_H
-#define DEFAULT_LC_MSG_H
 
-#include "lc_interface_cfg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgstruct.h"
+ #ifndef EDS_LC_TBLDEFS_H
+ #define EDS_LC_TBLDEFS_H
 
-#endif
+ #include "lc_eds_typedefs.h"
+
+ #endif

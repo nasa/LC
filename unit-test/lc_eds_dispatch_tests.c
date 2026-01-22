@@ -16,21 +16,54 @@
  * limitations under the License.
  ************************************************************************/
 
-/**
- * @file
- *
- * Auto-Generated stub implementations for functions defined in lc_app header
- */
+/* lc testing includes */
+#include "lc_test_utils.h"
+#include "lc_dispatch.h"
+#include "lc_eds_dispatcher.h"
+#include "lc_cmds.h"
+#include "lc_msgids.h"
+#include "lc_eventids.h"
 
-#include "lc_app.h"
 
 /* UT includes */
 #include "uttest.h"
 #include "utassert.h"
 #include "utstubs.h"
 
-/************************************************************************
-** LC Global Data
-*************************************************************************/
-LC_OperData_t LC_OperData;
-LC_AppData_t  LC_AppData;
+void lc_dispatch_tests_Setup(void)
+{
+    LC_Test_Setup();
+}
+
+void lc_dispatch_tests_Teardown(void)
+{
+    LC_Test_TearDown();
+}
+
+/*
+**********************************************************************************
+**          TEST CASE FUNCTIONS
+**********************************************************************************
+*/
+
+void Test_LC_AppPipe(void)
+{
+    /*
+     * Test Case For:
+     * void LC_AppPipe
+     */
+    CFE_SB_Buffer_t UtBuf;
+
+    UT_SetDeferredRetcode(UT_KEY(CFE_EDSMSG_Dispatch), 1, CFE_SUCCESS);
+
+    memset(&UtBuf, 0, sizeof(UtBuf));
+    UtAssert_VOIDCALL(LC_AppPipe(&UtBuf));
+}
+
+/*
+ * Register the test cases to execute with the unit test tool
+ */
+void UtTest_Setup(void)
+{
+    UtTest_Add(Test_LC_AppPipe, lc_dispatch_tests_Setup, lc_dispatch_tests_Teardown, "Test_LC_AppPipe");
+}

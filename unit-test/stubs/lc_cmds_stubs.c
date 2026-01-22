@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -31,11 +30,15 @@
  * Generated stub function for LC_NoopCmd()
  * ----------------------------------------------------
  */
-void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg)
 {
-    UT_GenStub_AddParam(LC_NoopCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_SetupReturnBuffer(LC_NoopCmd, CFE_Status_t);
+
+    UT_GenStub_AddParam(LC_NoopCmd, const LC_NoopCmd_t *, msg);
 
     UT_GenStub_Execute(LC_NoopCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_NoopCmd, CFE_Status_t);
 }
 
 /*
@@ -43,11 +46,15 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
  * Generated stub function for LC_ResetAPStatsCmd()
  * ----------------------------------------------------
  */
-void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
 {
-    UT_GenStub_AddParam(LC_ResetAPStatsCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_SetupReturnBuffer(LC_ResetAPStatsCmd, CFE_Status_t);
+
+    UT_GenStub_AddParam(LC_ResetAPStatsCmd, const LC_ResetAPStatsCmd_t *, msg);
 
     UT_GenStub_Execute(LC_ResetAPStatsCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_ResetAPStatsCmd, CFE_Status_t);
 }
 
 /*
@@ -66,11 +73,15 @@ void LC_ResetCounters(void)
  * Generated stub function for LC_ResetCountersCmd()
  * ----------------------------------------------------
  */
-void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg)
 {
-    UT_GenStub_AddParam(LC_ResetCountersCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_SetupReturnBuffer(LC_ResetCountersCmd, CFE_Status_t);
+
+    UT_GenStub_AddParam(LC_ResetCountersCmd, const LC_ResetCountersCmd_t *, msg);
 
     UT_GenStub_Execute(LC_ResetCountersCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_ResetCountersCmd, CFE_Status_t);
 }
 
 /*
@@ -106,11 +117,15 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
  * Generated stub function for LC_ResetWPStatsCmd()
  * ----------------------------------------------------
  */
-void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg)
 {
-    UT_GenStub_AddParam(LC_ResetWPStatsCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_SetupReturnBuffer(LC_ResetWPStatsCmd, CFE_Status_t);
+
+    UT_GenStub_AddParam(LC_ResetWPStatsCmd, const LC_ResetWPStatsCmd_t *, msg);
 
     UT_GenStub_Execute(LC_ResetWPStatsCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_ResetWPStatsCmd, CFE_Status_t);
 }
 
 /*
@@ -130,11 +145,11 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
  * Generated stub function for LC_SendHkCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
+CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_SendHkCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_SendHkCmd, const CFE_MSG_CommandHeader_t *, MsgPtr);
+    UT_GenStub_AddParam(LC_SendHkCmd, const LC_SendHkCmd_t *, msg);
 
     UT_GenStub_Execute(LC_SendHkCmd, Basic, NULL);
 
@@ -146,11 +161,15 @@ CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
  * Generated stub function for LC_SetAPPermOffCmd()
  * ----------------------------------------------------
  */
-void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
 {
-    UT_GenStub_AddParam(LC_SetAPPermOffCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_SetupReturnBuffer(LC_SetAPPermOffCmd, CFE_Status_t);
+
+    UT_GenStub_AddParam(LC_SetAPPermOffCmd, const LC_SetAPPermOffCmd_t *, msg);
 
     UT_GenStub_Execute(LC_SetAPPermOffCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_SetAPPermOffCmd, CFE_Status_t);
 }
 
 /*
@@ -158,11 +177,15 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
  * Generated stub function for LC_SetAPStateCmd()
  * ----------------------------------------------------
  */
-void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
 {
-    UT_GenStub_AddParam(LC_SetAPStateCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_SetupReturnBuffer(LC_SetAPStateCmd, CFE_Status_t);
+
+    UT_GenStub_AddParam(LC_SetAPStateCmd, const LC_SetAPStateCmd_t *, msg);
 
     UT_GenStub_Execute(LC_SetAPStateCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_SetAPStateCmd, CFE_Status_t);
 }
 
 /*
@@ -170,9 +193,13 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
  * Generated stub function for LC_SetLCStateCmd()
  * ----------------------------------------------------
  */
-void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg)
 {
-    UT_GenStub_AddParam(LC_SetLCStateCmd, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_SetupReturnBuffer(LC_SetLCStateCmd, CFE_Status_t);
+
+    UT_GenStub_AddParam(LC_SetLCStateCmd, const LC_SetLCStateCmd_t *, msg);
 
     UT_GenStub_Execute(LC_SetLCStateCmd, Basic, NULL);
+
+    return UT_GenStub_GetReturnValue(LC_SetLCStateCmd, CFE_Status_t);
 }

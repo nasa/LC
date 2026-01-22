@@ -18,21 +18,21 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) command and telemetry
- *   message data types.
+ *   CFS Limit Checker (LC) Application Private Config Definitions
  *
- * This is a compatibility header for the "lc_msg.h" file that has
- * traditionally provided the message definitions for cFS apps.
+ * This provides default values for configurable items that are internal
+ * to this module and do NOT affect the interface(s) of this module.  Changes
+ * to items in this file only affect the local module and will be transparent
+ * to external entities that are using the public interface(s).
  *
  * @note This file may be overridden/superceded by mission-provided definitions
  * either by overriding this header or by generating definitions from a command/data
  * dictionary tool.
  */
-#ifndef DEFAULT_LC_MSG_H
-#define DEFAULT_LC_MSG_H
+#ifndef DEFAULT_LC_INTERNAL_CFG_VALUES_H
+#define DEFAULT_LC_INTERNAL_CFG_VALUES_H
 
-#include "lc_interface_cfg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgstruct.h"
+/* Use the default configuration value for all */
+#define LC_INTERNAL_CFGVAL(x) DEFAULT_LC_##x
 
 #endif

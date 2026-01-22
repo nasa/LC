@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -19,11 +18,7 @@
 
 /**
  * @file
- *   CFS Limit Checker (LC) Application Public Definitions
- *
- * This provides default values for configurable items that affect
- * the interface(s) of this module.  This includes the CMD/TLM message
- * interface, tables definitions, and/or the public API, if applicable.
+ *   CFS Limit Checker (LC) Application Mission Configuration Header File
  *
  * @note This file may be overridden/superceded by mission-provided definitions
  * either by overriding this header or by generating definitions from a command/data
@@ -31,6 +26,8 @@
  */
 #ifndef LC_INTERFACE_CFG_H
 #define LC_INTERFACE_CFG_H
+
+#include "lc_interface_cfg_values.h"
 
 /**
  * \defgroup cfslcmissioncfg CFS Limit Checker Mission Configuration
@@ -57,7 +54,8 @@
  *       This parameter shouldn't be larger than the value set for
  *       #CFE_PLATFORM_SB_HIGHEST_VALID_MSGID.
  */
-#define LC_RTS_REQ_MID 0x18A9
+#define LC_RTS_REQ_MID         LC_INTERFACE_CFGVAL(RTS_REQ_MID)
+#define DEFAULT_LC_RTS_REQ_MID 0x18A9
 
 /**
  * \brief RTS Request Command Code
@@ -75,7 +73,8 @@
  *       This parameter can't be larger than 127 (the maximum value of
  *       7-bit number).
  */
-#define LC_RTS_REQ_CC 4
+#define LC_RTS_REQ_CC         LC_INTERFACE_CFGVAL(RTS_REQ_CC)
+#define DEFAULT_LC_RTS_REQ_CC 4
 
 /**
  * \brief Maximum number of watchpoints
@@ -100,7 +99,8 @@
  *       cFE size limit for a single buffered table set by the
  *       #CFE_PLATFORM_TBL_MAX_SNGL_TABLE_SIZE parameter
  */
-#define LC_MAX_WATCHPOINTS 176
+#define LC_MAX_WATCHPOINTS         LC_INTERFACE_CFGVAL(MAX_WATCHPOINTS)
+#define DEFAULT_LC_MAX_WATCHPOINTS 176
 
 /**
  * \brief Maximum number of actionpoints
@@ -124,7 +124,8 @@
  *       cFE size limit for a single buffered table set by the
  *       #CFE_PLATFORM_TBL_MAX_SNGL_TABLE_SIZE parameter
  */
-#define LC_MAX_ACTIONPOINTS 176
+#define LC_MAX_ACTIONPOINTS         LC_INTERFACE_CFGVAL(MAX_ACTIONPOINTS)
+#define DEFAULT_LC_MAX_ACTIONPOINTS 176
 
 /**
  * \brief Maximum actionpoint event text string size
@@ -145,7 +146,8 @@
  *       Raising this value will also increase the size of the
  *       Actionpoint Definition Table (ADT)
  */
-#define LC_MAX_ACTION_TEXT 32
+#define LC_MAX_ACTION_TEXT         LC_INTERFACE_CFGVAL(MAX_ACTION_TEXT)
+#define DEFAULT_LC_MAX_ACTION_TEXT 32
 
 /**
  * \brief Maximum reverse polish (RPN) equation size
@@ -159,7 +161,8 @@
  *       Increasing this value will increase the size of the
  *       Actionpoint Definition Table (ADT)
  */
-#define LC_MAX_RPN_EQU_SIZE 20
+#define LC_MAX_RPN_EQU_SIZE         LC_INTERFACE_CFGVAL(MAX_RPN_EQU_SIZE)
+#define DEFAULT_LC_MAX_RPN_EQU_SIZE 20
 
 /**\}*/
 

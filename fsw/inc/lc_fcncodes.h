@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -25,6 +24,8 @@
  */
 #ifndef LC_FCNCODES_H
 #define LC_FCNCODES_H
+
+#include "lc_fcncode_values.h"
 
 /************************************************************************
  * Macro Definitions
@@ -64,7 +65,7 @@
  *
  *  \sa #LC_RESET_CC
  */
-#define LC_NOOP_CC 0
+#define LC_NOOP_CC LC_CCVAL(NOOP)
 
 /**
  * \brief Reset Counters
@@ -95,7 +96,7 @@
  *
  *  \sa #LC_NOOP_CC
  */
-#define LC_RESET_CC 1
+#define LC_RESET_CC LC_CCVAL(RESET_COUNTERS)
 
 /**
  * \brief Set LC Application State
@@ -128,7 +129,7 @@
  *       None
  *
  */
-#define LC_SET_LC_STATE_CC 2
+#define LC_SET_LC_STATE_CC LC_CCVAL(SET_LC_STATE)
 
 /**
  * \brief Set AP State
@@ -166,7 +167,7 @@
  *       None
  *
  */
-#define LC_SET_AP_STATE_CC 3
+#define LC_SET_AP_STATE_CC LC_CCVAL(SET_AP_STATE)
 
 /**
  * \brief Set AP Permanently Off
@@ -201,7 +202,7 @@
  *       None
  *
  */
-#define LC_SET_AP_PERM_OFF_CC 4
+#define LC_SET_AP_PERM_OFF_CC LC_CCVAL(SET_AP_PERM_OFF)
 
 /**
  * \brief Reset AP Statistics
@@ -235,7 +236,7 @@
  *
  *  \sa #LC_RESET_WP_STATS_CC
  */
-#define LC_RESET_AP_STATS_CC 5
+#define LC_RESET_AP_STATS_CC LC_CCVAL(RESET_AP_STATS)
 
 /**
  * \brief Reset WP Statistics
@@ -269,7 +270,7 @@
  *
  *  \sa #LC_RESET_AP_STATS_CC
  */
-#define LC_RESET_WP_STATS_CC 6
+#define LC_RESET_WP_STATS_CC LC_CCVAL(RESET_WP_STATS)
 
 /**\}*/
 

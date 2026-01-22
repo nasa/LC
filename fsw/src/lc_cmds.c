@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -110,7 +109,7 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
 /* Housekeeping request                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
+CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
 {
     uint16 TableIndex;
     uint16 HKIndex;
@@ -263,12 +262,14 @@ CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr)
 /* Noop command                                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg)
 {
     LC_AppData.CmdCount++;
 
     CFE_EVS_SendEvent(LC_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION, "No-op command: Version %d.%d.%d.%d",
                       LC_MAJOR_VERSION, LC_MINOR_VERSION, LC_REVISION, LC_MISSION_REV);
+
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -276,11 +277,13 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr)
 /* Reset counters command                                          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg)
 {
     LC_ResetCounters();
 
     CFE_EVS_SendEvent(LC_RESET_INF_EID, CFE_EVS_EventType_INFORMATION, "Reset counters command");
+
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -304,11 +307,9 @@ void LC_ResetCounters(void)
 /* Set LC state command                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg)
 {
-    const LC_SetLCState_Payload_t *CmdPtr;
-
-    CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_SetLCStateCmd_t);
+    const LC_SetLCState_Payload_t *CmdPtr = &msg->Payload;
 
     switch (CmdPtr->NewLCState)
     {
@@ -329,6 +330,8 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
             LC_AppData.CmdErrCount++;
             break;
     }
+
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -336,15 +339,13 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr)
 /* Set actionpoint state command                                   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
 {
-    const LC_SetAPState_Payload_t *CmdPtr;
+    const LC_SetAPState_Payload_t *CmdPtr = &msg->Payload;
     uint32                         TableIndex;
     uint8                          CurrentAPState;
     bool                           ValidState = true;
     bool                           CmdSuccess = false;
-
-    CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_SetAPStateCmd_t);
 
     /*
     ** Do a sanity check on the new actionpoint state
@@ -448,6 +449,8 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
         }
 
     } /* end ValidState if */
+
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -455,13 +458,11 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr)
 /* Set actionpoint permanently off command                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
 {
-    const LC_SetAPPermOff_Payload_t *CmdPtr;
+    const LC_SetAPPermOff_Payload_t *CmdPtr = &msg->Payload;
     uint32                           TableIndex;
     uint8                            CurrentAPState;
-
-    CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_SetAPPermOffCmd_t);
 
     if (((CmdPtr->APNumber) == LC_ALL_ACTIONPOINTS) || ((CmdPtr->APNumber) >= LC_MAX_ACTIONPOINTS))
     {
@@ -505,6 +506,8 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
         }
 
     } /* end CmdPtr -> APNumber else */
+
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -512,12 +515,10 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr)
 /* Reset actionpoint statistics command                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
 {
-    const LC_ResetAPStats_Payload_t *CmdPtr;
+    const LC_ResetAPStats_Payload_t *CmdPtr = &msg->Payload;
     bool                             CmdSuccess = false;
-
-    CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_ResetAPStatsCmd_t);
 
     /* arg may be one or all AP's */
     if (CmdPtr->APNumber == LC_ALL_ACTIONPOINTS)
@@ -546,6 +547,8 @@ void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
         CFE_EVS_SendEvent(LC_APSTATS_INF_EID, CFE_EVS_EventType_INFORMATION, "Reset AP stats command: AP = %d",
                           CmdPtr->APNumber);
     }
+
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -583,12 +586,10 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
 /* Reset watchpoint statistics command                             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg)
 {
-    const LC_ResetWPStats_Payload_t *CmdPtr;
+    const LC_ResetWPStats_Payload_t *CmdPtr = &msg->Payload;
     bool                             CmdSuccess = false;
-
-    CmdPtr = LC_GET_CMD_PAYLOAD(BufPtr, LC_ResetWPStatsCmd_t);
 
     /* arg may be one or all WP's */
     if (CmdPtr->WPNumber == LC_ALL_WATCHPOINTS)
@@ -617,6 +618,8 @@ void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr)
         CFE_EVS_SendEvent(LC_WPSTATS_INF_EID, CFE_EVS_EventType_INFORMATION, "Reset WP stats command: WP = %d",
                           CmdPtr->WPNumber);
     }
+
+    return CFE_SUCCESS;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -49,10 +48,7 @@
  *       None
  *
  *  \param[in] BufPtr Pointer to Software Bus buffer
- *
- *  \return Execution status, see \ref CFEReturnCodes
- *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-CFE_Status_t LC_AppPipe(const CFE_SB_Buffer_t *BufPtr);
+void LC_AppPipe(const CFE_SB_Buffer_t *BufPtr);
 
 #endif

@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -116,9 +115,14 @@ void LC_AppMain(void)
              * expected, the routine actions are done here instead. */
             Status = LC_PerformMaintenance();
         }
-        else if (Status == CFE_SUCCESS)
+        else if (Status == CFE_SB_NO_MESSAGE)
         {
-            Status = LC_AppPipe(BufPtr);
+            /* no action, but also no error */
+            Status = CFE_SUCCESS;
+        }
+	else if (Status == CFE_SUCCESS)
+        {
+            LC_AppPipe(BufPtr);
         }
 
         /*
