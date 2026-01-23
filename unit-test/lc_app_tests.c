@@ -303,7 +303,7 @@ void LC_AppInit_Test_Nominal(void)
     /* Note: not testing LC_OperData.ARTPtr == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.WDTHandle == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.ADTHandle == 0, because it is modified by a subfunction */
-    UtAssert_INT32_EQ(LC_OperData.WRTHandle, 0);
+    UtAssert_INT32_EQ(CFE_TBL_HANDLE_INT(LC_OperData.WRTHandle), 0);
     /* Note: not testing LC_OperData.ARTHandle == 0, because it is modified by a subfunction */
     UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.WRTDataCDSHandle));
     UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.ARTDataCDSHandle));
