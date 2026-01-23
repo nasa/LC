@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    GSC-18128-1, "Core Flight Executive Version 6.7"
+    LEW-19710-1, "CCSDS electronic data sheet implementation"
+
+    Copyright (c) 2006-2019 United States Government as represented by
+    the Administrator of the National Aeronautics and Space Administration.
+    All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+    This document adheres to the Electronic Data Sheet (EDS) XML schema
+    as prescribed in CCSDS book 876.0.
+
+    Purpose:
+      This describes all interface objects for the Executive Services (CFE_ES)
+      core application
+
+-->
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds">
+  <Package name="LC" shortDescription="Limit Checker">
+
+    <DataTypeSet>
+
+      <EnumeratedDataType name="WATCH">
+          <EnumerationList>
+            <Enumeration label="STALE" value="0xFF" />
+            <Enumeration label="FALSE"  value="0"  />
+            <Enumeration label="TRUE" value="1"  />
+            <Enumeration label="ERROR"  value="2"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="CDS">
+          <EnumerationList>
+            <Enumeration label="SAVED" value="0xF0F0" />
+            <Enumeration label="NOT_SAVED"  value="0x0F0F"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="16" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="BITMASK">
+          <EnumerationList>
+            <Enumeration label="NONE" value="0x7FFFFFFF" />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="32" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="ALL">
+          <EnumerationList>
+            <Enumeration label="ACTIONPOINTS" value="0xFFFF" />
+            <Enumeration label="WATCHPOINTS"  value="0xFFFF"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="16" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="STATE">
+          <EnumerationList>
+            <Enumeration label="ACTIVE" value="1" />
+            <Enumeration label="PASSIVE"  value="2"  />
+            <Enumeration label="DISABLED" value="3" />
+            <Enumeration label="FROM_CDS"  value="4"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="ADTVAL_ERR">
+          <EnumerationList>
+            <Enumeration label="NONE" value="0" />
+            <Enumeration label="DEFSTATE"  value="1"  />
+            <Enumeration label="RTSID" value="2" />
+            <Enumeration label="FAILCNT"  value="3"  />
+            <Enumeration label="EVTTYPE" value="4" />
+            <Enumeration label="RPN"  value="5"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="WDTVAL_ERR">
+          <EnumerationList>
+            <Enumeration label="NONE" value="0" />
+            <Enumeration label="DATATYPE"  value="1"  />
+            <Enumeration label="OPER" value="2" />
+            <Enumeration label="MID"  value="3"  />
+            <Enumeration label="FPNAN" value="4" />
+            <Enumeration label="FPINF"  value="5"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="HKAR">
+          <EnumerationList>
+            <Enumeration label="PASS" value="0x00" />
+            <Enumeration label="FAIL"  value="0x01"  />
+            <Enumeration label="ERROR" value="0x02" />
+            <Enumeration label="STALE"  value="0x03"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="HKAR_STATE">
+          <EnumerationList>
+            <Enumeration label="NOT_USED" value="0x00" />
+            <Enumeration label="ACTIVE"  value="0x01"  />
+            <Enumeration label="PASSIVE" value="0x02" />
+            <Enumeration label="DISABLED"  value="0x03"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="DATA_WATCH">
+          <EnumerationList>
+            <Enumeration label="NOT_USED" value="0xFF" />
+            <Enumeration label="BYTE" value="0" />
+            <Enumeration label="UBYTE"  value="1"  />
+            <Enumeration label="ERR_OPER" value="2" />
+            <Enumeration label="WORD_BE"  value="3"  />
+            <Enumeration label="WORD_LE" value="4" />
+            <Enumeration label="UWORD_BE"  value="5"  />
+            <Enumeration label="UWORD_LE"  value="6"  />
+            <Enumeration label="DWORD_BE" value="7" />
+            <Enumeration label="DWORD_LE"  value="8"  />
+            <Enumeration label="UDWORD_BE" value="9" />
+            <Enumeration label="UDWORD_LE"  value="10"  />
+            <Enumeration label="FLOAT_BE" value="11" />
+            <Enumeration label="FLOAT_LE"  value="12"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="ACTION">
+          <EnumerationList>
+            <Enumeration label="STALE" value="0xFF" />
+            <Enumeration label="PASS"  value="0"  />
+            <Enumeration label="FAIL" value="1"  />
+            <Enumeration label="ERROR"  value="2"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="OPER">
+          <EnumerationList>
+            <Enumeration label="LT" value="1" />
+            <Enumeration label="LE" value="2"  />
+            <Enumeration label="NE" value="3"  />
+            <Enumeration label="EQ" value="4"  />
+            <Enumeration label="GE" value="5"  />
+            <Enumeration label="GT" value="6"  />
+            <Enumeration label="CUSTOM" value="7"  />
+            <Enumeration label="NONE" value="0xFF" />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="APSTATE">
+          <EnumerationList>
+            <Enumeration label="NOT_USED"   value="0xFF" />
+            <Enumeration label="ACTIVE"     value="1"  />
+            <Enumeration label="PASSIVE" value="2"  />
+            <Enumeration label="DISABLED" value="3"  />
+            <Enumeration label="PERMOFF" value="4"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="HKWR">
+          <EnumerationList>
+            <Enumeration label="FALSE"   value="0x00" />
+            <Enumeration label="TRUE"     value="0x01"  />
+            <Enumeration label="ERROR" value="0x02"  />
+            <Enumeration label="STALE" value="0x03"  />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="8" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <EnumeratedDataType name="RPN">
+          <EnumerationList>
+            <Enumeration label="AND" value="0xFFF1" shortDescription="AND operator" />
+            <Enumeration label="OR" value="0xFFF2" shortDescription="OR operator" />
+            <Enumeration label="XOR" value="0xFFF3" shortDescription="XOR operator" />
+            <Enumeration label="NOT" value="0xFFF4" shortDescription="NOT operator" />
+            <Enumeration label="EQUAL" value="0xFFF5" shortDescription="EQUAL operator" />
+          </EnumerationList>
+          <IntegerDataEncoding sizeInBits="16" encoding="unsigned" />
+      </EnumeratedDataType>
+
+      <ContainerDataType name="MultiType" shortDescription="base type for value buffer (empty)" />
+
+      <ContainerDataType name="MultiType_Unsigned32" baseType="MultiType">
+        <EntryList>
+          <Entry name="Unsigned32" type="BASE_TYPES/uint32" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="MultiType_Unsigned16" baseType="MultiType">
+        <EntryList>
+          <Entry name="Unsigned16" type="BASE_TYPES/uint16" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="MultiType_Unsigned8" baseType="MultiType">
+        <EntryList>
+          <Entry name="Unsigned8" type="BASE_TYPES/uint8" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="MultiType_Signed32" baseType="MultiType">
+        <EntryList>
+          <Entry name="Signed32" type="BASE_TYPES/int32" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="MultiType_Signed16" baseType="MultiType">
+        <EntryList>
+          <Entry name="Signed16" type="BASE_TYPES/int16" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="MultiType_Signed8" baseType="MultiType">
+        <EntryList>
+          <Entry name="Signed8" type="BASE_TYPES/int8" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="MultiType_Float32" baseType="MultiType">
+        <EntryList>
+          <Entry name="Float32" type="BASE_TYPES/float" />
+        </EntryList>
+      </ContainerDataType>
+
+
+<!-- Other MultiType Options
+    uint8  RawByte[4]; -->
+
+      <IntegerDataType name="WPStatus">
+        <IntegerDataEncoding sizeInBits="2" encoding="unsigned" />
+      </IntegerDataType>
+      <IntegerDataType name="APStatus">
+        <IntegerDataEncoding sizeInBits="4" encoding="unsigned" />
+      </IntegerDataType>
+
+      <ArrayDataType name="WPResults" dataTypeRef="WPStatus">
+          <DimensionList>
+            <Dimension size="${LC/MAX_ACTIONPOINTS}" />
+          </DimensionList>
+      </ArrayDataType>
+
+      <ArrayDataType name="APResults" dataTypeRef="APStatus">
+          <DimensionList>
+            <Dimension size="${LC/MAX_ACTIONPOINTS}" />
+          </DimensionList>
+      </ArrayDataType>
+
+      <ContainerDataType name="HkTlm_Payload" shortDescription="LC housekeeping">
+        <EntryList>
+            <Entry name="CmdCount" type="BASE_TYPES/uint8" shortDescription="LC Application Command Counter" />
+            <Entry name="CmdErrCount" type="BASE_TYPES/uint8" shortDescription="LC Application Command Error Counter" />
+            <Entry name="CurrentLCState" type="BASE_TYPES/uint8" shortDescription="Current LC application operating  state" />
+            <Entry name="Pad8" type="BASE_TYPES/uint8" />
+            <Entry name="WPResults" type="WPResults" shortDescription="Packed watchpoint results data,  2 bits per watchpoint" />
+            <Entry name="APResults" type="APResults" shortDescription="Packed actionpoint results data,  4 bits per actionpoint" />
+            <Entry name="PassiveRTSExecCount" type="BASE_TYPES/uint16" shortDescription="Total count of RTS sequences not initiated because the LC state is set to #LC_STATE_PASSIVE" />
+            <Entry name="WPsInUse" type="BASE_TYPES/uint16" shortDescription="How many watchpoints are currently in effect" />
+            <Entry name="ActiveAPs" type="BASE_TYPES/uint16" shortDescription="How many actionpoints are currently active" />
+            <Entry name="Pad16" type="BASE_TYPES/uint16"   />
+            <Entry name="APSampleCount" type="BASE_TYPES/uint32" shortDescription=" Total count of Actionpoints sampled" />
+            <Entry name="MonitoredMsgCount" type="BASE_TYPES/uint32" shortDescription=" Total count of messages monitored for watchpoints" />
+            <Entry name="RTSExecCount" type="BASE_TYPES/uint32" shortDescription=" Total count of RTS sequences initiated" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetLCState_Payload" shortDescription="Modify PDU file size command structure">
+        <EntryList>
+          <Entry name="NewLCState" type="BASE_TYPES/uint16" shortDescription="New LC application state" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetAPState_Payload" shortDescription="Set AP (Actionpoint) State Command">
+        <EntryList>
+          <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint(s) to change" />
+          <Entry name="NewAPState" type="BASE_TYPES/uint16" shortDescription="New actionpoint state" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetAPPermOff_Payload" basetype="CFE_HDR/CommandHeader" shortDescription="Set AP (Actionpoint) Permanently Off">
+        <EntryList>
+          <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint to change" />
+          <Entry name="Padding" type="BASE_TYPES/uint16" shortDescription="Structure padding" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="ResetAPStats_Payload" shortDescription="Reset AP (Actionpoint) Statistics">
+        <EntryList>
+          <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint to change" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="ResetWPStats_Payload" shortDescription="Reset WP (Watchpoint) Statistics">
+        <EntryList>
+          <Entry name="WPNumber" type="BASE_TYPES/uint16" shortDescription="Which watchpoint(s) to change" />
+          <Entry name="Padding" type="BASE_TYPES/uint16" shortDescription="Structure padding" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SampleAP_Payload" shortDescription="Sample AP (Actionpoint) Request">
+        <EntryList>
+          <Entry name="StartIndex" type="BASE_TYPES/uint16" shortDescription="Which actionpoint(s) to sample" />
+          <Entry name="EndIndex" type="BASE_TYPES/uint16"  />
+          <Entry name="UpdateAge" type="BASE_TYPES/uint16" shortDescription="Update WP results age (T or F)" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="HkPacket" baseType="CFE_HDR/TelemetryHeader">
+        <EntryList>
+          <Entry type="HkTlm_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SampleAPCmd" baseType="CFE_HDR/CommandHeader">
+        <EntryList>
+          <Entry type="SampleAP_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="RTSRequest_Payload" shortDescription="Send Command to Start a Stored Command RTS">
+        <EntryList>
+          <Entry name="RTSId" type="BASE_TYPES/uint16" shortDescription="brief RTS Id to start" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="RTSRequestCmd" basetype="CFE_HDR/CommandHeader" shortDescription="Send Command to Start a Stored Command RTS">
+        <EntryList>
+          <Entry name="Payload" type="RTSRequest_Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="CMD" baseType="CFE_HDR/CommandHeader">
+      </ContainerDataType>
+
+      <ContainerDataType name="SendHkCmd" baseType="CFE_HDR/CommandHeader" shortDescription="Send Housekeeping Command" />
+
+      <ContainerDataType name="NoopCmd" baseType="CMD">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="0" />
+        </ConstraintSet>
+      </ContainerDataType>
+
+      <ContainerDataType name="ResetCountersCmd" baseType="CMD">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="1" />
+        </ConstraintSet>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetLCStateCmd" baseType="CMD">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="2" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="SetLCState_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetAPStateCmd" baseType="CMD">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="3" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="SetAPState_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetAPPermOffCmd" baseType="CMD">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="4" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="SetAPPermOff_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="ResetAPStatsCmd" baseType="CMD">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="5" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="ResetAPStats_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="ResetWPStatsCmd" baseType="CMD">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="6" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="ResetWPStats_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <StringDataType name="EventText" length="${LC/MAX_ACTION_TEXT}" />
+
+      <ArrayDataType name="RPNArray" dataTypeRef="RPN">
+        <DimensionList>
+          <Dimension size="${LC/MAX_RPN_EQU_SIZE}" />
+        </DimensionList>
+      </ArrayDataType>
+
+      <ContainerDataType name="ADTEntry" shortDescription="#LC_ADTEntry_t">
+        <EntryList>
+          <Entry name="DefaultState" type="APSTATE" shortDescription="Default state for this AP (enumerated) States are defined in lc_msgdefs.h" />
+          <Entry name="MaxPassiveEvents" type="BASE_TYPES/uint8" shortDescription="Max number of events before filter RTS not started because AP is passive" />
+          <Entry name="MaxPassFailEvents" type="BASE_TYPES/uint8" shortDescription="Max number of events before filter AP result transition from pass to fail" />
+          <Entry name="MaxFailPassEvents" type="BASE_TYPES/uint8" shortDescription="Max number of events before filter AP result transition from fail to pass" />
+          <Entry name="RTSId" type="BASE_TYPES/uint16" shortDescription="RTS to request if this AP fails" />
+          <Entry name="MaxFailsBeforeRTS" type="BASE_TYPES/uint16" shortDescription="How may consecutive failures before an RTS request is issued" />
+          <Entry name="RPNEquation" type="RPNArray" shortDescription="Reverse Polish Equation that specifies when this actionpoint should fail" />
+          <Entry name="EventType" type="CFE_EVS/EventType" shortDescription="Event type used for event msg if AP fails: #CFE_EVS_EventType_INFORMATION, #CFE_EVS_EventType_DEBUG, #CFE_EVS_EventType_ERROR, or #CFE_EVS_EventType_CRITICAL" />
+          <Entry name="EventID" type="BASE_TYPES/uint16" shortDescription="Event ID used for event msg if AP fails.  See lc_events.h for those already in use" />
+          <Entry name="EventText" type="EventText" shortDescription="Text used for the event msg when this AP fails" />
+        </EntryList>
+      </ContainerDataType>
+
+     <ContainerDataType name="WDTEntry" shortDescription="#LC_WDTEntry_t">
+        <EntryList>
+          <Entry name="DataType" type="DATA_WATCH" shortDescription="Watchpoint Data Type (enumerated)" />
+          <Entry name="OperatorID" type="OPER" shortDescription="Comparison type (enumerated)" />
+          <Entry name="MessageID" type="CFE_SB/MsgId" shortDescription="Message ID for the message containing the watchpoint" />
+          <Entry name="WatchpointOffset" type="BASE_TYPES/uint32" shortDescription="Byte offset from the beginning of the message (including any headers) to the watchpoint " />
+          <Entry name="BitMask" type="BASE_TYPES/uint32" shortDescription="Byte offset from the beginning of the message (including any headers) to the watchpoint " />
+          <Entry name="ComparisonValue" type="MultiType" shortDescription="Value to be masked with watchpoint data prior to comparison" />
+          <Entry name="ResultAgeWhenStale" type="BASE_TYPES/uint32" shortDescription="Number of LC Sample Actionpoint commands that must be processed after comparison before result goes stale" />
+          <Entry name="CustomFuncArgument" type="BASE_TYPES/uint32" shortDescription="Data passed to the custom function  when Operator_ID is set to #LC_OPER_CUSTOM" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ArrayDataType name="ADTTable" dataTypeRef="ADTEntry">
+        <DimensionList>
+          <Dimension size="${LC/MAX_ACTIONPOINTS}" />
+        </DimensionList>
+      </ArrayDataType>
+
+      <ArrayDataType name="WDTTable" dataTypeRef="WDTEntry">
+        <DimensionList>
+          <Dimension size="${LC/MAX_WATCHPOINTS}" />
+        </DimensionList>
+      </ArrayDataType>
+
+      <ContainerDataType name="WRTTransition" shortDescription="Watchpoint Transition Structure" >
+        <EntryList>
+           <Entry name="Value" shortDescription="Watchpoint value at comparison that caused the transition" type="BASE_TYPES/uint32"/>
+           <Entry name="DataType" shortDescription="Same as Watchpoint Data Type (enumerated)" type="BASE_TYPES/uint8"/>
+           <Entry name="Pad1" type="BASE_TYPES/uint8" />
+           <Entry name="Pad2" type="BASE_TYPES/uint8" />
+           <Entry name="Pad3" type="BASE_TYPES/uint8" />
+           <Entry name="Timestamp" shortDescription="Timstamp when the transition was detected" type="CFE_TIME/SysTime"/>
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="WRTEntry" shortDescription="Watchpoint Results Table (WRT) Entry" >
+        <EntryList>
+           <Entry name="WatchResult" shortDescription="Result for the last evaluation of this watchpoint" type="BASE_TYPES/uint8" />
+           <Entry name="Pad1" type="BASE_TYPES/uint8" />
+           <Entry name="Pad2" type="BASE_TYPES/uint8" />
+           <Entry name="Pad3" type="BASE_TYPES/uint8" />
+           <Entry name="CountdownToStale" shortDescription="Number of LC Sample Actionpoint commands still to be processed before WatchResult becomes stale" type="BASE_TYPES/uint32" />
+           <Entry name="EvaluationCount" shortDescription="How many times this watchpoint has been evaluated" type="BASE_TYPES/uint32" />
+           <Entry name="FalseToTrueCount" shortDescription="How many times this watchpoint hastransitioned from FALSE to TRUE" type="BASE_TYPES/uint32" />
+           <Entry name="ConsecutiveTrueCount" shortDescription="Number of consecutive times this watchpoint has evaluated to TRUE" type="BASE_TYPES/uint32" />
+           <Entry name="CumulativeTrueCount" shortDescription="Total number of times this watchpoint has evaluated to TRUE" type="BASE_TYPES/uint32" />
+           <Entry name="LastFalseToTrue" shortDescription="Last transition from FALSE to TRUE" type="WRTTransition" />
+           <Entry name="LastTrueToFalse" shortDescription="Last transition from TRUE to FALSE" type="WRTTransition" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="ARTEntry" shortDescription="Actionpoint Results Table (ART) Entry" >
+        <EntryList>
+           <Entry name="ActionResult" shortDescription="Result for the last sample of this actionpoint" type="BASE_TYPES/uint8"/>
+           <Entry name="CurrentState" shortDescription="Current state of this actionpoint" type="BASE_TYPES/uint8"/>
+           <Entry name="Padding" type="BASE_TYPES/uint16" />
+           <Entry name="PassiveAPCount" shortDescription="Total number of times RTS not invoked because this AP was passive" type="BASE_TYPES/uint32" />
+           <Entry name="FailToPassCount" shortDescription="How many times this actionpoint has transitioned from Fail to Pass" type="BASE_TYPES/uint32" />
+           <Entry name="PassToFailCount" shortDescription="How many times this actionpoint has transitioned from Pass to Fail" type="BASE_TYPES/uint32" />
+           <Entry name="ConsecutiveFailCount" shortDescription="Number of consecutive times this actionpoint has evaluated to Fail" type="BASE_TYPES/uint32" />
+           <Entry name="CumulativeFailCount" shortDescription="Total number of times this actionpoint has evaluated to Fail" type="BASE_TYPES/uint32" />
+           <Entry name="CumulativeRTSExecCount" shortDescription="Total number of times an RTS request has been sent for this actionpoint" type="BASE_TYPES/uint32" />
+           <Entry name="CumulativeEventMsgsSent" shortDescription="Total number of event messages sent" type="BASE_TYPES/uint32" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ArrayDataType name="ARTTable" dataTypeRef="ARTEntry">
+        <DimensionList>
+           <Dimension size="${LC/MAX_ACTIONPOINTS}"/>
+        </DimensionList>
+      </ArrayDataType>
+
+      <ArrayDataType name="WRTTable" dataTypeRef="WRTEntry">
+        <DimensionList>
+           <Dimension size="${LC/MAX_WATCHPOINTS}"/>
+        </DimensionList>
+      </ArrayDataType>
+
+      <ContainerDataType name="HousekeepingPkt" baseType="CFE_HDR/TelemetryHeader">
+        <EntryList>
+          <Entry type="HkTlm_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+    </DataTypeSet>
+
+    <ComponentSet>
+      <Component name="Application">
+        <RequiredInterfaceSet>
+          <Interface name="LC_ADT" shortDescription="Actionpoint Definition Table" type="CFE_TBL/Table">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TableDataType" type="ADTTable" />
+            </GenericTypeMapSet>
+          </Interface>
+
+          <Interface name="LC_WDT" shortDescription="Watchpoint Definition Table" type="CFE_TBL/Table">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TableDataType" type="WDTTable" />
+            </GenericTypeMapSet>
+          </Interface>
+
+          <Interface name="LC_ART" shortDescription="Actionpoint Results Table" type="CFE_TBL/Table">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TableDataType" type="ARTTable" />
+            </GenericTypeMapSet>
+          </Interface>
+
+          <Interface name="LC_WRT" shortDescription="Watchpoint Results Table" type="CFE_TBL/Table">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TableDataType" type="WRTTable" />
+            </GenericTypeMapSet>
+          </Interface>
+          <Interface name="CMD" shortDescription="Software bus telecommand interface" type="CFE_SB/Telecommand">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TelecommandDataType" type="CMD" />
+            </GenericTypeMapSet>
+          </Interface>
+          <Interface name="SEND_HK" shortDescription="Send telemetry command interface" type="CFE_SB/Telecommand">
+            <!-- This uses a bare spacepacket with no payload -->
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TelecommandDataType" type="SendHkCmd" />
+            </GenericTypeMapSet>
+          </Interface>
+          <Interface name="SAMPLE_AP" shortDescription="Software bus telecommand interface" type="CFE_SB/Telecommand">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TelecommandDataType" type="SampleAPCmd" />
+            </GenericTypeMapSet>
+          </Interface>
+          <Interface name="HK_TLM" shortDescription="Software bus housekeeping telemetry interface" type="CFE_SB/Telemetry">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TelemetryDataType" type="HkPacket" />
+            </GenericTypeMapSet>
+          </Interface>
+        </RequiredInterfaceSet>
+        <Implementation>
+          <VariableSet>
+            <Variable type="BASE_TYPES/uint16" readOnly="true" name="CmdTopicId" initialValue="${CFE_MISSION/LC_CMD_TOPICID}" />
+            <Variable type="BASE_TYPES/uint16" readOnly="true" name="SampleAPTopicId" initialValue="${CFE_MISSION/LC_SAMPLE_AP_TOPICID}" />
+            <Variable type="BASE_TYPES/uint16" readOnly="true" name="SendHkTopicId" initialValue="${CFE_MISSION/LC_SEND_HK_TOPICID}" />
+            <Variable type="BASE_TYPES/uint16" readOnly="true" name="HkTlmTopicId" initialValue="${CFE_MISSION/LC_HK_TLM_TOPICID}" />
+          </VariableSet>
+          <!-- Assign fixed numbers to the "TopicId" parameter of each interface -->
+          <ParameterMapSet>
+            <ParameterMap interface="CMD" parameter="TopicId" variableRef="CmdTopicId" />
+            <ParameterMap interface="SAMPLE_AP" parameter="TopicId" variableRef="SampleAPTopicId" />
+            <ParameterMap interface="SEND_HK" parameter="TopicId" variableRef="SendHkTopicId" />
+            <ParameterMap interface="HK_TLM" parameter="TopicId" variableRef="HkTlmTopicId" />
+          </ParameterMapSet>
+        </Implementation>
+      </Component>
+
+    </ComponentSet>
+  </Package>
+</PackageFile>

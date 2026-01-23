@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -266,7 +265,7 @@ void LC_SendHkCmd_Test_WatchStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -316,7 +315,7 @@ void LC_SendHkCmd_Test_WatchFalse(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -366,7 +365,7 @@ void LC_SendHkCmd_Test_WatchTrue(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -417,7 +416,7 @@ void LC_SendHkCmd_Test_WatchError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -467,7 +466,7 @@ void LC_SendHkCmd_Test_DefaultWatchResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -518,7 +517,7 @@ void LC_SendHkCmd_Test_ActionNotUsedStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -569,7 +568,7 @@ void LC_SendHkCmd_Test_APStateActiveActionPass(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -622,7 +621,7 @@ void LC_SendHkCmd_Test_APStatePassiveActionFail(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -673,7 +672,7 @@ void LC_SendHkCmd_Test_APStateDisabledActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -724,7 +723,7 @@ void LC_SendHkCmd_Test_APStatePermOffActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -775,7 +774,7 @@ void LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -818,7 +817,7 @@ void LC_SendHkCmd_Test_ManageTablesError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), -1);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd.CommandHeader);
+    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
@@ -831,7 +830,7 @@ void LC_NoopCmd_Test(void)
 {
     LC_AppData.CmdCount = 1;
 
-    LC_NoopCmd(&UT_CmdBuf.Buf);
+    LC_NoopCmd(&UT_CmdBuf.NoopCmd);
 
     UtAssert_UINT8_EQ(LC_AppData.CmdCount, 2);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -839,7 +838,7 @@ void LC_NoopCmd_Test(void)
 
 void LC_ResetCountersCmd_Test(void)
 {
-    LC_ResetCountersCmd(&UT_CmdBuf.Buf);
+    LC_ResetCountersCmd(&UT_CmdBuf.ResetCountersCmd);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -884,7 +883,7 @@ void LC_SetLCStateCmd_Test_Active(void)
     PayloadPtr->NewLCState = LC_STATE_ACTIVE;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
+    LC_SetLCStateCmd(&UT_CmdBuf.SetLCStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_ACTIVE, "LC_AppData.CurrentLCState == LC_STATE_ACTIVE");
@@ -915,7 +914,7 @@ void LC_SetLCStateCmd_Test_Passive(void)
     PayloadPtr->NewLCState = LC_STATE_PASSIVE;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
+    LC_SetLCStateCmd(&UT_CmdBuf.SetLCStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_PASSIVE, "LC_AppData.CurrentLCState == LC_STATE_PASSIVE");
@@ -946,7 +945,7 @@ void LC_SetLCStateCmd_Test_Disabled(void)
     PayloadPtr->NewLCState = LC_STATE_DISABLED;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
+    LC_SetLCStateCmd(&UT_CmdBuf.SetLCStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_DISABLED, "LC_AppData.CurrentLCState == LC_STATE_DISABLED");
@@ -977,7 +976,7 @@ void LC_SetLCStateCmd_Test_Default(void)
     PayloadPtr->NewLCState = 99;
 
     /* Execute the function being tested */
-    LC_SetLCStateCmd(&UT_CmdBuf.Buf);
+    LC_SetLCStateCmd(&UT_CmdBuf.SetLCStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1009,7 +1008,7 @@ void LC_SetAPStateCmd_Test_Default(void)
     PayloadPtr->NewAPState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1047,7 +1046,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
     }
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
 
@@ -1100,7 +1099,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     LC_OperData.ARTPtr[0].CurrentState = LC_APSTATE_NOT_USED;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
 
@@ -1153,7 +1152,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
     LC_OperData.ARTPtr[0].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
 
@@ -1205,7 +1204,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
     }
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
 
@@ -1257,7 +1256,7 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
     }
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
 
@@ -1305,7 +1304,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_ACTIVE,
@@ -1340,7 +1339,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_NOT_USED;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_NOT_USED,
@@ -1375,7 +1374,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_PASSIVE,
@@ -1410,7 +1409,7 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == LC_APSTATE_DISABLED,
@@ -1445,7 +1444,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1479,7 +1478,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1513,7 +1512,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1547,7 +1546,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1580,7 +1579,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1612,7 +1611,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
-    LC_SetAPStateCmd(&UT_CmdBuf.Buf);
+    LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1640,7 +1639,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
     PayloadPtr->APNumber = LC_MAX_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
+    LC_SetAPPermOffCmd(&UT_CmdBuf.SetAPPermOffCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1669,7 +1668,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
     PayloadPtr->APNumber = LC_ALL_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
+    LC_SetAPPermOffCmd(&UT_CmdBuf.SetAPPermOffCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1701,7 +1700,7 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = 99;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
+    LC_SetAPPermOffCmd(&UT_CmdBuf.SetAPPermOffCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1732,7 +1731,7 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
     LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_DISABLED;
 
     /* Execute the function being tested */
-    LC_SetAPPermOffCmd(&UT_CmdBuf.Buf);
+    LC_SetAPPermOffCmd(&UT_CmdBuf.SetAPPermOffCmd);
 
     /* Verify results */
     UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == 4,
@@ -1763,7 +1762,7 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
     PayloadPtr->APNumber = LC_ALL_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
+    LC_ResetAPStatsCmd(&UT_CmdBuf.ResetAPStatsCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
@@ -1792,7 +1791,7 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
     PayloadPtr->APNumber = LC_MAX_ACTIONPOINTS - 1;
 
     /* Execute the function being tested */
-    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
+    LC_ResetAPStatsCmd(&UT_CmdBuf.ResetAPStatsCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
@@ -1821,7 +1820,7 @@ void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
     PayloadPtr->APNumber = LC_MAX_ACTIONPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetAPStatsCmd(&UT_CmdBuf.Buf);
+    LC_ResetAPStatsCmd(&UT_CmdBuf.ResetAPStatsCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
@@ -1951,7 +1950,7 @@ void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
     PayloadPtr->WPNumber = LC_ALL_WATCHPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
+    LC_ResetWPStatsCmd(&UT_CmdBuf.ResetWPStatsCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
@@ -1980,7 +1979,7 @@ void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
     PayloadPtr->WPNumber = LC_MAX_WATCHPOINTS - 1;
 
     /* Execute the function being tested */
-    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
+    LC_ResetWPStatsCmd(&UT_CmdBuf.ResetWPStatsCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
@@ -2008,7 +2007,7 @@ void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
     PayloadPtr->WPNumber = LC_MAX_WATCHPOINTS;
 
     /* Execute the function being tested */
-    LC_ResetWPStatsCmd(&UT_CmdBuf.Buf);
+    LC_ResetWPStatsCmd(&UT_CmdBuf.ResetWPStatsCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");

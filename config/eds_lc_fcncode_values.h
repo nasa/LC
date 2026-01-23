@@ -18,21 +18,22 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) command and telemetry
- *   message data types.
+ *   Specification for the CFS Limit Checker (LC) command function codes
  *
- * This is a compatibility header for the "lc_msg.h" file that has
- * traditionally provided the message definitions for cFS apps.
- *
- * @note This file may be overridden/superceded by mission-provided definitions
- * either by overriding this header or by generating definitions from a command/data
- * dictionary tool.
+ * @note
+ *   This file should be strictly limited to the command/function code (CC)
+ *   macro definitions.  Other definitions such as enums, typedefs, or other
+ *   macros should be placed in the msgdefs.h or msg.h files.
  */
-#ifndef DEFAULT_LC_MSG_H
-#define DEFAULT_LC_MSG_H
+#ifndef EDS_LC_FCNCODE_VALUES_H
+#define EDS_LC_FCNCODE_VALUES_H
 
-#include "lc_interface_cfg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgstruct.h"
+#include "lc_eds_cc.h"
+
+/************************************************************************
+ * Macro Definitions
+ ************************************************************************/
+
+#define LC_CCVAL(x) EDS_CONTAINER_LC_##x##_CC
 
 #endif

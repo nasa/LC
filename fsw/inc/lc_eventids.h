@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -21,8 +20,8 @@
  * @file
  *   Specification for the CFS Limit Checker (LC) event identifiers.
  */
-#ifndef LC_EVENTS_H
-#define LC_EVENTS_H
+#ifndef LC_EVENTIDS_H
+#define LC_EVENTIDS_H
 
 /**
  * \defgroup cfslcevents CFS Limit Checker Event IDs

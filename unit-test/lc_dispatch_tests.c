@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -74,13 +73,13 @@ void LC_AppPipe_Test_SampleAPRequest(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, 0, sizeof(LC_SampleAPCmd_t));
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_SampleAPReq, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, 0, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SampleAPReq, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -99,13 +98,13 @@ void LC_AppPipe_Test_SendHkCmd(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_SendHkCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, 0, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SendHkCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -123,13 +122,13 @@ void LC_AppPipe_Test_Noop(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, sizeof(LC_NoopCmd_t));
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_NoopCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_NoopCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -147,13 +146,13 @@ void LC_AppPipe_Test_Reset(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, sizeof(LC_ResetCountersCmd_t));
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_ResetCountersCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_ResetCountersCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -171,13 +170,13 @@ void LC_AppPipe_Test_SetLCState(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, sizeof(LC_SetLCStateCmd_t));
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_SetLCStateCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SetLCStateCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -197,13 +196,13 @@ void LC_AppPipe_Test_SetAPState(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_SetAPStateCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SetAPStateCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -221,13 +220,13 @@ void LC_AppPipe_Test_SetAPPermOff(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, sizeof(LC_SetAPPermOffCmd_t));
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_SetAPPermOffCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_SetAPPermOffCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -245,13 +244,13 @@ void LC_AppPipe_Test_ResetAPStats(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, sizeof(LC_ResetAPStatsCmd_t));
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_ResetAPStatsCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_ResetAPStatsCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -269,13 +268,13 @@ void LC_AppPipe_Test_ResetWPStats(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, sizeof(LC_ResetWPStatsCmd_t));
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_ResetWPStatsCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
     /* Bad Length */
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 1);
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     /* Verify handler NOT called again */
     UtAssert_STUB_COUNT(LC_ResetWPStatsCmd, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -293,7 +292,7 @@ void LC_AppPipe_Test_InvalidCommandCode(void)
     LC_Dispatch_Test_SetupMsg(TestMsgId, FcnCode, 0);
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CC_ERR_EID);
@@ -309,7 +308,7 @@ void LC_AppPipe_Test_MonitorPacket(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
     /* Execute the function being tested */
-    UtAssert_INT32_EQ(LC_AppPipe(&UT_CmdBuf.Buf), CFE_SUCCESS);
+    UtAssert_VOIDCALL(LC_AppPipe(&UT_CmdBuf.Buf));
     UtAssert_STUB_COUNT(LC_CheckMsgForWPs, 1);
 }
 

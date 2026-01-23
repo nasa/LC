@@ -18,21 +18,13 @@
 
 /**
  * @file
- *   Specification for the CFS Limit Checker (LC) command and telemetry
- *   message data types.
+ *   CFS Limit Checker (LC) Application Table Structure Definition
  *
- * This is a compatibility header for the "lc_msg.h" file that has
- * traditionally provided the message definitions for cFS apps.
- *
- * @note This file may be overridden/superceded by mission-provided definitions
- * either by overriding this header or by generating definitions from a command/data
- * dictionary tool.
  */
-#ifndef DEFAULT_LC_MSG_H
-#define DEFAULT_LC_MSG_H
 
-#include "lc_interface_cfg.h"
-#include "lc_msgdefs.h"
-#include "lc_msgstruct.h"
+#ifndef EDS_LC_TBLSTRUCT_H
+#define EDS_LC_TBLSTRUCT_H
+
+#include "lc_eds_typedefs.h"
 
 #endif

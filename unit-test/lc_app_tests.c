@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -265,6 +264,18 @@ void LC_AppMain_Test_SbTimeout(void)
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_PerformMaintenance)), 1);
 }
 
+void LC_AppMain_Test_SbNoMessage(void)
+{
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, true);
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, false);
+
+    UT_SetDeferredRetcode(UT_KEY(CFE_SB_ReceiveBuffer), 1, CFE_SB_NO_MESSAGE);
+
+    UtAssert_VOIDCALL(LC_AppMain());
+
+    UtAssert_STUB_COUNT(CFE_ES_ExitApp, 1);
+}
+
 void LC_AppInit_Test_Nominal(void)
 {
     CFE_Status_t Result;
@@ -292,7 +303,7 @@ void LC_AppInit_Test_Nominal(void)
     /* Note: not testing LC_OperData.ARTPtr == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.WDTHandle == 0, because it is modified by a subfunction */
     /* Note: not testing LC_OperData.ADTHandle == 0, because it is modified by a subfunction */
-    UtAssert_INT32_EQ(LC_OperData.WRTHandle, 0);
+    UtAssert_INT32_EQ(CFE_TBL_HANDLE_INT(LC_OperData.WRTHandle), 0);
     /* Note: not testing LC_OperData.ARTHandle == 0, because it is modified by a subfunction */
     UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.WRTDataCDSHandle));
     UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(LC_OperData.ARTDataCDSHandle));
@@ -1457,6 +1468,7 @@ void UtTest_Setup(void)
     UtTest_Add(LC_AppMain_Test_SbError, LC_Test_Setup, LC_Test_TearDown, "LC_AppMain_Test_SbError");
 
     UtTest_Add(LC_AppMain_Test_SbTimeout, LC_Test_Setup, LC_Test_TearDown, "LC_AppMain_Test_SbTimeout");
+    UtTest_Add(LC_AppMain_Test_SbNoMessage, LC_Test_Setup, LC_Test_TearDown, "LC_AppMain_Test_SbNoMessage");
 
 #ifndef LC_SAVE_TO_CDS /* default config unit test */
     UtTest_Add(LC_AppInit_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_AppInit_Test_Nominal");

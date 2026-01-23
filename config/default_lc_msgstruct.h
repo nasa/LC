@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -35,8 +34,8 @@
  *   declarations (see the main comment block in lc_msgdefs.h for more
  *   info).
  */
-#ifndef LC_MSGSTRUCT_H
-#define LC_MSGSTRUCT_H
+#ifndef DEFAULT_LC_MSGSTRUCT_H
+#define DEFAULT_LC_MSGSTRUCT_H
 
 /************************************************************************
  * Includes

@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -29,6 +28,7 @@
  * Includes
  *************************************************************************/
 #include "cfe.h"
+#include "lc_msg.h"
 
 /*************************************************************************
  * Exported Functions
@@ -103,10 +103,10 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       This message does not affect the command execution counter
  *
- *  \param[in] MsgPtr Pointer to command header
+ *  \param[in] msg Pointer to command header
  *
  */
-CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr);
+CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg);
 
 /**
  * \brief Noop command
@@ -117,11 +117,11 @@ CFE_Status_t LC_SendHkCmd(const CFE_MSG_CommandHeader_t *MsgPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] msg Pointer to command message
  *
  *  \sa #LC_NOOP_CC
  */
-void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg);
 
 /**
  * \brief Reset counters command
@@ -139,11 +139,11 @@ void LC_NoopCmd(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] msg Pointer to command message
  *
  *  \sa #LC_RESET_CC
  */
-void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg);
 
 /**
  * \brief Set LC state command
@@ -154,11 +154,11 @@ void LC_ResetCountersCmd(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] msg Pointer to command message
  *
  *  \sa #LC_SET_LC_STATE_CC
  */
-void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg);
 
 /**
  * \brief Set AP state command
@@ -169,11 +169,11 @@ void LC_SetLCStateCmd(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] msg Pointer to command message
  *
  *  \sa #LC_SET_AP_STATE_CC
  */
-void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg);
 
 /**
  * \brief Set AP permanently off command
@@ -184,11 +184,11 @@ void LC_SetAPStateCmd(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] msg Pointer to command message
  *
  *  \sa #LC_SET_AP_PERM_OFF_CC
  */
-void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg);
 
 /**
  * \brief Reset AP statistics command
@@ -199,11 +199,11 @@ void LC_SetAPPermOffCmd(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] msg Pointer to command message
  *
  *  \sa #LC_RESET_AP_STATS_CC
  */
-void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg);
 
 /**
  * \brief Reset WP statistics command
@@ -214,10 +214,10 @@ void LC_ResetAPStatsCmd(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] msg Pointer to command message
  *
  *  \sa #LC_RESET_WP_STATS_CC
  */
-void LC_ResetWPStatsCmd(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg);
 
 #endif

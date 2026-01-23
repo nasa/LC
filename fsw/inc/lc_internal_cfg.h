@@ -1,8 +1,7 @@
 /************************************************************************
- * NASA Docket No. GSC-18,921-1, and identified as “CFS Limit Checker
- * Application version 2.2.1”
+ * NASA Docket No. GSC-19,200-1, and identified as "cFS Draco"
  *
- * Copyright (c) 2021 United States Government as represented by the
+ * Copyright (c) 2023 United States Government as represented by the
  * Administrator of the National Aeronautics and Space Administration.
  * All Rights Reserved.
  *
@@ -19,19 +18,17 @@
 
 /**
  * @file
- *   CFS Limit Checker (LC) Application Private Config Definitions
- *
- * This provides default values for configurable items that are internal
- * to this module and do NOT affect the interface(s) of this module.  Changes
- * to items in this file only affect the local module and will be transparent
- * to external entities that are using the public interface(s).
- *
+ *   CFS Limit Checker (LC) Application Platform Configuration Header File
+
  * @note This file may be overridden/superceded by mission-provided definitions
  * either by overriding this header or by generating definitions from a command/data
  * dictionary tool.
  */
 #ifndef LC_INTERNAL_CFG_H
 #define LC_INTERNAL_CFG_H
+
+#include "lc_mission_cfg.h"
+#include "lc_internal_cfg_values.h"
 
 /**
  * \defgroup cfslcplatformcfg CFS Limit Checker Platform Configuration
@@ -53,7 +50,8 @@
  *       no limits on the definition.  Refer to CFE Executive Services
  *       for specific information on limits related to application names.
  */
-#define LC_APP_NAME "LC"
+#define LC_APP_NAME         LC_INTERNAL_CFGVAL(APP_NAME)
+#define DEFAULT_LC_APP_NAME "LC"
 
 /**
  * \brief Command Pipe Depth
@@ -67,7 +65,8 @@
  *       This parameter can't be larger than an unsigned 16 bit
  *       integer (65535).
  */
-#define LC_PIPE_DEPTH 12
+#define LC_PIPE_DEPTH         LC_INTERNAL_CFGVAL(PIPE_DEPTH)
+#define DEFAULT_LC_PIPE_DEPTH 12
 
 /**
  * \brief LC state after power-on reset
@@ -82,7 +81,8 @@
  *       #LC_STATE_PASSIVE
  *       #LC_STATE_DISABLED
  */
-#define LC_STATE_POWER_ON_RESET LC_STATE_DISABLED
+#define LC_STATE_POWER_ON_RESET         LC_INTERNAL_CFGVAL(STATE_POWER_ON_RESET)
+#define DEFAULT_LC_STATE_POWER_ON_RESET LC_STATE_DISABLED
 
 /**
  * \brief Save data to CDS compiler switch
@@ -98,7 +98,8 @@
  *  \par Limits:
  *       n/a
  */
-/* #define LC_SAVE_TO_CDS */
+/* #define LC_SAVE_TO_CDS         LC_INTERNAL_CFGVAL(SAVE_TO_CDS)
+   #define DEFAULT_LC_SAVE_TO_CDS */
 
 /**
  * \brief LC state when CDS is restored
@@ -122,7 +123,8 @@
  *       #LC_STATE_DISABLED
  *       #LC_STATE_FROM_CDS
  */
-#define LC_STATE_WHEN_CDS_RESTORED LC_STATE_FROM_CDS
+#define LC_STATE_WHEN_CDS_RESTORED         LC_INTERNAL_CFGVAL(STATE_WHEN_CDS_RESTORED)
+#define DEFAULT_LC_STATE_WHEN_CDS_RESTORED LC_STATE_FROM_CDS
 
 /**
  * \brief Watchpoint Definition Table (WDT) filename
@@ -135,7 +137,8 @@
  *       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
  *       target platform in question
  */
-#define LC_WDT_FILENAME "/cf/lc_def_wdt.tbl"
+#define LC_WDT_FILENAME         LC_INTERNAL_CFGVAL(WDT_FILENAME)
+#define DEFAULT_LC_WDT_FILENAME "/cf/lc_def_wdt.tbl"
 
 /**
  * \brief Actionpoint Definition Table (ADT) filename
@@ -148,7 +151,8 @@
  *       This string shouldn't be longer than #OS_MAX_PATH_LEN for the
  *       target platform in question
  */
-#define LC_ADT_FILENAME "/cf/lc_def_adt.tbl"
+#define LC_ADT_FILENAME         LC_INTERNAL_CFGVAL(ADT_FILENAME)
+#define DEFAULT_LC_ADT_FILENAME "/cf/lc_def_adt.tbl"
 
 /**
  * \brief Maximum valid ADT RTS ID
@@ -161,7 +165,8 @@
  *       This parameter can't be larger than an unsigned 16 bit
  *       integer (65535).
  */
-#define LC_MAX_VALID_ADT_RTSID 0xFFF0
+#define LC_MAX_VALID_ADT_RTSID         LC_INTERNAL_CFGVAL(MAX_VALID_ADT_RTSID)
+#define DEFAULT_LC_MAX_VALID_ADT_RTSID 0xFFF0
 
 /**
  * \brief Floating Point Compare Tolerance
@@ -174,16 +179,24 @@
  *  \par Limits:
  *       The LC app does not place a limit on this parameter.
  */
-#define LC_FLOAT_TOLERANCE (1.0e-25)
+#define LC_FLOAT_TOLERANCE         LC_INTERNAL_CFGVAL(FLOAT_TOLERANCE)
+#define DEFAULT_LC_FLOAT_TOLERANCE (1.0e-25)
 
 /**
  * \name LC Table Name Strings
  * \{
  */
-#define LC_WDT_TABLENAME "LC_WDT"
-#define LC_ADT_TABLENAME "LC_ADT"
-#define LC_WRT_TABLENAME "LC_WRT"
-#define LC_ART_TABLENAME "LC_ART"
+#define LC_WDT_TABLENAME         LC_INTERNAL_CFGVAL(WDT_TABLENAME)
+#define DEFAULT_LC_WDT_TABLENAME "LC_WDT"
+
+#define LC_ADT_TABLENAME         LC_INTERNAL_CFGVAL(ADT_TABLENAME)
+#define DEFAULT_LC_ADT_TABLENAME "LC_ADT"
+
+#define LC_WRT_TABLENAME         LC_INTERNAL_CFGVAL(WRT_TABLENAME)
+#define DEFAULT_LC_WRT_TABLENAME "LC_WRT"
+
+#define LC_ART_TABLENAME         LC_INTERNAL_CFGVAL(ART_TABLENAME)
+#define DEFAULT_LC_ART_TABLENAME "LC_ART"
 /**\}*/
 
 /**
@@ -200,7 +213,8 @@
  *       Must be defined as a numeric value that is greater than
  *       or equal to zero.
  */
-#define LC_MISSION_REV 0
+#define LC_MISSION_REV         LC_INTERNAL_CFGVAL(MISSION_REV)
+#define DEFAULT_LC_MISSION_REV 0
 
 /**\}*/
 
