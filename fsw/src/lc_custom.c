@@ -62,8 +62,10 @@ void LC_ExecuteRTS(uint16 RTSId)
 /* NOTE: For complete prolog information, see 'lc_custom.h'        */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_Buffer_t *BufPtr,
-                        uint32 WDTCustomFuncArg)
+uint8 LC_CustomFunction(uint16                 WatchIndex,
+                        uint32                 ProcessedWPData,
+                        const CFE_SB_Buffer_t *BufPtr,
+                        uint32                 WDTCustomFuncArg)
 {
     uint8 EvalResult = LC_WATCH_FALSE;
 
@@ -82,7 +84,9 @@ uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_
         case 0x0000:
         case 0x0001:
         default:
-            CFE_EVS_SendEvent(LC_CFCALL_ERR_EID, CFE_EVS_EventType_ERROR, "Unexpected LC_CustomFunction call: WP = %d",
+            CFE_EVS_SendEvent(LC_CFCALL_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Unexpected LC_CustomFunction call: WP = %d",
                               WatchIndex);
             break;
 

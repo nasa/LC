@@ -79,7 +79,9 @@ CFE_Status_t LC_ManageTables(void)
     }
     else if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting WDT address, RC=0x%08X",
+        CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error getting WDT address, RC=0x%08X",
                           (unsigned int)Result);
         return Result;
     }
@@ -95,7 +97,9 @@ CFE_Status_t LC_ManageTables(void)
     }
     else if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting ADT address, RC=0x%08X",
+        CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error getting ADT address, RC=0x%08X",
                           (unsigned int)Result);
         return Result;
     }
@@ -120,8 +124,10 @@ CFE_Status_t LC_UpdateTaskCDS(void)
 
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_WRT_NO_SAVE_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Unable to update watchpoint results in CDS, RC=0x%08X", (unsigned int)Result);
+        CFE_EVS_SendEvent(LC_WRT_NO_SAVE_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Unable to update watchpoint results in CDS, RC=0x%08X",
+                          (unsigned int)Result);
         return Result;
     }
 
@@ -132,8 +138,10 @@ CFE_Status_t LC_UpdateTaskCDS(void)
 
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_ART_NO_SAVE_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Unable to update actionpoint results in CDS, RC=0x%08X", (unsigned int)Result);
+        CFE_EVS_SendEvent(LC_ART_NO_SAVE_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Unable to update actionpoint results in CDS, RC=0x%08X",
+                          (unsigned int)Result);
         return Result;
     }
 
@@ -149,8 +157,10 @@ CFE_Status_t LC_UpdateTaskCDS(void)
 
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_APP_NO_SAVE_START_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Unable to update application data in CDS, RC=0x%08X", (unsigned int)Result);
+        CFE_EVS_SendEvent(LC_APP_NO_SAVE_START_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Unable to update application data in CDS, RC=0x%08X",
+                          (unsigned int)Result);
         return Result;
     }
 

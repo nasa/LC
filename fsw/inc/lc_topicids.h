@@ -16,27 +16,26 @@
  * limitations under the License.
  ************************************************************************/
 
- /**
+/**
  * @file
  *   CFS Limit Checker (LC) Application Topic IDs
  */
 
- #ifndef LC_TOPICIDS_H
- #define LC_TOPICIDS_H
+#ifndef LC_TOPICIDS_H
+#define LC_TOPICIDS_H
 
 #include "lc_topicid_values.h"
 
+#define LC_MISSION_CMD_TOPICID         LC_MISSION_TIDVAL(CMD)
+#define DEFAULT_LC_MISSION_CMD_TOPICID 0xA4
 
-#define LC_MISSION_CMD_TOPICID               LC_MISSION_TIDVAL(CMD)
-#define DEFAULT_LC_MISSION_CMD_TOPICID       0xA4
-
-#define LC_MISSION_SEND_HK_TOPICID           LC_MISSION_TIDVAL(SEND_HK)
-#define DEFAULT_LC_MISSION_SEND_HK_TOPICID   0xA5
+#define LC_MISSION_SEND_HK_TOPICID         LC_MISSION_TIDVAL(SEND_HK)
+#define DEFAULT_LC_MISSION_SEND_HK_TOPICID 0xA5
 
 #define LC_MISSION_SAMPLE_AP_TOPICID         LC_MISSION_TIDVAL(SAMPLE_AP)
 #define DEFAULT_LC_MISSION_SAMPLE_AP_TOPICID 0xA6
 
-#define LC_MISSION_HK_TLM_TOPICID            LC_MISSION_TIDVAL(HK_TLM)
-#define DEFAULT_LC_MISSION_HK_TLM_TOPICID    0xA7
+#define LC_MISSION_HK_TLM_TOPICID         LC_MISSION_TIDVAL(HK_TLM)
+#define DEFAULT_LC_MISSION_HK_TLM_TOPICID 0xA7
 
 #endif

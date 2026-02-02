@@ -93,7 +93,9 @@ void LC_ExecuteRTS(uint16 RTSId);
  *
  *  \sa #LC_WDTEntry_t
  */
-uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_Buffer_t *BufPtr,
-                        uint32 WDTCustomFuncArg);
+uint8 LC_CustomFunction(uint16                 WatchIndex,
+                        uint32                 ProcessedWPData,
+                        const CFE_SB_Buffer_t *BufPtr,
+                        uint32                 WDTCustomFuncArg);
 
 #endif

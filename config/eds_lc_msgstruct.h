@@ -16,7 +16,7 @@
  * limitations under the License.
  ************************************************************************/
 
- /**
+/**
  * @file
  *   Specification for the LC command and telemetry
  *   message data types.

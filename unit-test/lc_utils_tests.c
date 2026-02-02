@@ -157,7 +157,8 @@ void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Unable to update watchpoint results in CDS, RC=0x%%08X");
 
     /* Set to generate error message LC_WRT_NO_SAVE_ERR_EID */
@@ -184,7 +185,8 @@ void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Unable to update actionpoint results in CDS, RC=0x%%08X");
 
     /* Set to generate error message LC_ART_NO_SAVE_ERR_EID */
@@ -210,7 +212,8 @@ void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Unable to update application data in CDS, RC=0x%%08X");
 
     /* Set to generate error message LC_APP_NO_SAVE_START_ERR_EID */
@@ -320,25 +323,43 @@ void UtTest_Setup(void)
 {
     UtTest_Add(LC_ManageTables_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_ManageTables_Test_Nominal");
     UtTest_Add(LC_ManageTables_Test_InfoUpdated, LC_Test_Setup, LC_Test_TearDown, "LC_ManageTables_Test_InfoUpdated");
-    UtTest_Add(LC_ManageTables_Test_WDTGetAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ManageTables_Test_WDTGetAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ManageTables_Test_WDTGetAddressError");
-    UtTest_Add(LC_ManageTables_Test_ADTGetAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ManageTables_Test_ADTGetAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ManageTables_Test_ADTGetAddressError");
 
-    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateWatchpointError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateWatchpointError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_UpdateTaskCDS_Test_UpdateWatchpointError");
-    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateActionpointError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateActionpointError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_UpdateTaskCDS_Test_UpdateActionpointError");
-    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateAppDataError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateAppDataError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_UpdateTaskCDS_Test_UpdateAppDataError");
     UtTest_Add(LC_UpdateTaskCDS_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_UpdateTaskCDS_Test_Nominal");
 
-    UtTest_Add(LC_PerformMaintenance_Test_NominalNoCDS, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_PerformMaintenance_Test_NominalNoCDS,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_PerformMaintenance_Test_NominalNoCDS");
-    UtTest_Add(LC_PerformMaintenance_Test_NominalCDS, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_PerformMaintenance_Test_NominalCDS,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_PerformMaintenance_Test_NominalCDS");
-    UtTest_Add(LC_PerformMaintenance_Test_UpdateCDSFail, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_PerformMaintenance_Test_UpdateCDSFail,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_PerformMaintenance_Test_UpdateCDSFail");
-    UtTest_Add(LC_PerformMaintenance_Test_ManageTablesFail, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_PerformMaintenance_Test_ManageTablesFail,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_PerformMaintenance_Test_ManageTablesFail");
 }

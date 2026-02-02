@@ -71,9 +71,12 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *msgPtr, size_t ExpectedLength)
             ** For a bad HK request, just send the event. We only increment
             ** the error counter for ground commands and not internal messages.
             */
-            CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_HKREQ_LEN_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Invalid HK request msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                              (unsigned long)CFE_SB_MsgIdToValue(MsgId), CommandCode, (int)ActualLength,
+                              (unsigned long)CFE_SB_MsgIdToValue(MsgId),
+                              CommandCode,
+                              (int)ActualLength,
                               (int)ExpectedLength);
         }
         else if (CFE_SB_MsgId_Equal(MsgId, SAMPLE_AP_MID))
@@ -81,9 +84,12 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *msgPtr, size_t ExpectedLength)
             /*
             ** Same thing as previous for a bad actionpoint sample request
             */
-            CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_APSAMPLE_LEN_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Invalid AP sample msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                              (unsigned long)CFE_SB_MsgIdToValue(MsgId), CommandCode, (int)ActualLength,
+                              (unsigned long)CFE_SB_MsgIdToValue(MsgId),
+                              CommandCode,
+                              (int)ActualLength,
                               (int)ExpectedLength);
         }
         else
@@ -91,9 +97,12 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *msgPtr, size_t ExpectedLength)
             /*
             ** All other cases, increment error counter
             */
-            CFE_EVS_SendEvent(LC_CMD_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_CMD_LEN_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %d, Expected = %d",
-                              (unsigned long)CFE_SB_MsgIdToValue(MsgId), CommandCode, (int)ActualLength,
+                              (unsigned long)CFE_SB_MsgIdToValue(MsgId),
+                              CommandCode,
+                              (int)ActualLength,
                               (int)ExpectedLength);
             LC_AppData.CmdErrCount++;
         }
@@ -288,9 +297,11 @@ void LC_AppProcessCmd(const CFE_SB_Buffer_t *BufPtr)
 
         default:
             CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
-            CFE_EVS_SendEvent(LC_CC_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_CC_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Invalid command code: ID = 0x%08lX, CC = %d",
-                              (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode);
+                              (unsigned long)CFE_SB_MsgIdToValue(MessageID),
+                              CommandCode);
             LC_AppData.CmdErrCount++;
             break;
     }

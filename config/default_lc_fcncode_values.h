@@ -29,10 +29,10 @@
  * Macro Definitions
  ************************************************************************/
 
- #define LC_CCVAL(x) LC_FunctionCode_##x
+#define LC_CCVAL(x) LC_FunctionCode_##x
 
- enum LC_FunctionCode
- {
+enum LC_FunctionCode
+{
     LC_FunctionCode_NOOP            = 0,
     LC_FunctionCode_RESET_COUNTERS  = 1,
     LC_FunctionCode_SET_LC_STATE    = 2,
@@ -40,6 +40,6 @@
     LC_FunctionCode_SET_AP_PERM_OFF = 4,
     LC_FunctionCode_RESET_AP_STATS  = 5,
     LC_FunctionCode_RESET_WP_STATS  = 6,
- };
+};
 
- #endif
+#endif

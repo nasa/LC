@@ -120,7 +120,7 @@ void LC_AppMain(void)
             /* no action, but also no error */
             Status = CFE_SUCCESS;
         }
-	else if (Status == CFE_SUCCESS)
+        else if (Status == CFE_SUCCESS)
         {
             LC_AppPipe(BufPtr);
         }
@@ -148,7 +148,9 @@ void LC_AppMain(void)
         /*
         ** Send an event describing the reason for the termination
         */
-        CFE_EVS_SendEvent(LC_TASK_EXIT_EID, CFE_EVS_EventType_CRITICAL, "Task terminating, err = 0x%08X",
+        CFE_EVS_SendEvent(LC_TASK_EXIT_EID,
+                          CFE_EVS_EventType_CRITICAL,
+                          "Task terminating, err = 0x%08X",
                           (unsigned int)Status);
 
         /*
@@ -219,8 +221,13 @@ CFE_Status_t LC_AppInit(void)
         ** If we get here, all is good
         ** Issue the application startup event message
         */
-        CFE_EVS_SendEvent(LC_INIT_INF_EID, CFE_EVS_EventType_INFORMATION, "LC Initialized. Version %d.%d.%d.%d",
-                          LC_MAJOR_VERSION, LC_MINOR_VERSION, LC_REVISION, LC_MISSION_REV);
+        CFE_EVS_SendEvent(LC_INIT_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
+                          "LC Initialized. Version %d.%d.%d.%d",
+                          LC_MAJOR_VERSION,
+                          LC_MINOR_VERSION,
+                          LC_REVISION,
+                          LC_MISSION_REV);
     }
 
     return Status;
@@ -267,7 +274,8 @@ CFE_Status_t LC_SbInit(void)
     /*
     ** Initialize housekeeping packet...
     */
-    CFE_MSG_Init(CFE_MSG_PTR(LC_OperData.HkPacket.TelemetryHeader), CFE_SB_ValueToMsgId(LC_HK_TLM_MID),
+    CFE_MSG_Init(CFE_MSG_PTR(LC_OperData.HkPacket.TelemetryHeader),
+                 CFE_SB_ValueToMsgId(LC_HK_TLM_MID),
                  sizeof(LC_HkPacket_t));
 
     /*
@@ -276,7 +284,9 @@ CFE_Status_t LC_SbInit(void)
     Status = CFE_SB_CreatePipe(&LC_OperData.CmdPipe, LC_PIPE_DEPTH, LC_PIPE_NAME);
     if (Status != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_CR_PIPE_ERR_EID, CFE_EVS_EventType_ERROR, "Error Creating LC Pipe, RC=0x%08X",
+        CFE_EVS_SendEvent(LC_CR_PIPE_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error Creating LC Pipe, RC=0x%08X",
                           (unsigned int)Status);
     }
 
@@ -288,8 +298,10 @@ CFE_Status_t LC_SbInit(void)
         Status = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(LC_SEND_HK_MID), LC_OperData.CmdPipe);
         if (Status != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(LC_SUB_HK_REQ_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Error Subscribing to HK Request, MID=0x%08X, RC=0x%08X", LC_SEND_HK_MID,
+            CFE_EVS_SendEvent(LC_SUB_HK_REQ_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error Subscribing to HK Request, MID=0x%08X, RC=0x%08X",
+                              LC_SEND_HK_MID,
                               (unsigned int)Status);
         }
     }
@@ -302,8 +314,11 @@ CFE_Status_t LC_SbInit(void)
         Status = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(LC_CMD_MID), LC_OperData.CmdPipe);
         if (Status != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(LC_SUB_GND_CMD_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Error Subscribing to GND CMD, MID=0x%08X, RC=0x%08X", LC_CMD_MID, (unsigned int)Status);
+            CFE_EVS_SendEvent(LC_SUB_GND_CMD_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error Subscribing to GND CMD, MID=0x%08X, RC=0x%08X",
+                              LC_CMD_MID,
+                              (unsigned int)Status);
         }
     }
 
@@ -315,8 +330,10 @@ CFE_Status_t LC_SbInit(void)
         Status = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID), LC_OperData.CmdPipe);
         if (Status != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(LC_SUB_SAMPLE_CMD_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Error Subscribing to Sample CMD, MID=0x%08X, RC=0x%08X", LC_SAMPLE_AP_MID,
+            CFE_EVS_SendEvent(LC_SUB_SAMPLE_CMD_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error Subscribing to Sample CMD, MID=0x%08X, RC=0x%08X",
+                              LC_SAMPLE_AP_MID,
                               (unsigned int)Status);
         }
     }
@@ -418,11 +435,11 @@ CFE_Status_t LC_TableInit(void)
     */
     if (Result == CFE_SUCCESS)
     {
-        if (((LC_OperData.TableResults & LC_WRT_CDS_RESTORED) == LC_WRT_CDS_RESTORED) &&
-            ((LC_OperData.TableResults & LC_ART_CDS_RESTORED) == LC_ART_CDS_RESTORED) &&
-            ((LC_OperData.TableResults & LC_APP_CDS_RESTORED) == LC_APP_CDS_RESTORED) &&
-            ((LC_OperData.TableResults & LC_WDT_TBL_RESTORED) == LC_WDT_TBL_RESTORED) &&
-            ((LC_OperData.TableResults & LC_ADT_TBL_RESTORED) == LC_ADT_TBL_RESTORED))
+        if (((LC_OperData.TableResults & LC_WRT_CDS_RESTORED) == LC_WRT_CDS_RESTORED)
+            && ((LC_OperData.TableResults & LC_ART_CDS_RESTORED) == LC_ART_CDS_RESTORED)
+            && ((LC_OperData.TableResults & LC_APP_CDS_RESTORED) == LC_APP_CDS_RESTORED)
+            && ((LC_OperData.TableResults & LC_WDT_TBL_RESTORED) == LC_WDT_TBL_RESTORED)
+            && ((LC_OperData.TableResults & LC_ADT_TBL_RESTORED) == LC_ADT_TBL_RESTORED))
         {
             LC_OperData.TableResults |= LC_CDS_RESTORED;
 
@@ -433,8 +450,10 @@ CFE_Status_t LC_TableInit(void)
 
             if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
             {
-                CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Error getting WDT address, RC=0x%08X", (unsigned int)Result);
+                CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Error getting WDT address, RC=0x%08X",
+                                  (unsigned int)Result);
             }
 
             /*
@@ -446,8 +465,10 @@ CFE_Status_t LC_TableInit(void)
 
                 if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
                 {
-                    CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR,
-                                      "Error getting ADT address, RC=0x%08X", (unsigned int)Result);
+                    CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID,
+                                      CFE_EVS_EventType_ERROR,
+                                      "Error getting ADT address, RC=0x%08X",
+                                      (unsigned int)Result);
                 }
             }
         }
@@ -476,19 +497,22 @@ CFE_Status_t LC_TableInit(void)
         {
             if ((LC_OperData.TableResults & LC_CDS_RESTORED) == LC_CDS_RESTORED)
             {
-                CFE_EVS_SendEvent(LC_CDS_RESTORED_INF_EID, CFE_EVS_EventType_INFORMATION,
+                CFE_EVS_SendEvent(LC_CDS_RESTORED_INF_EID,
+                                  CFE_EVS_EventType_INFORMATION,
                                   "Previous state restored from Critical Data Store");
             }
             else if ((LC_OperData.TableResults & LC_CDS_UPDATED) == LC_CDS_UPDATED)
             {
-                CFE_EVS_SendEvent(LC_CDS_UPDATED_INF_EID, CFE_EVS_EventType_INFORMATION,
+                CFE_EVS_SendEvent(LC_CDS_UPDATED_INF_EID,
+                                  CFE_EVS_EventType_INFORMATION,
                                   "Default state loaded and written to CDS, activity mask = 0x%08X",
                                   (unsigned int)LC_OperData.TableResults);
             }
         }
         else
         {
-            CFE_EVS_SendEvent(LC_CDS_DISABLED_INF_EID, CFE_EVS_EventType_INFORMATION,
+            CFE_EVS_SendEvent(LC_CDS_DISABLED_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
                               "LC use of Critical Data Store disabled, activity mask = 0x%08X",
                               (unsigned int)LC_OperData.TableResults);
         }
@@ -522,7 +546,9 @@ CFE_Status_t LC_CreateResultTables(void)
     Result   = CFE_TBL_Register(&LC_OperData.WRTHandle, LC_WRT_TABLENAME, DataSize, OptionFlags, NULL);
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(LC_WRT_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR, "Error registering WRT, RC=0x%08X",
+        CFE_EVS_SendEvent(LC_WRT_REGISTER_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error registering WRT, RC=0x%08X",
                           (unsigned int)Result);
     }
     else
@@ -531,7 +557,9 @@ CFE_Status_t LC_CreateResultTables(void)
 
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(LC_WRT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting WRT address, RC=0x%08X",
+            CFE_EVS_SendEvent(LC_WRT_GETADDR_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error getting WRT address, RC=0x%08X",
                               (unsigned int)Result);
         }
     }
@@ -548,7 +576,9 @@ CFE_Status_t LC_CreateResultTables(void)
         Result   = CFE_TBL_Register(&LC_OperData.ARTHandle, LC_ART_TABLENAME, DataSize, OptionFlags, NULL);
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(LC_ART_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR, "Error registering ART, RC=0x%08X",
+            CFE_EVS_SendEvent(LC_ART_REGISTER_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error registering ART, RC=0x%08X",
                               (unsigned int)Result);
         }
     }
@@ -559,7 +589,9 @@ CFE_Status_t LC_CreateResultTables(void)
 
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(LC_ART_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting ART address, RC=0x%08X",
+            CFE_EVS_SendEvent(LC_ART_GETADDR_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error getting ART address, RC=0x%08X",
                               (unsigned int)Result);
         }
     }
@@ -604,7 +636,8 @@ CFE_Status_t LC_CreateDefinitionTables(void)
         LC_OperData.HaveActiveCDS = false;
         OptionFlags               = CFE_TBL_OPT_DEFAULT;
 
-        CFE_EVS_SendEvent(LC_WDT_REGISTER_CRIT_ERR_EID, CFE_EVS_EventType_ERROR,
+        CFE_EVS_SendEvent(LC_WDT_REGISTER_CRIT_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
                           "Error registering WDT as critical table, retrying with default options, RC=0x%08X",
                           (unsigned int)Result);
 
@@ -618,7 +651,7 @@ CFE_Status_t LC_CreateDefinitionTables(void)
     {
         LC_OperData.TableResults |= LC_WDT_CRITICAL_TBL;
         LC_OperData.TableResults |= LC_WDT_TBL_RESTORED;
-        Result = CFE_SUCCESS;
+        Result                    = CFE_SUCCESS;
     }
     else if (Result == CFE_SUCCESS)
     {
@@ -637,7 +670,9 @@ CFE_Status_t LC_CreateDefinitionTables(void)
         ** Task initialization fails without this table
         **
         */
-        CFE_EVS_SendEvent(LC_WDT_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR, "Error registering WDT, RC=0x%08X",
+        CFE_EVS_SendEvent(LC_WDT_REGISTER_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error registering WDT, RC=0x%08X",
                           (unsigned int)Result);
     }
 
@@ -654,7 +689,8 @@ CFE_Status_t LC_CreateDefinitionTables(void)
             LC_OperData.HaveActiveCDS = false;
             OptionFlags               = CFE_TBL_OPT_DEFAULT;
 
-            CFE_EVS_SendEvent(LC_ADT_REGISTER_CRIT_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_ADT_REGISTER_CRIT_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Error registering ADT as critical table, retrying with default options, RC=0x%08X",
                               (unsigned int)Result);
 
@@ -668,7 +704,7 @@ CFE_Status_t LC_CreateDefinitionTables(void)
         {
             LC_OperData.TableResults |= LC_ADT_CRITICAL_TBL;
             LC_OperData.TableResults |= LC_ADT_TBL_RESTORED;
-            Result = CFE_SUCCESS;
+            Result                    = CFE_SUCCESS;
         }
         else if (Result == CFE_SUCCESS)
         {
@@ -686,7 +722,9 @@ CFE_Status_t LC_CreateDefinitionTables(void)
             /*
             ** Task initialization fails without this table
             */
-            CFE_EVS_SendEvent(LC_ADT_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR, "Error registering ADT, RC=0x%08X",
+            CFE_EVS_SendEvent(LC_ADT_REGISTER_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error registering ADT, RC=0x%08X",
                               (unsigned int)Result);
         }
     }
@@ -696,8 +734,8 @@ CFE_Status_t LC_CreateDefinitionTables(void)
         /*
         ** In case we created a critical WDT and then created a non-critical ADT
         */
-        if (((LC_OperData.TableResults & LC_WDT_CRITICAL_TBL) == LC_WDT_CRITICAL_TBL) &&
-            ((LC_OperData.TableResults & LC_ADT_NOT_CRITICAL) == LC_ADT_NOT_CRITICAL))
+        if (((LC_OperData.TableResults & LC_WDT_CRITICAL_TBL) == LC_WDT_CRITICAL_TBL)
+            && ((LC_OperData.TableResults & LC_ADT_NOT_CRITICAL) == LC_ADT_NOT_CRITICAL))
         {
             /*
             ** Un-register the critical watchpoint Definition Table (WDT)
@@ -719,8 +757,10 @@ CFE_Status_t LC_CreateDefinitionTables(void)
                 /*
                 ** Task initialization fails without this table
                 */
-                CFE_EVS_SendEvent(LC_WDT_REREGISTER_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Error re-registering WDT, RC=0x%08X", (unsigned int)Result);
+                CFE_EVS_SendEvent(LC_WDT_REREGISTER_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Error re-registering WDT, RC=0x%08X",
+                                  (unsigned int)Result);
             }
         }
     }
@@ -768,8 +808,10 @@ CFE_Status_t LC_CreateTaskCDS(void)
     }
     else
     {
-        CFE_EVS_SendEvent(LC_WRT_CDS_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Error registering WRT CDS Area, RC=0x%08X", (unsigned int)Result);
+        CFE_EVS_SendEvent(LC_WRT_CDS_REGISTER_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error registering WRT CDS Area, RC=0x%08X",
+                          (unsigned int)Result);
         return Result;
     }
 
@@ -802,8 +844,10 @@ CFE_Status_t LC_CreateTaskCDS(void)
     }
     else
     {
-        CFE_EVS_SendEvent(LC_ART_CDS_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Error registering ART CDS Area, RC=0x%08X", (unsigned int)Result);
+        CFE_EVS_SendEvent(LC_ART_CDS_REGISTER_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error registering ART CDS Area, RC=0x%08X",
+                          (unsigned int)Result);
         return Result;
     }
 
@@ -847,8 +891,10 @@ CFE_Status_t LC_CreateTaskCDS(void)
     }
     else
     {
-        CFE_EVS_SendEvent(LC_APP_CDS_REGISTER_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Error registering application data CDS Area, RC=0x%08X", (unsigned int)Result);
+        CFE_EVS_SendEvent(LC_APP_CDS_REGISTER_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error registering application data CDS Area, RC=0x%08X",
+                          (unsigned int)Result);
         return Result;
     }
 
@@ -879,8 +925,11 @@ CFE_Status_t LC_LoadDefaultTables(void)
         /*
         ** Task initialization fails without this table
         */
-        CFE_EVS_SendEvent(LC_WDT_LOAD_ERR_EID, CFE_EVS_EventType_ERROR, "Error (RC=0x%08X) Loading WDT with '%s'",
-                          (unsigned int)Result, LC_WDT_FILENAME);
+        CFE_EVS_SendEvent(LC_WDT_LOAD_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Error (RC=0x%08X) Loading WDT with '%s'",
+                          (unsigned int)Result,
+                          LC_WDT_FILENAME);
     }
 
     if (Result == CFE_SUCCESS)
@@ -892,7 +941,9 @@ CFE_Status_t LC_LoadDefaultTables(void)
 
         if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
         {
-            CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting WDT address, RC=0x%08X",
+            CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error getting WDT address, RC=0x%08X",
                               (unsigned int)Result);
         }
     }
@@ -913,8 +964,11 @@ CFE_Status_t LC_LoadDefaultTables(void)
             /*
             ** Task initialization fails without this table
             */
-            CFE_EVS_SendEvent(LC_ADT_LOAD_ERR_EID, CFE_EVS_EventType_ERROR, "Error (RC=0x%08X) Loading ADT with '%s'",
-                              (unsigned int)Result, LC_ADT_FILENAME);
+            CFE_EVS_SendEvent(LC_ADT_LOAD_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error (RC=0x%08X) Loading ADT with '%s'",
+                              (unsigned int)Result,
+                              LC_ADT_FILENAME);
         }
     }
 
@@ -927,7 +981,9 @@ CFE_Status_t LC_LoadDefaultTables(void)
 
         if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
         {
-            CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID, CFE_EVS_EventType_ERROR, "Error getting ADT address, RC=0x%08X",
+            CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error getting ADT address, RC=0x%08X",
                               (unsigned int)Result);
         }
     }
@@ -951,8 +1007,8 @@ CFE_Status_t LC_LoadDefaultTables(void)
         /*
         ** Set LC operational state to configured startup value
         */
-        LC_AppData.CurrentLCState = LC_STATE_POWER_ON_RESET;
-        LC_OperData.TableResults |= LC_APP_DEFAULT_DATA;
+        LC_AppData.CurrentLCState  = LC_STATE_POWER_ON_RESET;
+        LC_OperData.TableResults  |= LC_APP_DEFAULT_DATA;
 
         /*
         ** If CDS is enabled - try to update the 3 CDS areas managed by the LC task

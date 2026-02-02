@@ -168,8 +168,11 @@
 /*
 ** Table file header
 */
-CFE_TBL_FileDef_t CFE_TBL_FileDef = {"LC_ADT", LC_APP_NAME "." LC_ADT_TABLENAME, "LC actionpoint definition table",
-                                     "lc_def_adt.tbl", (sizeof(LC_ADTEntry_t) * LC_MAX_ACTIONPOINTS)};
+CFE_TBL_FileDef_t CFE_TBL_FileDef = { "LC_ADT",
+                                      LC_APP_NAME "." LC_ADT_TABLENAME,
+                                      "LC actionpoint definition table",
+                                      "lc_def_adt.tbl",
+                                      (sizeof(LC_ADTEntry_t) * LC_MAX_ACTIONPOINTS) };
 
 /*
 ** Default actionpoint definition table (ADT) data

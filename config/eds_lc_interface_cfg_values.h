@@ -16,7 +16,7 @@
  * limitations under the License.
  ************************************************************************/
 
- /**
+/**
  * @file
  *   CFS Limit Checker (LC) Application Public Definitions
  *
