@@ -408,7 +408,7 @@ void LC_ProcessWP(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr, CFE_TIME_Sys
             StaleCounter                                    = LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale;
             LC_OperData.WRTPtr[WatchIndex].CountdownToStale = StaleCounter;
 
-            if ((PreviousResult == LC_WATCH_FALSE) || (PreviousResult == LC_WATCH_STALE))
+            if (PreviousResult == LC_WATCH_FALSE)
             {
                 LC_OperData.WRTPtr[WatchIndex].LastFalseToTrue.DataType = LC_OperData.WDTPtr[WatchIndex].DataType;
 
@@ -427,7 +427,7 @@ void LC_ProcessWP(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr, CFE_TIME_Sys
             StaleCounter                                        = LC_OperData.WDTPtr[WatchIndex].ResultAgeWhenStale;
             LC_OperData.WRTPtr[WatchIndex].CountdownToStale     = StaleCounter;
 
-            if ((PreviousResult == LC_WATCH_TRUE) || (PreviousResult == LC_WATCH_STALE))
+            if (PreviousResult == LC_WATCH_TRUE)
             {
                 LC_OperData.WRTPtr[WatchIndex].LastTrueToFalse.DataType = LC_OperData.WDTPtr[WatchIndex].DataType;
 
