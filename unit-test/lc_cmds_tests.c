@@ -1559,8 +1559,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
-
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
@@ -1592,8 +1590,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
     PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
-
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
@@ -1623,8 +1619,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
     PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
-
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
