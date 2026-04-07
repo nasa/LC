@@ -35,8 +35,8 @@
  * \{
  */
 
-#define LC_CMD_MID       LC_CMD_PLATFORM_MIDVAL(CMD) /**< \brief Msg ID for cmds to LC                */
-#define LC_SEND_HK_MID   LC_CMD_PLATFORM_MIDVAL(SEND_HK) /**< \brief Msg ID to request LC housekeeping    */
+#define LC_CMD_MID       LC_CMD_PLATFORM_MIDVAL(CMD)       /**< \brief Msg ID for cmds to LC                */
+#define LC_SEND_HK_MID   LC_CMD_PLATFORM_MIDVAL(SEND_HK)   /**< \brief Msg ID to request LC housekeeping    */
 #define LC_SAMPLE_AP_MID LC_CMD_PLATFORM_MIDVAL(SAMPLE_AP) /**< \brief Msg ID to request actionpoint sample */
 
 /**\}*/

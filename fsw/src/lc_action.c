@@ -64,8 +64,11 @@ void LC_SampleAPs(uint16 StartIndex, uint16 EndIndex)
         /*
         **  Actionpoint isn't currently operational
         */
-        CFE_EVS_SendEvent(LC_APSAMPLE_CURR_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Sample AP error, invalid current AP state: AP = %d, State = %d", StartIndex, CurrentAPState);
+        CFE_EVS_SendEvent(LC_APSAMPLE_CURR_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Sample AP error, invalid current AP state: AP = %d, State = %d",
+                          StartIndex,
+                          CurrentAPState);
     }
 
     return;
@@ -124,8 +127,10 @@ void LC_SampleSingleAP(uint16 APNumber)
                 */
                 if (LC_OperData.ARTPtr[APNumber].PassToFailCount <= LC_OperData.ADTPtr[APNumber].MaxPassFailEvents)
                 {
-                    CFE_EVS_SendEvent(LC_AP_PASSTOFAIL_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                      "AP state change from PASS to FAIL: AP = %d", APNumber);
+                    CFE_EVS_SendEvent(LC_AP_PASSTOFAIL_INF_EID,
+                                      CFE_EVS_EventType_INFORMATION,
+                                      "AP state change from PASS to FAIL: AP = %d",
+                                      APNumber);
                     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent++;
                 }
             }
@@ -159,11 +164,17 @@ void LC_SampleSingleAP(uint16 APNumber)
                         ** add our trailer with AP specific info making
                         ** sure we won't exceed our character buffer.
                         */
-                        snprintf(EventText, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "%s %s",
-                                 LC_OperData.ADTPtr[APNumber].EventText, LC_AP_EVENT_TAIL_STR);
+                        snprintf(EventText,
+                                 CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                                 "%s %s",
+                                 LC_OperData.ADTPtr[APNumber].EventText,
+                                 LC_AP_EVENT_TAIL_STR);
 
-                        CFE_EVS_SendEvent(LC_OperData.ADTPtr[APNumber].EventID, LC_OperData.ADTPtr[APNumber].EventType,
-                                          EventText, APNumber, LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount,
+                        CFE_EVS_SendEvent(LC_OperData.ADTPtr[APNumber].EventID,
+                                          LC_OperData.ADTPtr[APNumber].EventType,
+                                          EventText,
+                                          APNumber,
+                                          LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount,
                                           LC_OperData.ADTPtr[APNumber].RTSId);
 
                         LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent++;
@@ -177,8 +188,10 @@ void LC_SampleSingleAP(uint16 APNumber)
                         */
                         LC_AppData.PassiveRTSExecCount++;
 
-                        CFE_EVS_SendEvent(LC_PASSIVE_FAIL_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                          "AP failed while LC App passive: AP = %d, FailCount = %d, RTS = %d", APNumber,
+                        CFE_EVS_SendEvent(LC_PASSIVE_FAIL_DBG_EID,
+                                          CFE_EVS_EventType_DEBUG,
+                                          "AP failed while LC App passive: AP = %d, FailCount = %d, RTS = %d",
+                                          APNumber,
                                           (int)LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount,
                                           LC_OperData.ADTPtr[APNumber].RTSId);
                     }
@@ -196,8 +209,10 @@ void LC_SampleSingleAP(uint16 APNumber)
                     */
                     if (LC_OperData.ARTPtr[APNumber].PassiveAPCount <= LC_OperData.ADTPtr[APNumber].MaxPassiveEvents)
                     {
-                        CFE_EVS_SendEvent(LC_AP_PASSIVE_FAIL_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                          "AP failed while passive: AP = %d, FailCount = %d, RTS = %d", APNumber,
+                        CFE_EVS_SendEvent(LC_AP_PASSIVE_FAIL_INF_EID,
+                                          CFE_EVS_EventType_INFORMATION,
+                                          "AP failed while passive: AP = %d, FailCount = %d, RTS = %d",
+                                          APNumber,
                                           (int)LC_OperData.ARTPtr[APNumber].ConsecutiveFailCount,
                                           LC_OperData.ADTPtr[APNumber].RTSId);
                         LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent++;
@@ -225,8 +240,10 @@ void LC_SampleSingleAP(uint16 APNumber)
                 */
                 if (LC_OperData.ARTPtr[APNumber].FailToPassCount <= LC_OperData.ADTPtr[APNumber].MaxFailPassEvents)
                 {
-                    CFE_EVS_SendEvent(LC_AP_FAILTOPASS_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                      "AP state change from FAIL to PASS: AP = %d", APNumber);
+                    CFE_EVS_SendEvent(LC_AP_FAILTOPASS_INF_EID,
+                                      CFE_EVS_EventType_INFORMATION,
+                                      "AP state change from FAIL to PASS: AP = %d",
+                                      APNumber);
                     LC_OperData.ARTPtr[APNumber].CumulativeEventMsgsSent++;
                 }
             }
@@ -251,8 +268,11 @@ void LC_SampleSingleAP(uint16 APNumber)
             /*
             ** We got back a LC_ACTION_ERROR result, send event
             */
-            CFE_EVS_SendEvent(LC_ACTION_ERROR_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "AP evaluated to error: AP = %d, Result = %d", APNumber, CurrentResult);
+            CFE_EVS_SendEvent(LC_ACTION_ERROR_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "AP evaluated to error: AP = %d, Result = %d",
+                              APNumber,
+                              CurrentResult);
         }
 
     } /* end CurrentAPState if */
@@ -437,9 +457,12 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
 
     if (IllegalRPN == true)
     {
-        CFE_EVS_SendEvent(LC_INVALID_RPN_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "AP has illegal RPN expression: AP = %d, LastOperand = %d, StackPtr = %d", APNumber,
-                          (int)(RPNEquationPtr - 1), (int)StackPtr);
+        CFE_EVS_SendEvent(LC_INVALID_RPN_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "AP has illegal RPN expression: AP = %d, LastOperand = %d, StackPtr = %d",
+                          APNumber,
+                          (int)(RPNEquationPtr - 1),
+                          (int)StackPtr);
 
         EvalResult = LC_ACTION_ERROR;
     }
@@ -507,8 +530,8 @@ int32 LC_ValidateADT(void *TableData)
             */
             UnusedCount++;
         }
-        else if ((DefaultState != LC_APSTATE_ACTIVE) && (DefaultState != LC_APSTATE_PASSIVE) &&
-                 (DefaultState != LC_APSTATE_DISABLED) && (DefaultState != LC_APSTATE_PERMOFF))
+        else if ((DefaultState != LC_APSTATE_ACTIVE) && (DefaultState != LC_APSTATE_PASSIVE)
+                 && (DefaultState != LC_APSTATE_DISABLED) && (DefaultState != LC_APSTATE_PERMOFF))
         {
             /*
             ** Invalid default state
@@ -533,8 +556,8 @@ int32 LC_ValidateADT(void *TableData)
             BadCount++;
             EntryResult = LC_ADTVAL_ERR_FAILCNT;
         }
-        else if ((EventType != CFE_EVS_EventType_DEBUG) && (EventType != CFE_EVS_EventType_INFORMATION) &&
-                 (EventType != CFE_EVS_EventType_ERROR) && (EventType != CFE_EVS_EventType_CRITICAL))
+        else if ((EventType != CFE_EVS_EventType_DEBUG) && (EventType != CFE_EVS_EventType_INFORMATION)
+                 && (EventType != CFE_EVS_EventType_ERROR) && (EventType != CFE_EVS_EventType_CRITICAL))
         {
             /*
             ** Invalid event type
@@ -566,15 +589,24 @@ int32 LC_ValidateADT(void *TableData)
         {
             if (EntryResult == LC_ADTVAL_ERR_RPN)
             {
-                CFE_EVS_SendEvent(LC_ADTVAL_RPNERR_EID, CFE_EVS_EventType_ERROR,
-                                  "ADT verify RPN err: AP = %d, Index = %d, StackDepth = %d", (int)TableIndex,
-                                  (int)RPNIndex, (int)RPNStackDepth);
+                CFE_EVS_SendEvent(LC_ADTVAL_RPNERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "ADT verify RPN err: AP = %d, Index = %d, StackDepth = %d",
+                                  (int)TableIndex,
+                                  (int)RPNIndex,
+                                  (int)RPNStackDepth);
             }
             else
             {
-                CFE_EVS_SendEvent(LC_ADTVAL_ERR_EID, CFE_EVS_EventType_ERROR,
+                CFE_EVS_SendEvent(LC_ADTVAL_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
                                   "ADT verify err: AP = %d, Err = %d, State = %d, RTS = %d, FailCnt = %d, EvtType = %d",
-                                  (int)TableIndex, (int)EntryResult, DefaultState, RTSId, MaxFailsBeforeRTS, EventType);
+                                  (int)TableIndex,
+                                  (int)EntryResult,
+                                  DefaultState,
+                                  RTSId,
+                                  MaxFailsBeforeRTS,
+                                  EventType);
             }
 
             TableResult = EntryResult;
@@ -585,8 +617,11 @@ int32 LC_ValidateADT(void *TableData)
     /*
     ** Generate informational event with error totals
     */
-    CFE_EVS_SendEvent(LC_ADTVAL_INF_EID, CFE_EVS_EventType_INFORMATION,
-                      "ADT verify results: good = %d, bad = %d, unused = %d", (int)GoodCount, (int)BadCount,
+    CFE_EVS_SendEvent(LC_ADTVAL_INF_EID,
+                      CFE_EVS_EventType_INFORMATION,
+                      "ADT verify results: good = %d, bad = %d, unused = %d",
+                      (int)GoodCount,
+                      (int)BadCount,
                       (int)UnusedCount);
 
     return TableResult;

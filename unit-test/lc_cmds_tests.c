@@ -140,7 +140,8 @@ void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
     PayloadPtr->StartIndex    = 2;
     PayloadPtr->EndIndex      = 1;
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
     /* Execute the function being tested */
@@ -167,7 +168,8 @@ void LC_SampleAPReq_Test_BadSampleAllArgs(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
     LC_AppData.CurrentLCState              = 99;
@@ -199,7 +201,8 @@ void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_SAMPLE_AP_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
     LC_AppData.CurrentLCState              = 99;
@@ -1001,7 +1004,8 @@ void LC_SetAPStateCmd_Test_Default(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid new state = %%d");
 
     PayloadPtr->APNumber   = 1;
@@ -1034,7 +1038,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActive(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
@@ -1086,7 +1091,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
@@ -1139,7 +1145,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
@@ -1192,7 +1199,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsPassive(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
@@ -1244,7 +1252,8 @@ void LC_SetAPStateCmd_Test_SetAllActionPointsDisabled(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
@@ -1295,7 +1304,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointActive(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
@@ -1330,7 +1340,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
@@ -1365,7 +1376,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
@@ -1400,7 +1412,8 @@ void LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state command: AP = %%d, New state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
@@ -1435,7 +1448,8 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
@@ -1469,7 +1483,8 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
@@ -1503,7 +1518,8 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP state error: AP = %%d, Invalid current AP state = %%d");
 
     PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
@@ -1543,8 +1559,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
     PayloadPtr->NewAPState = LC_APSTATE_ACTIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
-
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
@@ -1576,8 +1590,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
     PayloadPtr->NewAPState = LC_APSTATE_PASSIVE;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
 
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
-
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
@@ -1607,8 +1619,6 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
     PayloadPtr->NewAPState = LC_APSTATE_DISABLED;
     PayloadPtr->APNumber   = LC_MAX_ACTIONPOINTS;
-
-    LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
@@ -1692,7 +1702,8 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Set AP perm off error, AP NOT Disabled: AP = %%d, Current state = %%d");
 
     PayloadPtr->APNumber = 1;
@@ -2151,42 +2162,72 @@ void LC_ResetResultsWP_Test(void)
 
 void UtTest_Setup(void)
 {
-    UtTest_Add(LC_SampleAPReq_Test_AllowSampleAllWatchStale, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPReq_Test_AllowSampleAllWatchStale,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPReq_Test_AllowSampleAllWatchStale");
-    UtTest_Add(LC_SampleAPReq_Test_AllowSampleAllWatchNotStale, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPReq_Test_AllowSampleAllWatchNotStale,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPReq_Test_AllowSampleAllWatchNotStale");
 
-    UtTest_Add(LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale");
-    UtTest_Add(LC_SampleAPReq_Test_ArrayIndexOutOfRange, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPReq_Test_ArrayIndexOutOfRange,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPReq_Test_ArrayIndexOutOfRange");
     UtTest_Add(LC_SampleAPReq_Test_StateDisabled, LC_Test_Setup, LC_Test_TearDown, "LC_SampleAPReq_Test_StateDisabled");
-    UtTest_Add(LC_SampleAPReq_Test_ArrayEndIndexTooHigh, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPReq_Test_ArrayEndIndexTooHigh,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPReq_Test_ArrayEndIndexTooHigh");
-    UtTest_Add(LC_SampleAPReq_Test_SampleAllUpdateAgeZero, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPReq_Test_SampleAllUpdateAgeZero,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPReq_Test_SampleAllUpdateAgeZero");
-    UtTest_Add(LC_SampleAPReq_Test_BadSampleAllArgs, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPReq_Test_BadSampleAllArgs,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPReq_Test_BadSampleAllArgs");
 
     UtTest_Add(LC_SendHkCmd_Test_WatchStale, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchStale");
     UtTest_Add(LC_SendHkCmd_Test_WatchFalse, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchFalse");
     UtTest_Add(LC_SendHkCmd_Test_WatchTrue, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchTrue");
     UtTest_Add(LC_SendHkCmd_Test_WatchError, LC_Test_Setup, LC_Test_TearDown, "LC_SendHkCmd_Test_WatchError");
-    UtTest_Add(LC_SendHkCmd_Test_DefaultWatchResult, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_DefaultWatchResult,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_DefaultWatchResult");
-    UtTest_Add(LC_SendHkCmd_Test_ActionNotUsedStale, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_ActionNotUsedStale,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_ActionNotUsedStale");
-    UtTest_Add(LC_SendHkCmd_Test_APStateActiveActionPass, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_APStateActiveActionPass,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_APStateActiveActionPass");
-    UtTest_Add(LC_SendHkCmd_Test_APStatePassiveActionFail, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_APStatePassiveActionFail,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_APStatePassiveActionFail");
-    UtTest_Add(LC_SendHkCmd_Test_APStateDisabledActionError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_APStateDisabledActionError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_APStateDisabledActionError");
-    UtTest_Add(LC_SendHkCmd_Test_APStatePermOffActionError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_APStatePermOffActionError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_APStatePermOffActionError");
-    UtTest_Add(LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult");
-    UtTest_Add(LC_SendHkCmd_Test_ManageTablesError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SendHkCmd_Test_ManageTablesError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SendHkCmd_Test_ManageTablesError");
 
     UtTest_Add(LC_NoopCmd_Test, LC_Test_Setup, LC_Test_TearDown, "LC_NoopCmd_Test");
@@ -2200,59 +2241,107 @@ void UtTest_Setup(void)
     UtTest_Add(LC_SetLCStateCmd_Test_Default, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Default");
 
     UtTest_Add(LC_SetAPStateCmd_Test_Default, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPStateCmd_Test_Default");
-    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_SetAllActionPointsActive");
-    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsPassive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsPassive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_SetAllActionPointsPassive");
-    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsDisabled, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsDisabled,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_SetAllActionPointsDisabled");
-    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointActive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointActive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_UpdateSingleActionPointActive");
-    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_UpdateSingleActionPointNotUsed");
 
-    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_UpdateSingleActionPointPassive");
-    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_UpdateSingleActionPointDisabled");
-    UtTest_Add(LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive");
-    UtTest_Add(LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive");
-    UtTest_Add(LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled");
-    UtTest_Add(LC_SetAPStateCmd_Test_InvalidAPNumberActive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_InvalidAPNumberActive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_InvalidAPNumberActive");
-    UtTest_Add(LC_SetAPStateCmd_Test_InvalidAPNumberPassive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_InvalidAPNumberPassive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_InvalidAPNumberPassive");
-    UtTest_Add(LC_SetAPStateCmd_Test_InvalidAPNumberDisabled, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_InvalidAPNumberDisabled,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_InvalidAPNumberDisabled");
 
-    UtTest_Add(LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints");
-    UtTest_Add(LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints");
-    UtTest_Add(LC_SetAPPermOffCmd_Test_APNotDisabled, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPPermOffCmd_Test_APNotDisabled,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPPermOffCmd_Test_APNotDisabled");
     UtTest_Add(LC_SetAPPermOffCmd_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_SetAPPermOffCmd_Test_Nominal");
-    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_SetAllActionPointsActiveOneNotUsed");
-    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SetAPStateCmd_Test_SetAllActionPointsActiveOnePermOff");
 
-    UtTest_Add(LC_ResetAPStatsCmd_Test_AllActionPoints, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ResetAPStatsCmd_Test_AllActionPoints,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ResetAPStatsCmd_Test_AllActionPoints");
-    UtTest_Add(LC_ResetAPStatsCmd_Test_SingleActionPoint, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ResetAPStatsCmd_Test_SingleActionPoint,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ResetAPStatsCmd_Test_SingleActionPoint");
-    UtTest_Add(LC_ResetAPStatsCmd_Test_InvalidAPNumber, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ResetAPStatsCmd_Test_InvalidAPNumber,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ResetAPStatsCmd_Test_InvalidAPNumber");
     UtTest_Add(LC_ResetResultsAP_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetResultsAP_Test");
 
-    UtTest_Add(LC_ResetWPStatsCmd_Test_AllWatchPoints, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ResetWPStatsCmd_Test_AllWatchPoints,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ResetWPStatsCmd_Test_AllWatchPoints");
-    UtTest_Add(LC_ResetWPStatsCmd_Test_SingleWatchPoint, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ResetWPStatsCmd_Test_SingleWatchPoint,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ResetWPStatsCmd_Test_SingleWatchPoint");
-    UtTest_Add(LC_ResetWPStatsCmd_Test_InvalidWPNumber, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ResetWPStatsCmd_Test_InvalidWPNumber,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ResetWPStatsCmd_Test_InvalidWPNumber");
 
     UtTest_Add(LC_ResetResultsWP_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetResultsWP_Test");

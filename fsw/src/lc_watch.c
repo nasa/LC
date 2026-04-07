@@ -104,9 +104,11 @@ void LC_CreateHashTable(void)
 
         if ((Result = CFE_SB_Unsubscribe(MessageID, LC_OperData.CmdPipe)) != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(LC_UNSUB_WP_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_UNSUB_WP_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Error unsubscribing watchpoint: MID=0x%08lX, RC=0x%08X",
-                              (unsigned long)CFE_SB_MsgIdToValue(MessageID), (unsigned int)Result);
+                              (unsigned long)CFE_SB_MsgIdToValue(MessageID),
+                              (unsigned int)Result);
         }
     }
 
@@ -223,9 +225,11 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
         if ((Result = CFE_SB_Subscribe(MessageID, LC_OperData.CmdPipe)) != CFE_SUCCESS)
         {
             /* Signal the error, but continue */
-            CFE_EVS_SendEvent(LC_SUB_WP_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_SUB_WP_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Error subscribing watchpoint: MID=0x%08lX, RC=0x%08X",
-                              (unsigned long)CFE_SB_MsgIdToValue(MessageID), (unsigned int)Result);
+                              (unsigned long)CFE_SB_MsgIdToValue(MessageID),
+                              (unsigned int)Result);
         }
     }
 
@@ -266,8 +270,8 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
 void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
 {
     CFE_TIME_SysTime_t Timestamp;
-    LC_MessageList_t * MessageList;
-    LC_WatchPtList_t * WatchPtList;
+    LC_MessageList_t  *MessageList;
+    LC_WatchPtList_t  *WatchPtList;
     bool               WatchPtFound = false;
 
     Timestamp.Seconds    = 0;
@@ -336,7 +340,8 @@ void LC_CheckMsgForWPs(CFE_SB_MsgId_t MessageID, const CFE_SB_Buffer_t *BufPtr)
         else
         {
             /* MessageID with no defined watchpoints */
-            CFE_EVS_SendEvent(LC_MID_INF_EID, CFE_EVS_EventType_INFORMATION,
+            CFE_EVS_SendEvent(LC_MID_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
                               "Msg with unreferenced message ID rcvd: ID = 0x%08lX",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID));
         }
@@ -550,8 +555,10 @@ uint8 LC_OperatorCompare(uint16 WatchIndex, uint32 ProcessedWPData)
             ** This should have been caught before now, but we'll
             ** handle it just in case we ever get here.
             */
-            CFE_EVS_SendEvent(LC_WP_DATATYPE_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "WP has undefined data type: WP = %d, DataType = %d", WatchIndex,
+            CFE_EVS_SendEvent(LC_WP_DATATYPE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "WP has undefined data type: WP = %d, DataType = %d",
+                              WatchIndex,
                               LC_OperData.WDTPtr[WatchIndex].DataType);
 
             EvalResult = LC_WATCH_ERROR;
@@ -604,8 +611,11 @@ uint8 LC_SignedCompare(uint16 WatchIndex, int32 WPValue, int32 CompareValue)
             ** This should have been caught before now, but we'll
             ** handle it just in case we ever get here.
             */
-            CFE_EVS_SendEvent(LC_WP_OPERID_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "WP has invalid operator ID: WP = %d, OperID = %d", WatchIndex, OperatorID);
+            CFE_EVS_SendEvent(LC_WP_OPERID_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "WP has invalid operator ID: WP = %d, OperID = %d",
+                              WatchIndex,
+                              OperatorID);
 
             EvalResult = LC_WATCH_ERROR;
             break;
@@ -657,8 +667,11 @@ uint8 LC_UnsignedCompare(uint16 WatchIndex, uint32 WPValue, uint32 CompareValue)
             ** This should have been caught before now, but we'll
             ** handle it just in case we ever get here.
             */
-            CFE_EVS_SendEvent(LC_WP_OPERID_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "WP has invalid operator ID: WP = %d, OperID = %d", WatchIndex, OperatorID);
+            CFE_EVS_SendEvent(LC_WP_OPERID_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "WP has invalid operator ID: WP = %d, OperID = %d",
+                              WatchIndex,
+                              OperatorID);
 
             EvalResult = LC_WATCH_ERROR;
             break;
@@ -736,8 +749,11 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
                 ** This should have been caught before now, but we'll
                 ** handle it just in case we ever get here.
                 */
-                CFE_EVS_SendEvent(LC_WP_OPERID_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "WP has invalid operator ID: WP = %d, OperID = %d", WatchIndex, OperatorID);
+                CFE_EVS_SendEvent(LC_WP_OPERID_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "WP has invalid operator ID: WP = %d, OperID = %d",
+                                  WatchIndex,
+                                  OperatorID);
 
                 EvalResult = LC_WATCH_ERROR;
                 break;
@@ -747,8 +763,10 @@ uint8 LC_FloatCompare(uint16 WatchIndex, LC_MultiType_t *WPMultiType, LC_MultiTy
     } /* end LC_WPIsNAN if */
     else
     {
-        CFE_EVS_SendEvent(LC_WP_NAN_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "WP data value is a float NAN: WP = %d, Value = 0x%08X", WatchIndex,
+        CFE_EVS_SendEvent(LC_WP_NAN_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "WP data value is a float NAN: WP = %d, Value = 0x%08X",
+                          WatchIndex,
                           *((unsigned int *)WPMultiType));
 
         EvalResult = LC_WATCH_ERROR;
@@ -807,8 +825,10 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
             ** This should have been caught before now, but we'll
             ** handle it just in case we ever get here.
             */
-            CFE_EVS_SendEvent(LC_WP_DATATYPE_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "WP has undefined data type: WP = %d, DataType = %d", WatchIndex,
+            CFE_EVS_SendEvent(LC_WP_DATATYPE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "WP has undefined data type: WP = %d, DataType = %d",
+                              WatchIndex,
                               LC_OperData.WDTPtr[WatchIndex].DataType);
 
             LC_OperData.WRTPtr[WatchIndex].WatchResult      = LC_WATCH_ERROR;
@@ -829,9 +849,13 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
 
         CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
 
-        CFE_EVS_SendEvent(LC_WP_OFFSET_ERR_EID, CFE_EVS_EventType_ERROR,
+        CFE_EVS_SendEvent(LC_WP_OFFSET_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
                           "WP offset error: MID = 0x%08lX, WP = %d, Offset = %d, DataSize = %d, MsgLen = %d",
-                          (unsigned long)CFE_SB_MsgIdToValue(MessageID), WatchIndex, (int)Offset, (int)NumOfDataBytes,
+                          (unsigned long)CFE_SB_MsgIdToValue(MessageID),
+                          WatchIndex,
+                          (int)Offset,
+                          (int)NumOfDataBytes,
                           (int)MsgLength);
 
         LC_OperData.WRTPtr[WatchIndex].WatchResult      = LC_WATCH_ERROR;
@@ -848,7 +872,7 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_CopyBytesWithSwap(LC_MultiType_t *DestBuffer, const uint8 *SrcPtr, LC_MultiType_t *SwapMap, uint32 NumBytes)
 {
-    uint8 *      DestPtr;
+    uint8       *DestPtr;
     const uint8 *SwapMapPtr;
 
     DestPtr    = (uint8 *)DestBuffer;
@@ -935,8 +959,10 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
             ** This should have been caught before now, but we'll
             ** handle it just in case we ever get here.
             */
-            CFE_EVS_SendEvent(LC_WP_DATATYPE_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "WP has undefined data type: WP = %d, DataType = %d", WatchIndex,
+            CFE_EVS_SendEvent(LC_WP_DATATYPE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "WP has undefined data type: WP = %d, DataType = %d",
+                              WatchIndex,
                               LC_OperData.WDTPtr[WatchIndex].DataType);
 
             LC_OperData.WRTPtr[WatchIndex].WatchResult      = LC_WATCH_ERROR;
@@ -993,12 +1019,12 @@ int32 LC_ValidateWDT(void *TableData)
             */
             UnusedCount++;
         }
-        else if ((DataType != LC_DATA_WATCH_BYTE) && (DataType != LC_DATA_WATCH_UBYTE) &&
-                 (DataType != LC_DATA_WATCH_WORD_BE) && (DataType != LC_DATA_WATCH_WORD_LE) &&
-                 (DataType != LC_DATA_WATCH_UWORD_BE) && (DataType != LC_DATA_WATCH_UWORD_LE) &&
-                 (DataType != LC_DATA_WATCH_DWORD_BE) && (DataType != LC_DATA_WATCH_DWORD_LE) &&
-                 (DataType != LC_DATA_WATCH_UDWORD_BE) && (DataType != LC_DATA_WATCH_UDWORD_LE) &&
-                 (DataType != LC_DATA_WATCH_FLOAT_BE) && (DataType != LC_DATA_WATCH_FLOAT_LE))
+        else if ((DataType != LC_DATA_WATCH_BYTE) && (DataType != LC_DATA_WATCH_UBYTE)
+                 && (DataType != LC_DATA_WATCH_WORD_BE) && (DataType != LC_DATA_WATCH_WORD_LE)
+                 && (DataType != LC_DATA_WATCH_UWORD_BE) && (DataType != LC_DATA_WATCH_UWORD_LE)
+                 && (DataType != LC_DATA_WATCH_DWORD_BE) && (DataType != LC_DATA_WATCH_DWORD_LE)
+                 && (DataType != LC_DATA_WATCH_UDWORD_BE) && (DataType != LC_DATA_WATCH_UDWORD_LE)
+                 && (DataType != LC_DATA_WATCH_FLOAT_BE) && (DataType != LC_DATA_WATCH_FLOAT_LE))
         {
             /*
             ** Invalid data type
@@ -1006,9 +1032,9 @@ int32 LC_ValidateWDT(void *TableData)
             BadCount++;
             EntryResult = LC_WDTVAL_ERR_DATATYPE;
         }
-        else if ((OperatorID != LC_OPER_LT) && (OperatorID != LC_OPER_LE) && (OperatorID != LC_OPER_NE) &&
-                 (OperatorID != LC_OPER_EQ) && (OperatorID != LC_OPER_GE) && (OperatorID != LC_OPER_GT) &&
-                 (OperatorID != LC_OPER_CUSTOM))
+        else if ((OperatorID != LC_OPER_LT) && (OperatorID != LC_OPER_LE) && (OperatorID != LC_OPER_NE)
+                 && (OperatorID != LC_OPER_EQ) && (OperatorID != LC_OPER_GE) && (OperatorID != LC_OPER_GT)
+                 && (OperatorID != LC_OPER_CUSTOM))
         {
             /*
             ** Invalid operator
@@ -1070,15 +1096,22 @@ int32 LC_ValidateWDT(void *TableData)
                 /* SAD: Using memcpy to safely copy the uint32 value from LC_MultiType_t to PrintableBits, preserving
                  * bitwise representation */
                 memcpy(&PrintableBits, &TableArray[TableIndex].ComparisonValue, sizeof(PrintableBits));
-                CFE_EVS_SendEvent(LC_WDTVAL_FPERR_EID, CFE_EVS_EventType_ERROR,
-                                  "WDT verify float err: WP = %d, Err = %d, ComparisonValue = 0x%08X", (int)TableIndex,
-                                  (int)EntryResult, (unsigned int)PrintableBits);
+                CFE_EVS_SendEvent(LC_WDTVAL_FPERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "WDT verify float err: WP = %d, Err = %d, ComparisonValue = 0x%08X",
+                                  (int)TableIndex,
+                                  (int)EntryResult,
+                                  (unsigned int)PrintableBits);
             }
             else
             {
-                CFE_EVS_SendEvent(LC_WDTVAL_ERR_EID, CFE_EVS_EventType_ERROR,
+                CFE_EVS_SendEvent(LC_WDTVAL_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
                                   "WDT verify err: WP = %d, Err = %d, DType = %d, Oper = %d, MID = 0x%08lX",
-                                  (int)TableIndex, (int)EntryResult, DataType, OperatorID,
+                                  (int)TableIndex,
+                                  (int)EntryResult,
+                                  DataType,
+                                  OperatorID,
                                   (unsigned long)CFE_SB_MsgIdToValue(MessageID));
             }
 
@@ -1090,8 +1123,11 @@ int32 LC_ValidateWDT(void *TableData)
     /*
     ** Generate informational event with error totals
     */
-    CFE_EVS_SendEvent(LC_WDTVAL_INF_EID, CFE_EVS_EventType_INFORMATION,
-                      "WDT verify results: good = %d, bad = %d, unused = %d", (int)GoodCount, (int)BadCount,
+    CFE_EVS_SendEvent(LC_WDTVAL_INF_EID,
+                      CFE_EVS_EventType_INFORMATION,
+                      "WDT verify results: good = %d, bad = %d, unused = %d",
+                      (int)GoodCount,
+                      (int)BadCount,
                       (int)UnusedCount);
 
     return TableResult;

@@ -68,7 +68,8 @@ void LC_SampleAPs_Test_SingleActionPointError(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
     LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_NOT_USED;
@@ -105,7 +106,8 @@ void LC_SampleAPs_Test_SingleActionPointPermOff(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
     LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_PERMOFF;
@@ -255,7 +257,8 @@ void LC_SampleSingleAP_Test_APFailWhileLCStatePassive(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP failed while LC App passive: AP = %%d, FailCount = %%d, RTS = %%d");
 
     LC_OperData.ARTPtr[APNumber].CurrentState      = LC_APSTATE_ACTIVE;
@@ -299,7 +302,8 @@ void LC_SampleSingleAP_Test_APFailWhilePassive(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP failed while passive: AP = %%d, FailCount = %%d, RTS = %%d");
 
     LC_AppData.CurrentLCState                            = LC_STATE_ACTIVE;
@@ -1100,7 +1104,8 @@ void LC_EvaluateRPN_Test_DefaultIllegalRPN(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
 
     LC_OperData.ADTPtr[APNumber].RPNEquation[0] = LC_MAX_WATCHPOINTS;
@@ -1128,7 +1133,8 @@ void LC_EvaluateRPN_Test_EndOfBufferWhenNotDone(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
 
     for (i = 0; i < (sizeof(LC_OperData.ADTPtr[0].RPNEquation) / sizeof(LC_OperData.ADTPtr[0].RPNEquation[0])); i++)
@@ -1247,7 +1253,8 @@ void LC_ValidateADT_Test_ActionNotUsed(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1277,9 +1284,11 @@ void LC_ValidateADT_Test_InvalidDefaultState(void)
     int32  strCmpResult;
     char   ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char   ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify err: AP = %%d, Err = %%d, State = %%d, RTS = %%d, FailCnt = %%d, EvtType = %%d");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1319,9 +1328,11 @@ void LC_ValidateADT_Test_BadRtsID(void)
     int32  strCmpResult;
     char   ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char   ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify err: AP = %%d, Err = %%d, State = %%d, RTS = %%d, FailCnt = %%d, EvtType = %%d");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1361,9 +1372,11 @@ void LC_ValidateADT_Test_BadFailCount(void)
     int32  strCmpResult;
     char   ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char   ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify err: AP = %%d, Err = %%d, State = %%d, RTS = %%d, FailCnt = %%d, EvtType = %%d");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1402,9 +1415,11 @@ void LC_ValidateADT_Test_InvalidEventType(void)
     int32  strCmpResult;
     char   ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char   ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify err: AP = %%d, Err = %%d, State = %%d, RTS = %%d, FailCnt = %%d, EvtType = %%d");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1444,9 +1459,11 @@ void LC_ValidateADT_Test_ValidateRpnAdtValError(void)
     int32  strCmpResult;
     char   ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char   ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify RPN err: AP = %%d, Index = %%d, StackDepth = %%d");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1487,7 +1504,8 @@ void LC_ValidateADT_Test_ValidateRpnAdtValNoError(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1524,7 +1542,8 @@ void LC_ValidateADT_Test_Nominal(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "ADT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_ACTIONPOINTS; TableIndex++)
@@ -1729,60 +1748,110 @@ void LC_ValidateRPN_Test_InvalidBufferItem(void)
 
 void UtTest_Setup(void)
 {
-    UtTest_Add(LC_SampleAPs_Test_SingleActionPointNominal, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPs_Test_SingleActionPointNominal,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPs_Test_SingleActionPointNominal");
-    UtTest_Add(LC_SampleAPs_Test_SingleActionPointError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPs_Test_SingleActionPointError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPs_Test_SingleActionPointError");
 
-    UtTest_Add(LC_SampleAPs_Test_SingleActionPointPermOff, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPs_Test_SingleActionPointPermOff,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPs_Test_SingleActionPointPermOff");
-    UtTest_Add(LC_SampleAPs_Test_MultiActionPointNominal, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleAPs_Test_MultiActionPointNominal,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleAPs_Test_MultiActionPointNominal");
 
-    UtTest_Add(LC_SampleSingleAP_Test_StateChangePassToFail, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_StateChangePassToFail,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_StateChangePassToFail");
 
-    UtTest_Add(LC_SampleSingleAP_Test_StateChangePassToFailMaxChange, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_StateChangePassToFailMaxChange,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_StateChangePassToFailMaxChange");
-    UtTest_Add(LC_SampleSingleAP_Test_ActiveRequestRTS, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_ActiveRequestRTS,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_ActiveRequestRTS");
-    UtTest_Add(LC_SampleSingleAP_Test_APFailWhileLCStatePassive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_APFailWhileLCStatePassive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_APFailWhileLCStatePassive");
-    UtTest_Add(LC_SampleSingleAP_Test_APFailWhilePassive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_APFailWhilePassive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_APFailWhilePassive");
-    UtTest_Add(LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_APFailWhilePassiveNoEvent");
-    UtTest_Add(LC_SampleSingleAP_Test_StateChangeFailToPass, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_StateChangeFailToPass,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_StateChangeFailToPass");
 
-    UtTest_Add(LC_SampleSingleAP_Test_StateChangeFailToPassNoEvent, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_StateChangeFailToPassNoEvent,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_StateChangeFailToPassNoEvent");
-    UtTest_Add(LC_SampleSingleAP_Test_ActionStale, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_ActionStale,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_ActionStale");
-    UtTest_Add(LC_SampleSingleAP_Test_ActionError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_ActionError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_ActionError");
-    UtTest_Add(LC_SampleSingleAP_Test_ConsecutivePass, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SampleSingleAP_Test_ConsecutivePass,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SampleSingleAP_Test_ConsecutivePass");
 
-    UtTest_Add(LC_EvaluateRPN_Test_AndWatchFalseOp1, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_AndWatchFalseOp1,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_AndWatchFalseOp1");
-    UtTest_Add(LC_EvaluateRPN_Test_AndWatchFalseOp2, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_AndWatchFalseOp2,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_AndWatchFalseOp2");
-    UtTest_Add(LC_EvaluateRPN_Test_OrWatchTrueOp1, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_OrWatchTrueOp1,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_OrWatchTrueOp1");
-    UtTest_Add(LC_EvaluateRPN_Test_OrWatchTrueOp2, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_OrWatchTrueOp2,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_OrWatchTrueOp2");
-    UtTest_Add(LC_EvaluateRPN_Test_AndWatchErrorOp1, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_AndWatchErrorOp1,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_AndWatchErrorOp1");
-    UtTest_Add(LC_EvaluateRPN_Test_AndWatchErrorOp2, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_AndWatchErrorOp2,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_AndWatchErrorOp2");
-    UtTest_Add(LC_EvaluateRPN_Test_OrWatchErrorOp1, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_OrWatchErrorOp1,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_OrWatchErrorOp1");
-    UtTest_Add(LC_EvaluateRPN_Test_OrWatchErrorOp2, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_OrWatchErrorOp2,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_OrWatchErrorOp2");
-    UtTest_Add(LC_EvaluateRPN_Test_XorWatchErrorOp1, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_XorWatchErrorOp1,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_XorWatchErrorOp1");
-    UtTest_Add(LC_EvaluateRPN_Test_XorWatchErrorOp2, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_XorWatchErrorOp2,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_XorWatchErrorOp2");
     UtTest_Add(LC_EvaluateRPN_Test_NotWatchError, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_NotWatchError");
     UtTest_Add(LC_EvaluateRPN_Test_AndStaleOp1, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_AndStaleOp1");
@@ -1797,37 +1866,57 @@ void UtTest_Setup(void)
     UtTest_Add(LC_EvaluateRPN_Test_XorNominal, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_XorNominal");
     UtTest_Add(LC_EvaluateRPN_Test_NotNominal, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_NotNominal");
     UtTest_Add(LC_EvaluateRPN_Test_Equal, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_Equal");
-    UtTest_Add(LC_EvaluateRPN_Test_WatchpointNumberNominal, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_WatchpointNumberNominal,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_WatchpointNumberNominal");
-    UtTest_Add(LC_EvaluateRPN_Test_DefaultIllegalRPN, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_DefaultIllegalRPN,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_DefaultIllegalRPN");
-    UtTest_Add(LC_EvaluateRPN_Test_EndOfBufferWhenNotDone, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_EvaluateRPN_Test_EndOfBufferWhenNotDone,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_EvaluateRPN_Test_EndOfBufferWhenNotDone");
     UtTest_Add(LC_EvaluateRPN_Test_PushPopFail, LC_Test_Setup, LC_Test_TearDown, "LC_EvaluateRPN_Test_PushPopFail");
 
     UtTest_Add(LC_ValidateADT_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateADT_Test_Nominal");
     UtTest_Add(LC_ValidateADT_Test_ActionNotUsed, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateADT_Test_ActionNotUsed");
-    UtTest_Add(LC_ValidateADT_Test_InvalidDefaultState, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateADT_Test_InvalidDefaultState,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateADT_Test_InvalidDefaultState");
     UtTest_Add(LC_ValidateADT_Test_BadRtsID, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateADT_Test_BadRtsID");
     UtTest_Add(LC_ValidateADT_Test_BadFailCount, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateADT_Test_BadFailCount");
-    UtTest_Add(LC_ValidateADT_Test_InvalidEventType, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateADT_Test_InvalidEventType,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateADT_Test_InvalidEventType");
-    UtTest_Add(LC_ValidateADT_Test_ValidateRpnAdtValError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateADT_Test_ValidateRpnAdtValError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateADT_Test_ValidateRpnAdtValError");
-    UtTest_Add(LC_ValidateADT_Test_ValidateRpnAdtValNoError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateADT_Test_ValidateRpnAdtValNoError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateADT_Test_ValidateRpnAdtValNoError");
 
     UtTest_Add(LC_ValidateRPN_Test_RpnAnd, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateRPN_Test_RpnAnd");
     UtTest_Add(LC_ValidateRPN_Test_RpnOr, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateRPN_Test_RpnOr");
     UtTest_Add(LC_ValidateRPN_Test_RpnXor, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateRPN_Test_RpnXor");
     UtTest_Add(LC_ValidateRPN_Test_RpnNot, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateRPN_Test_RpnNot");
-    UtTest_Add(LC_ValidateRPN_Test_StackDepthZero, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateRPN_Test_StackDepthZero,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateRPN_Test_StackDepthZero");
-    UtTest_Add(LC_ValidateRPN_Test_StackDepthZero2, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateRPN_Test_StackDepthZero2,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateRPN_Test_StackDepthZero2");
     UtTest_Add(LC_ValidateRPN_Test_MaxRPNSize, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateRPN_Test_MaxRPNSize");
 
-    UtTest_Add(LC_ValidateRPN_Test_InvalidBufferItem, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateRPN_Test_InvalidBufferItem,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateRPN_Test_InvalidBufferItem");
 }

@@ -46,7 +46,6 @@ CFE_Status_t LC_AppInit(void)
  */
 void LC_AppMain(void)
 {
-
     UT_GenStub_Execute(LC_AppMain, Basic, NULL);
 }
 

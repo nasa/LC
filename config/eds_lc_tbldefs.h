@@ -30,9 +30,9 @@
  *   ADD THEM TO lc_tbl.h IF NEEDED!
  */
 
- #ifndef EDS_LC_TBLDEFS_H
- #define EDS_LC_TBLDEFS_H
+#ifndef EDS_LC_TBLDEFS_H
+#define EDS_LC_TBLDEFS_H
 
- #include "lc_eds_typedefs.h"
+#include "lc_eds_typedefs.h"
 
- #endif
+#endif

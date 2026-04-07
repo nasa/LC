@@ -24,7 +24,6 @@
 #include "lc_msgids.h"
 #include "lc_eventids.h"
 
-
 /* UT includes */
 #include "uttest.h"
 #include "utassert.h"

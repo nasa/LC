@@ -40,13 +40,13 @@
  */
 typedef struct
 {
-    uint8 DefaultState;       /**< \brief Default state for this AP (enumerated)
+    uint8  DefaultState;      /**< \brief Default state for this AP (enumerated)
                                           States are defined in lc_msgdefs.h        */
-    uint8 MaxPassiveEvents;   /**< \brief Max number of events before filter
+    uint8  MaxPassiveEvents;  /**< \brief Max number of events before filter
                                           - RTS not started because AP is passive   */
-    uint8 MaxPassFailEvents;  /**< \brief Max number of events before filter
+    uint8  MaxPassFailEvents; /**< \brief Max number of events before filter
                                           - AP result transition from pass to fail  */
-    uint8 MaxFailPassEvents;  /**< \brief Max number of events before filter
+    uint8  MaxFailPassEvents; /**< \brief Max number of events before filter
                                           - AP result transition from fail to pass  */
     uint16 RTSId;             /**< \brief RTS to request if this AP fails           */
     uint16 MaxFailsBeforeRTS; /**< \brief How may consecutive failures before
@@ -95,23 +95,23 @@ typedef union
  */
 typedef struct
 {
-    uint8          DataType;        /**< \brief Watchpoint Data Type (enumerated)     */
-    uint8          OperatorID;      /**< \brief Comparison type (enumerated)          */
-    CFE_SB_MsgId_t MessageID;       /**< \brief Message ID for the message containing
-                                                the watchpoint                        */
-    uint32 WatchpointOffset;        /**< \brief Byte offset from the beginning of
-                                                the message (including any headers)
-                                                to the watchpoint                     */
-    uint32 BitMask;                 /**< \brief Value to be masked with watchpoint
-                                                data prior to comparison              */
-    LC_MultiType_t ComparisonValue; /**< \brief Value watchpoint data is compared
-                                                against                               */
-    uint32 ResultAgeWhenStale;      /**< \brief Number of LC Sample Actionpoint
-                                                commands that must be processed after
-                                                comparison before result goes stale   */
-    uint32 CustomFuncArgument;      /**< \brief Data passed to the custom function
-                                                when Operator_ID is set to
-                                                #LC_OPER_CUSTOM                       */
+    uint8          DataType;           /**< \brief Watchpoint Data Type (enumerated)     */
+    uint8          OperatorID;         /**< \brief Comparison type (enumerated)          */
+    CFE_SB_MsgId_t MessageID;          /**< \brief Message ID for the message containing
+                                                   the watchpoint                        */
+    uint32         WatchpointOffset;   /**< \brief Byte offset from the beginning of
+                                                   the message (including any headers)
+                                                   to the watchpoint                     */
+    uint32         BitMask;            /**< \brief Value to be masked with watchpoint
+                                                   data prior to comparison              */
+    LC_MultiType_t ComparisonValue;    /**< \brief Value watchpoint data is compared
+                                                   against                               */
+    uint32         ResultAgeWhenStale; /**< \brief Number of LC Sample Actionpoint
+                                                   commands that must be processed after
+                                                   comparison before result goes stale   */
+    uint32         CustomFuncArgument; /**< \brief Data passed to the custom function
+                                                   when Operator_ID is set to
+                                                   #LC_OPER_CUSTOM                       */
 } LC_WDTEntry_t;
 
 /**
@@ -119,9 +119,9 @@ typedef struct
  */
 typedef struct
 {
-    uint32 Value;   /**< \brief Watchpoint value at comparison that caused
-                                the transition                               */
-    uint8 DataType; /**< \brief Same as Watchpoint Data Type (enumerated)    */
+    uint32 Value;    /**< \brief Watchpoint value at comparison that caused
+                                 the transition                               */
+    uint8  DataType; /**< \brief Same as Watchpoint Data Type (enumerated)    */
 
     uint8 Padding[3]; /**< \brief Structure padding */
 
@@ -138,19 +138,19 @@ typedef struct
 
     uint8 Padding[3]; /**< \brief Structure padding */
 
-    uint32 CountdownToStale;            /**< \brief Number of LC Sample Actionpoint
-                                                    commands still to be processed
-                                                    before WatchResult becomes stale        */
-    uint32 EvaluationCount;             /**< \brief How many times this watchpoint has
-                                                    been evaluated                         */
-    uint32 FalseToTrueCount;            /**< \brief How many times this watchpoint has
-                                                    transitioned from FALSE to TRUE        */
-    uint32 ConsecutiveTrueCount;        /**< \brief Number of consecutive times this
-                                                    watchpoint has evaluated to TRUE       */
-    uint32 CumulativeTrueCount;         /**< \brief Total number of times this watchpoint
-                                                    has evaluated to TRUE                  */
-    LC_WRTTransition_t LastFalseToTrue; /**< \brief Last transition from FALSE to TRUE     */
-    LC_WRTTransition_t LastTrueToFalse; /**< \brief Last transition from TRUE to FALSE     */
+    uint32             CountdownToStale;     /**< \brief Number of LC Sample Actionpoint
+                                                         commands still to be processed
+                                                         before WatchResult becomes stale        */
+    uint32             EvaluationCount;      /**< \brief How many times this watchpoint has
+                                                         been evaluated                         */
+    uint32             FalseToTrueCount;     /**< \brief How many times this watchpoint has
+                                                         transitioned from FALSE to TRUE        */
+    uint32             ConsecutiveTrueCount; /**< \brief Number of consecutive times this
+                                                         watchpoint has evaluated to TRUE       */
+    uint32             CumulativeTrueCount;  /**< \brief Total number of times this watchpoint
+                                                         has evaluated to TRUE                  */
+    LC_WRTTransition_t LastFalseToTrue;      /**< \brief Last transition from FALSE to TRUE     */
+    LC_WRTTransition_t LastTrueToFalse;      /**< \brief Last transition from TRUE to FALSE     */
 } LC_WRTEntry_t;
 
 /**

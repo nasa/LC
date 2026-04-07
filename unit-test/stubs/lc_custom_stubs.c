@@ -30,8 +30,10 @@
  * Generated stub function for LC_CustomFunction()
  * ----------------------------------------------------
  */
-uint8 LC_CustomFunction(uint16 WatchIndex, uint32 ProcessedWPData, const CFE_SB_Buffer_t *BufPtr,
-                        uint32 WDTCustomFuncArg)
+uint8 LC_CustomFunction(uint16                 WatchIndex,
+                        uint32                 ProcessedWPData,
+                        const CFE_SB_Buffer_t *BufPtr,
+                        uint32                 WDTCustomFuncArg)
 {
     UT_GenStub_SetupReturnBuffer(LC_CustomFunction, uint8);
 

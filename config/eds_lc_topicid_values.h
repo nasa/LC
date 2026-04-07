@@ -18,22 +18,13 @@
 
 /**
  * @file
- *   CFS Limit Checker (LC) Application Public Definitions
- *
- * This provides default values for configurable items that affect
- * the interface(s) of this module.  This includes the CMD/TLM message
- * interface, tables definitions, and/or the public API, if applicable.
- *
- * @note This file may be overridden/superceded by mission-provided definitions
- * either by overriding this header or by generating definitions from a command/data
- * dictionary tool.
+ *   CFS Limit Checker (LC) Application Topic IDs
  */
+#ifndef EDS_LC_TOPICID_VALUES_H
+#define EDS_LC_TOPICID_VALUES_H
 
-#ifndef EDS_LC_INTERFACE_CFG_VALUES_H
-#define EDS_LC_INTERFACE_CFG_VALUES_H
+#include "cfe_mission_eds_designparameters.h"
 
-#include "lc_eds_designparameters.h"
-
-#define LC_INTERFACE_CFGVAL(x) EdsParam_LC_##x
+#define LC_MISSION_TIDVAL(x) EdsParam_CFE_MISSION_LC_##x##_TOPICID
 
 #endif

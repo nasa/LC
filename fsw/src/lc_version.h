@@ -30,8 +30,8 @@
  * \{
  */
 
-#define LC_MAJOR_VERSION 7  /**< \brief Major version number */
-#define LC_MINOR_VERSION 0  /**< \brief Minor version number */
+#define LC_MAJOR_VERSION 7 /**< \brief Major version number */
+#define LC_MINOR_VERSION 0 /**< \brief Minor version number */
 #define LC_REVISION      0 /**< \brief Revision number */
 
 /**\}*/
