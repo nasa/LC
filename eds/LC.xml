@@ -295,7 +295,7 @@
         </EntryList>
       </ContainerDataType>
 
-      <ContainerDataType name="SetAPPermOff_Payload" basetype="CFE_HDR/CommandHeader" shortDescription="Set AP (Actionpoint) Permanently Off">
+      <ContainerDataType name="SetAPPermOff_Payload" shortDescription="Set AP (Actionpoint) Permanently Off">
         <EntryList>
           <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint to change" />
           <Entry name="Padding" type="BASE_TYPES/uint16" shortDescription="Structure padding" />
