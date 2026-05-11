@@ -634,7 +634,7 @@ int32 LC_ValidateADT(void *TableData)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 LC_ValidateRPN(const uint16 *RPNPtr, int32 *IndexValue, int32 *StackDepthValue)
 {
-    int32  Result = LC_ADTVAL_ERR_NONE;
+    int32  Result;
     int32  BufferIndex;
     int32  StackDepth;
     uint16 BufferItem;
@@ -655,6 +655,7 @@ int32 LC_ValidateRPN(const uint16 *RPNPtr, int32 *IndexValue, int32 *StackDepthV
     ** further data.
     */
     StackDepth = 0;
+    BufferItem = 0;
 
     for (BufferIndex = 0; BufferIndex < LC_MAX_RPN_EQU_SIZE; BufferIndex++)
     {
