@@ -142,7 +142,8 @@ void LC_AddWatchpoint_Test_NullPointersErrorSubscribingWatchpoint(void)
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     uint32         HashIndex;
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error subscribing watchpoint: MID=0x%%08lX, RC=0x%%08X");
 
     HashIndex = LC_GetHashTableIndex(MessageID);
@@ -202,7 +203,7 @@ void LC_CheckMsgForWPs_Test_Nominal(void)
     uint16             WatchIndex = 0;
     CFE_SB_MsgId_t     TestMsgId  = LC_UT_MID_1;
     size_t             MsgSize    = sizeof(UT_CmdBuf);
-    CFE_TIME_SysTime_t Timestamp  = {.Seconds = 0, .Subseconds = 0};
+    CFE_TIME_SysTime_t Timestamp  = { .Seconds = 0, .Subseconds = 0 };
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgTime), &Timestamp, sizeof(Timestamp), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
@@ -237,7 +238,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime1(void)
 {
     CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
     size_t             MsgSize   = sizeof(UT_CmdBuf);
-    CFE_TIME_SysTime_t Timestamp = {.Seconds = 1, .Subseconds = 0};
+    CFE_TIME_SysTime_t Timestamp = { .Seconds = 1, .Subseconds = 0 };
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgTime), &Timestamp, sizeof(Timestamp), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
@@ -266,7 +267,7 @@ void LC_CheckMsgForWPs_Test_NominalMsgTime2(void)
     uint16             WatchIndex = 0;
     CFE_SB_MsgId_t     TestMsgId  = LC_UT_MID_1;
     size_t             MsgSize    = sizeof(UT_CmdBuf);
-    CFE_TIME_SysTime_t Timestamp  = {.Seconds = 0, .Subseconds = 1};
+    CFE_TIME_SysTime_t Timestamp  = { .Seconds = 0, .Subseconds = 1 };
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgTime), &Timestamp, sizeof(Timestamp), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
@@ -317,11 +318,12 @@ void LC_CheckMsgForWPs_Test_NominalDisabled(void)
 void LC_CheckMsgForWPs_Test_UnreferencedMessageID(void)
 {
     CFE_SB_MsgId_t     TestMsgId = LC_UT_MID_1;
-    CFE_TIME_SysTime_t Timestamp = {.Seconds = 0, .Subseconds = 0};
+    CFE_TIME_SysTime_t Timestamp = { .Seconds = 0, .Subseconds = 0 };
     int32              strCmpResult;
     char               ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Msg with unreferenced message ID rcvd: ID = 0x%%08lX");
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgTime), &Timestamp, sizeof(Timestamp), false);
@@ -864,7 +866,8 @@ void LC_OperatorCompare_Test_DataTypeError(void)
     LC_OperData.WDTPtr[WatchIndex].ComparisonValue.Float32 = 1.0;
     LC_OperData.WRTPtr[WatchIndex].EvaluationCount         = 0;
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has undefined data type: WP = %%d, DataType = %%d");
 
     /* Execute the function being tested */
@@ -1001,7 +1004,8 @@ void LC_SignedCompare_Test_InvalidOperatorID(void)
 
     LC_OperData.WDTPtr[WatchIndex].OperatorID = 99;
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has invalid operator ID: WP = %%d, OperID = %%d");
 
     /* Execute the function being tested */
@@ -1136,7 +1140,8 @@ void LC_UnsignedCompare_Test_InvalidOperatorID(void)
     int32  strCmpResult;
     char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has invalid operator ID: WP = %%d, OperID = %%d");
 
     LC_OperData.WDTPtr[WatchIndex].OperatorID = 99;
@@ -1338,7 +1343,8 @@ void LC_FloatCompare_Test_InvalidOperatorID(void)
 
     LC_OperData.WDTPtr[WatchIndex].OperatorID = 99;
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has invalid operator ID: WP = %%d, OperID = %%d");
 
     /* Execute the function being tested */
@@ -1369,7 +1375,8 @@ void LC_FloatCompare_Test_NaN(void)
     WPMultiType.Unsigned32   = 0x7F8FFFFF;
     CompareMultiType.Float32 = 0.0;
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP data value is a float NAN: WP = %%d, Value = 0x%%08X");
 
     LC_OperData.WDTPtr[WatchIndex].OperatorID = 99;
@@ -1491,7 +1498,8 @@ void LC_WPOffsetValid_Test_DataTypeError(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has undefined data type: WP = %%d, DataType = %%d");
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = 99;
@@ -1529,7 +1537,8 @@ void LC_WPOffsetValid_Test_OffsetError(void)
 
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP offset error: MID = 0x%%08lX, WP = %%d, Offset = %%d, DataSize = %%d, MsgLen = %%d");
 
     LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UBYTE;
@@ -1757,7 +1766,8 @@ void LC_GetSizedWPData_Test_DataTypeError(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WP has undefined data type: WP = %%d, DataType = %%d");
 
     WPData[0] = 1;
@@ -1793,7 +1803,8 @@ void LC_ValidateWDT_Test_UnusedTableEntry(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -1824,10 +1835,12 @@ void LC_ValidateWDT_Test_AllDataTypes(void)
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify err: WP = %%d, Err = %%d, DType = %%d, Oper = %%d, MID = 0x%%08lX");
 
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -1880,10 +1893,12 @@ void LC_ValidateWDT_Test_AllOperatorIDs(void)
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify err: WP = %%d, Err = %%d, DType = %%d, Oper = %%d, MID = 0x%%08lX");
 
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -1930,9 +1945,11 @@ void LC_ValidateWDT_Test_InvalidDataType(void)
     char  ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify err: WP = %%d, Err = %%d, DType = %%d, Oper = %%d, MID = 0x%%08lX");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -1972,9 +1989,11 @@ void LC_ValidateWDT_Test_InvalidOperator(void)
     int32 strCmpResult;
     char  ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify err: WP = %%d, Err = %%d, DType = %%d, Oper = %%d, MID = 0x%%08lX");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -2014,9 +2033,11 @@ void LC_ValidateWDT_Test_BadMessageID(void)
     int32 strCmpResult;
     char  ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify err: WP = %%d, Err = %%d, DType = %%d, Oper = %%d, MID = 0x%%08lX");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -2056,9 +2077,11 @@ void LC_ValidateWDT_Test_NaN(void)
     int32 strCmpResult;
     char  ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify float err: WP = %%d, Err = %%d, ComparisonValue = 0x%%08X");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -2097,9 +2120,11 @@ void LC_ValidateWDT_Test_Inf(void)
     int32 strCmpResult;
     char  ExpectedEventString1[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char  ExpectedEventString2[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    snprintf(ExpectedEventString1, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString1,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify float err: WP = %%d, Err = %%d, ComparisonValue = 0x%%08X");
-    snprintf(ExpectedEventString2, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString2,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -2139,7 +2164,8 @@ void LC_ValidateWDT_Test_FloatingPointPassed(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -2172,7 +2198,8 @@ void LC_ValidateWDT_Test_NonFloatingPointPassed(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -2205,7 +2232,8 @@ void LC_ValidateWDT_Test_FloatBE(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "WDT verify results: good = %%d, bad = %%d, unused = %%d");
 
     for (TableIndex = 0; TableIndex < LC_MAX_WATCHPOINTS; TableIndex++)
@@ -2235,58 +2263,102 @@ void UtTest_Setup(void)
 {
     UtTest_Add(LC_CreateHashTable_Test, LC_Test_Setup, LC_Test_TearDown, "LC_CreateHashTable_Test");
 
-    UtTest_Add(LC_AddWatchpoint_Test_HashTableAndWatchPtListNullPointersNominal, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_AddWatchpoint_Test_HashTableAndWatchPtListNullPointersNominal,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_AddWatchpoint_Test_HashTableAndWatchPtListNullPointersNominal");
-    UtTest_Add(LC_AddWatchpoint_Test_HashTableAndWatchPtListNotNullPointerTwoMsgLinksMIDFound, LC_Test_Setup,
-               LC_Test_TearDown, "LC_AddWatchpoint_Test_HashTableAndWatchPtListNotNullPointerTwoMsgLinksMIDFound");
-    UtTest_Add(LC_AddWatchpoint_Test_NullPointersErrorSubscribingWatchpoint, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_AddWatchpoint_Test_HashTableAndWatchPtListNotNullPointerTwoMsgLinksMIDFound,
+               LC_Test_Setup,
+               LC_Test_TearDown,
+               "LC_AddWatchpoint_Test_HashTableAndWatchPtListNotNullPointerTwoMsgLinksMIDFound");
+    UtTest_Add(LC_AddWatchpoint_Test_NullPointersErrorSubscribingWatchpoint,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_AddWatchpoint_Test_NullPointersErrorSubscribingWatchpoint");
-    UtTest_Add(LC_AddWatchpoint_Test_NonNullMessageList, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_AddWatchpoint_Test_NonNullMessageList,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_AddWatchpoint_Test_NonNullMessageList");
 
     UtTest_Add(LC_CheckMsgForWPs_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_CheckMsgForWPs_Test_Nominal");
-    UtTest_Add(LC_CheckMsgForWPs_Test_NominalMsgTime1, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CheckMsgForWPs_Test_NominalMsgTime1,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CheckMsgForWPs_Test_NominalMsgTime1");
-    UtTest_Add(LC_CheckMsgForWPs_Test_NominalMsgTime2, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CheckMsgForWPs_Test_NominalMsgTime2,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CheckMsgForWPs_Test_NominalMsgTime2");
-    UtTest_Add(LC_CheckMsgForWPs_Test_NominalDisabled, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CheckMsgForWPs_Test_NominalDisabled,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CheckMsgForWPs_Test_NominalDisabled");
-    UtTest_Add(LC_CheckMsgForWPs_Test_UnreferencedMessageID, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CheckMsgForWPs_Test_UnreferencedMessageID,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CheckMsgForWPs_Test_UnreferencedMessageID");
 
-    UtTest_Add(LC_ProcessWP_Test_CustomFunctionWatchFalse, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_CustomFunctionWatchFalse,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_CustomFunctionWatchFalse");
-    UtTest_Add(LC_ProcessWP_Test_OperatorCompareError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_OperatorCompareError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_OperatorCompareError");
-    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_OperatorCompareWatchTruePreviousStale");
-    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchTruePreviousFalse, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchTruePreviousFalse,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_OperatorCompareWatchTruePreviousFalse");
-    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousStale");
-    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousTrue");
 
     UtTest_Add(LC_ProcessWP_Test_BadSize, LC_Test_Setup, LC_Test_TearDown, "LC_ProcessWP_Test_BadSize");
-    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchTruePreviousTrue, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchTruePreviousTrue,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_OperatorCompareWatchTruePreviousTrue");
-    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousFalse, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousFalse,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ProcessWP_Test_OperatorCompareWatchFalsePreviousFalse");
 
     /* Note: Only testing little-ending (LE) cases.  Not testing big-endian (BE) cases. */
     UtTest_Add(LC_OperatorCompare_Test_DataByte, LC_Test_Setup, LC_Test_TearDown, "LC_OperatorCompare_Test_DataByte");
-    UtTest_Add(LC_OperatorCompare_Test_DataWordLE, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_OperatorCompare_Test_DataWordLE,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_OperatorCompare_Test_DataWordLE");
-    UtTest_Add(LC_OperatorCompare_Test_DataDWordLE, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_OperatorCompare_Test_DataDWordLE,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_OperatorCompare_Test_DataDWordLE");
     UtTest_Add(LC_OperatorCompare_Test_DataUByte, LC_Test_Setup, LC_Test_TearDown, "LC_OperatorCompare_Test_DataUByte");
-    UtTest_Add(LC_OperatorCompare_Test_DataUWordLE, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_OperatorCompare_Test_DataUWordLE,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_OperatorCompare_Test_DataUWordLE");
-    UtTest_Add(LC_OperatorCompare_Test_DataUDWordLE, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_OperatorCompare_Test_DataUDWordLE,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_OperatorCompare_Test_DataUDWordLE");
-    UtTest_Add(LC_OperatorCompare_Test_DataFloatLE, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_OperatorCompare_Test_DataFloatLE,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_OperatorCompare_Test_DataFloatLE");
-    UtTest_Add(LC_OperatorCompare_Test_DataTypeError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_OperatorCompare_Test_DataTypeError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_OperatorCompare_Test_DataTypeError");
 
     UtTest_Add(LC_SignedCompare_Test_LE, LC_Test_Setup, LC_Test_TearDown, "LC_SignedCompare_Test_LE");
@@ -2295,7 +2367,9 @@ void UtTest_Setup(void)
     UtTest_Add(LC_SignedCompare_Test_NE, LC_Test_Setup, LC_Test_TearDown, "LC_SignedCompare_Test_NE");
     UtTest_Add(LC_SignedCompare_Test_GT, LC_Test_Setup, LC_Test_TearDown, "LC_SignedCompare_Test_GT");
     UtTest_Add(LC_SignedCompare_Test_GE, LC_Test_Setup, LC_Test_TearDown, "LC_SignedCompare_Test_GE");
-    UtTest_Add(LC_SignedCompare_Test_InvalidOperatorID, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SignedCompare_Test_InvalidOperatorID,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SignedCompare_Test_InvalidOperatorID");
 
     UtTest_Add(LC_UnsignedCompare_Test_LE, LC_Test_Setup, LC_Test_TearDown, "LC_UnsignedCompare_Test_LE");
@@ -2304,7 +2378,9 @@ void UtTest_Setup(void)
     UtTest_Add(LC_UnsignedCompare_Test_NE, LC_Test_Setup, LC_Test_TearDown, "LC_UnsignedCompare_Test_NE");
     UtTest_Add(LC_UnsignedCompare_Test_GT, LC_Test_Setup, LC_Test_TearDown, "LC_UnsignedCompare_Test_GT");
     UtTest_Add(LC_UnsignedCompare_Test_GE, LC_Test_Setup, LC_Test_TearDown, "LC_UnsignedCompare_Test_GE");
-    UtTest_Add(LC_UnsignedCompare_Test_InvalidOperatorID, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_UnsignedCompare_Test_InvalidOperatorID,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_UnsignedCompare_Test_InvalidOperatorID");
 
     UtTest_Add(LC_FloatCompare_Test_LE, LC_Test_Setup, LC_Test_TearDown, "LC_FloatCompare_Test_LE");
@@ -2315,7 +2391,9 @@ void UtTest_Setup(void)
     UtTest_Add(LC_FloatCompare_Test_NEFail, LC_Test_Setup, LC_Test_TearDown, "LC_FloatCompare_Test_NEFail");
     UtTest_Add(LC_FloatCompare_Test_GT, LC_Test_Setup, LC_Test_TearDown, "LC_FloatCompare_Test_GT");
     UtTest_Add(LC_FloatCompare_Test_GE, LC_Test_Setup, LC_Test_TearDown, "LC_FloatCompare_Test_GE");
-    UtTest_Add(LC_FloatCompare_Test_InvalidOperatorID, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_FloatCompare_Test_InvalidOperatorID,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_FloatCompare_Test_InvalidOperatorID");
     UtTest_Add(LC_FloatCompare_Test_NaN, LC_Test_Setup, LC_Test_TearDown, "LC_FloatCompare_Test_NaN");
 
@@ -2323,43 +2401,71 @@ void UtTest_Setup(void)
     UtTest_Add(LC_WPOffsetValid_Test_UWordLE, LC_Test_Setup, LC_Test_TearDown, "LC_WPOffsetValid_Test_UWordLE");
     UtTest_Add(LC_WPOffsetValid_Test_UDWordLE, LC_Test_Setup, LC_Test_TearDown, "LC_WPOffsetValid_Test_UDWordLE");
     UtTest_Add(LC_WPOffsetValid_Test_FloatLE, LC_Test_Setup, LC_Test_TearDown, "LC_WPOffsetValid_Test_FloatLE");
-    UtTest_Add(LC_WPOffsetValid_Test_DataTypeError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_WPOffsetValid_Test_DataTypeError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_WPOffsetValid_Test_DataTypeError");
     UtTest_Add(LC_WPOffsetValid_Test_OffsetError, LC_Test_Setup, LC_Test_TearDown, "LC_WPOffsetValid_Test_OffsetError");
 
     UtTest_Add(LC_GetSizedWPData_Test_DataByte, LC_Test_Setup, LC_Test_TearDown, "LC_GetSizedWPData_Test_DataByte");
     UtTest_Add(LC_GetSizedWPData_Test_DataUByte, LC_Test_Setup, LC_Test_TearDown, "LC_GetSizedWPData_Test_DataUByte");
-    UtTest_Add(LC_GetSizedWPData_Test_DataWordBELittleEndian, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_GetSizedWPData_Test_DataWordBELittleEndian,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_GetSizedWPData_Test_DataWordBELittleEndian");
-    UtTest_Add(LC_GetSizedWPData_Test_DataWordLELittleEndian, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_GetSizedWPData_Test_DataWordLELittleEndian,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_GetSizedWPData_Test_DataWordLELittleEndian");
-    UtTest_Add(LC_GetSizedWPData_Test_DataUWordBELittleEndian, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_GetSizedWPData_Test_DataUWordBELittleEndian,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_GetSizedWPData_Test_DataUWordBELittleEndian");
-    UtTest_Add(LC_GetSizedWPData_Test_DataUWordLELittleEndian, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_GetSizedWPData_Test_DataUWordLELittleEndian,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_GetSizedWPData_Test_DataUWordLELittleEndian");
-    UtTest_Add(LC_GetSizedWPData_Test_DataFloatBELittleEndian, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_GetSizedWPData_Test_DataFloatBELittleEndian,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_GetSizedWPData_Test_DataFloatBELittleEndian");
-    UtTest_Add(LC_GetSizedWPData_Test_DataFloatLELittleEndian, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_GetSizedWPData_Test_DataFloatLELittleEndian,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_GetSizedWPData_Test_DataFloatLELittleEndian");
-    UtTest_Add(LC_GetSizedWPData_Test_DataTypeError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_GetSizedWPData_Test_DataTypeError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_GetSizedWPData_Test_DataTypeError");
 
-    UtTest_Add(LC_ValidateWDT_Test_UnusedTableEntry, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateWDT_Test_UnusedTableEntry,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateWDT_Test_UnusedTableEntry");
-    UtTest_Add(LC_ValidateWDT_Test_InvalidDataType, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateWDT_Test_InvalidDataType,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateWDT_Test_InvalidDataType");
-    UtTest_Add(LC_ValidateWDT_Test_InvalidOperator, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateWDT_Test_InvalidOperator,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateWDT_Test_InvalidOperator");
     UtTest_Add(LC_ValidateWDT_Test_BadMessageID, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateWDT_Test_BadMessageID");
     UtTest_Add(LC_ValidateWDT_Test_NaN, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateWDT_Test_NaN");
     UtTest_Add(LC_ValidateWDT_Test_Inf, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateWDT_Test_Inf");
-    UtTest_Add(LC_ValidateWDT_Test_FloatingPointPassed, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateWDT_Test_FloatingPointPassed,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateWDT_Test_FloatingPointPassed");
-    UtTest_Add(LC_ValidateWDT_Test_NonFloatingPointPassed, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateWDT_Test_NonFloatingPointPassed,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateWDT_Test_NonFloatingPointPassed");
 
     UtTest_Add(LC_ValidateWDT_Test_AllDataTypes, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateWDT_Test_AllDataTypes");
-    UtTest_Add(LC_ValidateWDT_Test_AllOperatorIDs, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_ValidateWDT_Test_AllOperatorIDs,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_ValidateWDT_Test_AllOperatorIDs");
 
     UtTest_Add(LC_ValidateWDT_Test_FloatBE, LC_Test_Setup, LC_Test_TearDown, "LC_ValidateWDT_Test_FloatBE");

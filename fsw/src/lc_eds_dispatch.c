@@ -81,19 +81,26 @@ void LC_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 
         if (Status == CFE_STATUS_UNKNOWN_MSG_ID)
         {
-            CFE_EVS_SendEvent(LC_CC_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "SAMPLE: invalid command packet,MID = 0x%x", (unsigned int)CFE_SB_MsgIdToValue(MsgId));
+            CFE_EVS_SendEvent(LC_CC_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "SAMPLE: invalid command packet,MID = 0x%x",
+                              (unsigned int)CFE_SB_MsgIdToValue(MsgId));
         }
         else if (Status == CFE_STATUS_WRONG_MSG_LENGTH)
         {
-            CFE_EVS_SendEvent(LC_CMD_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(LC_CMD_LEN_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Invalid Msg length: ID = 0x%X,  CC = %u, Len = %u",
-                              (unsigned int)CFE_SB_MsgIdToValue(MsgId), (unsigned int)MsgFc, (unsigned int)MsgSize);
+                              (unsigned int)CFE_SB_MsgIdToValue(MsgId),
+                              (unsigned int)MsgFc,
+                              (unsigned int)MsgSize);
         }
         else
         {
-            CFE_EVS_SendEvent(LC_CC_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "SAMPLE: Invalid ground command code: CC = %d", (int)MsgFc);
+            CFE_EVS_SendEvent(LC_CC_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "SAMPLE: Invalid ground command code: CC = %d",
+                              (int)MsgFc);
         }
     }
 }

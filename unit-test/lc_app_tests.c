@@ -55,7 +55,9 @@ uint8 call_count_CFE_EVS_SendEvent;
  */
 
 uint16 LC_APP_TEST_CFE_TBL_RegisterHookCount;
-int32  LC_APP_TEST_CFE_TBL_RegisterHook1(void *UserObj, int32 StubRetcode, uint32 CallCount,
+int32  LC_APP_TEST_CFE_TBL_RegisterHook1(void                   *UserObj,
+                                         int32                   StubRetcode,
+                                         uint32                  CallCount,
                                          const UT_StubContext_t *Context)
 {
     LC_APP_TEST_CFE_TBL_RegisterHookCount++;
@@ -66,7 +68,9 @@ int32  LC_APP_TEST_CFE_TBL_RegisterHook1(void *UserObj, int32 StubRetcode, uint3
         return CFE_TBL_INFO_RECOVERED_TBL;
 }
 
-int32 LC_APP_TEST_CFE_TBL_RegisterHook2(void *UserObj, int32 StubRetcode, uint32 CallCount,
+int32 LC_APP_TEST_CFE_TBL_RegisterHook2(void                   *UserObj,
+                                        int32                   StubRetcode,
+                                        uint32                  CallCount,
                                         const UT_StubContext_t *Context)
 {
     LC_APP_TEST_CFE_TBL_RegisterHookCount++;
@@ -77,7 +81,9 @@ int32 LC_APP_TEST_CFE_TBL_RegisterHook2(void *UserObj, int32 StubRetcode, uint32
         return CFE_TBL_INFO_RECOVERED_TBL;
 }
 
-int32 LC_APP_TEST_CFE_TBL_RegisterHook3(void *UserObj, int32 StubRetcode, uint32 CallCount,
+int32 LC_APP_TEST_CFE_TBL_RegisterHook3(void                   *UserObj,
+                                        int32                   StubRetcode,
+                                        uint32                  CallCount,
                                         const UT_StubContext_t *Context)
 {
     LC_APP_TEST_CFE_TBL_RegisterHookCount++;
@@ -88,7 +94,9 @@ int32 LC_APP_TEST_CFE_TBL_RegisterHook3(void *UserObj, int32 StubRetcode, uint32
         return CFE_SUCCESS;
 }
 
-int32 LC_APP_TEST_CFE_TBL_RegisterHook4(void *UserObj, int32 StubRetcode, uint32 CallCount,
+int32 LC_APP_TEST_CFE_TBL_RegisterHook4(void                   *UserObj,
+                                        int32                   StubRetcode,
+                                        uint32                  CallCount,
                                         const UT_StubContext_t *Context)
 {
     LC_APP_TEST_CFE_TBL_RegisterHookCount++;
@@ -292,7 +300,11 @@ void LC_AppInit_Test_Nominal(void)
     Result = LC_AppInit();
 
     /* Verify results */
-    sprintf(Message, "LC Initialized. Version %d.%d.%d.%d", LC_MAJOR_VERSION, LC_MINOR_VERSION, LC_REVISION,
+    sprintf(Message,
+            "LC Initialized. Version %d.%d.%d.%d",
+            LC_MAJOR_VERSION,
+            LC_MINOR_VERSION,
+            LC_REVISION,
             LC_MISSION_REV);
 
     UtAssert_INT32_EQ(Result, CFE_SUCCESS);
@@ -563,9 +575,9 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset SendEvent and don't recover WDT */
@@ -573,7 +585,7 @@ void LC_TableInit_Test_LoadDefaultTables(void)
     UT_ResetState(UT_KEY(LC_ResetCounters));
     UT_ResetState(UT_KEY(LC_ResetResultsWP));
     UT_ResetState(UT_KEY(LC_ResetResultsAP));
-    LC_OperData.TableResults = 0;
+    LC_OperData.TableResults  = 0;
     LC_AppData.CurrentLCState = 0x99;
 
     UtAssert_INT32_EQ(LC_TableInit(), CFE_SUCCESS);
@@ -587,9 +599,9 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset all states and only restore WRT and ART CDS */
@@ -614,9 +626,9 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset all states and only restore WRT */
@@ -640,9 +652,9 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);  /* HK data is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1); /* Result Table is not stale */
-    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1); /* AP Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
+    UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 }
 
@@ -960,7 +972,8 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering WDT as critical table, retrying with default options, RC=0x%%08X");
 
     LC_OperData.TableResults  = 0;
@@ -977,8 +990,8 @@ void LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
     UtAssert_True(LC_OperData.HaveActiveCDS == false, "LC_OperData.HaveActiveCDS == false");
-    UtAssert_True(LC_OperData.TableResults ==
-                      (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_CRITICAL_TBL | LC_ADT_TBL_RESTORED),
+    UtAssert_True(LC_OperData.TableResults
+                      == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_CRITICAL_TBL | LC_ADT_TBL_RESTORED),
                   "LC_OperData.TableResults == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_CRITICAL_TBL | "
                   "LC_ADT_TBL_RESTORED)");
 
@@ -998,7 +1011,8 @@ void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering ADT as critical table, retrying with default options, RC=0x%%08X");
 
     LC_OperData.TableResults  = 0;
@@ -1015,8 +1029,8 @@ void LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
     UtAssert_True(LC_OperData.HaveActiveCDS == false, "LC_OperData.HaveActiveCDS == false");
-    UtAssert_True(LC_OperData.TableResults ==
-                      (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_CRITICAL_TBL | LC_ADT_TBL_RESTORED),
+    UtAssert_True(LC_OperData.TableResults
+                      == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_CRITICAL_TBL | LC_ADT_TBL_RESTORED),
                   "LC_OperData.TableResults == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_CRITICAL_TBL | "
                   "LC_ADT_TBL_RESTORED)");
 
@@ -1047,8 +1061,8 @@ void LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical(void)
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-    UtAssert_True(LC_OperData.TableResults ==
-                      (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_NOT_CRITICAL | LC_WDT_NOT_CRITICAL),
+    UtAssert_True(LC_OperData.TableResults
+                      == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_NOT_CRITICAL | LC_WDT_NOT_CRITICAL),
                   "LC_OperData.TableResults == (LC_WDT_CRITICAL_TBL | LC_WDT_TBL_RESTORED | LC_ADT_NOT_CRITICAL | "
                   "LC_WDT_NOT_CRITICAL)");
 
@@ -1127,8 +1141,9 @@ void LC_LoadDefaultTables_Test_NominalActiveCDS(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True(LC_OperData.TableResults == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA |
-                                               LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA | LC_CDS_UPDATED),
+    UtAssert_True(LC_OperData.TableResults
+                      == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA | LC_ART_DEFAULT_DATA
+                          | LC_APP_DEFAULT_DATA | LC_CDS_UPDATED),
                   "LC_OperData.TableResults == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA | "
                   "LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA | LC_CDS_UPDATED)");
 
@@ -1161,8 +1176,9 @@ void LC_LoadDefaultTables_Test_ActiveCDSNotSuccess(void)
     /* Verify results */
     UtAssert_INT32_EQ(Result, CFE_SUCCESS);
 
-    UtAssert_INT32_EQ(LC_OperData.TableResults, (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA |
-                                                 LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA));
+    UtAssert_INT32_EQ(
+        LC_OperData.TableResults,
+        (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA | LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA));
 
     UtAssert_INT32_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET);
 
@@ -1190,8 +1206,9 @@ void LC_LoadDefaultTables_Test_NominalInactiveCDS(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True(LC_OperData.TableResults == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA |
-                                               LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA),
+    UtAssert_True(LC_OperData.TableResults
+                      == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA | LC_ART_DEFAULT_DATA
+                          | LC_APP_DEFAULT_DATA),
                   "LC_OperData.TableResults == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA | "
                   "LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA)");
 
@@ -1300,8 +1317,9 @@ void LC_LoadDefaultTables_Test_InfoUpdated(void)
     /* Verify results */
     UtAssert_True(Result == CFE_TBL_INFO_UPDATED, "Result == CFE_TBL_INFO_UPDATED");
 
-    UtAssert_True(LC_OperData.TableResults == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA |
-                                               LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA | LC_CDS_UPDATED),
+    UtAssert_True(LC_OperData.TableResults
+                      == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA | LC_ART_DEFAULT_DATA
+                          | LC_APP_DEFAULT_DATA | LC_CDS_UPDATED),
                   "LC_OperData.TableResults == (LC_WDT_DEFAULT_TBL | LC_ADT_DEFAULT_TBL | LC_WRT_DEFAULT_DATA | "
                   "LC_ART_DEFAULT_DATA | LC_APP_DEFAULT_DATA | LC_CDS_UPDATED)");
 
@@ -1386,7 +1404,8 @@ void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
 
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 3, -1);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering application data CDS Area, RC=0x%%08X");
 
     Result = LC_CreateTaskCDS();
@@ -1515,87 +1534,161 @@ void UtTest_Setup(void)
 
     UtTest_Add(LC_SbInit_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_SbInit_Test_Nominal");
     UtTest_Add(LC_SbInit_Test_CreatePipeError, LC_Test_Setup, LC_Test_TearDown, "LC_SbInit_Test_CreatePipeError");
-    UtTest_Add(LC_SbInit_Test_SubscribeHKReqError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SbInit_Test_SubscribeHKReqError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SbInit_Test_SubscribeHKReqError");
-    UtTest_Add(LC_SbInit_Test_SubscribeGndCmdError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SbInit_Test_SubscribeGndCmdError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SbInit_Test_SubscribeGndCmdError");
-    UtTest_Add(LC_SbInit_Test_SubscribeSampleCmdError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_SbInit_Test_SubscribeSampleCmdError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_SbInit_Test_SubscribeSampleCmdError");
 
-    UtTest_Add(LC_TableInit_Test_CreateTaskCDSError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_CreateTaskCDSError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_CreateTaskCDSError");
-    UtTest_Add(LC_TableInit_Test_CreateResultsTablesError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_CreateResultsTablesError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_CreateResultsTablesError");
-    UtTest_Add(LC_TableInit_Test_CreateDefinitionTablesError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_CreateDefinitionTablesError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_CreateDefinitionTablesError");
 
     UtTest_Add(LC_TableInit_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_TableInit_Test_Nominal");
-    UtTest_Add(LC_TableInit_Test_LoadDefaultTables, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_LoadDefaultTables,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_LoadDefaultTables");
-    UtTest_Add(LC_TableInit_Test_GetWDTAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_GetWDTAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_GetWDTAddressError");
-    UtTest_Add(LC_TableInit_Test_GetWDTAddressUpdated, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_GetWDTAddressUpdated,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_GetWDTAddressUpdated");
-    UtTest_Add(LC_TableInit_Test_GetADTAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_GetADTAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_GetADTAddressError");
-    UtTest_Add(LC_TableInit_Test_GetADTAddressUpdated, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_TableInit_Test_GetADTAddressUpdated,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_TableInit_Test_GetADTAddressUpdated");
 
-    UtTest_Add(LC_CreateResultTables_Test_Nominal, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateResultTables_Test_Nominal,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateResultTables_Test_Nominal");
-    UtTest_Add(LC_CreateResultTables_Test_WRTRegisterError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateResultTables_Test_WRTRegisterError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateResultTables_Test_WRTRegisterError");
-    UtTest_Add(LC_CreateResultTables_Test_WRTGetAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateResultTables_Test_WRTGetAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateResultTables_Test_WRTGetAddressError");
-    UtTest_Add(LC_CreateResultTables_Test_ARTRegisterError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateResultTables_Test_ARTRegisterError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateResultTables_Test_ARTRegisterError");
-    UtTest_Add(LC_CreateResultTables_Test_ARTGetAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateResultTables_Test_ARTGetAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateResultTables_Test_ARTGetAddressError");
 
-    UtTest_Add(LC_CreateDefinitionTables_Test_NominalCDSActive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_NominalCDSActive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_NominalCDSActive");
-    UtTest_Add(LC_CreateDefinitionTables_Test_NominalCDSInactive, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_NominalCDSInactive,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_NominalCDSInactive");
-    UtTest_Add(LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_WDTReRegisterThenInfoRecovered");
-    UtTest_Add(LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_ADTReRegisterThenInfoRecovered");
-    UtTest_Add(LC_CreateDefinitionTables_Test_WDTReRegisterError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_WDTReRegisterError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_WDTReRegisterError");
-    UtTest_Add(LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_WDTCriticalADTNoncritical");
-    UtTest_Add(LC_CreateDefinitionTables_Test_WDTRegisterError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_WDTRegisterError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_WDTRegisterError");
-    UtTest_Add(LC_CreateDefinitionTables_Test_ADTRegisterError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateDefinitionTables_Test_ADTRegisterError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateDefinitionTables_Test_ADTRegisterError");
 
-    UtTest_Add(LC_LoadDefaultTables_Test_NominalActiveCDS, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_NominalActiveCDS,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_NominalActiveCDS");
-    UtTest_Add(LC_LoadDefaultTables_Test_ActiveCDSNotSuccess, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_ActiveCDSNotSuccess,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_ActiveCDSNotSuccess");
-    UtTest_Add(LC_LoadDefaultTables_Test_NominalInactiveCDS, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_NominalInactiveCDS,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_NominalInactiveCDS");
-    UtTest_Add(LC_LoadDefaultTables_Test_LoadWDTError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_LoadWDTError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_LoadWDTError");
-    UtTest_Add(LC_LoadDefaultTables_Test_GetWDTAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_GetWDTAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_GetWDTAddressError");
-    UtTest_Add(LC_LoadDefaultTables_Test_LoadADTError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_LoadADTError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_LoadADTError");
-    UtTest_Add(LC_LoadDefaultTables_Test_GetADTAddressError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_GetADTAddressError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_GetADTAddressError");
-    UtTest_Add(LC_LoadDefaultTables_Test_InfoUpdated, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_LoadDefaultTables_Test_InfoUpdated,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_InfoUpdated");
 
     UtTest_Add(LC_CreateTaskCDS_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_CreateTaskCDS_Test_Nominal");
-    UtTest_Add(LC_CreateTaskCDS_Test_WRTRegisterCDSError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateTaskCDS_Test_WRTRegisterCDSError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateTaskCDS_Test_WRTRegisterCDSError");
-    UtTest_Add(LC_CreateTaskCDS_Test_ARTRegisterCDSError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateTaskCDS_Test_ARTRegisterCDSError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateTaskCDS_Test_ARTRegisterCDSError");
-    UtTest_Add(LC_CreateTaskCDS_Test_AppDataRegisterCDSError, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateTaskCDS_Test_AppDataRegisterCDSError,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateTaskCDS_Test_AppDataRegisterCDSError");
-    UtTest_Add(LC_CreateTaskCDS_Test_RestoreSuccess, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateTaskCDS_Test_RestoreSuccess,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateTaskCDS_Test_RestoreSuccess");
-    UtTest_Add(LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved");
     UtTest_Add(LC_CreateTaskCDS_Test_RestoreFail, LC_Test_Setup, LC_Test_TearDown, "LC_CreateTaskCDS_Test_RestoreFail");
 }

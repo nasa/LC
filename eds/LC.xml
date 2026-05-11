@@ -284,6 +284,7 @@
       <ContainerDataType name="SetLCState_Payload" shortDescription="Modify PDU file size command structure">
         <EntryList>
           <Entry name="NewLCState" type="BASE_TYPES/uint16" shortDescription="New LC application state" />
+          <PaddingEntry sizeInBits="16" shortDescription="32-bit alignment"/>
         </EntryList>
       </ContainerDataType>
 
@@ -294,7 +295,7 @@
         </EntryList>
       </ContainerDataType>
 
-      <ContainerDataType name="SetAPPermOff_Payload" basetype="CFE_HDR/CommandHeader" shortDescription="Set AP (Actionpoint) Permanently Off">
+      <ContainerDataType name="SetAPPermOff_Payload" shortDescription="Set AP (Actionpoint) Permanently Off">
         <EntryList>
           <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint to change" />
           <Entry name="Padding" type="BASE_TYPES/uint16" shortDescription="Structure padding" />
@@ -304,6 +305,7 @@
       <ContainerDataType name="ResetAPStats_Payload" shortDescription="Reset AP (Actionpoint) Statistics">
         <EntryList>
           <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint to change" />
+          <PaddingEntry sizeInBits="16" shortDescription="Padding for 32-bit alignment"/>
         </EntryList>
       </ContainerDataType>
 

@@ -107,8 +107,12 @@ void LC_CustomFunction_Test_WatchIndex1(void)
 void UtTest_Setup(void)
 {
     UtTest_Add(LC_ExecuteRTS_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ExecuteRTS_Test");
-    UtTest_Add(LC_CustomFunction_Test_WatchIndex0, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CustomFunction_Test_WatchIndex0,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CustomFunction_Test_WatchIndex0");
-    UtTest_Add(LC_CustomFunction_Test_WatchIndex1, LC_Test_Setup, LC_Test_TearDown,
+    UtTest_Add(LC_CustomFunction_Test_WatchIndex1,
+               LC_Test_Setup,
+               LC_Test_TearDown,
                "LC_CustomFunction_Test_WatchIndex1");
 }

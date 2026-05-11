@@ -64,7 +64,6 @@ CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
  */
 void LC_ResetCounters(void)
 {
-
     UT_GenStub_Execute(LC_ResetCounters, Basic, NULL);
 }
 
