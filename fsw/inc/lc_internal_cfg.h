@@ -214,7 +214,7 @@
  *       or equal to zero.
  */
 #define LC_MISSION_REV         LC_INTERNAL_CFGVAL(MISSION_REV)
-#define DEFAULT_LC_MISSION_REV 0
+#define DEFAULT_LC_MISSION_REV 0xFF
 
 /**\}*/
 
