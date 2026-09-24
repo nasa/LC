@@ -41,37 +41,16 @@
 void LC_SampleAPs(uint16 StartIndex, uint16 EndIndex)
 {
     uint16 TableIndex;
-    uint8  CurrentAPState;
 
     /*
-    ** Make sure the current state of the starting actionpoint
-    ** in the sample is valid for a sample request
-    */
-    CurrentAPState = LC_OperData.ARTPtr[StartIndex].CurrentState;
-
-    if ((CurrentAPState != LC_ACTION_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
+     ** Sample selected actionpoints.
+     ** LC_SampleSingleAP handles per-AP state checks internally,
+     ** so no pre-check on the start index is needed.
+     */
+    for (TableIndex = StartIndex; TableIndex <= EndIndex; TableIndex++)
     {
-        /*
-         ** Sample selected actionpoints
-         */
-        for (TableIndex = StartIndex; TableIndex <= EndIndex; TableIndex++)
-        {
-            LC_SampleSingleAP(TableIndex);
-        }
+        LC_SampleSingleAP(TableIndex);
     }
-    else
-    {
-        /*
-        **  Actionpoint isn't currently operational
-        */
-        CFE_EVS_SendEvent(LC_APSAMPLE_CURR_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Sample AP error, invalid current AP state: AP = %d, State = %d",
-                          StartIndex,
-                          CurrentAPState);
-    }
-
-    return;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
