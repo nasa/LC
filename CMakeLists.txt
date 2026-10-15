@@ -1,5 +1,18 @@
 project(CFS_LC C)
 
+include(CheckSymbolExists)
+
+# Check for "isnan" and "isfinite" is present in "math.h"
+set(CMAKE_REQUIRED_LIBRARIES m)
+check_symbol_exists(isnan "math.h" HAVE_ISNAN CMAKE_REQUIRED_LIBRARIES)
+check_symbol_exists(isfinite "math.h" HAVE_ISFINITE CMAKE_REQUIRED_LIBRARIES)
+
+if (HAVE_ISNAN OR HAVE_ISFINITE)
+  # Add math library dependency to LC App
+  message(STATUS "Adding math library dependency to LC App...")
+  link_libraries(m)
+endif()
+
 set(APP_SRC_FILES
   fsw/src/lc_custom.c
   fsw/src/lc_app.c

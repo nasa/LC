@@ -7,6 +7,9 @@
 #
 ##################################################################
 
+# Determine if math library is present
+find_library(MATH_LIB_FOUND NAMES m)
+
 add_cfe_coverage_stubs("lc_internal"
   utilities/lc_test_utils.c
   stubs/lc_app_stubs.c
@@ -20,7 +23,11 @@ add_cfe_coverage_stubs("lc_internal"
 )
 
 # Link with the cfe core stubs and unit test assert libs
-target_link_libraries(coverage-lc_internal-stubs ut_core_api_stubs ut_assert)
+if (MATH_LIB_FOUND)
+  target_link_libraries(coverage-lc_internal-stubs ut_core_api_stubs ut_assert m)
+else()
+  target_link_libraries(coverage-lc_internal-stubs ut_core_api_stubs ut_assert)
+endif()
 
 # Include and expose unit test utilities, fsw/inc, and fsw/src includes
 target_include_directories(coverage-lc_internal-stubs PUBLIC utilities)
