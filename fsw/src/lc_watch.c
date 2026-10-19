@@ -907,7 +907,7 @@ bool LC_GetSizedWPData(uint16 WatchIndex, const uint8 *WPDataPtr, uint32 *SizedD
     {
         case LC_DATA_WATCH_BYTE:
             TempBuffer.Signed8 = *WPDataPtr;
-            *SizedDataPtr      = TempBuffer.Signed8; /* Extend signed 8 bit value to 32 bits */
+            *SizedDataPtr      = (uint32)TempBuffer.Signed8; /* Extend signed 8 bit value to 32 bits */
             break;
 
         case LC_DATA_WATCH_UBYTE:
