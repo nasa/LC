@@ -48,7 +48,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandCounter will increment
  *       - The #LC_NOOP_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -57,7 +57,7 @@
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandErrCounter will increment
  *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *
  *  \par Criticality
@@ -79,7 +79,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdCount will be cleared
+ *       - #LC_HkTlm_Payload_t.CommandCounterounter will be cleared
  *       - The #LC_RESET_INF_EID debug event message will be
  *         generated when the command is executed
  *
@@ -88,7 +88,7 @@
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandErrCounter will increment
  *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *
  *  \par Criticality
@@ -110,7 +110,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandCounter will increment
  *       - #LC_HkTlm_Payload_t.CurrentLCState will be set to the new state
  *       - The #LC_LCSTATE_INF_EID informational event message will be
  *         generated when the command is executed
@@ -121,7 +121,7 @@
  *       - Invalid new state specified in command message
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandErrCounter will increment
  *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_LCSTATE_ERR_EID
  *
@@ -143,7 +143,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandCounter will increment
  *       - The #LC_APSTATE_INF_EID informational event message will be
  *         generated when the command is executed
  *
@@ -157,7 +157,7 @@
  *         or #LC_APSTATE_PERMOFF
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandErrCounter will increment
  *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_APSTATE_NEW_ERR_EID
  *       - Error specific event message #LC_APSTATE_APNUM_ERR_EID
@@ -181,7 +181,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandCounter will increment
  *       - The #LC_APOFF_INF_EID informational event message will be
  *         generated when the command is executed
  *
@@ -193,7 +193,7 @@
  *       - Actionpoint current state is not #LC_APSTATE_DISABLED
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandErrCounter will increment
  *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_APOFF_APNUM_ERR_EID
  *       - Error specific event message #LC_APOFF_CURR_ERR_EID
@@ -216,7 +216,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandCounter will increment
  *       - The #LC_APSTATS_INF_EID informational event message will be
  *         generated when the command is executed
  *
@@ -227,7 +227,7 @@
  *         out of range
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandErrCounter will increment
  *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_APSTATS_APNUM_ERR_EID
  *
@@ -250,7 +250,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandCounter will increment
  *       - The #LC_WPSTATS_INF_EID informational event message will be
  *         generated when the command is executed
  *
@@ -261,7 +261,7 @@
  *         out of range
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #LC_HkTlm_Payload_t.CmdErrCount will increment
+ *       - #LC_HkTlm_Payload_t.CommandErrCounter will increment
  *       - Error specific event message #LC_CMD_LEN_ERR_EID
  *       - Error specific event message #LC_WPSTATS_WPNUM_ERR_EID
  *
