@@ -135,7 +135,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-    LC_SampleAP_Payload_t Payload;
+    LC_SampleAP_Payload_t   Payload;
 } LC_SampleAPCmd_t;
 
 /**
@@ -145,7 +145,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
+    CFE_MSG_CommandHeader_t   CommandHeader; /**< \brief Command Header */
     LC_ResetWPStats_Payload_t Payload;
 } LC_ResetWPStatsCmd_t;
 
@@ -174,7 +174,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_TelemetryHeader_t TelemetryHeader; /**< \brief Telemetry Header */
-    LC_HkTlm_Payload_t Payload;
+    LC_HkTlm_Payload_t        Payload;
 } LC_HkPacket_t;
 
 /**\}*/
