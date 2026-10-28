@@ -125,35 +125,14 @@
 /**
  *  \brief Reset AP (Actionpoint) Statistics Payload
  *
- *  For command details see #LC_RESET_AP_STATS_CC
+ *  For command details see #LC_RESET_AP_STATS_CC,
+ *  #LC_SET_AP_PERM_OFF_CC, #LC_SET_AP_STATE_CC
  */
 typedef struct
 {
     uint16 APNumber; /**< \brief Which actionpoint(s) to change */
-    uint16 Padding;  /**< \brief Structure padding              */
-} LC_ResetAPStats_Payload_t;
-
-/**
- *  \brief Set AP (Actionpoint) Permanently Off Payload
- *
- *  For command details see #LC_SET_AP_PERM_OFF_CC
- */
-typedef struct
-{
-    uint16 APNumber; /**< \brief Which actionpoint to change */
-    uint16 Padding;  /**< \brief Structure padding           */
-} LC_SetAPPermOff_Payload_t;
-
-/**
- *  \brief Set AP (Actionpoint) State Payload
- *
- *  For command details see #LC_SET_AP_STATE_CC
- */
-typedef struct
-{
-    uint16 APNumber;   /**< \brief Which actionpoint(s) to change */
-    uint16 NewAPState; /**< \brief New actionpoint state          */
-} LC_SetAPState_Payload_t;
+    uint16 Padding;  /**< \brief Structure padding */
+} LC_APNumber_Payload_t;
 
 /**
  *  \brief Set AP (Actionpoint) State Payload
@@ -173,8 +152,8 @@ typedef struct
  */
 typedef struct
 {
-    uint16 NewLCState; /**< \brief New LC application state    */
-    uint16 Padding;    /**< \brief Structure padding           */
+    uint16 NewLCState; /**< \brief New LC application state */
+    uint16 Padding;    /**< \brief Structure padding */
 } LC_SetLCState_Payload_t;
 
 /**
@@ -199,7 +178,7 @@ typedef struct
 typedef struct
 {
     uint16 WPNumber; /**< \brief Which watchpoint(s) to change */
-    uint16 Padding;  /**< \brief Structure padding             */
+    uint16 Padding;  /**< \brief Structure padding */
 } LC_ResetWPStats_Payload_t;
 
 /**
