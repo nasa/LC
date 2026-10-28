@@ -480,9 +480,9 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
 {
-    const LC_SetAPPermOff_Payload_t *CmdPtr = &msg->Payload;
-    uint32                           TableIndex;
-    uint8                            CurrentAPState;
+    const LC_APNumber_Payload_t *CmdPtr = &msg->Payload;
+    uint32                       TableIndex;
+    uint8                        CurrentAPState;
 
     if (((CmdPtr->APNumber) == LC_ALL_ACTIONPOINTS) || ((CmdPtr->APNumber) >= LC_MAX_ACTIONPOINTS))
     {
@@ -543,8 +543,8 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
 {
-    const LC_ResetAPStats_Payload_t *CmdPtr     = &msg->Payload;
-    bool                             CmdSuccess = false;
+    const LC_APNumber_Payload_t *CmdPtr     = &msg->Payload;
+    bool                         CmdSuccess = false;
 
     /* arg may be one or all AP's */
     if (CmdPtr->APNumber == LC_ALL_ACTIONPOINTS)
