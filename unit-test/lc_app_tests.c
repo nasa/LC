@@ -330,8 +330,8 @@ void LC_AppInit_Test_Nominal(void)
     /* Note: not testing LC_OperData.WatchPtLinks == 0, because it is modified by a subfunction */
     UtAssert_INT32_EQ(LC_OperData.HaveActiveCDS, 0);
 
-    UtAssert_INT32_EQ(LC_AppData.CmdCount, 0);
-    UtAssert_INT32_EQ(LC_AppData.CmdErrCount, 0);
+    UtAssert_INT32_EQ(LC_AppData.CommandCounter, 0);
+    UtAssert_INT32_EQ(LC_AppData.CommandErrCounter, 0);
     UtAssert_INT32_EQ(LC_AppData.APSampleCount, 0);
     UtAssert_INT32_EQ(LC_AppData.MonitoredMsgCount, 0);
     UtAssert_INT32_EQ(LC_AppData.RTSExecCount, 0);

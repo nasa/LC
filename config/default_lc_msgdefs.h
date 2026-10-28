@@ -221,9 +221,9 @@ typedef struct
  */
 typedef struct
 {
-    uint8 CmdCount;       /**< \brief LC Application Command Counter */
-    uint8 CmdErrCount;    /**< \brief LC Application Command Error Counter */
-    uint8 CurrentLCState; /**< \brief Current LC application operating state */
+    uint8 CommandCounter;    /**< \brief LC Application Command Counter */
+    uint8 CommandErrCounter; /**< \brief LC Application Command Error Counter */
+    uint8 CurrentLCState;    /**< \brief Current LC application operating state */
 
     uint8 Pad8; /**< \brief Structure padding */
 
