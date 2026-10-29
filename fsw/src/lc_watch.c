@@ -785,9 +785,9 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
 {
     size_t         MsgLength = 0;
     uint32         Offset;
-    uint32         NumOfDataBytes = 0;
-    bool           OffsetValid    = true;
-    CFE_SB_MsgId_t MessageID      = CFE_SB_INVALID_MSG_ID;
+    uint32         NumOfDataBytes;
+    bool           OffsetValid = true;
+    CFE_SB_MsgId_t MessageID   = CFE_SB_INVALID_MSG_ID;
 
     /*
     ** Check the message length against the watchpoint

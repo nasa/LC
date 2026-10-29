@@ -54,10 +54,10 @@ LC_AppData_t  LC_AppData;
 
 void LC_AppMain(void)
 {
-    int32            Status      = CFE_SUCCESS;
-    bool             Initialized = false;
-    uint32           RunStatus   = CFE_ES_RunStatus_APP_RUN;
-    CFE_SB_Buffer_t *BufPtr      = NULL;
+    int32            Status;
+    bool             Initialized;
+    uint32           RunStatus = CFE_ES_RunStatus_APP_RUN;
+    CFE_SB_Buffer_t *BufPtr    = NULL;
 
     /*
     ** Performance Log, Start
@@ -186,7 +186,7 @@ void LC_AppMain(void)
 
 CFE_Status_t LC_AppInit(void)
 {
-    CFE_Status_t Status = CFE_SUCCESS;
+    CFE_Status_t Status;
 
     /*
     ** Zero out the global data structures...
@@ -241,7 +241,7 @@ CFE_Status_t LC_AppInit(void)
 
 CFE_Status_t LC_EvsInit(void)
 {
-    CFE_Status_t Status = CFE_SUCCESS;
+    CFE_Status_t Status;
 
     /*
     ** If an application event filter table is added
@@ -269,7 +269,7 @@ CFE_Status_t LC_EvsInit(void)
 
 CFE_Status_t LC_SbInit(void)
 {
-    CFE_Status_t Status = CFE_SUCCESS;
+    CFE_Status_t Status;
 
     /*
     ** Initialize housekeeping packet...
