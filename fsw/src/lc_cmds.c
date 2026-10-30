@@ -125,8 +125,8 @@ CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
     /* Update HK variables */
     PayloadPtr = &LC_OperData.HkPacket.Payload;
 
-    PayloadPtr->CmdCount            = LC_AppData.CmdCount;
-    PayloadPtr->CmdErrCount         = LC_AppData.CmdErrCount;
+    PayloadPtr->CommandCounter      = LC_AppData.CommandCounter;
+    PayloadPtr->CommandErrCounter   = LC_AppData.CommandErrCounter;
     PayloadPtr->APSampleCount       = LC_AppData.APSampleCount;
     PayloadPtr->MonitoredMsgCount   = LC_AppData.MonitoredMsgCount;
     PayloadPtr->RTSExecCount        = LC_AppData.RTSExecCount;
@@ -266,7 +266,7 @@ CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg)
 {
-    LC_AppData.CmdCount++;
+    LC_AppData.CommandCounter++;
 
     CFE_EVS_SendEvent(LC_NOOP_INF_EID,
                       CFE_EVS_EventType_INFORMATION,
@@ -300,8 +300,8 @@ CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void LC_ResetCounters(void)
 {
-    LC_AppData.CmdCount    = 0;
-    LC_AppData.CmdErrCount = 0;
+    LC_AppData.CommandCounter    = 0;
+    LC_AppData.CommandErrCounter = 0;
 
     LC_AppData.APSampleCount       = 0;
     LC_AppData.MonitoredMsgCount   = 0;
@@ -324,7 +324,7 @@ CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg)
         case LC_STATE_PASSIVE:
         case LC_STATE_DISABLED:
             LC_AppData.CurrentLCState = CmdPtr->NewLCState;
-            LC_AppData.CmdCount++;
+            LC_AppData.CommandCounter++;
 
             CFE_EVS_SendEvent(LC_LCSTATE_INF_EID,
                               CFE_EVS_EventType_INFORMATION,
@@ -338,7 +338,7 @@ CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg)
                               "Set LC state error: invalid state = %d",
                               CmdPtr->NewLCState);
 
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
             break;
     }
 
@@ -377,7 +377,7 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
                               CmdPtr->APNumber,
                               CmdPtr->NewAPState);
 
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
             break;
     }
 
@@ -435,7 +435,7 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
                                       CmdPtr->APNumber,
                                       CurrentAPState);
 
-                    LC_AppData.CmdErrCount++;
+                    LC_AppData.CommandErrCounter++;
                 }
             }
             else
@@ -449,7 +449,7 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
                                   "Set AP state error: Invalid AP number = %d",
                                   CmdPtr->APNumber);
 
-                LC_AppData.CmdErrCount++;
+                LC_AppData.CommandErrCounter++;
             }
         }
 
@@ -459,7 +459,7 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
         */
         if (CmdSuccess == true)
         {
-            LC_AppData.CmdCount++;
+            LC_AppData.CommandCounter++;
 
             CFE_EVS_SendEvent(LC_APSTATE_INF_EID,
                               CFE_EVS_EventType_INFORMATION,
@@ -480,9 +480,9 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
 {
-    const LC_SetAPPermOff_Payload_t *CmdPtr = &msg->Payload;
-    uint32                           TableIndex;
-    uint8                            CurrentAPState;
+    const LC_APNumber_Payload_t *CmdPtr = &msg->Payload;
+    uint32                       TableIndex;
+    uint8                        CurrentAPState;
 
     if (((CmdPtr->APNumber) == LC_ALL_ACTIONPOINTS) || ((CmdPtr->APNumber) >= LC_MAX_ACTIONPOINTS))
     {
@@ -495,7 +495,7 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
                           "Set AP perm off error: Invalid AP number = %d",
                           CmdPtr->APNumber);
 
-        LC_AppData.CmdErrCount++;
+        LC_AppData.CommandErrCounter++;
     }
     else
     {
@@ -514,7 +514,7 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
                               CmdPtr->APNumber,
                               CurrentAPState);
 
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
         }
         else
         {
@@ -523,7 +523,7 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
             */
             LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_PERMOFF;
 
-            LC_AppData.CmdCount++;
+            LC_AppData.CommandCounter++;
 
             CFE_EVS_SendEvent(LC_APOFF_INF_EID,
                               CFE_EVS_EventType_INFORMATION,
@@ -543,8 +543,8 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
 {
-    const LC_ResetAPStats_Payload_t *CmdPtr     = &msg->Payload;
-    bool                             CmdSuccess = false;
+    const LC_APNumber_Payload_t *CmdPtr     = &msg->Payload;
+    bool                         CmdSuccess = false;
 
     /* arg may be one or all AP's */
     if (CmdPtr->APNumber == LC_ALL_ACTIONPOINTS)
@@ -560,7 +560,7 @@ CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
     else
     {
         /* arg is out of range (zero based table index) */
-        LC_AppData.CmdErrCount++;
+        LC_AppData.CommandErrCounter++;
 
         CFE_EVS_SendEvent(LC_APSTATS_APNUM_ERR_EID,
                           CFE_EVS_EventType_ERROR,
@@ -570,7 +570,7 @@ CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
 
     if (CmdSuccess == true)
     {
-        LC_AppData.CmdCount++;
+        LC_AppData.CommandCounter++;
 
         CFE_EVS_SendEvent(LC_APSTATS_INF_EID,
                           CFE_EVS_EventType_INFORMATION,
@@ -635,7 +635,7 @@ CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg)
     else
     {
         /* arg is out of range (zero based table index) */
-        LC_AppData.CmdErrCount++;
+        LC_AppData.CommandErrCounter++;
 
         CFE_EVS_SendEvent(LC_WPSTATS_WPNUM_ERR_EID,
                           CFE_EVS_EventType_ERROR,
@@ -645,7 +645,7 @@ CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg)
 
     if (CmdSuccess == true)
     {
-        LC_AppData.CmdCount++;
+        LC_AppData.CommandCounter++;
 
         CFE_EVS_SendEvent(LC_WPSTATS_INF_EID,
                           CFE_EVS_EventType_INFORMATION,
