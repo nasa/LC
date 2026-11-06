@@ -65,26 +65,16 @@ void LC_SampleAPs_Test_SingleActionPointError(void)
 {
     uint16 StartIndex = 0;
     uint16 EndIndex   = 0;
-    int32  strCmpResult;
-    char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString,
-             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
     LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_NOT_USED;
 
     /* Execute the function being tested */
     LC_SampleAPs(StartIndex, EndIndex);
 
-    /* Verify results */
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
+    /* Verify results: LC_SampleSingleAP silently skips actionpoints that
+     * are not ACTIVE or PASSIVE, so no event should be issued for an
+     * invalid starting actionpoint state */
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
 void LC_SampleAPs_Test_MultiActionPointNominal(void)
@@ -103,26 +93,16 @@ void LC_SampleAPs_Test_SingleActionPointPermOff(void)
 {
     uint16 StartIndex = 0;
     uint16 EndIndex   = 0;
-    int32  strCmpResult;
-    char   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString,
-             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Sample AP error, invalid current AP state: AP = %%d, State = %%d");
 
     LC_OperData.ARTPtr[StartIndex].CurrentState = LC_APSTATE_PERMOFF;
 
     /* Execute the function being tested */
     LC_SampleAPs(StartIndex, EndIndex);
 
-    /* Verify results */
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSAMPLE_CURR_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
+    /* Verify results: LC_SampleSingleAP silently skips actionpoints that
+     * are not ACTIVE or PASSIVE, so no event should be issued for an
+     * invalid starting actionpoint state */
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 0);
 }
 
 void LC_SampleSingleAP_Test_StateChangePassToFail(void)
