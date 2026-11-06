@@ -288,27 +288,27 @@ void LC_SampleSingleAP(uint16 APNumber)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
- * StackPtr is an index into an array RPNStack (see LC_EvaluateRPN)
+ * StackIdx is an index into an array RPNStack (see LC_EvaluateRPN)
  * which contains values to be used in an RPN function.  This macro
- * validates the StackPtr to confirm that another operand is present
+ * validates the StackIdx to confirm that another operand is present
  * in the RPMStack array, then returns the next element.
  */
-#define POP_RPN_DATA ((StackPtr <= 0) ? (IllegalRPN = true) : (RPNStack[--StackPtr]))
+#define POP_RPN_DATA ((StackIdx <= 0) ? (IllegalRPN = true) : (RPNStack[--StackIdx]))
 uint8 LC_EvaluateRPN(uint16 APNumber)
 {
     bool   Done;
     bool   IllegalRPN;
     bool   IllegalOperand;
     uint8  EvalResult = LC_ACTION_ERROR;
-    int32  RPNEquationPtr;
-    int32  StackPtr;
+    int32  RPNEquationIdx;
+    int32  StackIdx;
     uint16 RPNData;
     uint16 RPNStack[LC_MAX_RPN_EQU_SIZE];
     uint16 Operand1;
     uint16 Operand2;
 
-    StackPtr       = 0;
-    RPNEquationPtr = 0;
+    StackIdx       = 0;
+    RPNEquationIdx = 0;
     IllegalRPN     = false;
     IllegalOperand = false;
     Done           = false;
@@ -322,9 +322,9 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
         **  Pick off each piece of the RPN equation and handle
         **  one at a time
         */
-        RPNData = LC_OperData.ADTPtr[APNumber].RPNEquation[RPNEquationPtr];
+        RPNData = LC_OperData.ADTPtr[APNumber].RPNEquation[RPNEquationIdx];
 
-        RPNEquationPtr++;
+        RPNEquationIdx++;
 
         /*
         **  The data is either an RPN operator or a watchpoint number
@@ -341,22 +341,22 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if ((Operand1 == LC_WATCH_FALSE) || (Operand2 == LC_WATCH_FALSE))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_FALSE;
+                    RPNStack[StackIdx] = LC_WATCH_FALSE;
                 }
                 else if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_ERROR;
+                    RPNStack[StackIdx] = LC_WATCH_ERROR;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_STALE;
+                    RPNStack[StackIdx] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    RPNStack[StackPtr] = LC_WATCH_TRUE;
+                    RPNStack[StackIdx] = LC_WATCH_TRUE;
                 }
 
-                StackPtr++;
+                StackIdx++;
 
                 break;
 
@@ -365,22 +365,22 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if ((Operand1 == LC_WATCH_TRUE) || (Operand2 == LC_WATCH_TRUE))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_TRUE;
+                    RPNStack[StackIdx] = LC_WATCH_TRUE;
                 }
                 else if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_ERROR;
+                    RPNStack[StackIdx] = LC_WATCH_ERROR;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_STALE;
+                    RPNStack[StackIdx] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    RPNStack[StackPtr] = LC_WATCH_FALSE;
+                    RPNStack[StackIdx] = LC_WATCH_FALSE;
                 }
 
-                StackPtr++;
+                StackIdx++;
 
                 break;
 
@@ -389,18 +389,18 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_ERROR;
+                    RPNStack[StackIdx] = LC_WATCH_ERROR;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
-                    RPNStack[StackPtr] = LC_WATCH_STALE;
+                    RPNStack[StackIdx] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    RPNStack[StackPtr] = (Operand1 != Operand2);
+                    RPNStack[StackIdx] = (Operand1 != Operand2);
                 }
 
-                StackPtr++;
+                StackIdx++;
 
                 break;
 
@@ -408,18 +408,18 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 Operand1 = POP_RPN_DATA;
                 if (Operand1 == LC_WATCH_ERROR)
                 {
-                    RPNStack[StackPtr] = LC_WATCH_ERROR;
+                    RPNStack[StackIdx] = LC_WATCH_ERROR;
                 }
                 else if (Operand1 == LC_WATCH_STALE)
                 {
-                    RPNStack[StackPtr] = LC_WATCH_STALE;
+                    RPNStack[StackIdx] = LC_WATCH_STALE;
                 }
                 else
                 {
-                    RPNStack[StackPtr] = (Operand1 == LC_WATCH_FALSE);
+                    RPNStack[StackIdx] = (Operand1 == LC_WATCH_FALSE);
                 }
 
-                StackPtr++;
+                StackIdx++;
 
                 break;
 
@@ -429,7 +429,7 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 {
                     IllegalOperand = true;
                 }
-                else if (StackPtr == 0)
+                else if (StackIdx == 0)
                 {
                     Done = true;
                 }
@@ -446,9 +446,9 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
             default:
                 if (RPNData < LC_MAX_WATCHPOINTS)
                 {
-                    RPNStack[StackPtr] = LC_OperData.WRTPtr[RPNData].WatchResult;
+                    RPNStack[StackIdx] = LC_OperData.WRTPtr[RPNData].WatchResult;
 
-                    StackPtr++;
+                    StackIdx++;
                 }
                 else
                 {
@@ -463,7 +463,7 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
         */
         if ((Done == false) && (IllegalRPN == false) && (IllegalOperand == false))
         {
-            if (RPNEquationPtr >= LC_MAX_RPN_EQU_SIZE)
+            if (RPNEquationIdx >= LC_MAX_RPN_EQU_SIZE)
             {
                 IllegalRPN = true;
             }
@@ -475,10 +475,10 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
     {
         CFE_EVS_SendEvent(LC_INVALID_RPN_ERR_EID,
                           CFE_EVS_EventType_ERROR,
-                          "AP has illegal RPN expression: AP = %d, LastOperand = %d, StackPtr = %d",
+                          "AP has illegal RPN expression: AP = %d, LastOperand = %d, StackIdx = %d",
                           APNumber,
-                          (int)(RPNEquationPtr - 1),
-                          (int)StackPtr);
+                          (int)(RPNEquationIdx - 1),
+                          (int)StackIdx);
 
         EvalResult = LC_ACTION_ERROR;
     }
