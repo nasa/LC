@@ -137,7 +137,6 @@ void LC_CreateHashTable(void)
                 /* WatchPtLink points to last link in list for this Message ID */
                 WatchPtLink->Next = &LC_OperData.WatchPtLinks[LC_OperData.WatchpointCount];
 
-                /* Increment LC_OperData.WatchpointCount */
                 LC_OperData.WatchpointCount++;
 
                 /* Add new link to end of list, point to new last link */
@@ -185,7 +184,6 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
         /* Get next unused MessageID linked list entry */
         MessageLink = &LC_OperData.MessageLinks[LC_OperData.MessageIDsCount];
 
-        /* Increment LC_OperData.MessageIDsCount */
         LC_OperData.MessageIDsCount++;
 
         /* Set first (and only) link in this hash table entry linked list */
@@ -211,7 +209,6 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
                 MessageLink->Next = &LC_OperData.MessageLinks[LC_OperData.MessageIDsCount];
                 MessageLink       = MessageLink->Next;
 
-                /* Increment LC_OperData.MessageIDsCount */
                 LC_OperData.MessageIDsCount++;
 
                 /* Add link with this MessageID (will exit loop) */
@@ -248,7 +245,6 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
         /* Get next unused watchpoint linked list entry */
         WatchPtLink = &LC_OperData.WatchPtLinks[LC_OperData.WatchpointCount];
 
-        /* Increment LC_OperData.WatchpointCount */
         LC_OperData.WatchpointCount++;
 
         /* Set the start (and only) link in the watchpoint link list */
@@ -268,7 +264,6 @@ LC_WatchPtList_t *LC_AddWatchpoint(CFE_SB_MsgId_t MessageID)
         WatchPtLink->Next = &LC_OperData.WatchPtLinks[LC_OperData.WatchpointCount];
         WatchPtLink       = WatchPtLink->Next;
 
-        /* Increment LC_OperData.WatchpointCount */
         LC_OperData.WatchpointCount++;
     }
 
