@@ -342,27 +342,22 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 if ((Operand1 == LC_WATCH_FALSE) || (Operand2 == LC_WATCH_FALSE))
                 {
                     RPNStack[StackPtr] = LC_WATCH_FALSE;
-
-                    StackPtr++;
                 }
                 else if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
                     RPNStack[StackPtr] = LC_WATCH_ERROR;
-
-                    StackPtr++;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
                     RPNStack[StackPtr] = LC_WATCH_STALE;
-
-                    StackPtr++;
                 }
                 else
                 {
                     RPNStack[StackPtr] = LC_WATCH_TRUE;
-
-                    StackPtr++;
                 }
+
+                StackPtr++;
+
                 break;
 
             case LC_RPN_OR:
@@ -371,27 +366,22 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 if ((Operand1 == LC_WATCH_TRUE) || (Operand2 == LC_WATCH_TRUE))
                 {
                     RPNStack[StackPtr] = LC_WATCH_TRUE;
-
-                    StackPtr++;
                 }
                 else if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
                     RPNStack[StackPtr] = LC_WATCH_ERROR;
-
-                    StackPtr++;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
                     RPNStack[StackPtr] = LC_WATCH_STALE;
-
-                    StackPtr++;
                 }
                 else
                 {
                     RPNStack[StackPtr] = LC_WATCH_FALSE;
-
-                    StackPtr++;
                 }
+
+                StackPtr++;
+
                 break;
 
             case LC_RPN_XOR:
@@ -400,21 +390,18 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 if ((Operand1 == LC_WATCH_ERROR) || (Operand2 == LC_WATCH_ERROR))
                 {
                     RPNStack[StackPtr] = LC_WATCH_ERROR;
-
-                    StackPtr++;
                 }
                 else if ((Operand1 == LC_WATCH_STALE) || (Operand2 == LC_WATCH_STALE))
                 {
                     RPNStack[StackPtr] = LC_WATCH_STALE;
-
-                    StackPtr++;
                 }
                 else
                 {
                     RPNStack[StackPtr] = (Operand1 != Operand2);
-
-                    StackPtr++;
                 }
+
+                StackPtr++;
+
                 break;
 
             case LC_RPN_NOT:
@@ -422,21 +409,18 @@ uint8 LC_EvaluateRPN(uint16 APNumber)
                 if (Operand1 == LC_WATCH_ERROR)
                 {
                     RPNStack[StackPtr] = LC_WATCH_ERROR;
-
-                    StackPtr++;
                 }
                 else if (Operand1 == LC_WATCH_STALE)
                 {
                     RPNStack[StackPtr] = LC_WATCH_STALE;
-
-                    StackPtr++;
                 }
                 else
                 {
                     RPNStack[StackPtr] = (Operand1 == LC_WATCH_FALSE);
-
-                    StackPtr++;
                 }
+
+                StackPtr++;
+
                 break;
 
             case LC_RPN_EQUAL:
