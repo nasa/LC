@@ -843,7 +843,8 @@ bool LC_WPOffsetValid(uint16 WatchIndex, const CFE_SB_Buffer_t *BufPtr)
 
     Offset = LC_OperData.WDTPtr[WatchIndex].WatchpointOffset;
 
-    if ((Offset + NumOfDataBytes) > MsgLength)
+    /* Compare by subtraction so that a large table offset cannot wrap the sum */
+    if ((Offset > MsgLength) || (NumOfDataBytes > (MsgLength - Offset)))
     {
         OffsetValid = false;
 
