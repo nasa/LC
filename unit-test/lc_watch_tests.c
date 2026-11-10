@@ -1564,6 +1564,34 @@ void LC_WPOffsetValid_Test_OffsetError(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
+void LC_WPOffsetValid_Test_OffsetOverflow(void)
+{
+    bool           Result;
+    uint16         WatchIndex = 0;
+    CFE_SB_MsgId_t TestMsgId  = LC_UT_MID_1;
+    size_t         MsgSize    = 16;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
+
+    /* Offset plus the data size wraps to 3 in 32-bit arithmetic, which is less than MsgSize */
+    LC_OperData.WDTPtr[WatchIndex].DataType         = LC_DATA_WATCH_UDWORD_LE;
+    LC_OperData.WDTPtr[WatchIndex].WatchpointOffset = 0xFFFFFFFF;
+
+    /* Execute the function being tested */
+    Result = LC_WPOffsetValid(WatchIndex, &UT_CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_True(Result == false, "Result == false");
+
+    UtAssert_True(LC_OperData.WRTPtr[WatchIndex].WatchResult == LC_WATCH_ERROR,
+                  "LC_OperData.WRTPtr[WatchIndex].WatchResult == LC_WATCH_ERROR");
+
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent)), 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WP_OFFSET_ERR_EID);
+}
+
 void LC_GetSizedWPData_Test_DataByte(void)
 {
     bool   Result;
@@ -2406,6 +2434,10 @@ void UtTest_Setup(void)
                LC_Test_TearDown,
                "LC_WPOffsetValid_Test_DataTypeError");
     UtTest_Add(LC_WPOffsetValid_Test_OffsetError, LC_Test_Setup, LC_Test_TearDown, "LC_WPOffsetValid_Test_OffsetError");
+    UtTest_Add(LC_WPOffsetValid_Test_OffsetOverflow,
+               LC_Test_Setup,
+               LC_Test_TearDown,
+               "LC_WPOffsetValid_Test_OffsetOverflow");
 
     UtTest_Add(LC_GetSizedWPData_Test_DataByte, LC_Test_Setup, LC_Test_TearDown, "LC_GetSizedWPData_Test_DataByte");
     UtTest_Add(LC_GetSizedWPData_Test_DataUByte, LC_Test_Setup, LC_Test_TearDown, "LC_GetSizedWPData_Test_DataUByte");
