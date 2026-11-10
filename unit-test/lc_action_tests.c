@@ -1106,7 +1106,7 @@ void LC_EvaluateRPN_Test_DefaultIllegalRPN(void)
 
     snprintf(ExpectedEventString,
              CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
+             "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackIdx = %%d");
 
     LC_OperData.ADTPtr[APNumber].RPNEquation[0] = LC_MAX_WATCHPOINTS;
 
@@ -1135,7 +1135,7 @@ void LC_EvaluateRPN_Test_EndOfBufferWhenNotDone(void)
 
     snprintf(ExpectedEventString,
              CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackPtr = %%d");
+             "AP has illegal RPN expression: AP = %%d, LastOperand = %%d, StackIdx = %%d");
 
     for (i = 0; i < (sizeof(LC_OperData.ADTPtr[0].RPNEquation) / sizeof(LC_OperData.ADTPtr[0].RPNEquation[0])); i++)
     {
