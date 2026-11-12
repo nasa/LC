@@ -1002,7 +1002,13 @@ CFE_Status_t LC_LoadDefaultTables(void)
         /*
         ** Reset application data counters reported in housekeeping
         */
-        LC_ResetCounters();
+        LC_AppData.CommandCounter    = 0;
+        LC_AppData.CommandErrCounter = 0;
+
+        LC_AppData.APSampleCount       = 0;
+        LC_AppData.MonitoredMsgCount   = 0;
+        LC_AppData.RTSExecCount        = 0;
+        LC_AppData.PassiveRTSExecCount = 0;
 
         /*
         ** Set LC operational state to configured startup value

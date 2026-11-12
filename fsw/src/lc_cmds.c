@@ -33,21 +33,20 @@
 #include "lc_watch.h"
 #include "lc_platform_cfg.h"
 #include "lc_utils.h"
-
-#define LC_GET_CMD_PAYLOAD(ptr, type) (&((const type *)(ptr))->Payload)
+#include "lc_msgdefs.h"
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* Sample Actionpoints Request                                     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
+void LC_SampleAPReq(const LC_SampleAPCmd_t *Msg)
 {
-    const LC_SampleAP_Payload_t *LC_SampleAP;
-    uint16                       WatchIndex;
-    bool                         ValidSampleCmd = false;
-
-    LC_SampleAP = LC_GET_CMD_PAYLOAD(BufPtr, LC_SampleAPCmd_t);
+    uint16                WatchIndex;
+    bool                  ValidSampleCmd;
+    
+    ValidSampleCmd                       = false;
+    const LC_SampleAP_Payload_t *Payload = &(Msg->Payload);
 
     /*
     ** Ignore AP sample requests if disabled at the application level
@@ -57,7 +56,7 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
         /*
         ** Range check the actionpoint array index arguments
         */
-        if ((LC_SampleAP->StartIndex == LC_ALL_ACTIONPOINTS) && (LC_SampleAP->EndIndex == LC_ALL_ACTIONPOINTS))
+        if ((Payload->StartIndex == LC_ALL_ACTIONPOINTS) && (Payload->EndIndex == LC_ALL_ACTIONPOINTS))
         {
             /*
             ** Allow special "sample all" heritage values
@@ -65,12 +64,12 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
             LC_SampleAPs(0, LC_MAX_ACTIONPOINTS - 1);
             ValidSampleCmd = true;
         }
-        else if ((LC_SampleAP->StartIndex <= LC_SampleAP->EndIndex) && (LC_SampleAP->EndIndex < LC_MAX_ACTIONPOINTS))
+        else if ((Payload->StartIndex <= Payload->EndIndex) && (Payload->EndIndex < LC_MAX_ACTIONPOINTS))
         {
             /*
             ** Start is less or equal to end, and end is within the array
             */
-            LC_SampleAPs(LC_SampleAP->StartIndex, LC_SampleAP->EndIndex);
+            LC_SampleAPs(Payload->StartIndex, Payload->EndIndex);
             ValidSampleCmd = true;
         }
         else
@@ -81,14 +80,14 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
             CFE_EVS_SendEvent(LC_APSAMPLE_APNUM_ERR_EID,
                               CFE_EVS_EventType_ERROR,
                               "Sample AP error: invalid AP number, start = %d, end = %d",
-                              LC_SampleAP->StartIndex,
-                              LC_SampleAP->EndIndex);
+                              Payload->StartIndex,
+                              Payload->EndIndex);
         }
 
         /*
         ** Optionally update the age of watchpoint results
         */
-        if ((LC_SampleAP->UpdateAge != 0) && (ValidSampleCmd))
+        if ((Payload->UpdateAge != 0) && (ValidSampleCmd))
         {
             for (WatchIndex = 0; WatchIndex < LC_MAX_WATCHPOINTS; WatchIndex++)
             {
@@ -111,22 +110,21 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
 /* Housekeeping request                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
+CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *Msg)
 {
-    uint16 TableIndex;
-    uint16 HKIndex;
-    uint8  ByteData = 0;
-    uint8  Shift;
-    uint8  TempByteData;
-    uint8  i;
-
+    uint16              TableIndex;
+    uint16              HKIndex;
+    uint8               ByteData;
+    uint8               Shift;
+    uint8               TempByteData;
+    uint8               i;
     LC_HkTlm_Payload_t *PayloadPtr;
 
-    /* Update HK variables */
     PayloadPtr = &LC_OperData.HkPacket.Payload;
+    ByteData   = 0;
 
-    PayloadPtr->CmdCount            = LC_AppData.CmdCount;
-    PayloadPtr->CmdErrCount         = LC_AppData.CmdErrCount;
+    PayloadPtr->CommandCounter      = LC_AppData.CommandCounter;
+    PayloadPtr->CommandErrCounter   = LC_AppData.CommandErrCounter;
     PayloadPtr->APSampleCount       = LC_AppData.APSampleCount;
     PayloadPtr->MonitoredMsgCount   = LC_AppData.MonitoredMsgCount;
     PayloadPtr->RTSExecCount        = LC_AppData.RTSExecCount;
@@ -264,9 +262,9 @@ CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
 /* Noop command                                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg)
+CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *Msg)
 {
-    LC_AppData.CmdCount++;
+    LC_AppData.CommandCounter++;
 
     CFE_EVS_SendEvent(LC_NOOP_INF_EID,
                       CFE_EVS_EventType_INFORMATION,
@@ -284,9 +282,15 @@ CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg)
 /* Reset counters command                                          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg)
+CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *Msg)
 {
-    LC_ResetCounters();
+    LC_AppData.CommandCounter    = 0;
+    LC_AppData.CommandErrCounter = 0;
+
+    LC_AppData.APSampleCount       = 0;
+    LC_AppData.MonitoredMsgCount   = 0;
+    LC_AppData.RTSExecCount        = 0;
+    LC_AppData.PassiveRTSExecCount = 0;
 
     CFE_EVS_SendEvent(LC_RESET_INF_EID, CFE_EVS_EventType_INFORMATION, "Reset counters command");
 
@@ -295,50 +299,34 @@ CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* Reset housekeeping counters                                     */
-/*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void LC_ResetCounters(void)
-{
-    LC_AppData.CmdCount    = 0;
-    LC_AppData.CmdErrCount = 0;
-
-    LC_AppData.APSampleCount       = 0;
-    LC_AppData.MonitoredMsgCount   = 0;
-    LC_AppData.RTSExecCount        = 0;
-    LC_AppData.PassiveRTSExecCount = 0;
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-/*                                                                 */
 /* Set LC state command                                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg)
+CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *Msg)
 {
-    const LC_SetLCState_Payload_t *CmdPtr = &msg->Payload;
+    const LC_SetLCState_Payload_t *Payload = &(Msg->Payload);
 
-    switch (CmdPtr->NewLCState)
+    switch (Payload->NewLCState)
     {
         case LC_STATE_ACTIVE:
         case LC_STATE_PASSIVE:
         case LC_STATE_DISABLED:
-            LC_AppData.CurrentLCState = CmdPtr->NewLCState;
-            LC_AppData.CmdCount++;
+            LC_AppData.CurrentLCState = Payload->NewLCState;
+            LC_AppData.CommandCounter++;
 
             CFE_EVS_SendEvent(LC_LCSTATE_INF_EID,
                               CFE_EVS_EventType_INFORMATION,
                               "Set LC state command: new state = %d",
-                              CmdPtr->NewLCState);
+                              Payload->NewLCState);
             break;
 
         default:
             CFE_EVS_SendEvent(LC_LCSTATE_ERR_EID,
                               CFE_EVS_EventType_ERROR,
                               "Set LC state error: invalid state = %d",
-                              CmdPtr->NewLCState);
+                              Payload->NewLCState);
 
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
             break;
     }
 
@@ -350,19 +338,22 @@ CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg)
 /* Set actionpoint state command                                   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
+CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *Msg)
 {
-    const LC_SetAPState_Payload_t *CmdPtr = &msg->Payload;
-    uint32                         TableIndex;
-    uint8                          CurrentAPState;
-    bool                           ValidState = true;
-    bool                           CmdSuccess = false;
+    uint32 TableIndex;
+    uint8  CurrentAPState;
+    bool   ValidState;
+    bool   CmdSuccess;
+
+    const LC_SetAPState_Payload_t *Payload = &(Msg->Payload);
+    ValidState                             = true;
+    CmdSuccess                             = false;
 
     /*
     ** Do a sanity check on the new actionpoint state
     ** specified.
     */
-    switch (CmdPtr->NewAPState)
+    switch (Payload->NewAPState)
     {
         case LC_APSTATE_ACTIVE:
         case LC_APSTATE_PASSIVE:
@@ -374,10 +365,10 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
             CFE_EVS_SendEvent(LC_APSTATE_NEW_ERR_EID,
                               CFE_EVS_EventType_ERROR,
                               "Set AP state error: AP = %d, Invalid new state = %d",
-                              CmdPtr->APNumber,
-                              CmdPtr->NewAPState);
+                              Payload->APNumber,
+                              Payload->NewAPState);
 
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
             break;
     }
 
@@ -386,7 +377,7 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
     */
     if (ValidState == true)
     {
-        if ((CmdPtr->APNumber) == LC_ALL_ACTIONPOINTS)
+        if ((Payload->APNumber) == LC_ALL_ACTIONPOINTS)
         {
             /*
             ** Set all actionpoints to the new state except those that are not
@@ -398,7 +389,7 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
 
                 if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
                 {
-                    LC_OperData.ARTPtr[TableIndex].CurrentState = CmdPtr->NewAPState;
+                    LC_OperData.ARTPtr[TableIndex].CurrentState = Payload->NewAPState;
                 }
             }
 
@@ -409,9 +400,9 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
         }
         else
         {
-            if ((CmdPtr->APNumber) < LC_MAX_ACTIONPOINTS)
+            if ((Payload->APNumber) < LC_MAX_ACTIONPOINTS)
             {
-                TableIndex     = CmdPtr->APNumber;
+                TableIndex     = Payload->APNumber;
                 CurrentAPState = LC_OperData.ARTPtr[TableIndex].CurrentState;
 
                 if ((CurrentAPState != LC_APSTATE_NOT_USED) && (CurrentAPState != LC_APSTATE_PERMOFF))
@@ -419,7 +410,7 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
                     /*
                     ** Update state for single actionpoint specified
                     */
-                    LC_OperData.ARTPtr[TableIndex].CurrentState = CmdPtr->NewAPState;
+                    LC_OperData.ARTPtr[TableIndex].CurrentState = Payload->NewAPState;
 
                     CmdSuccess = true;
                 }
@@ -432,10 +423,10 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
                     CFE_EVS_SendEvent(LC_APSTATE_CURR_ERR_EID,
                                       CFE_EVS_EventType_ERROR,
                                       "Set AP state error: AP = %d, Invalid current AP state = %d",
-                                      CmdPtr->APNumber,
+                                      Payload->APNumber,
                                       CurrentAPState);
 
-                    LC_AppData.CmdErrCount++;
+                    LC_AppData.CommandErrCounter++;
                 }
             }
             else
@@ -447,9 +438,9 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
                 CFE_EVS_SendEvent(LC_APSTATE_APNUM_ERR_EID,
                                   CFE_EVS_EventType_ERROR,
                                   "Set AP state error: Invalid AP number = %d",
-                                  CmdPtr->APNumber);
+                                  Payload->APNumber);
 
-                LC_AppData.CmdErrCount++;
+                LC_AppData.CommandErrCounter++;
             }
         }
 
@@ -459,13 +450,13 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
         */
         if (CmdSuccess == true)
         {
-            LC_AppData.CmdCount++;
+            LC_AppData.CommandCounter++;
 
             CFE_EVS_SendEvent(LC_APSTATE_INF_EID,
                               CFE_EVS_EventType_INFORMATION,
                               "Set AP state command: AP = %d, New state = %d",
-                              CmdPtr->APNumber,
-                              CmdPtr->NewAPState);
+                              Payload->APNumber,
+                              Payload->NewAPState);
         }
 
     } /* end ValidState if */
@@ -478,13 +469,14 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
 /* Set actionpoint permanently off command                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
+CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *Msg)
 {
-    const LC_SetAPPermOff_Payload_t *CmdPtr = &msg->Payload;
-    uint32                           TableIndex;
-    uint8                            CurrentAPState;
+    uint32 TableIndex;
+    uint8  CurrentAPState;
 
-    if (((CmdPtr->APNumber) == LC_ALL_ACTIONPOINTS) || ((CmdPtr->APNumber) >= LC_MAX_ACTIONPOINTS))
+    const LC_APNumber_Payload_t *Payload = &(Msg->Payload);
+
+    if (((Payload->APNumber) == LC_ALL_ACTIONPOINTS) || ((Payload->APNumber) >= LC_MAX_ACTIONPOINTS))
     {
         /*
         **  Invalid actionpoint number
@@ -493,13 +485,13 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
         CFE_EVS_SendEvent(LC_APOFF_APNUM_ERR_EID,
                           CFE_EVS_EventType_ERROR,
                           "Set AP perm off error: Invalid AP number = %d",
-                          CmdPtr->APNumber);
+                          Payload->APNumber);
 
-        LC_AppData.CmdErrCount++;
+        LC_AppData.CommandErrCounter++;
     }
     else
     {
-        TableIndex     = CmdPtr->APNumber;
+        TableIndex     = Payload->APNumber;
         CurrentAPState = LC_OperData.ARTPtr[TableIndex].CurrentState;
 
         if (CurrentAPState != LC_APSTATE_DISABLED)
@@ -511,10 +503,10 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
             CFE_EVS_SendEvent(LC_APOFF_CURR_ERR_EID,
                               CFE_EVS_EventType_ERROR,
                               "Set AP perm off error, AP NOT Disabled: AP = %d, Current state = %d",
-                              CmdPtr->APNumber,
+                              Payload->APNumber,
                               CurrentAPState);
 
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
         }
         else
         {
@@ -523,15 +515,15 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
             */
             LC_OperData.ARTPtr[TableIndex].CurrentState = LC_APSTATE_PERMOFF;
 
-            LC_AppData.CmdCount++;
+            LC_AppData.CommandCounter++;
 
             CFE_EVS_SendEvent(LC_APOFF_INF_EID,
                               CFE_EVS_EventType_INFORMATION,
                               "Set AP permanently off command: AP = %d",
-                              CmdPtr->APNumber);
+                              Payload->APNumber);
         }
 
-    } /* end CmdPtr -> APNumber else */
+    } /* end Payload -> APNumber else */
 
     return CFE_SUCCESS;
 }
@@ -541,41 +533,43 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
 /* Reset actionpoint statistics command                            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
+CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *Msg)
 {
-    const LC_ResetAPStats_Payload_t *CmdPtr     = &msg->Payload;
-    bool                             CmdSuccess = false;
+    bool CmdSuccess;
+
+    const LC_APNumber_Payload_t *Payload = &(Msg->Payload);
+    CmdSuccess                           = false;
 
     /* arg may be one or all AP's */
-    if (CmdPtr->APNumber == LC_ALL_ACTIONPOINTS)
+    if (Payload->APNumber == LC_ALL_ACTIONPOINTS)
     {
         LC_ResetResultsAP(0, LC_MAX_ACTIONPOINTS - 1, true);
         CmdSuccess = true;
     }
-    else if (CmdPtr->APNumber < LC_MAX_ACTIONPOINTS)
+    else if (Payload->APNumber < LC_MAX_ACTIONPOINTS)
     {
-        LC_ResetResultsAP(CmdPtr->APNumber, CmdPtr->APNumber, true);
+        LC_ResetResultsAP(Payload->APNumber, Payload->APNumber, true);
         CmdSuccess = true;
     }
     else
     {
         /* arg is out of range (zero based table index) */
-        LC_AppData.CmdErrCount++;
+        LC_AppData.CommandErrCounter++;
 
         CFE_EVS_SendEvent(LC_APSTATS_APNUM_ERR_EID,
                           CFE_EVS_EventType_ERROR,
                           "Reset AP stats error: invalid AP number = %d",
-                          CmdPtr->APNumber);
+                          Payload->APNumber);
     }
 
     if (CmdSuccess == true)
     {
-        LC_AppData.CmdCount++;
+        LC_AppData.CommandCounter++;
 
         CFE_EVS_SendEvent(LC_APSTATS_INF_EID,
                           CFE_EVS_EventType_INFORMATION,
                           "Reset AP stats command: AP = %d",
-                          CmdPtr->APNumber);
+                          Payload->APNumber);
     }
 
     return CFE_SUCCESS;
@@ -616,41 +610,43 @@ void LC_ResetResultsAP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
 /* Reset watchpoint statistics command                             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg)
+CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *Msg)
 {
-    const LC_ResetWPStats_Payload_t *CmdPtr     = &msg->Payload;
-    bool                             CmdSuccess = false;
+    bool CmdSuccess;
+
+    const LC_ResetWPStats_Payload_t *Payload = &(Msg->Payload);
+    CmdSuccess                               = false;
 
     /* arg may be one or all WP's */
-    if (CmdPtr->WPNumber == LC_ALL_WATCHPOINTS)
+    if (Payload->WPNumber == LC_ALL_WATCHPOINTS)
     {
         LC_ResetResultsWP(0, LC_MAX_WATCHPOINTS - 1, true);
         CmdSuccess = true;
     }
-    else if (CmdPtr->WPNumber < LC_MAX_WATCHPOINTS)
+    else if (Payload->WPNumber < LC_MAX_WATCHPOINTS)
     {
-        LC_ResetResultsWP(CmdPtr->WPNumber, CmdPtr->WPNumber, true);
+        LC_ResetResultsWP(Payload->WPNumber, Payload->WPNumber, true);
         CmdSuccess = true;
     }
     else
     {
         /* arg is out of range (zero based table index) */
-        LC_AppData.CmdErrCount++;
+        LC_AppData.CommandErrCounter++;
 
         CFE_EVS_SendEvent(LC_WPSTATS_WPNUM_ERR_EID,
                           CFE_EVS_EventType_ERROR,
                           "Reset WP stats error: invalid WP number = %d",
-                          CmdPtr->WPNumber);
+                          Payload->WPNumber);
     }
 
     if (CmdSuccess == true)
     {
-        LC_AppData.CmdCount++;
+        LC_AppData.CommandCounter++;
 
         CFE_EVS_SendEvent(LC_WPSTATS_INF_EID,
                           CFE_EVS_EventType_INFORMATION,
                           "Reset WP stats command: WP = %d",
-                          CmdPtr->WPNumber);
+                          Payload->WPNumber);
     }
 
     return CFE_SUCCESS;

@@ -50,7 +50,7 @@ void LC_SampleAPReq_Test_StateDisabled(void)
 {
     LC_AppData.CurrentLCState = LC_STATE_DISABLED;
 
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 }
 
 void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
@@ -69,7 +69,7 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_OperData.WRTPtr[0].WatchResult == LC_WATCH_STALE,
@@ -94,7 +94,7 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 2;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -116,7 +116,7 @@ void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_OperData.WRTPtr[0].WatchResult == LC_WATCH_STALE,
@@ -145,7 +145,7 @@ void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -179,7 +179,7 @@ void LC_SampleAPReq_Test_BadSampleAllArgs(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -212,7 +212,7 @@ void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -239,7 +239,7 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -268,7 +268,7 @@ void LC_SendHkCmd_Test_WatchStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -318,7 +318,7 @@ void LC_SendHkCmd_Test_WatchFalse(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -368,7 +368,7 @@ void LC_SendHkCmd_Test_WatchTrue(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -419,7 +419,7 @@ void LC_SendHkCmd_Test_WatchError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -469,7 +469,7 @@ void LC_SendHkCmd_Test_DefaultWatchResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -520,7 +520,7 @@ void LC_SendHkCmd_Test_ActionNotUsedStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -571,7 +571,7 @@ void LC_SendHkCmd_Test_APStateActiveActionPass(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -624,7 +624,7 @@ void LC_SendHkCmd_Test_APStatePassiveActionFail(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -675,7 +675,7 @@ void LC_SendHkCmd_Test_APStateDisabledActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -726,7 +726,7 @@ void LC_SendHkCmd_Test_APStatePermOffActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -777,7 +777,7 @@ void LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -820,7 +820,7 @@ void LC_SendHkCmd_Test_ManageTablesError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), -1);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
@@ -831,25 +831,18 @@ void LC_SendHkCmd_Test_ManageTablesError(void)
 
 void LC_NoopCmd_Test(void)
 {
-    LC_AppData.CmdCount = 1;
+    LC_AppData.CommandCounter = 1;
 
     LC_NoopCmd(&UT_CmdBuf.NoopCmd);
 
-    UtAssert_UINT8_EQ(LC_AppData.CmdCount, 2);
+    UtAssert_UINT8_EQ(LC_AppData.CommandCounter, 2);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
 
 void LC_ResetCountersCmd_Test(void)
 {
-    LC_ResetCountersCmd(&UT_CmdBuf.ResetCountersCmd);
-
-    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-}
-
-void LC_ResetCounters_Test(void)
-{
-    LC_AppData.CmdCount    = 1;
-    LC_AppData.CmdErrCount = 2;
+    LC_AppData.CommandCounter    = 1;
+    LC_AppData.CommandErrCounter = 2;
 
     LC_AppData.APSampleCount       = 3;
     LC_AppData.MonitoredMsgCount   = 4;
@@ -857,18 +850,18 @@ void LC_ResetCounters_Test(void)
     LC_AppData.PassiveRTSExecCount = 6;
 
     /* Execute the function being tested */
-    LC_ResetCounters();
+    LC_ResetCountersCmd(&UT_CmdBuf.ResetCountersCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdCount == 0, "LC_AppData.CmdCount == 0");
-    UtAssert_True(LC_AppData.CmdErrCount == 0, "LC_AppData.CmdErrCount == 0");
+    UtAssert_True(LC_AppData.CommandCounter == 0, "LC_AppData.CommandCounter == 0");
+    UtAssert_True(LC_AppData.CommandErrCounter == 0, "LC_AppData.CommandErrCounter == 0");
     UtAssert_True(LC_AppData.APSampleCount == 0, "LC_AppData.APSampleCount == 0");
     UtAssert_True(LC_AppData.MonitoredMsgCount == 0, "LC_AppData.MonitoredMsgCount == 0");
     UtAssert_True(LC_AppData.RTSExecCount == 0, "LC_AppData.RTSExecCount == 0");
     UtAssert_True(LC_AppData.PassiveRTSExecCount == 0, "LC_AppData.PassiveRTSExecCount == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
+    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 }
 
 void LC_SetLCStateCmd_Test_Active(void)
@@ -890,7 +883,7 @@ void LC_SetLCStateCmd_Test_Active(void)
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_ACTIVE, "LC_AppData.CurrentLCState == LC_STATE_ACTIVE");
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -921,7 +914,7 @@ void LC_SetLCStateCmd_Test_Passive(void)
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_PASSIVE, "LC_AppData.CurrentLCState == LC_STATE_PASSIVE");
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -952,7 +945,7 @@ void LC_SetLCStateCmd_Test_Disabled(void)
 
     /* Verify results */
     UtAssert_True(LC_AppData.CurrentLCState == LC_STATE_DISABLED, "LC_AppData.CurrentLCState == LC_STATE_DISABLED");
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -982,7 +975,7 @@ void LC_SetLCStateCmd_Test_Default(void)
     LC_SetLCStateCmd(&UT_CmdBuf.SetLCStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1015,7 +1008,7 @@ void LC_SetAPStateCmd_Test_Default(void)
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1461,7 +1454,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateActive(void)
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1496,7 +1489,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStatePassive(void)
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 
@@ -1531,7 +1524,7 @@ void LC_SetAPStateCmd_Test_InvalidCurrentAPStateDisabled(void)
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1563,7 +1556,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberActive(void)
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1594,7 +1587,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberPassive(void)
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1624,7 +1617,7 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
     LC_SetAPStateCmd(&UT_CmdBuf.SetAPStateCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_APSTATE_APNUM_ERR_EID);
@@ -1636,10 +1629,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1652,7 +1645,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
     LC_SetAPPermOffCmd(&UT_CmdBuf.SetAPPermOffCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1665,10 +1658,10 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1681,7 +1674,7 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
     LC_SetAPPermOffCmd(&UT_CmdBuf.SetAPPermOffCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1694,10 +1687,10 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 
 void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1714,7 +1707,7 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
     LC_SetAPPermOffCmd(&UT_CmdBuf.SetAPPermOffCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1727,10 +1720,10 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 
 void LC_SetAPPermOffCmd_Test_Nominal(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1747,7 +1740,7 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
     /* Verify results */
     UtAssert_True(LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == 4,
                   "LC_OperData.ARTPtr[PayloadPtr->APNumber].CurrentState == 4");
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1760,10 +1753,10 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
 
 void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1776,7 +1769,7 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
     LC_ResetAPStatsCmd(&UT_CmdBuf.ResetAPStatsCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1789,10 +1782,10 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 
 void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1805,7 +1798,7 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
     LC_ResetAPStatsCmd(&UT_CmdBuf.ResetAPStatsCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1818,10 +1811,10 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 
 void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1834,7 +1827,7 @@ void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
     LC_ResetAPStatsCmd(&UT_CmdBuf.ResetAPStatsCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1964,7 +1957,7 @@ void LC_ResetWPStatsCmd_Test_AllWatchPoints(void)
     LC_ResetWPStatsCmd(&UT_CmdBuf.ResetWPStatsCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -1993,7 +1986,7 @@ void LC_ResetWPStatsCmd_Test_SingleWatchPoint(void)
     LC_ResetWPStatsCmd(&UT_CmdBuf.ResetWPStatsCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdCount == 1, "LC_AppData.CmdCount == 1");
+    UtAssert_True(LC_AppData.CommandCounter == 1, "LC_AppData.CommandCounter == 1");
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_WPSTATS_INF_EID);
@@ -2021,7 +2014,7 @@ void LC_ResetWPStatsCmd_Test_InvalidWPNumber(void)
     LC_ResetWPStatsCmd(&UT_CmdBuf.ResetWPStatsCmd);
 
     /* Verify results */
-    UtAssert_True(LC_AppData.CmdErrCount == 1, "LC_AppData.CmdErrCount == 1");
+    UtAssert_True(LC_AppData.CommandErrCounter == 1, "LC_AppData.CommandErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -2232,8 +2225,6 @@ void UtTest_Setup(void)
 
     UtTest_Add(LC_NoopCmd_Test, LC_Test_Setup, LC_Test_TearDown, "LC_NoopCmd_Test");
     UtTest_Add(LC_ResetCountersCmd_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCountersCmd_Test");
-
-    UtTest_Add(LC_ResetCounters_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCounters_Test");
 
     UtTest_Add(LC_SetLCStateCmd_Test_Active, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Active");
     UtTest_Add(LC_SetLCStateCmd_Test_Passive, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Passive");

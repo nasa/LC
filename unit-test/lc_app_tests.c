@@ -330,8 +330,8 @@ void LC_AppInit_Test_Nominal(void)
     /* Note: not testing LC_OperData.WatchPtLinks == 0, because it is modified by a subfunction */
     UtAssert_INT32_EQ(LC_OperData.HaveActiveCDS, 0);
 
-    UtAssert_INT32_EQ(LC_AppData.CmdCount, 0);
-    UtAssert_INT32_EQ(LC_AppData.CmdErrCount, 0);
+    UtAssert_INT32_EQ(LC_AppData.CommandCounter, 0);
+    UtAssert_INT32_EQ(LC_AppData.CommandErrCounter, 0);
     UtAssert_INT32_EQ(LC_AppData.APSampleCount, 0);
     UtAssert_INT32_EQ(LC_AppData.MonitoredMsgCount, 0);
     UtAssert_INT32_EQ(LC_AppData.RTSExecCount, 0);
@@ -575,14 +575,12 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset SendEvent and don't recover WDT */
     UT_ResetState(UT_KEY(CFE_EVS_SendEvent));
-    UT_ResetState(UT_KEY(LC_ResetCounters));
     UT_ResetState(UT_KEY(LC_ResetResultsWP));
     UT_ResetState(UT_KEY(LC_ResetResultsAP));
     LC_OperData.TableResults  = 0;
@@ -599,14 +597,12 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset all states and only restore WRT and ART CDS */
     UT_ResetState(0);
-    UT_ResetState(UT_KEY(LC_ResetCounters));
     UT_ResetState(UT_KEY(LC_ResetResultsWP));
     UT_ResetState(UT_KEY(LC_ResetResultsAP));
     LC_AppData.CurrentLCState = 0x99;
@@ -626,14 +622,12 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
 
     /* Reset all states and only restore WRT */
     UT_ResetState(0);
-    UT_ResetState(UT_KEY(LC_ResetCounters));
     UT_ResetState(UT_KEY(LC_ResetResultsWP));
     UT_ResetState(UT_KEY(LC_ResetResultsAP));
     LC_AppData.CurrentLCState = 0x99;
@@ -652,7 +646,6 @@ void LC_TableInit_Test_LoadDefaultTables(void)
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, LC_CDS_UPDATED_INF_EID);
-    UtAssert_STUB_COUNT(LC_ResetCounters, 1);                              /* HK data is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsWP, 1);                             /* Result Table is not stale */
     UtAssert_STUB_COUNT(LC_ResetResultsAP, 1);                             /* AP Result Table is not stale */
     UtAssert_UINT8_EQ(LC_AppData.CurrentLCState, LC_STATE_POWER_ON_RESET); /* CurrentState reset back to default */
