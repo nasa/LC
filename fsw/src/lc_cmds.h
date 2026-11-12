@@ -35,19 +35,6 @@
  *************************************************************************/
 
 /**
- * \brief Reset HK counters
- *
- *  \par Description
- *       Utility function that resets housekeeping counters to zero
- *
- *  \par Assumptions, External Events, and Notes:
- *       None
- *
- *  \sa #LC_ResetCountersCmd
- */
-void LC_ResetCounters(void);
-
-/**
  * \brief Reset AP results
  *
  *  \par Description
