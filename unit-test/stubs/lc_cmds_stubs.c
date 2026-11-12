@@ -30,11 +30,11 @@
  * Generated stub function for LC_NoopCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg)
+CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_NoopCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_NoopCmd, const LC_NoopCmd_t *, msg);
+    UT_GenStub_AddParam(LC_NoopCmd, const LC_NoopCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_NoopCmd, Basic, NULL);
 
@@ -46,11 +46,11 @@ CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg)
  * Generated stub function for LC_ResetAPStatsCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg)
+CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_ResetAPStatsCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_ResetAPStatsCmd, const LC_ResetAPStatsCmd_t *, msg);
+    UT_GenStub_AddParam(LC_ResetAPStatsCmd, const LC_ResetAPStatsCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_ResetAPStatsCmd, Basic, NULL);
 
@@ -72,11 +72,11 @@ void LC_ResetCounters(void)
  * Generated stub function for LC_ResetCountersCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg)
+CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_ResetCountersCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_ResetCountersCmd, const LC_ResetCountersCmd_t *, msg);
+    UT_GenStub_AddParam(LC_ResetCountersCmd, const LC_ResetCountersCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_ResetCountersCmd, Basic, NULL);
 
@@ -116,11 +116,11 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd)
  * Generated stub function for LC_ResetWPStatsCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg)
+CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_ResetWPStatsCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_ResetWPStatsCmd, const LC_ResetWPStatsCmd_t *, msg);
+    UT_GenStub_AddParam(LC_ResetWPStatsCmd, const LC_ResetWPStatsCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_ResetWPStatsCmd, Basic, NULL);
 
@@ -132,9 +132,9 @@ CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg)
  * Generated stub function for LC_SampleAPReq()
  * ----------------------------------------------------
  */
-void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
+void LC_SampleAPReq(const LC_SampleAPCmd_t *Msg)
 {
-    UT_GenStub_AddParam(LC_SampleAPReq, const CFE_SB_Buffer_t *, BufPtr);
+    UT_GenStub_AddParam(LC_SampleAPReq, const LC_SampleAPCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_SampleAPReq, Basic, NULL);
 }
@@ -144,11 +144,11 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr)
  * Generated stub function for LC_SendHkCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
+CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_SendHkCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_SendHkCmd, const LC_SendHkCmd_t *, msg);
+    UT_GenStub_AddParam(LC_SendHkCmd, const LC_SendHkCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_SendHkCmd, Basic, NULL);
 
@@ -160,11 +160,11 @@ CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg)
  * Generated stub function for LC_SetAPPermOffCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
+CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_SetAPPermOffCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_SetAPPermOffCmd, const LC_SetAPPermOffCmd_t *, msg);
+    UT_GenStub_AddParam(LC_SetAPPermOffCmd, const LC_SetAPPermOffCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_SetAPPermOffCmd, Basic, NULL);
 
@@ -176,11 +176,11 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg)
  * Generated stub function for LC_SetAPStateCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
+CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_SetAPStateCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_SetAPStateCmd, const LC_SetAPStateCmd_t *, msg);
+    UT_GenStub_AddParam(LC_SetAPStateCmd, const LC_SetAPStateCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_SetAPStateCmd, Basic, NULL);
 
@@ -192,11 +192,11 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg)
  * Generated stub function for LC_SetLCStateCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg)
+CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *Msg)
 {
     UT_GenStub_SetupReturnBuffer(LC_SetLCStateCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(LC_SetLCStateCmd, const LC_SetLCStateCmd_t *, msg);
+    UT_GenStub_AddParam(LC_SetLCStateCmd, const LC_SetLCStateCmd_t *, Msg);
 
     UT_GenStub_Execute(LC_SetLCStateCmd, Basic, NULL);
 
