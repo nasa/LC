@@ -295,14 +295,7 @@
         </EntryList>
       </ContainerDataType>
 
-      <ContainerDataType name="SetAPPermOff_Payload" shortDescription="Set AP (Actionpoint) Permanently Off">
-        <EntryList>
-          <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint to change" />
-          <Entry name="Padding" type="BASE_TYPES/uint16" shortDescription="Structure padding" />
-        </EntryList>
-      </ContainerDataType>
-
-      <ContainerDataType name="ResetAPStats_Payload" shortDescription="Reset AP (Actionpoint) Statistics">
+      <ContainerDataType name="APNumber_Payload" shortDescription="Reset AP (Actionpoint) Statistics">
         <EntryList>
           <Entry name="APNumber" type="BASE_TYPES/uint16" shortDescription="Which actionpoint to change" />
           <PaddingEntry sizeInBits="16" shortDescription="Padding for 32-bit alignment"/>
@@ -388,7 +381,7 @@
           <ValueConstraint entry="Sec.FunctionCode" value="4" />
         </ConstraintSet>
         <EntryList>
-          <Entry type="SetAPPermOff_Payload" name="Payload" />
+          <Entry type="APNumber_Payload" name="Payload" />
         </EntryList>
       </ContainerDataType>
 
@@ -397,7 +390,7 @@
           <ValueConstraint entry="Sec.FunctionCode" value="5" />
         </ConstraintSet>
         <EntryList>
-          <Entry type="ResetAPStats_Payload" name="Payload" />
+          <Entry type="APNumber_Payload" name="Payload" />
         </EntryList>
       </ContainerDataType>
 
