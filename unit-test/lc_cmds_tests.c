@@ -50,7 +50,7 @@ void LC_SampleAPReq_Test_StateDisabled(void)
 {
     LC_AppData.CurrentLCState = LC_STATE_DISABLED;
 
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 }
 
 void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
@@ -69,7 +69,7 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchStale(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_OperData.WRTPtr[0].WatchResult == LC_WATCH_STALE,
@@ -94,7 +94,7 @@ void LC_SampleAPReq_Test_AllowSampleAllWatchNotStale(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 2;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -116,7 +116,7 @@ void LC_SampleAPReq_Test_StartLessOrEqualToEndAndEndWithinArrayWatchStale(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     UtAssert_True(LC_OperData.WRTPtr[0].WatchResult == LC_WATCH_STALE,
@@ -145,7 +145,7 @@ void LC_SampleAPReq_Test_ArrayIndexOutOfRange(void)
              "Sample AP error: invalid AP number, start = %%d, end = %%d");
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -179,7 +179,7 @@ void LC_SampleAPReq_Test_BadSampleAllArgs(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -212,7 +212,7 @@ void LC_SampleAPReq_Test_ArrayEndIndexTooHigh(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
@@ -239,7 +239,7 @@ void LC_SampleAPReq_Test_SampleAllUpdateAgeZero(void)
     LC_OperData.WRTPtr[0].CountdownToStale = 1;
 
     /* Execute the function being tested */
-    LC_SampleAPReq(&UT_CmdBuf.Buf);
+    LC_SampleAPReq((LC_SampleAPCmd_t *) &UT_CmdBuf.Buf);
 
     /* Verify results */
 
@@ -268,7 +268,7 @@ void LC_SendHkCmd_Test_WatchStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -318,7 +318,7 @@ void LC_SendHkCmd_Test_WatchFalse(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -368,7 +368,7 @@ void LC_SendHkCmd_Test_WatchTrue(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -419,7 +419,7 @@ void LC_SendHkCmd_Test_WatchError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -469,7 +469,7 @@ void LC_SendHkCmd_Test_DefaultWatchResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -520,7 +520,7 @@ void LC_SendHkCmd_Test_ActionNotUsedStale(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -571,7 +571,7 @@ void LC_SendHkCmd_Test_APStateActiveActionPass(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -624,7 +624,7 @@ void LC_SendHkCmd_Test_APStatePassiveActionFail(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -675,7 +675,7 @@ void LC_SendHkCmd_Test_APStateDisabledActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -726,7 +726,7 @@ void LC_SendHkCmd_Test_APStatePermOffActionError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -777,7 +777,7 @@ void LC_SendHkCmd_Test_DefaultCurrentStateAndActionResult(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -820,7 +820,7 @@ void LC_SendHkCmd_Test_ManageTablesError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), -1);
 
     /* Execute the function being tested */
-    Result = LC_SendHkCmd(&UT_CmdBuf.SendHkCmd);
+    Result = LC_SendHkCmd((LC_SendHkCmd_t *) &UT_CmdBuf.SendHkCmd);
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
