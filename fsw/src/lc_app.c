@@ -169,7 +169,7 @@ void LC_AppMain(void)
     */
     if ((Initialized == true) && (LC_OperData.HaveActiveCDS) && (LC_AppData.CDSSavedOnExit == LC_CDS_SAVED))
     {
-        LC_UpdateTaskCDS();
+        LC_SetCDS_Data();
     }
 
     /*
@@ -947,7 +947,7 @@ CFE_Status_t LC_LoadDefaultTables(void)
         */
         if (LC_OperData.HaveActiveCDS)
         {
-            if (LC_UpdateTaskCDS() == CFE_SUCCESS)
+            if (LC_SetCDS_Data() == CFE_SUCCESS)
             {
                 LC_OperData.TableResults |= LC_CDS_UPDATED;
             }

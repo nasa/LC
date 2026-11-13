@@ -113,12 +113,13 @@ CFE_Status_t LC_ManageTables(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-CFE_Status_t LC_UpdateTaskCDS(void)
+CFE_Status_t LC_SetCDS_Data(void)
 {
     CFE_Status_t Status;
 
     Status = CFE_SUCCESS;
 
+    /* Check whether previous CDS operations were successful */
     if (LC_OperData.CDS_Handle != 0)
     {
         /* Update CDS data */
@@ -132,7 +133,9 @@ CFE_Status_t LC_UpdateTaskCDS(void)
         Status = CFE_ES_CopyToCDS(LC_OperData.CDS_Handle, &(LC_OperData.CDS_Data));
         if (Status != CFE_SUCCESS)
         {
-            LC_OperData.CDS_Handle = 0;
+            /* Clear out the CDS handle to prevent future use */
+            LC_OperData.CDS_Handle    = 0;
+            LC_OperData.HaveActiveCDS = false;
             CFE_EVS_SendEvent(LC_CDS_NO_SAVE_ERR_EID,
                               CFE_EVS_EventType_ERROR,
                               "Unable to update CDS data results in CDS, RC=0x%08X",
@@ -170,7 +173,7 @@ CFE_Status_t LC_PerformMaintenance(void)
             ** If CDS is enabled - update the 3 CDS areas managed by LC
             **  (continue, but disable CDS if unable to update all 3)
             */
-            if (LC_UpdateTaskCDS() != CFE_SUCCESS)
+            if (LC_SetCDS_Data() != CFE_SUCCESS)
             {
                 LC_OperData.HaveActiveCDS = false;
             }

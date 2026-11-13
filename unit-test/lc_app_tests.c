@@ -165,16 +165,16 @@ void LC_AppMain_Test_NominalCDSSave(void)
 
     /* Cycle through all conditions forced by handler */
     LC_AppMain();
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 0);
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_SetCDS_Data)), 0);
 
     /* Reset SendEvent to avoid filling buffer */
     UT_ResetState(UT_KEY(CFE_EVS_SendEvent));
     LC_AppMain();
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 0);
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_SetCDS_Data)), 0);
 
     UT_ResetState(UT_KEY(CFE_EVS_SendEvent));
     LC_AppMain();
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 1);
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_SetCDS_Data)), 1);
 }
 
 void LC_AppMain_Test_NominalCDSNoSave(void)
@@ -199,7 +199,7 @@ void LC_AppMain_Test_NominalCDSNoSave(void)
 
     UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_AppPipe)), 1);
 
-    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_UpdateTaskCDS)), 0);
+    UtAssert_INT32_EQ(UT_GetStubCount(UT_KEY(LC_SetCDS_Data)), 0);
 }
 
 void LC_AppMain_Test_AppInitFail(void)
@@ -1166,9 +1166,9 @@ void LC_LoadDefaultTables_Test_ActiveCDSNotSuccess(void)
     /* Set to satisfy all instances of condition "Result == CFE_SUCCESS" after calls to CFE_TBL_GetAddress */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
-    /* Set to make subfunction LC_UpdateTaskCDS return -1, in order to satisfy condition "LC_UpdateTaskCDS() ==
+    /* Set to make subfunction LC_SetCDS_Data return -1, in order to satisfy condition "LC_SetCDS_Data() ==
      * CFE_SUCCESS" */
-    UT_SetDefaultReturnValue(UT_KEY(LC_UpdateTaskCDS), -1);
+    UT_SetDefaultReturnValue(UT_KEY(LC_SetCDS_Data), -1);
 
     /* Execute the function being tested */
     Result = LC_LoadDefaultTables();

@@ -151,7 +151,7 @@ void LC_ManageTables_Test_ADTGetAddressError(void)
     UtAssert_INT32_EQ(call_count_LC_ResetResultsAP, 0);
 }
 
-void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
+void LC_SetCDS_Data_Test_UpdateWatchpointError(void)
 {
     CFE_Status_t Result;
     int32        strCmpResult;
@@ -165,7 +165,7 @@ void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CopyToCDS), -1);
 
     /* Execute the function being tested */
-    Result = LC_UpdateTaskCDS();
+    Result = LC_SetCDS_Data();
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
@@ -179,7 +179,7 @@ void LC_UpdateTaskCDS_Test_UpdateWatchpointError(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
+void LC_SetCDS_Data_Test_UpdateActionpointError(void)
 {
     CFE_Status_t Result;
     int32        strCmpResult;
@@ -193,7 +193,7 @@ void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CopyToCDS), 2, -1);
 
     /* Execute the function being tested */
-    Result = LC_UpdateTaskCDS();
+    Result = LC_SetCDS_Data();
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
@@ -206,7 +206,7 @@ void LC_UpdateTaskCDS_Test_UpdateActionpointError(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
+void LC_SetCDS_Data_Test_UpdateAppDataError(void)
 {
     CFE_Status_t Result;
     int32        strCmpResult;
@@ -220,7 +220,7 @@ void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CopyToCDS), 3, -1);
 
     /* Execute the function being tested */
-    Result = LC_UpdateTaskCDS();
+    Result = LC_SetCDS_Data();
 
     /* Verify results */
     UtAssert_True(Result == -1, "Result == -1");
@@ -235,12 +235,12 @@ void LC_UpdateTaskCDS_Test_UpdateAppDataError(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_UpdateTaskCDS_Test_Nominal(void)
+void LC_SetCDS_Data_Test_Nominal(void)
 {
     CFE_Status_t Result;
 
     /* Execute the function being tested */
-    Result = LC_UpdateTaskCDS();
+    Result = LC_SetCDS_Data();
 
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
@@ -293,7 +293,7 @@ void LC_PerformMaintenance_Test_UpdateCDSFail(void)
     /* force LC_ManageTables to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_GetAddress), CFE_SUCCESS);
 
-    /* force LC_UpdateTaskCDS to fail */
+    /* force LC_SetCDS_Data to fail */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CopyToCDS), -1);
 
     /* Execute the function being tested */
@@ -332,19 +332,19 @@ void UtTest_Setup(void)
                LC_Test_TearDown,
                "LC_ManageTables_Test_ADTGetAddressError");
 
-    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateWatchpointError,
+    UtTest_Add(LC_SetCDS_Data_Test_UpdateWatchpointError,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_UpdateTaskCDS_Test_UpdateWatchpointError");
-    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateActionpointError,
+               "LC_SetCDS_Data_Test_UpdateWatchpointError");
+    UtTest_Add(LC_SetCDS_Data_Test_UpdateActionpointError,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_UpdateTaskCDS_Test_UpdateActionpointError");
-    UtTest_Add(LC_UpdateTaskCDS_Test_UpdateAppDataError,
+               "LC_SetCDS_Data_Test_UpdateActionpointError");
+    UtTest_Add(LC_SetCDS_Data_Test_UpdateAppDataError,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_UpdateTaskCDS_Test_UpdateAppDataError");
-    UtTest_Add(LC_UpdateTaskCDS_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_UpdateTaskCDS_Test_Nominal");
+               "LC_SetCDS_Data_Test_UpdateAppDataError");
+    UtTest_Add(LC_SetCDS_Data_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_SetCDS_Data_Test_Nominal");
 
     UtTest_Add(LC_PerformMaintenance_Test_NominalNoCDS,
                LC_Test_Setup,
