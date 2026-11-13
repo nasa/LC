@@ -39,9 +39,7 @@
  * \name LC CDS Buffer Strings
  * \{
  */
-#define LC_WRT_CDSNAME     "LC_CDS_WRT"
-#define LC_ART_CDSNAME     "LC_CDS_ART"
-#define LC_APPDATA_CDSNAME "LC_CDS_AppData"
+#define LC_CDS_NAME "LC_CDS"
 /**\}*/
 
 /**
@@ -156,10 +154,8 @@ typedef struct
     CFE_TBL_Handle_t WRTHandle; /**< \brief Watchpoint  Results Table Handle     */
     CFE_TBL_Handle_t ARTHandle; /**< \brief Actionpoint Results Table Handle     */
 
-    CFE_ES_CDSHandle_t WRTDataCDSHandle; /**< \brief Watchpoint  Results Table CDS Handle */
-    CFE_ES_CDSHandle_t ARTDataCDSHandle; /**< \brief Actionpoint Results Table CDS Handle */
-
-    CFE_ES_CDSHandle_t AppDataCDSHandle; /**< \brief Application Data CDS Handle          */
+    CFE_ES_CDSHandle_t CDS_Handle; /**< \brief LC CDS Handle */
+    LC_CDS_Data_t      CDS_Data;   /**< \brief Data structure to interface with CDS */
 
     uint16 WatchpointCount; /**< \brief Count of in-use watchpoints defined
                                         in the Watchpoint Definition Table   */
