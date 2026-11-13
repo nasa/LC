@@ -113,58 +113,40 @@ CFE_Status_t LC_ManageTables(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-CFE_Status_t LC_UpdateTaskCDS(void)
+CFE_Status_t LC_SetCDS_Data(void)
 {
-    CFE_Status_t Result;
+    CFE_Status_t Status;
 
-    /*
-    ** Copy the watchpoint results table (WRT) data to CDS
-    */
-    Result = CFE_ES_CopyToCDS(LC_OperData.WRTDataCDSHandle, LC_OperData.WRTPtr);
+    Status = CFE_SUCCESS;
 
-    if (Result != CFE_SUCCESS)
+    /* Check whether previous CDS operations were successful */
+    if (LC_OperData.CDS_Handle != 0 && LC_OperData.HaveActiveCDS)
     {
-        CFE_EVS_SendEvent(LC_WRT_NO_SAVE_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Unable to update watchpoint results in CDS, RC=0x%08X",
-                          (unsigned int)Result);
-        return Result;
+        /* Update CDS data */
+        memcpy(&(LC_OperData.CDS_Data.HkPacket), &(LC_OperData.HkPacket), sizeof(LC_HkPacket_t));
+        LC_OperData.CDS_Data.WDTPtr = LC_OperData.WDTPtr;
+        LC_OperData.CDS_Data.WRTPtr = LC_OperData.WRTPtr;
+        LC_OperData.CDS_Data.ADTPtr = LC_OperData.ADTPtr;
+        LC_OperData.CDS_Data.ARTPtr = LC_OperData.ARTPtr;
+
+        /* Copy the CDS data to CDS */
+        Status = CFE_ES_CopyToCDS(LC_OperData.CDS_Handle, &(LC_OperData.CDS_Data));
+        if (Status != CFE_SUCCESS)
+        {
+            /* Clear out the CDS handle to prevent future use */
+            LC_OperData.CDS_Handle    = 0;
+            LC_OperData.HaveActiveCDS = false;
+            CFE_EVS_SendEvent(LC_CDS_NO_SAVE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Unable to update CDS data results in CDS, RC=0x%08X",
+                              (unsigned int)Status);
+        }
+
+        /* Set the "data has been saved" indicator */
+        LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
     }
 
-    /*
-    ** Copy the actionpoint results table (ART) data to CDS
-    */
-    Result = CFE_ES_CopyToCDS(LC_OperData.ARTDataCDSHandle, LC_OperData.ARTPtr);
-
-    if (Result != CFE_SUCCESS)
-    {
-        CFE_EVS_SendEvent(LC_ART_NO_SAVE_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Unable to update actionpoint results in CDS, RC=0x%08X",
-                          (unsigned int)Result);
-        return Result;
-    }
-
-    /*
-    ** Set the "data has been saved" indicator
-    */
-    LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
-
-    /*
-    ** Copy the global application data structure to CDS
-    */
-    Result = CFE_ES_CopyToCDS(LC_OperData.AppDataCDSHandle, &LC_AppData);
-
-    if (Result != CFE_SUCCESS)
-    {
-        CFE_EVS_SendEvent(LC_APP_NO_SAVE_START_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Unable to update application data in CDS, RC=0x%08X",
-                          (unsigned int)Result);
-        return Result;
-    }
-
-    return CFE_SUCCESS;
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -182,20 +164,9 @@ CFE_Status_t LC_PerformMaintenance(void)
     **  (an error here is fatal - LC must be able to access its tables)
     */
     Result = LC_ManageTables();
-
-    if (Result == CFE_SUCCESS)
+    if (Result == CFE_SUCCESS && LC_OperData.HaveActiveCDS)
     {
-        if (LC_OperData.HaveActiveCDS)
-        {
-            /*
-            ** If CDS is enabled - update the 3 CDS areas managed by LC
-            **  (continue, but disable CDS if unable to update all 3)
-            */
-            if (LC_UpdateTaskCDS() != CFE_SUCCESS)
-            {
-                LC_OperData.HaveActiveCDS = false;
-            }
-        }
+        LC_SetCDS_Data();
     }
 
     return Result;

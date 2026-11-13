@@ -79,16 +79,16 @@ CFE_Status_t LC_CreateResultTables(void)
 
 /*
  * ----------------------------------------------------
- * Generated stub function for LC_CreateTaskCDS()
+ * Generated stub function for LC_GetCDS_Data()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_CreateTaskCDS(void)
+CFE_Status_t LC_GetCDS_Data(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_CreateTaskCDS, CFE_Status_t);
+    UT_GenStub_SetupReturnBuffer(LC_GetCDS_Data, CFE_Status_t);
 
-    UT_GenStub_Execute(LC_CreateTaskCDS, Basic, NULL);
+    UT_GenStub_Execute(LC_GetCDS_Data, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_CreateTaskCDS, CFE_Status_t);
+    return UT_GenStub_GetReturnValue(LC_GetCDS_Data, CFE_Status_t);
 }
 
 /*

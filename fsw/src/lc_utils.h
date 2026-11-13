@@ -59,7 +59,7 @@ CFE_Status_t LC_ManageTables(void);
  *  \return Execution status, see \ref CFEReturnCodes
  *  \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-CFE_Status_t LC_UpdateTaskCDS(void);
+CFE_Status_t LC_SetCDS_Data(void);
 
 /**
  * \brief Perform Routine Maintenance
