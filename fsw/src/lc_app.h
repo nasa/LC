@@ -165,8 +165,6 @@ typedef struct
 
     LC_HkPacket_t HkPacket; /**< \brief Housekeeping telemetry packet        */
 
-    uint32 TableResults; /**< \brief Table and CDS initialization results */
-
     LC_MessageList_t *HashTable[LC_HASH_TABLE_ENTRIES]; /**< \brief Each entry in the hash
                                                                    table is a linked list
                                                                    of all the MessageID's

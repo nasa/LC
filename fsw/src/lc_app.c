@@ -694,20 +694,11 @@ CFE_Status_t LC_LoadDefaultTables(void)
 {
     CFE_Status_t Result;
 
-    /*
-    ** Load default watchpoint definition table (WDT)
-    */
+    /* Load default watchpoint definition table (WDT) */
     Result = CFE_TBL_Load(LC_OperData.WDTHandle, CFE_TBL_SRC_FILE, LC_WDT_FILENAME);
-
-    if (Result == CFE_SUCCESS)
+    if (Result != CFE_SUCCESS)
     {
-        LC_OperData.TableResults |= LC_WDT_DEFAULT_TBL;
-    }
-    else
-    {
-        /*
-        ** Task initialization fails without this table
-        */
+        /* Task initialization fails without this table */
         CFE_EVS_SendEvent(LC_WDT_LOAD_ERR_EID,
                           CFE_EVS_EventType_ERROR,
                           "Error (RC=0x%08X) Loading WDT with '%s'",
@@ -717,11 +708,8 @@ CFE_Status_t LC_LoadDefaultTables(void)
 
     if (Result == CFE_SUCCESS)
     {
-        /*
-        ** Get a pointer to the watchpoint definition table data...
-        */
+        /* Get a pointer to the watchpoint definition table data */
         Result = CFE_TBL_GetAddress((void *)&LC_OperData.WDTPtr, LC_OperData.WDTHandle);
-
         if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
         {
             CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID,
@@ -729,24 +717,20 @@ CFE_Status_t LC_LoadDefaultTables(void)
                               "Error getting WDT address, RC=0x%08X",
                               (unsigned int)Result);
         }
-    }
-
-    if ((Result == CFE_SUCCESS) || (Result == CFE_TBL_INFO_UPDATED))
-    {
-        /*
-        ** Load default actionpoint definition table (ADT)
-        */
-        Result = CFE_TBL_Load(LC_OperData.ADTHandle, CFE_TBL_SRC_FILE, LC_ADT_FILENAME);
-
-        if (Result == CFE_SUCCESS)
-        {
-            LC_OperData.TableResults |= LC_ADT_DEFAULT_TBL;
-        }
         else
         {
-            /*
-            ** Task initialization fails without this table
-            */
+            /* Simplify successful outcomes */
+            Result = CFE_SUCCESS;
+        }
+    }
+
+    if (Result == CFE_SUCCESS)
+    {
+        /* Load default actionpoint definition table (ADT) */
+        Result = CFE_TBL_Load(LC_OperData.ADTHandle, CFE_TBL_SRC_FILE, LC_ADT_FILENAME);
+        if (Result != CFE_SUCCESS)
+        {
+            /* Task initialization fails without this table */
             CFE_EVS_SendEvent(LC_ADT_LOAD_ERR_EID,
                               CFE_EVS_EventType_ERROR,
                               "Error (RC=0x%08X) Loading ADT with '%s'",
@@ -757,11 +741,8 @@ CFE_Status_t LC_LoadDefaultTables(void)
 
     if (Result == CFE_SUCCESS)
     {
-        /*
-        ** Get a pointer to the actionpoint definition table data
-        */
+        /* Get a pointer to the actionpoint definition table data */
         Result = CFE_TBL_GetAddress((void *)&LC_OperData.ADTPtr, LC_OperData.ADTHandle);
-
         if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
         {
             CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID,
@@ -769,41 +750,27 @@ CFE_Status_t LC_LoadDefaultTables(void)
                               "Error getting ADT address, RC=0x%08X",
                               (unsigned int)Result);
         }
+        else
+        {
+            /* Simplify successful outcomes */
+            Result = CFE_SUCCESS;
+        }
     }
 
-    if ((Result == CFE_SUCCESS) || (Result == CFE_TBL_INFO_UPDATED))
+    if (Result == CFE_SUCCESS)
     {
-        /*
-        ** Initialize the watchpoint and actionpoint result table data
-        */
+        /* Initialize the watchpoint and actionpoint result table data */
         LC_ResetResultsWP(0, LC_MAX_WATCHPOINTS - 1, false);
-        LC_OperData.TableResults |= LC_WRT_DEFAULT_DATA;
-
         LC_ResetResultsAP(0, LC_MAX_ACTIONPOINTS - 1, false);
-        LC_OperData.TableResults |= LC_ART_DEFAULT_DATA;
 
-        /*
-        ** Reset application data counters reported in housekeeping
-        */
+        /* Reset application data counters reported in housekeeping */
         LC_ResetCounters();
 
-        /*
-        ** Set LC operational state to configured startup value
-        */
-        LC_AppData.CurrentLCState  = LC_STATE_POWER_ON_RESET;
-        LC_OperData.TableResults  |= LC_APP_DEFAULT_DATA;
+        /* Set LC operational state to configured startup value */
+        LC_AppData.CurrentLCState = LC_STATE_POWER_ON_RESET;
 
-        /*
-        ** If CDS is enabled - try to update the 3 CDS areas managed by the LC task
-        **  (continue, but disable CDS if unable to update all 3)
-        */
-        if (LC_OperData.HaveActiveCDS)
-        {
-            if (LC_SetCDS_Data() == CFE_SUCCESS)
-            {
-                LC_OperData.TableResults |= LC_CDS_UPDATED;
-            }
-        }
+        /* Try to update CDS data managed by the LC task */
+        Result = LC_SetCDS_Data()
     }
 
     return Result;
