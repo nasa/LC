@@ -493,160 +493,106 @@ CFE_Status_t LC_CreateResultTables(void)
 
 CFE_Status_t LC_CreateDefinitionTables(void)
 {
-    CFE_Status_t Result;
+    CFE_Status_t Status;
     uint32       DataSize;
-    uint32       OptionFlags = CFE_TBL_OPT_DEFAULT;
+
+    DataSize = LC_MAX_WATCHPOINTS * sizeof(LC_WDTEntry_t);
 
     /*
-    ** If CDS is still enabled, try to register the 2 definition tables as critical
+    ** If CDS is still enabled, try to register the Watchpoint Definition Table (WDT) as critical
     **  (if error, continue with init - but disable CDS and re-register as non-critical)
     */
     if (LC_OperData.HaveActiveCDS)
     {
-        OptionFlags = CFE_TBL_OPT_DEFAULT | CFE_TBL_OPT_CRITICAL;
-    }
+        Status = CFE_TBL_Register(&LC_OperData.WDTHandle,
+                                  LC_WDT_TABLENAME,
+                                  DataSize,
+                                  CFE_TBL_OPT_DEFAULT | CFE_TBL_OPT_CRITICAL,
+                                  LC_ValidateWDT);
 
-    /*
-    ** Register the Watchpoint Definition Table (WDT)
-    */
-    DataSize = LC_MAX_WATCHPOINTS * sizeof(LC_WDTEntry_t);
-    Result   = CFE_TBL_Register(&LC_OperData.WDTHandle, LC_WDT_TABLENAME, DataSize, OptionFlags, LC_ValidateWDT);
-
-    if ((LC_OperData.HaveActiveCDS) && ((Result != CFE_TBL_INFO_RECOVERED_TBL) && (Result != CFE_SUCCESS)))
-    {
-        LC_OperData.HaveActiveCDS = false;
-        OptionFlags               = CFE_TBL_OPT_DEFAULT;
-
-        CFE_EVS_SendEvent(LC_WDT_REGISTER_CRIT_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Error registering WDT as critical table, retrying with default options, RC=0x%08X",
-                          (unsigned int)Result);
-
-        /*
-        ** Re-register the Watchpoint Definition Table (WDT) non-critical
-        */
-        Result = CFE_TBL_Register(&LC_OperData.WDTHandle, LC_WDT_TABLENAME, DataSize, OptionFlags, LC_ValidateWDT);
-    }
-
-    if (Result == CFE_TBL_INFO_RECOVERED_TBL)
-    {
-        LC_OperData.TableResults |= LC_WDT_CRITICAL_TBL;
-        LC_OperData.TableResults |= LC_WDT_TBL_RESTORED;
-        Result                    = CFE_SUCCESS;
-    }
-    else if (Result == CFE_SUCCESS)
-    {
-        if (LC_OperData.HaveActiveCDS)
-        {
-            LC_OperData.TableResults |= LC_WDT_CRITICAL_TBL;
-        }
-        else
-        {
-            LC_OperData.TableResults |= LC_WDT_NOT_CRITICAL;
-        }
-    }
-    else
-    {
-        /*
-        ** Task initialization fails without this table
-        **
-        */
-        CFE_EVS_SendEvent(LC_WDT_REGISTER_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Error registering WDT, RC=0x%08X",
-                          (unsigned int)Result);
-    }
-
-    if (Result == CFE_SUCCESS)
-    {
-        /*
-        ** Register the Actionpoint Definition Table (ADT)
-        */
-        DataSize = LC_MAX_ACTIONPOINTS * sizeof(LC_ADTEntry_t);
-        Result   = CFE_TBL_Register(&LC_OperData.ADTHandle, LC_ADT_TABLENAME, DataSize, OptionFlags, LC_ValidateADT);
-
-        if ((LC_OperData.HaveActiveCDS) && ((Result != CFE_TBL_INFO_RECOVERED_TBL) && (Result != CFE_SUCCESS)))
+        if ((Status != CFE_TBL_INFO_RECOVERED_TBL) && (Status != CFE_SUCCESS))
         {
             LC_OperData.HaveActiveCDS = false;
-            OptionFlags               = CFE_TBL_OPT_DEFAULT;
-
-            CFE_EVS_SendEvent(LC_ADT_REGISTER_CRIT_ERR_EID,
+            CFE_EVS_SendEvent(LC_WDT_REGISTER_CRIT_ERR_EID,
                               CFE_EVS_EventType_ERROR,
-                              "Error registering ADT as critical table, retrying with default options, RC=0x%08X",
-                              (unsigned int)Result);
-
-            /*
-            ** Re-register the Actionpoint Definition Table (ADT) non-critical
-            */
-            Result = CFE_TBL_Register(&LC_OperData.ADTHandle, LC_ADT_TABLENAME, DataSize, OptionFlags, LC_ValidateADT);
+                              "Error registering WDT as critical table, retrying with default options, RC=0x%08X",
+                              (unsigned int)Status);
         }
+    }
 
-        if (Result == CFE_TBL_INFO_RECOVERED_TBL)
+    /* If CDS isn't active (re-)register the Watchpoint Definition Table (WDT) as non-critical */
+    if (LC_OperData.HaveActiveCDS == false)
+    {
+        Status =
+            CFE_TBL_Register(&LC_OperData.WDTHandle, LC_WDT_TABLENAME, DataSize, CFE_TBL_OPT_DEFAULT, LC_ValidateWDT);
+
+        if ((Status != CFE_TBL_INFO_RECOVERED_TBL) && (Status != CFE_SUCCESS))
         {
-            LC_OperData.TableResults |= LC_ADT_CRITICAL_TBL;
-            LC_OperData.TableResults |= LC_ADT_TBL_RESTORED;
-            Result                    = CFE_SUCCESS;
-        }
-        else if (Result == CFE_SUCCESS)
-        {
-            if (LC_OperData.HaveActiveCDS)
-            {
-                LC_OperData.TableResults |= LC_ADT_CRITICAL_TBL;
-            }
-            else
-            {
-                LC_OperData.TableResults |= LC_ADT_NOT_CRITICAL;
-            }
+            /* Task initialization fails without this table */
+            CFE_EVS_SendEvent(LC_WDT_REGISTER_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Error registering WDT, RC=0x%08X",
+                              (unsigned int)Status);
         }
         else
         {
-            /*
-            ** Task initialization fails without this table
-            */
-            CFE_EVS_SendEvent(LC_ADT_REGISTER_ERR_EID,
-                              CFE_EVS_EventType_ERROR,
-                              "Error registering ADT, RC=0x%08X",
-                              (unsigned int)Result);
+            /* Simplify successful outcomes */
+            Status = CFE_SUCCESS;
         }
     }
 
-    if (Result == CFE_SUCCESS)
+    if (Status == CFE_SUCCESS)
     {
-        /*
-        ** In case we created a critical WDT and then created a non-critical ADT
-        */
-        if (((LC_OperData.TableResults & LC_WDT_CRITICAL_TBL) == LC_WDT_CRITICAL_TBL)
-            && ((LC_OperData.TableResults & LC_ADT_NOT_CRITICAL) == LC_ADT_NOT_CRITICAL))
-        {
-            /*
-            ** Un-register the critical watchpoint Definition Table (WDT)
-            */
-            CFE_TBL_Unregister(LC_OperData.WDTHandle);
+        DataSize = LC_MAX_ACTIONPOINTS * sizeof(LC_ADTEntry_t);
 
-            /*
-            ** Re-register the Watchpoint Definition Table (WDT) non-critical
-            */
-            DataSize    = LC_MAX_WATCHPOINTS * sizeof(LC_WDTEntry_t);
-            OptionFlags = CFE_TBL_OPT_DEFAULT;
-            Result = CFE_TBL_Register(&LC_OperData.WDTHandle, LC_WDT_TABLENAME, DataSize, OptionFlags, LC_ValidateWDT);
-            if (Result == CFE_SUCCESS)
+        /*
+        ** If CDS is still enabled, try to register the Actionpoint Definition Table (ADT) as critical
+        **  (if error, continue with init - but disable CDS and re-register as non-critical)
+        */
+        if (LC_OperData.HaveActiveCDS)
+        {
+            Status = CFE_TBL_Register(&LC_OperData.ADTHandle,
+                                      LC_ADT_TABLENAME,
+                                      DataSize,
+                                      CFE_TBL_OPT_DEFAULT | CFE_TBL_OPT_CRITICAL,
+                                      LC_ValidateADT);
+
+            if ((Status != CFE_TBL_INFO_RECOVERED_TBL) && (Status != CFE_SUCCESS))
             {
-                LC_OperData.TableResults |= LC_WDT_NOT_CRITICAL;
+                LC_OperData.HaveActiveCDS = false;
+                CFE_EVS_SendEvent(LC_ADT_REGISTER_CRIT_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Error registering ADT as critical table, retrying with default options, RC=0x%08X",
+                                  (unsigned int)Status);
+            }
+        }
+
+        /* If CDS isn't active (re-)register the Actionpoint Definition Table (ADT) as non-critical */
+        if (LC_OperData.HaveActiveCDS == false)
+        {
+            Status = CFE_TBL_Register(&LC_OperData.ADTHandle,
+                                      LC_ADT_TABLENAME,
+                                      DataSize,
+                                      CFE_TBL_OPT_DEFAULT,
+                                      LC_ValidateADT);
+
+            if ((Status != CFE_TBL_INFO_RECOVERED_TBL) && (Status != CFE_SUCCESS))
+            {
+                /* Task initialization fails without this table */
+                CFE_EVS_SendEvent(LC_ADT_REGISTER_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Error registering ADT, RC=0x%08X",
+                                  (unsigned int)Status);
             }
             else
             {
-                /*
-                ** Task initialization fails without this table
-                */
-                CFE_EVS_SendEvent(LC_WDT_REREGISTER_ERR_EID,
-                                  CFE_EVS_EventType_ERROR,
-                                  "Error re-registering WDT, RC=0x%08X",
-                                  (unsigned int)Result);
+                /* Simplify successful outcomes */
+                Status = CFE_SUCCESS;
             }
         }
     }
 
-    return Result;
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
