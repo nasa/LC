@@ -341,7 +341,7 @@ CFE_Status_t LC_CreateDefinitionTables(void);
  *
  *  \sa #LC_TableInit
  */
-CFE_Status_t LC_CreateTaskCDS(void);
+CFE_Status_t LC_GetCDS_Data(void);
 
 /**
  * \brief Load Default Table Values

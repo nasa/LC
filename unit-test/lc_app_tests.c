@@ -555,7 +555,7 @@ void LC_TableInit_Test_LoadDefaultTables(void)
     /* Only recover WDT */
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 3, CFE_TBL_INFO_RECOVERED_TBL);
 
-    /* Setup LC_CreateTaskCDS to succeed */
+    /* Setup LC_GetCDS_Data to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
@@ -667,7 +667,7 @@ void LC_TableInit_Test_GetWDTAddressError(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
-    /* Setup LC_CreateTaskCDS to succeed */
+    /* Setup LC_GetCDS_Data to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
@@ -698,7 +698,7 @@ void LC_TableInit_Test_GetWDTAddressUpdated(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
-    /* Setup LC_CreateTaskCDS to succeed */
+    /* Setup LC_GetCDS_Data to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
@@ -727,7 +727,7 @@ void LC_TableInit_Test_GetADTAddressError(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
-    /* Setup LC_CreateTaskCDS to succeed */
+    /* Setup LC_GetCDS_Data to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
@@ -758,7 +758,7 @@ void LC_TableInit_Test_GetADTAddressUpdated(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
     UT_SetDeferredRetcode(UT_KEY(CFE_TBL_Register), 1, CFE_SUCCESS);
 
-    /* Setup LC_CreateTaskCDS to succeed */
+    /* Setup LC_GetCDS_Data to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
@@ -783,7 +783,7 @@ void LC_TableInit_Test_CreateTaskCDSError(void)
     CFE_Status_t Result;
     LC_OperData.HaveActiveCDS = true;
 
-    /* force LC_CreateTaskCDS to fail */
+    /* force LC_GetCDS_Data to fail */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), -1);
 
     Result = LC_TableInit();
@@ -798,7 +798,7 @@ void LC_TableInit_Test_Nominal(void)
 
     LC_OperData.HaveActiveCDS = true;
 
-    /* Setup LC_CreateTaskCDS to succeed */
+    /* Setup LC_GetCDS_Data to succeed */
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RestoreFromCDS), CFE_SUCCESS);
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
@@ -1330,13 +1330,13 @@ void LC_LoadDefaultTables_Test_InfoUpdated(void)
     UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
 }
 
-void LC_CreateTaskCDS_Test_Nominal(void)
+void LC_GetCDS_Data_Test_Nominal(void)
 {
     CFE_Status_t Result;
 
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_SUCCESS);
 
-    Result = LC_CreateTaskCDS();
+    Result = LC_GetCDS_Data();
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -1350,7 +1350,7 @@ void LC_CreateTaskCDS_Test_Nominal(void)
                   "LC_OperData.TableResult & LC_APP_CDS_CREATED == LC_APP_CDS_CREATED");
 }
 
-void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
+void LC_GetCDS_Data_Test_WRTRegisterCDSError(void)
 {
     CFE_Status_t Result;
     int32        strCmpResult;
@@ -1360,7 +1360,7 @@ void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error registering WRT CDS Area, RC=0x%%08X");
 
-    Result = LC_CreateTaskCDS();
+    Result = LC_GetCDS_Data();
 
     UtAssert_True(Result == -1, "Result == -1");
 
@@ -1373,7 +1373,7 @@ void LC_CreateTaskCDS_Test_WRTRegisterCDSError(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
+void LC_GetCDS_Data_Test_ARTRegisterCDSError(void)
 {
     CFE_Status_t Result;
     int32        strCmpResult;
@@ -1383,7 +1383,7 @@ void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Error registering ART CDS Area, RC=0x%%08X");
 
-    Result = LC_CreateTaskCDS();
+    Result = LC_GetCDS_Data();
 
     UtAssert_True(Result == -1, "Result == -1");
 
@@ -1396,7 +1396,7 @@ void LC_CreateTaskCDS_Test_ARTRegisterCDSError(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
+void LC_GetCDS_Data_Test_AppDataRegisterCDSError(void)
 {
     CFE_Status_t Result;
     int32        strCmpResult;
@@ -1408,7 +1408,7 @@ void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
              CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Error registering application data CDS Area, RC=0x%%08X");
 
-    Result = LC_CreateTaskCDS();
+    Result = LC_GetCDS_Data();
 
     UtAssert_True(Result == -1, "Result == -1");
 
@@ -1421,7 +1421,7 @@ void LC_CreateTaskCDS_Test_AppDataRegisterCDSError(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 }
 
-void LC_CreateTaskCDS_Test_RestoreSuccess(void)
+void LC_GetCDS_Data_Test_RestoreSuccess(void)
 {
     CFE_Status_t Result;
 
@@ -1430,7 +1430,7 @@ void LC_CreateTaskCDS_Test_RestoreSuccess(void)
 
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
 
-    Result = LC_CreateTaskCDS();
+    Result = LC_GetCDS_Data();
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -1450,7 +1450,7 @@ void LC_CreateTaskCDS_Test_RestoreSuccess(void)
                   "LC_OperData.TableResult & LC_APP_CDS_RESTORED == LC_APP_CDS_RESTORED");
 }
 
-void LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved(void)
+void LC_GetCDS_Data_Test_RestoreSuccessCDSNotSaved(void)
 {
     CFE_Status_t Result;
 
@@ -1459,7 +1459,7 @@ void LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved(void)
 
     LC_AppData.CDSSavedOnExit = !LC_CDS_SAVED;
 
-    Result = LC_CreateTaskCDS();
+    Result = LC_GetCDS_Data();
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -1479,7 +1479,7 @@ void LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved(void)
                   "LC_OperData.TableResult & LC_APP_CDS_RESTORED == 0");
 }
 
-void LC_CreateTaskCDS_Test_RestoreFail(void)
+void LC_GetCDS_Data_Test_RestoreFail(void)
 {
     CFE_Status_t Result;
 
@@ -1488,7 +1488,7 @@ void LC_CreateTaskCDS_Test_RestoreFail(void)
 
     LC_AppData.CDSSavedOnExit = LC_CDS_SAVED;
 
-    Result = LC_CreateTaskCDS();
+    Result = LC_GetCDS_Data();
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -1669,26 +1669,26 @@ void UtTest_Setup(void)
                LC_Test_TearDown,
                "LC_LoadDefaultTables_Test_InfoUpdated");
 
-    UtTest_Add(LC_CreateTaskCDS_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_CreateTaskCDS_Test_Nominal");
-    UtTest_Add(LC_CreateTaskCDS_Test_WRTRegisterCDSError,
+    UtTest_Add(LC_GetCDS_Data_Test_Nominal, LC_Test_Setup, LC_Test_TearDown, "LC_GetCDS_Data_Test_Nominal");
+    UtTest_Add(LC_GetCDS_Data_Test_WRTRegisterCDSError,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_CreateTaskCDS_Test_WRTRegisterCDSError");
-    UtTest_Add(LC_CreateTaskCDS_Test_ARTRegisterCDSError,
+               "LC_GetCDS_Data_Test_WRTRegisterCDSError");
+    UtTest_Add(LC_GetCDS_Data_Test_ARTRegisterCDSError,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_CreateTaskCDS_Test_ARTRegisterCDSError");
-    UtTest_Add(LC_CreateTaskCDS_Test_AppDataRegisterCDSError,
+               "LC_GetCDS_Data_Test_ARTRegisterCDSError");
+    UtTest_Add(LC_GetCDS_Data_Test_AppDataRegisterCDSError,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_CreateTaskCDS_Test_AppDataRegisterCDSError");
-    UtTest_Add(LC_CreateTaskCDS_Test_RestoreSuccess,
+               "LC_GetCDS_Data_Test_AppDataRegisterCDSError");
+    UtTest_Add(LC_GetCDS_Data_Test_RestoreSuccess,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_CreateTaskCDS_Test_RestoreSuccess");
-    UtTest_Add(LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved,
+               "LC_GetCDS_Data_Test_RestoreSuccess");
+    UtTest_Add(LC_GetCDS_Data_Test_RestoreSuccessCDSNotSaved,
                LC_Test_Setup,
                LC_Test_TearDown,
-               "LC_CreateTaskCDS_Test_RestoreSuccessCDSNotSaved");
-    UtTest_Add(LC_CreateTaskCDS_Test_RestoreFail, LC_Test_Setup, LC_Test_TearDown, "LC_CreateTaskCDS_Test_RestoreFail");
+               "LC_GetCDS_Data_Test_RestoreSuccessCDSNotSaved");
+    UtTest_Add(LC_GetCDS_Data_Test_RestoreFail, LC_Test_Setup, LC_Test_TearDown, "LC_GetCDS_Data_Test_RestoreFail");
 }

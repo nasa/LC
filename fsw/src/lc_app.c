@@ -409,7 +409,7 @@ CFE_Status_t LC_TableInit(void)
     {
         if (LC_OperData.HaveActiveCDS)
         {
-            Result = LC_CreateTaskCDS();
+            Result = LC_GetCDS_Data();
             if (Result != CFE_SUCCESS)
             {
                 LC_OperData.HaveActiveCDS = false;
@@ -774,7 +774,7 @@ CFE_Status_t LC_CreateDefinitionTables(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-CFE_Status_t LC_CreateTaskCDS(void)
+CFE_Status_t LC_GetCDS_Data(void)
 {
     CFE_Status_t Status;
 
