@@ -126,6 +126,15 @@ typedef struct LC_MListTag
  * Type Definitions
  ************************************************************************/
 
+typedef struct
+{
+    LC_HkPacket_t  HkPacket; /**< \brief Housekeeping telemetry packet */
+    LC_WRTEntry_t *WRTPtr;   /**< \brief Watchpoint  Results Table Pointer    */
+    LC_ARTEntry_t *ARTPtr;   /**< \brief Actionpoint Results Table Pointer    */
+    LC_WDTEntry_t *WDTPtr;   /**< \brief Watchpoint  Definition Table Pointer */
+    LC_ADTEntry_t *ADTPtr;   /**< \brief Actionpoint Definition Table Pointer */
+} LC_CDS_Data_t;
+
 /**
  *  \brief LC Operational Data Structure
  *
