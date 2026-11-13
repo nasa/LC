@@ -454,8 +454,6 @@ CFE_Status_t LC_CreateResultTables(void)
 
     if (Result == CFE_SUCCESS)
     {
-        LC_OperData.TableResults |= LC_WRT_TBL_CREATED;
-
         /*
         ** Register the Actionpoint Results Table (ART) - "dump only" tables
         ** cannot be critical with CDS use managed by CFE Table Services.
@@ -482,11 +480,6 @@ CFE_Status_t LC_CreateResultTables(void)
                               "Error getting ART address, RC=0x%08X",
                               (unsigned int)Result);
         }
-    }
-
-    if (Result == CFE_SUCCESS)
-    {
-        LC_OperData.TableResults |= LC_ART_TBL_CREATED;
     }
 
     return Result;
