@@ -349,172 +349,64 @@ CFE_Status_t LC_SbInit(void)
 
 CFE_Status_t LC_TableInit(void)
 {
-    CFE_Status_t Result;
-
-/*
-** LC task use of Critical Data Store (CDS)
-**
-**    Global application data (LC_AppData)
-**    Watchpoint results dump only table data
-**    Actionpoint results dump only table data
-**
-** cFE Table Services use of CDS for LC task
-**
-**    Watchpoint definition loadable table data
-**    Actionpoint definition loadable table data
-**
-** LC table initialization logic re CDS
-**
-**    If LC cannot create all the CDS storage at startup, then LC
-**    will disable LC use of CDS and continue.
-**
-**    If LC cannot register definition tables as critical, then LC
-**    will disable LC use of CDS and re-register tables as non-critical.
-**
-**    If LC cannot register definition and results tables at startup,
-**    then LC will terminate - table use is a required function.
-**
-**    If LC can create all the CDS storage and register definition
-**    tables as critical, then LC will write to CDS regardless of
-**    whether LC was able to read from CDS at startup.
-**
-**    If LC cannot restore everything from CDS at startup, then LC
-**    will initialize everything - load default definition tables,
-**    init results table contents, init global application data.
-*/
+    /*
+    ** LC task use of Critical Data Store (CDS)
+    **
+    **    Global application data (LC_AppData)
+    **    Watchpoint results dump only table data
+    **    Actionpoint results dump only table data
+    **
+    ** cFE Table Services use of CDS for LC task
+    **
+    **    Watchpoint definition loadable table data
+    **    Actionpoint definition loadable table data
+    **
+    ** LC table initialization logic re CDS
+    **
+    **    If LC cannot create all the CDS storage at startup, then LC
+    **    will disable LC use of CDS and continue.
+    **
+    **    If LC cannot register definition tables as critical, then LC
+    **    will disable LC use of CDS and re-register tables as non-critical.
+    **
+    **    If LC cannot register definition and results tables at startup,
+    **    then LC will terminate - table use is a required function.
+    **
+    **    If LC can create all the CDS storage and register definition
+    **    tables as critical, then LC will write to CDS regardless of
+    **    whether LC was able to read from CDS at startup.
+    **
+    **    If LC cannot restore everything from CDS at startup, then LC
+    **    will initialize everything - load default definition tables,
+    **    init results table contents, init global application data.
+    */
 
 /* lc_platform_cfg.h */
 #ifdef LC_SAVE_TO_CDS
     LC_OperData.HaveActiveCDS = true;
 #endif
 
-    /*
-    ** Maintain a detailed record of table initialization results
-    */
-    if (LC_OperData.HaveActiveCDS)
-    {
-        LC_OperData.TableResults |= LC_CDS_ENABLED;
-    }
+    CFE_Status_t Status;
 
-    /*
-    ** Create watchpoint and actionpoint result tables
-    */
-    Result = LC_CreateResultTables();
+    /* Create watchpoint and actionpoint result tables */
+    Status = LC_CreateResultTables();
 
     /*
     ** If CDS is enabled - create the 3 CDS areas managed by the LC task
     **  (continue with init, but disable CDS if unable to create all 3)
     */
-    if (Result == CFE_SUCCESS)
+    if (Status == CFE_SUCCESS)
     {
         if (LC_OperData.HaveActiveCDS)
         {
-            Result = LC_GetCDS_Data();
+            (void)LC_GetCDS_Data();
         }
-        /*
-         ** Create wp/ap definition tables - critical if CDS enabled
-         */
-        Result = LC_CreateDefinitionTables();
+
+        /* Create wp/ap definition tables - critical if CDS enabled */
+        Status = LC_CreateDefinitionTables();
     }
 
-    /*
-    ** CDS still active only if we created 3 CDS areas and 2 critical tables
-    */
-    if ((Result == CFE_SUCCESS) && (LC_OperData.HaveActiveCDS))
-    {
-        LC_OperData.TableResults |= LC_CDS_CREATED;
-    }
-
-    /*
-    ** If any CDS area or critical table is not restored - initialize everything.
-    **  (might be due to reset type, CDS disabled or corrupt, table restore error)
-    */
-    if (Result == CFE_SUCCESS)
-    {
-        if (((LC_OperData.TableResults & LC_WRT_CDS_RESTORED) == LC_WRT_CDS_RESTORED)
-            && ((LC_OperData.TableResults & LC_ART_CDS_RESTORED) == LC_ART_CDS_RESTORED)
-            && ((LC_OperData.TableResults & LC_APP_CDS_RESTORED) == LC_APP_CDS_RESTORED)
-            && ((LC_OperData.TableResults & LC_WDT_TBL_RESTORED) == LC_WDT_TBL_RESTORED)
-            && ((LC_OperData.TableResults & LC_ADT_TBL_RESTORED) == LC_ADT_TBL_RESTORED))
-        {
-            LC_OperData.TableResults |= LC_CDS_RESTORED;
-
-            /*
-            ** Get a pointer to the watchpoint definition table data...
-            */
-            Result = CFE_TBL_GetAddress((void *)&LC_OperData.WDTPtr, LC_OperData.WDTHandle);
-
-            if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
-            {
-                CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID,
-                                  CFE_EVS_EventType_ERROR,
-                                  "Error getting WDT address, RC=0x%08X",
-                                  (unsigned int)Result);
-            }
-
-            /*
-            ** Get a pointer to the actionpoint definition table data
-            */
-            if ((Result == CFE_SUCCESS) || (Result == CFE_TBL_INFO_UPDATED))
-            {
-                Result = CFE_TBL_GetAddress((void *)&LC_OperData.ADTPtr, LC_OperData.ADTHandle);
-
-                if ((Result != CFE_SUCCESS) && (Result != CFE_TBL_INFO_UPDATED))
-                {
-                    CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID,
-                                      CFE_EVS_EventType_ERROR,
-                                      "Error getting ADT address, RC=0x%08X",
-                                      (unsigned int)Result);
-                }
-            }
-        }
-        else
-        {
-            Result = LC_LoadDefaultTables();
-        }
-
-        if (Result == CFE_TBL_INFO_UPDATED)
-        {
-            Result = CFE_SUCCESS;
-        }
-    }
-
-    /*
-    ** Create watchpoint hash tables -- also subscribes to watchpoint packets
-    */
-    if (Result == CFE_SUCCESS)
-    {
-        LC_CreateHashTable();
-
-        /*
-        ** Display results of CDS initialization (if enabled at startup)
-        */
-        if ((LC_OperData.TableResults & LC_CDS_ENABLED) == LC_CDS_ENABLED)
-        {
-            if ((LC_OperData.TableResults & LC_CDS_RESTORED) == LC_CDS_RESTORED)
-            {
-                CFE_EVS_SendEvent(LC_CDS_RESTORED_INF_EID,
-                                  CFE_EVS_EventType_INFORMATION,
-                                  "Previous state restored from Critical Data Store");
-            }
-            else if ((LC_OperData.TableResults & LC_CDS_UPDATED) == LC_CDS_UPDATED)
-            {
-                CFE_EVS_SendEvent(LC_CDS_UPDATED_INF_EID,
-                                  CFE_EVS_EventType_INFORMATION,
-                                  "Default state loaded and written to CDS, activity mask = 0x%08X",
-                                  (unsigned int)LC_OperData.TableResults);
-            }
-        }
-        else
-        {
-            CFE_EVS_SendEvent(LC_CDS_DISABLED_INF_EID,
-                              CFE_EVS_EventType_INFORMATION,
-                              "LC use of Critical Data Store disabled, activity mask = 0x%08X",
-                              (unsigned int)LC_OperData.TableResults);
-        }
-    }
-
-    return Result;
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
