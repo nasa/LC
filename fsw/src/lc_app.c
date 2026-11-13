@@ -776,129 +776,60 @@ CFE_Status_t LC_CreateDefinitionTables(void)
 
 CFE_Status_t LC_CreateTaskCDS(void)
 {
-    CFE_Status_t Result;
-    uint32       DataSize;
+    CFE_Status_t Status;
+
+    /* Default to active CDS */
+    LC_OperData.HaveActiveCDS = true;
 
     /*
-    ** Create CDS and try to restore Watchpoint Results Table (WRT) data
+    ** Create CDS and try to restore data
     */
-    DataSize = LC_MAX_WATCHPOINTS * sizeof(LC_WRTEntry_t);
-    Result   = CFE_ES_RegisterCDS(&LC_OperData.WRTDataCDSHandle, DataSize, LC_WRT_CDSNAME);
+    Status = CFE_ES_RegisterCDS(&LC_OperData.CDS_Handle, sizeof(LC_CDS_Data_t), LC_CDS_NAME);
 
-    if (Result == CFE_SUCCESS)
+    if (Status == CFE_SUCCESS)
     {
-        /*
-        ** Normal result after a power on reset (cold boot) - continue with next CDS area
-        */
-        LC_OperData.TableResults |= LC_WRT_CDS_CREATED;
+        /* Initialize CDS data */
+        memset(&LC_OperData.CDS_Data.HkPacket, 0, sizeof(LC_HkPacket_t));
+        LC_OperData.CDS_Data.WDTPtr = NULL;
+        LC_OperData.CDS_Data.WRTPtr = NULL;
+        LC_OperData.CDS_Data.ADTPtr = NULL;
+        LC_OperData.CDS_Data.ARTPtr = NULL;
     }
-    else if (Result == CFE_ES_CDS_ALREADY_EXISTS)
+    else if (Status == CFE_ES_CDS_ALREADY_EXISTS)
     {
         /*
-        ** Normal result after a processor reset (warm boot) - try to restore previous data
+        ** Critical Data Store already existed, we need to get a
+        ** copy of its current contents to see if we can use it
         */
-        LC_OperData.TableResults |= LC_WRT_CDS_CREATED;
+        Status = CFE_ES_RestoreFromCDS(&LC_OperData.CDS_Data, LC_OperData.CDS_Handle);
 
-        Result = CFE_ES_RestoreFromCDS(LC_OperData.WRTPtr, LC_OperData.WRTDataCDSHandle);
-
-        if (Result == CFE_SUCCESS)
+        if (Status == CFE_SUCCESS)
         {
-            LC_OperData.TableResults |= LC_WRT_CDS_RESTORED;
+            /* Update values from CDS data */
+            memcpy(&LC_OperData.HkPacket, &LC_OperData.CDS_Data.HkPacket, sizeof(LC_HkPacket_t));
+            LC_OperData.WDTPtr = LC_OperData.CDS_Data.WDTPtr;
+            LC_OperData.WRTPtr = LC_OperData.CDS_Data.WRTPtr;
+            LC_OperData.ADTPtr = LC_OperData.CDS_Data.ADTPtr;
+            LC_OperData.ARTPtr = LC_OperData.CDS_Data.ARTPtr;
+
+            CFE_EVS_SendEvent(LC_CDS_RESTORED_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
+                              "Previous state restored from Critical Data Store");
         }
     }
     else
     {
-        CFE_EVS_SendEvent(LC_WRT_CDS_REGISTER_ERR_EID,
+        /* Empty out the CDS handle so it can't be mistakenly used */
+        LC_OperData.CDS_Handle    = 0;
+        LC_OperData.HaveActiveCDS = false;
+
+        CFE_EVS_SendEvent(LC_CDS_REGISTER_ERR_EID,
                           CFE_EVS_EventType_ERROR,
-                          "Error registering WRT CDS Area, RC=0x%08X",
-                          (unsigned int)Result);
-        return Result;
+                          "Error registering CDS Area, RC=0x%08X",
+                          (unsigned int)Status);
     }
 
-    /*
-    ** Create CDS and try to restore Actionpoint Results Table (ART) data
-    */
-    DataSize = LC_MAX_ACTIONPOINTS * sizeof(LC_ARTEntry_t);
-    Result   = CFE_ES_RegisterCDS(&LC_OperData.ARTDataCDSHandle, DataSize, LC_ART_CDSNAME);
-
-    if (Result == CFE_SUCCESS)
-    {
-        /*
-        ** Normal result after a power on reset (cold boot) - continue with next CDS area
-        */
-        LC_OperData.TableResults |= LC_ART_CDS_CREATED;
-    }
-    else if (Result == CFE_ES_CDS_ALREADY_EXISTS)
-    {
-        /*
-        ** Normal result after a processor reset (warm boot) - try to restore previous data
-        */
-        LC_OperData.TableResults |= LC_ART_CDS_CREATED;
-
-        Result = CFE_ES_RestoreFromCDS(LC_OperData.ARTPtr, LC_OperData.ARTDataCDSHandle);
-
-        if (Result == CFE_SUCCESS)
-        {
-            LC_OperData.TableResults |= LC_ART_CDS_RESTORED;
-        }
-    }
-    else
-    {
-        CFE_EVS_SendEvent(LC_ART_CDS_REGISTER_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Error registering ART CDS Area, RC=0x%08X",
-                          (unsigned int)Result);
-        return Result;
-    }
-
-    /*
-    ** Create CDS and try to restore Application (APP) data
-    */
-    DataSize = sizeof(LC_AppData_t);
-    Result   = CFE_ES_RegisterCDS(&LC_OperData.AppDataCDSHandle, DataSize, LC_APPDATA_CDSNAME);
-
-    if (Result == CFE_SUCCESS)
-    {
-        /*
-        ** Normal result after a power on reset (cold boot) - continue with next CDS area
-        */
-        LC_OperData.TableResults |= LC_APP_CDS_CREATED;
-    }
-    else if (Result == CFE_ES_CDS_ALREADY_EXISTS)
-    {
-        /*
-        ** Normal result after a processor reset (warm boot) - try to restore previous data
-        */
-        LC_OperData.TableResults |= LC_APP_CDS_CREATED;
-
-        Result = CFE_ES_RestoreFromCDS(&LC_AppData, LC_OperData.AppDataCDSHandle);
-
-        if ((Result == CFE_SUCCESS) && (LC_AppData.CDSSavedOnExit == LC_CDS_SAVED))
-        {
-            /*
-            ** Success - only if previous session saved CDS data at least once
-            */
-            LC_OperData.TableResults |= LC_APP_CDS_RESTORED;
-
-            /*
-            ** May need to override the restored application state
-            */
-
-#if LC_STATE_WHEN_CDS_RESTORED != LC_STATE_FROM_CDS
-            LC_AppData.CurrentLCState = LC_STATE_WHEN_CDS_RESTORED;
-#endif
-        }
-    }
-    else
-    {
-        CFE_EVS_SendEvent(LC_APP_CDS_REGISTER_ERR_EID,
-                          CFE_EVS_EventType_ERROR,
-                          "Error registering application data CDS Area, RC=0x%08X",
-                          (unsigned int)Result);
-        return Result;
-    }
-
-    return CFE_SUCCESS;
+    return Status;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
