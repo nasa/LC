@@ -120,7 +120,7 @@ CFE_Status_t LC_SetCDS_Data(void)
     Status = CFE_SUCCESS;
 
     /* Check whether previous CDS operations were successful */
-    if (LC_OperData.CDS_Handle != 0)
+    if (LC_OperData.CDS_Handle != 0 && LC_OperData.HaveActiveCDS)
     {
         /* Update CDS data */
         memcpy(&(LC_OperData.CDS_Data.HkPacket), &(LC_OperData.HkPacket), sizeof(LC_HkPacket_t));

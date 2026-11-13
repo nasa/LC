@@ -669,19 +669,17 @@ CFE_Status_t LC_GetCDS_Data(void)
     /* Default to active CDS */
     LC_OperData.HaveActiveCDS = true;
 
-    /*
-    ** Create CDS and try to restore data
-    */
+    /* Create CDS and try to restore data */
     Status = CFE_ES_RegisterCDS(&LC_OperData.CDS_Handle, sizeof(LC_CDS_Data_t), LC_CDS_NAME);
 
     if (Status == CFE_SUCCESS)
     {
-        /* Initialize CDS data */
+        /*
+        ** If any CDS area or critical table is not restored - initialize everything.
+        **  (might be due to reset type, CDS disabled or corrupt, table restore error)
+        */
         memset(&LC_OperData.CDS_Data.HkPacket, 0, sizeof(LC_HkPacket_t));
-        LC_OperData.CDS_Data.WDTPtr = NULL;
-        LC_OperData.CDS_Data.WRTPtr = NULL;
-        LC_OperData.CDS_Data.ADTPtr = NULL;
-        LC_OperData.CDS_Data.ARTPtr = NULL;
+        Status = LC_LoadDefaultTables();
     }
     else if (Status == CFE_ES_CDS_ALREADY_EXISTS)
     {
@@ -700,6 +698,33 @@ CFE_Status_t LC_GetCDS_Data(void)
             LC_OperData.ADTPtr = LC_OperData.CDS_Data.ADTPtr;
             LC_OperData.ARTPtr = LC_OperData.CDS_Data.ARTPtr;
 
+            Status = CFE_TBL_GetAddress((void *)&LC_OperData.WDTPtr, LC_OperData.WDTHandle);
+            if ((Status != CFE_SUCCESS) && (Status != CFE_TBL_INFO_UPDATED))
+            {
+                CFE_EVS_SendEvent(LC_WDT_GETADDR_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Error getting WDT address, RC=0x%08X",
+                                  (unsigned int)Status);
+            }
+        }
+
+        if ((Status == CFE_SUCCESS) || (Status == CFE_TBL_INFO_UPDATED))
+        {
+            /* Update values in table */
+            LC_CreateHashTable();
+
+            Status = CFE_TBL_GetAddress((void *)&LC_OperData.ADTPtr, LC_OperData.ADTHandle);
+            if ((Status != CFE_SUCCESS) && (Status != CFE_TBL_INFO_UPDATED))
+            {
+                CFE_EVS_SendEvent(LC_ADT_GETADDR_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Error getting ADT address, RC=0x%08X",
+                                  (unsigned int)Status);
+            }
+        }
+
+        if ((Status == CFE_SUCCESS) || (Status == CFE_TBL_INFO_UPDATED))
+        {
             CFE_EVS_SendEvent(LC_CDS_RESTORED_INF_EID,
                               CFE_EVS_EventType_INFORMATION,
                               "Previous state restored from Critical Data Store");
