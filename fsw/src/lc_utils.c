@@ -164,20 +164,9 @@ CFE_Status_t LC_PerformMaintenance(void)
     **  (an error here is fatal - LC must be able to access its tables)
     */
     Result = LC_ManageTables();
-
-    if (Result == CFE_SUCCESS)
+    if (Result == CFE_SUCCESS && LC_OperData.HaveActiveCDS)
     {
-        if (LC_OperData.HaveActiveCDS)
-        {
-            /*
-            ** If CDS is enabled - update the 3 CDS areas managed by LC
-            **  (continue, but disable CDS if unable to update all 3)
-            */
-            if (LC_SetCDS_Data() != CFE_SUCCESS)
-            {
-                LC_OperData.HaveActiveCDS = false;
-            }
-        }
+        LC_SetCDS_Data();
     }
 
     return Result;

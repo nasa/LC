@@ -410,10 +410,6 @@ CFE_Status_t LC_TableInit(void)
         if (LC_OperData.HaveActiveCDS)
         {
             Result = LC_GetCDS_Data();
-            if (Result != CFE_SUCCESS)
-            {
-                LC_OperData.HaveActiveCDS = false;
-            }
         }
         /*
          ** Create wp/ap definition tables - critical if CDS enabled
@@ -950,10 +946,6 @@ CFE_Status_t LC_LoadDefaultTables(void)
             if (LC_SetCDS_Data() == CFE_SUCCESS)
             {
                 LC_OperData.TableResults |= LC_CDS_UPDATED;
-            }
-            else
-            {
-                LC_OperData.HaveActiveCDS = false;
             }
         }
     }
