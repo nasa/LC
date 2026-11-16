@@ -39,9 +39,7 @@
  * \name LC CDS Buffer Strings
  * \{
  */
-#define LC_WRT_CDSNAME     "LC_CDS_WRT"
-#define LC_ART_CDSNAME     "LC_CDS_ART"
-#define LC_APPDATA_CDSNAME "LC_CDS_AppData"
+#define LC_CDS_NAME "LC_CDS"
 /**\}*/
 
 /**
@@ -126,6 +124,15 @@ typedef struct LC_MListTag
  * Type Definitions
  ************************************************************************/
 
+typedef struct
+{
+    LC_HkPacket_t  HkPacket; /**< \brief Housekeeping telemetry packet */
+    LC_WRTEntry_t *WRTPtr;   /**< \brief Watchpoint  Results Table Pointer    */
+    LC_ARTEntry_t *ARTPtr;   /**< \brief Actionpoint Results Table Pointer    */
+    LC_WDTEntry_t *WDTPtr;   /**< \brief Watchpoint  Definition Table Pointer */
+    LC_ADTEntry_t *ADTPtr;   /**< \brief Actionpoint Definition Table Pointer */
+} LC_CDS_Data_t;
+
 /**
  *  \brief LC Operational Data Structure
  *
@@ -147,10 +154,8 @@ typedef struct
     CFE_TBL_Handle_t WRTHandle; /**< \brief Watchpoint  Results Table Handle     */
     CFE_TBL_Handle_t ARTHandle; /**< \brief Actionpoint Results Table Handle     */
 
-    CFE_ES_CDSHandle_t WRTDataCDSHandle; /**< \brief Watchpoint  Results Table CDS Handle */
-    CFE_ES_CDSHandle_t ARTDataCDSHandle; /**< \brief Actionpoint Results Table CDS Handle */
-
-    CFE_ES_CDSHandle_t AppDataCDSHandle; /**< \brief Application Data CDS Handle          */
+    CFE_ES_CDSHandle_t CDS_Handle; /**< \brief LC CDS Handle */
+    LC_CDS_Data_t      CDS_Data;   /**< \brief Data structure to interface with CDS */
 
     uint16 WatchpointCount; /**< \brief Count of in-use watchpoints defined
                                         in the Watchpoint Definition Table   */
@@ -159,8 +164,6 @@ typedef struct
                                         in the Watchpoint Definition Table   */
 
     LC_HkPacket_t HkPacket; /**< \brief Housekeeping telemetry packet        */
-
-    uint32 TableResults; /**< \brief Table and CDS initialization results */
 
     LC_MessageList_t *HashTable[LC_HASH_TABLE_ENTRIES]; /**< \brief Each entry in the hash
                                                                    table is a linked list
@@ -336,7 +339,7 @@ CFE_Status_t LC_CreateDefinitionTables(void);
  *
  *  \sa #LC_TableInit
  */
-CFE_Status_t LC_CreateTaskCDS(void);
+CFE_Status_t LC_GetCDS_Data(void);
 
 /**
  * \brief Load Default Table Values

@@ -55,14 +55,14 @@ CFE_Status_t LC_PerformMaintenance(void)
 
 /*
  * ----------------------------------------------------
- * Generated stub function for LC_UpdateTaskCDS()
+ * Generated stub function for LC_SetCDS_Data()
  * ----------------------------------------------------
  */
-CFE_Status_t LC_UpdateTaskCDS(void)
+CFE_Status_t LC_SetCDS_Data(void)
 {
-    UT_GenStub_SetupReturnBuffer(LC_UpdateTaskCDS, CFE_Status_t);
+    UT_GenStub_SetupReturnBuffer(LC_SetCDS_Data, CFE_Status_t);
 
-    UT_GenStub_Execute(LC_UpdateTaskCDS, Basic, NULL);
+    UT_GenStub_Execute(LC_SetCDS_Data, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(LC_UpdateTaskCDS, CFE_Status_t);
+    return UT_GenStub_GetReturnValue(LC_SetCDS_Data, CFE_Status_t);
 }
