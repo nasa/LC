@@ -90,8 +90,8 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t   CommandHeader; /**< \brief Command Header */
-    LC_ResetAPStats_Payload_t Payload;
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
+    LC_APNumber_Payload_t   Payload;
 } LC_ResetAPStatsCmd_t;
 
 /**
@@ -101,8 +101,8 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t   CommandHeader; /**< \brief Command Header */
-    LC_SetAPPermOff_Payload_t Payload;
+    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
+    LC_APNumber_Payload_t   Payload;
 } LC_SetAPPermOffCmd_t;
 
 /**

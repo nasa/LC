@@ -1636,10 +1636,10 @@ void LC_SetAPStateCmd_Test_InvalidAPNumberDisabled(void)
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1665,10 +1665,10 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberMaxActionpoints(void)
 
 void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1694,10 +1694,10 @@ void LC_SetAPPermOffCmd_Test_InvalidAPNumberAllActionpoints(void)
 
 void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1727,10 +1727,10 @@ void LC_SetAPPermOffCmd_Test_APNotDisabled(void)
 
 void LC_SetAPPermOffCmd_Test_Nominal(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_SetAPPermOff_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.SetAPPermOffCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1760,10 +1760,10 @@ void LC_SetAPPermOffCmd_Test_Nominal(void)
 
 void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1789,10 +1789,10 @@ void LC_ResetAPStatsCmd_Test_AllActionPoints(void)
 
 void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
@@ -1818,10 +1818,10 @@ void LC_ResetAPStatsCmd_Test_SingleActionPoint(void)
 
 void LC_ResetAPStatsCmd_Test_InvalidAPNumber(void)
 {
-    CFE_SB_MsgId_t             TestMsgId;
-    LC_ResetAPStats_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
-    int32                      strCmpResult;
-    char                       ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_SB_MsgId_t         TestMsgId;
+    LC_APNumber_Payload_t *PayloadPtr = &UT_CmdBuf.ResetAPStatsCmd.Payload;
+    int32                  strCmpResult;
+    char                   ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     TestMsgId = CFE_SB_ValueToMsgId(LC_CMD_MID);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
