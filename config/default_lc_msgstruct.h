@@ -84,61 +84,15 @@ typedef struct
 } LC_ResetCountersCmd_t;
 
 /**
- *  \brief Set LC Application State Payload
+ *  \brief Reset AP (Actionpoint) Statistics Command
  *
- *  For command details see #LC_SET_LC_STATE_CC
- */
-typedef struct
-{
-    uint16 NewLCState; /**< \brief New LC application state    */
-    uint16 Padding;    /**< \brief Structure padding           */
-} LC_SetLCState_Payload_t;
-
-/**
- *  \brief Set LC Application State Command
- *
- *  For command details see #LC_SET_LC_STATE_CC
+ *  For command details see #LC_RESET_AP_STATS_CC
  */
 typedef struct
 {
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-
-    LC_SetLCState_Payload_t Payload;
-} LC_SetLCStateCmd_t;
-
-/**
- *  \brief Set AP (Actionpoint) State Payload
- *
- *  For command details see #LC_SET_AP_STATE_CC
- */
-typedef struct
-{
-    uint16 APNumber;   /**< \brief Which actionpoint(s) to change */
-    uint16 NewAPState; /**< \brief New actionpoint state          */
-} LC_SetAPState_Payload_t;
-
-/**
- *  \brief Set AP (Actionpoint) State Command
- *
- *  For command details see #LC_SET_AP_STATE_CC
- */
-typedef struct
-{
-    CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-
-    LC_SetAPState_Payload_t Payload;
-} LC_SetAPStateCmd_t;
-
-/**
- *  \brief Set AP (Actionpoint) Permanently Off Payload
- *
- *  For command details see #LC_SET_AP_PERM_OFF_CC
- */
-typedef struct
-{
-    uint16 APNumber; /**< \brief Which actionpoint to change */
-    uint16 Padding;  /**< \brief Structure padding           */
-} LC_SetAPPermOff_Payload_t;
+    LC_APNumber_Payload_t   Payload;
+} LC_ResetAPStatsCmd_t;
 
 /**
  *  \brief Set AP (Actionpoint) Permanently Off Command
@@ -148,69 +102,30 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-
-    LC_SetAPPermOff_Payload_t Payload;
+    LC_APNumber_Payload_t   Payload;
 } LC_SetAPPermOffCmd_t;
 
 /**
- *  \brief Reset AP (Actionpoint) Statistics Payload
+ *  \brief Set AP (Actionpoint) State Command
  *
- *  For command details see #LC_RESET_AP_STATS_CC
- */
-typedef struct
-{
-    uint16 APNumber; /**< \brief Which actionpoint(s) to change */
-    uint16 Padding;  /**< \brief Structure padding              */
-} LC_ResetAPStats_Payload_t;
-
-/**
- *  \brief Reset AP (Actionpoint) Statistics Command
- *
- *  For command details see #LC_RESET_AP_STATS_CC
+ *  For command details see #LC_SET_AP_STATE_CC
  */
 typedef struct
 {
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-
-    LC_ResetAPStats_Payload_t Payload;
-} LC_ResetAPStatsCmd_t;
-
-/**
- *  \brief Reset WP (Watchpoint) Statistics Payload
- *
- *  For command details see #LC_RESET_WP_STATS_CC
- */
-typedef struct
-{
-    uint16 WPNumber; /**< \brief Which watchpoint(s) to change */
-    uint16 Padding;  /**< \brief Structure padding             */
-} LC_ResetWPStats_Payload_t;
+    LC_SetAPState_Payload_t Payload;
+} LC_SetAPStateCmd_t;
 
 /**
- *  \brief Reset WP (Watchpoint) Statistics Command
+ *  \brief Set LC Application State Command
  *
- *  For command details see #LC_RESET_WP_STATS_CC
+ *  For command details see #LC_SET_LC_STATE_CC
  */
 typedef struct
 {
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-
-    LC_ResetWPStats_Payload_t Payload;
-} LC_ResetWPStatsCmd_t;
-
-/**
- *  \brief Sample AP (Actionpoint) Payload
- *
- *  See #LC_SAMPLE_AP_MID
- */
-typedef struct
-{
-    uint16 StartIndex; /**< \brief Start actionpoint to sample */
-    uint16 EndIndex;   /**< \brief End actionpoint to sample */
-
-    uint16 UpdateAge; /**< \brief Update WP results age (T or F) */
-    uint16 Padding;   /**< \brief Structure padding              */
-} LC_SampleAP_Payload_t;
+    LC_SetLCState_Payload_t Payload;
+} LC_SetLCStateCmd_t;
 
 /**
  *  \brief Sample AP (Actionpoint) Request
@@ -220,18 +135,19 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-
-    LC_SampleAP_Payload_t Payload;
+    LC_SampleAP_Payload_t   Payload;
 } LC_SampleAPCmd_t;
 
 /**
- * \brief Payload to Start a Stored Command RTS
+ *  \brief Reset WP (Watchpoint) Statistics Command
+ *
+ *  For command details see #LC_RESET_WP_STATS_CC
  */
 typedef struct
 {
-    uint16 RTSId;   /**< \brief RTS Id to start */
-    uint16 Padding; /**< \brief Padding */
-} LC_RTSRequest_Payload_t;
+    CFE_MSG_CommandHeader_t   CommandHeader; /**< \brief Command Header */
+    LC_ResetWPStats_Payload_t Payload;
+} LC_ResetWPStatsCmd_t;
 
 /**
  * \brief Send Command to Start a Stored Command RTS
@@ -249,45 +165,8 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CommandHeader; /**< \brief Command Header */
-
     LC_RTSRequest_Payload_t Payload;
 } LC_RTSRequestCmd_t;
-
-/**\}*/
-
-/**
- * \defgroup cfslctlm CFS Limit Checker Telemetry
- * \{
- */
-
-/**
- *  \brief Housekeeping Payload Structure
- */
-typedef struct
-{
-    uint8 CmdCount;       /**< \brief LC Application Command Counter */
-    uint8 CmdErrCount;    /**< \brief LC Application Command Error Counter */
-    uint8 CurrentLCState; /**< \brief Current LC application operating state */
-
-    uint8 Pad8; /**< \brief Structure padding */
-
-    uint8 WPResults[LC_HKWR_NUM_BYTES]; /**< \brief Packed watchpoint results data, 2 bits per watchpoint */
-    uint8 APResults[LC_HKAR_NUM_BYTES]; /**< \brief Packed actionpoint results data, 4 bits per actionpoint */
-
-    uint16 PassiveRTSExecCount; /**< \brief Total count of RTS sequences not initiated because the LC state is
-                                 *          set to #LC_STATE_PASSIVE or the state of the actionpoint that failed
-                                 *          is set to #LC_APSTATE_PASSIVE
-                                 */
-
-    uint16 WPsInUse;  /**< \brief How many watchpoints are currently in effect */
-    uint16 ActiveAPs; /**< \brief How many actionpoints are currently active */
-
-    uint16 Pad16; /**< \brief Structure padding */
-
-    uint32 APSampleCount;     /**< \brief Total count of Actionpoints sampled */
-    uint32 MonitoredMsgCount; /**< \brief Total count of messages monitored for watchpoints */
-    uint32 RTSExecCount;      /**< \brief Total count of RTS sequences initiated */
-} LC_HkTlm_Payload_t;
 
 /**
  *  \brief Housekeeping Telemetry Structure Structure
@@ -295,8 +174,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_TelemetryHeader_t TelemetryHeader; /**< \brief Telemetry Header */
-
-    LC_HkTlm_Payload_t Payload;
+    LC_HkTlm_Payload_t        Payload;
 } LC_HkPacket_t;
 
 /**\}*/

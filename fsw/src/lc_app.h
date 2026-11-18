@@ -182,8 +182,8 @@ typedef struct
  */
 typedef struct
 {
-    uint16 CmdCount;    /**< \brief Command Counter                        */
-    uint16 CmdErrCount; /**< \brief Command Error Counter                  */
+    uint16 CommandCounter;    /**< \brief Command Counter                        */
+    uint16 CommandErrCounter; /**< \brief Command Error Counter                  */
 
     uint32 APSampleCount;       /**< \brief Total count of Actionpoints sampled    */
     uint32 MonitoredMsgCount;   /**< \brief Total count of messages monitored      */
