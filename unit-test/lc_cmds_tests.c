@@ -841,13 +841,6 @@ void LC_NoopCmd_Test(void)
 
 void LC_ResetCountersCmd_Test(void)
 {
-    LC_ResetCountersCmd(&UT_CmdBuf.ResetCountersCmd);
-
-    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-}
-
-void LC_ResetCounters_Test(void)
-{
     LC_AppData.CommandCounter    = 1;
     LC_AppData.CommandErrCounter = 2;
 
@@ -857,7 +850,7 @@ void LC_ResetCounters_Test(void)
     LC_AppData.PassiveRTSExecCount = 6;
 
     /* Execute the function being tested */
-    LC_ResetCounters();
+    LC_ResetCountersCmd(&UT_CmdBuf.ResetCountersCmd);
 
     /* Verify results */
     UtAssert_True(LC_AppData.CommandCounter == 0, "LC_AppData.CommandCounter == 0");
@@ -868,7 +861,7 @@ void LC_ResetCounters_Test(void)
     UtAssert_True(LC_AppData.PassiveRTSExecCount == 0, "LC_AppData.PassiveRTSExecCount == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 0);
+    UtAssert_INT32_EQ(call_count_CFE_EVS_SendEvent, 1);
 }
 
 void LC_SetLCStateCmd_Test_Active(void)
@@ -2232,8 +2225,6 @@ void UtTest_Setup(void)
 
     UtTest_Add(LC_NoopCmd_Test, LC_Test_Setup, LC_Test_TearDown, "LC_NoopCmd_Test");
     UtTest_Add(LC_ResetCountersCmd_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCountersCmd_Test");
-
-    UtTest_Add(LC_ResetCounters_Test, LC_Test_Setup, LC_Test_TearDown, "LC_ResetCounters_Test");
 
     UtTest_Add(LC_SetLCStateCmd_Test_Active, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Active");
     UtTest_Add(LC_SetLCStateCmd_Test_Passive, LC_Test_Setup, LC_Test_TearDown, "LC_SetLCStateCmd_Test_Passive");
