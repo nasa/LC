@@ -130,8 +130,8 @@
  */
 typedef struct
 {
-    uint16 APNumber; /**< \brief Which actionpoint(s) to change */
-    uint16 Padding;  /**< \brief Structure padding */
+    uint16 APNumber;   /**< \brief Which actionpoint(s) to change */
+    uint8  Padding[2]; /**< \brief Structure padding */
 } LC_APNumber_Payload_t;
 
 /**
@@ -153,7 +153,7 @@ typedef struct
 typedef struct
 {
     uint16 NewLCState; /**< \brief New LC application state */
-    uint16 Padding;    /**< \brief Structure padding */
+    uint8  Padding[2]; /**< \brief Structure padding */
 } LC_SetLCState_Payload_t;
 
 /**
@@ -166,8 +166,8 @@ typedef struct
     uint16 StartIndex; /**< \brief Start actionpoint to sample */
     uint16 EndIndex;   /**< \brief End actionpoint to sample */
 
-    uint16 UpdateAge; /**< \brief Update WP results age (T or F) */
-    uint16 Padding;   /**< \brief Structure padding              */
+    uint16 UpdateAge;  /**< \brief Update WP results age (T or F) */
+    uint8  Padding[2]; /**< \brief Structure padding              */
 } LC_SampleAP_Payload_t;
 
 /**
@@ -177,8 +177,8 @@ typedef struct
  */
 typedef struct
 {
-    uint16 WPNumber; /**< \brief Which watchpoint(s) to change */
-    uint16 Padding;  /**< \brief Structure padding */
+    uint16 WPNumber;   /**< \brief Which watchpoint(s) to change */
+    uint8  Padding[2]; /**< \brief Structure padding */
 } LC_ResetWPStats_Payload_t;
 
 /**
@@ -186,8 +186,8 @@ typedef struct
  */
 typedef struct
 {
-    uint16 RTSId;   /**< \brief RTS Id to start */
-    uint16 Padding; /**< \brief Padding */
+    uint16 RTSId;      /**< \brief RTS Id to start */
+    uint8  Padding[2]; /**< \brief Padding */
 } LC_RTSRequest_Payload_t;
 
 /**
@@ -204,7 +204,7 @@ typedef struct
     uint8 CommandErrCounter; /**< \brief LC Application Command Error Counter */
     uint8 CurrentLCState;    /**< \brief Current LC application operating state */
 
-    uint8 Pad8; /**< \brief Structure padding */
+    uint8 Padding1; /**< \brief Structure padding */
 
     uint8 WPResults[LC_HKWR_NUM_BYTES]; /**< \brief Packed watchpoint results data, 2 bits per watchpoint */
     uint8 APResults[LC_HKAR_NUM_BYTES]; /**< \brief Packed actionpoint results data, 4 bits per actionpoint */
@@ -217,7 +217,7 @@ typedef struct
     uint16 WPsInUse;  /**< \brief How many watchpoints are currently in effect */
     uint16 ActiveAPs; /**< \brief How many actionpoints are currently active */
 
-    uint16 Pad16; /**< \brief Structure padding */
+    uint8 Padding2[2]; /**< \brief Structure padding */
 
     uint32 APSampleCount;     /**< \brief Total count of Actionpoints sampled */
     uint32 MonitoredMsgCount; /**< \brief Total count of messages monitored for watchpoints */
