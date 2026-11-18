@@ -77,9 +77,9 @@ void LC_ResetResultsWP(uint32 StartIndex, uint32 EndIndex, bool ResetStatsCmd);
  *  \par Assumptions, External Events, and Notes:
  *       This message does not affect the command execution counter
  *
- *  \param[in] BufPtr Pointer to Software Bus buffer
+ *  \param[in] Msg Pointer to command header
  */
-void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr);
+void LC_SampleAPReq(const LC_SampleAPCmd_t *Msg);
 
 /**
  * \brief Housekeeping request
@@ -90,10 +90,10 @@ void LC_SampleAPReq(const CFE_SB_Buffer_t *BufPtr);
  *  \par Assumptions, External Events, and Notes:
  *       This message does not affect the command execution counter
  *
- *  \param[in] msg Pointer to command header
+ *  \param[in] Msg Pointer to command header
  *
  */
-CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg);
+CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *Msg);
 
 /**
  * \brief Noop command
@@ -104,11 +104,11 @@ CFE_Status_t LC_SendHkCmd(const LC_SendHkCmd_t *msg);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] msg Pointer to command message
+ *  \param[in] Msg Pointer to command message
  *
  *  \sa #LC_NOOP_CC
  */
-CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg);
+CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *Msg);
 
 /**
  * \brief Reset counters command
@@ -126,11 +126,11 @@ CFE_Status_t LC_NoopCmd(const LC_NoopCmd_t *msg);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] msg Pointer to command message
+ *  \param[in] Msg Pointer to command message
  *
  *  \sa #LC_RESET_CC
  */
-CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg);
+CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *Msg);
 
 /**
  * \brief Set LC state command
@@ -141,11 +141,11 @@ CFE_Status_t LC_ResetCountersCmd(const LC_ResetCountersCmd_t *msg);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] msg Pointer to command message
+ *  \param[in] Msg Pointer to command message
  *
  *  \sa #LC_SET_LC_STATE_CC
  */
-CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg);
+CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *Msg);
 
 /**
  * \brief Set AP state command
@@ -156,11 +156,11 @@ CFE_Status_t LC_SetLCStateCmd(const LC_SetLCStateCmd_t *msg);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] msg Pointer to command message
+ *  \param[in] Msg Pointer to command message
  *
  *  \sa #LC_SET_AP_STATE_CC
  */
-CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg);
+CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *Msg);
 
 /**
  * \brief Set AP permanently off command
@@ -171,11 +171,11 @@ CFE_Status_t LC_SetAPStateCmd(const LC_SetAPStateCmd_t *msg);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] msg Pointer to command message
+ *  \param[in] Msg Pointer to command message
  *
  *  \sa #LC_SET_AP_PERM_OFF_CC
  */
-CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg);
+CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *Msg);
 
 /**
  * \brief Reset AP statistics command
@@ -186,11 +186,11 @@ CFE_Status_t LC_SetAPPermOffCmd(const LC_SetAPPermOffCmd_t *msg);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] msg Pointer to command message
+ *  \param[in] Msg Pointer to command message
  *
  *  \sa #LC_RESET_AP_STATS_CC
  */
-CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg);
+CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *Msg);
 
 /**
  * \brief Reset WP statistics command
@@ -201,10 +201,10 @@ CFE_Status_t LC_ResetAPStatsCmd(const LC_ResetAPStatsCmd_t *msg);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param[in] msg Pointer to command message
+ *  \param[in] Msg Pointer to command message
  *
  *  \sa #LC_RESET_WP_STATS_CC
  */
-CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *msg);
+CFE_Status_t LC_ResetWPStatsCmd(const LC_ResetWPStatsCmd_t *Msg);
 
 #endif
