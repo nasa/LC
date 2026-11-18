@@ -265,8 +265,8 @@
 
       <ContainerDataType name="HkTlm_Payload" shortDescription="LC housekeeping">
         <EntryList>
-            <Entry name="CmdCount" type="BASE_TYPES/uint8" shortDescription="LC Application Command Counter" />
-            <Entry name="CmdErrCount" type="BASE_TYPES/uint8" shortDescription="LC Application Command Error Counter" />
+            <Entry name="CommandCounter" type="BASE_TYPES/uint8" shortDescription="LC Application Command Counter" />
+            <Entry name="CommandErrCounter" type="BASE_TYPES/uint8" shortDescription="LC Application Command Error Counter" />
             <Entry name="CurrentLCState" type="BASE_TYPES/uint8" shortDescription="Current LC application operating  state" />
             <Entry name="Pad8" type="BASE_TYPES/uint8" />
             <Entry name="WPResults" type="WPResults" shortDescription="Packed watchpoint results data,  2 bits per watchpoint" />

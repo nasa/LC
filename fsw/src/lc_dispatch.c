@@ -104,7 +104,7 @@ bool LC_VerifyMsgLength(const CFE_MSG_Message_t *msgPtr, size_t ExpectedLength)
                               CommandCode,
                               (int)ActualLength,
                               (int)ExpectedLength);
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
         }
 
         result = false;
@@ -302,7 +302,7 @@ void LC_AppProcessCmd(const CFE_SB_Buffer_t *BufPtr)
                               "Invalid command code: ID = 0x%08lX, CC = %d",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID),
                               CommandCode);
-            LC_AppData.CmdErrCount++;
+            LC_AppData.CommandErrCounter++;
             break;
     }
 }
