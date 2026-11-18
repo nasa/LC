@@ -127,7 +127,7 @@ void LC_SampleAPVerifyDispatch(const CFE_SB_Buffer_t *BufPtr)
     */
     if (LC_VerifyMsgLength(&BufPtr->Msg, ExpectedLength))
     {
-        LC_SampleAPReq(BufPtr);
+        LC_SampleAPReq((LC_SampleAPCmd_t *)BufPtr);
     }
 }
 
